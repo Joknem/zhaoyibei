@@ -61,12 +61,25 @@ Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c \
 Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c \
 Core/Src/system_stm32g4xx.c \
 Core/Src/tim.c \
+Core/Src/i2c.c \
+Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c \
+Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c \
 user/Src/Cmd_Serial.c \
 user/Src/mpu.c \
-Core/Src/i2c.c \
-Core/Src/driver_mpu9250.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c
+MPU9250/mpu9250.c \
+DMP/driver/eMPL/inv_mpu.c \
+DMP/driver/eMPL/inv_mpu_dmp_motion_driver.c \
+DMP/driver/stm32L/log_stm32.c \
+DMP/eMPL-hal/eMPL_outputs.c \
+DMP/mllite/data_builder.c \
+DMP/mllite/hal_outputs.c \
+DMP/mllite/message_layer.c \
+DMP/mllite/mlmath.c \
+DMP/mllite/mpl.c \
+DMP/mllite/results_holder.c \
+DMP/mllite/ml_math_func.c \
+DMP/mllite/start_manager.c \
+DMP/mllite/storage_manager.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -115,7 +128,11 @@ AS_DEFS =
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
--DSTM32G474xx
+-DSTM32G474xx \
+-DEMPL_TARGET_STM32F4 \
+-DMPU9250 \
+-DEMPL \
+-DMPL_LOG_NDEBUG=1
 
 
 # AS includes
@@ -129,7 +146,14 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32G4xx/Include \
 -IDrivers/CMSIS/Include \
 -Iuser/Inc \
--I/usr/local/include
+-I/usr/local/include \
+-IDMP/driver/eMPL \
+-IDMP/driver/include \
+-IDMP/driver/stm32L \
+-IDMP/eMPL-hal \
+-IDMP/mllite \
+-IDMP/mpl \
+-IMPU9250
 
 
 # compile gcc flags
@@ -153,7 +177,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT = STM32G474RETx_FLASH.ld
 
 # libraries
-LIBS = -lc -lm -lnosys 
+LIBS = -lc -lm -lnosys -L/Users/joknem/Desktop/workspace/zhaoyibei/g474_test/DMP/mpl -lmpllib
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections,-u_printf_float
 
