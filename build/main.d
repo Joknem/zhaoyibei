@@ -69,7 +69,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  /usr/local/include/sys/_types/_off_t.h \
  /usr/local/include/sys/_types/_ssize_t.h \
  /usr/local/include/secure/_stdio.h /usr/local/include/secure/_common.h \
- Core/Inc/stm32g4xx_it.h
+ Core/Inc/stm32g4xx_it.h user/Inc/mpu9250.h
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 Core/Inc/stm32g4xx_hal_conf.h:
@@ -158,3 +158,4 @@ user/Inc/mpu.h:
 /usr/local/include/secure/_stdio.h:
 /usr/local/include/secure/_common.h:
 Core/Inc/stm32g4xx_it.h:
+user/Inc/mpu9250.h:

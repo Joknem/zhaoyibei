@@ -63,8 +63,10 @@ build/inv_mpu_dmp_motion_driver.o: \
  /usr/local/include/sys/_types/_rsize_t.h \
  /usr/local/include/sys/_types/_errno_t.h /usr/local/include/strings.h \
  /usr/local/include/secure/_strings.h /usr/local/include/secure/_string.h \
- /usr/local/include/math.h DMP/driver/eMPL/inv_mpu.h Core/Inc/main.h \
- Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
+ /usr/local/include/math.h Drivers/CMSIS/Include/cmsis_gcc.h \
+ DMP/driver/eMPL/inv_mpu.h DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h \
+ DMP/driver/eMPL/dmpKey.h DMP/driver/eMPL/dmpmap.h Core/Inc/i2c.h \
+ Core/Inc/main.h Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
  Core/Inc/stm32g4xx_hal_conf.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rcc.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h \
@@ -95,9 +97,7 @@ build/inv_mpu_dmp_motion_driver.o: \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
- Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
- DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h DMP/driver/eMPL/dmpKey.h \
- DMP/driver/eMPL/dmpmap.h MPU9250/mpu9250.h
+ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
 /usr/local/include/stdio.h:
 /usr/local/include/_stdio.h:
 /usr/local/include/sys/cdefs.h:
@@ -181,7 +181,12 @@ build/inv_mpu_dmp_motion_driver.o: \
 /usr/local/include/secure/_strings.h:
 /usr/local/include/secure/_string.h:
 /usr/local/include/math.h:
+Drivers/CMSIS/Include/cmsis_gcc.h:
 DMP/driver/eMPL/inv_mpu.h:
+DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
+DMP/driver/eMPL/dmpKey.h:
+DMP/driver/eMPL/dmpmap.h:
+Core/Inc/i2c.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 Core/Inc/stm32g4xx_hal_conf.h:
@@ -218,7 +223,3 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
-DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
-DMP/driver/eMPL/dmpKey.h:
-DMP/driver/eMPL/dmpmap.h:
-MPU9250/mpu9250.h:

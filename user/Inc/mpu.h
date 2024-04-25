@@ -7,6 +7,7 @@
 #define MPU_ADDR 0xd0
 #define MPU_RA_GYRO_XOUT_H 0x43
 #define MPU_RA_ACCEL_XOUT_H 0x3B
+#define MPU_RA_MAG 0x00
 
 typedef struct {
   int16_t x;

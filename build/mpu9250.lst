@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -19,1668 +19,939 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.file 1 "MPU9250/mpu9250.c"
-  20              		.section	.text.MPU_Write_Len,"ax",%progbits
+  19              		.file 1 "user/Src/mpu9250.c"
+  20              		.section	.text.inv_row_2_scale,"ax",%progbits
   21              		.align	1
-  22              		.global	MPU_Write_Len
-  23              		.syntax unified
-  24              		.thumb
-  25              		.thumb_func
-  27              	MPU_Write_Len:
-  28              	.LVL0:
-  29              	.LFB142:
-   1:MPU9250/mpu9250.c **** #include "mpu9250.h"
-   2:MPU9250/mpu9250.c **** #include "main.h"
-   3:MPU9250/mpu9250.c **** #include "i2c.h"                    
-   4:MPU9250/mpu9250.c **** #include "inv_mpu.h"
-   5:MPU9250/mpu9250.c **** #include "inv_mpu_dmp_motion_driver.h" 
-   6:MPU9250/mpu9250.c **** #include "stdio.h"
-   7:MPU9250/mpu9250.c **** //////////////////////////////////////////////////////////////////////////////////	 
-   8:MPU9250/mpu9250.c **** //±æ≥Ã–Ú÷ªπ©—ßœ∞ π”√£¨Œ¥æ≠◊˜’ﬂ–Ìø…£¨≤ªµ√”√”⁄∆‰À¸»Œ∫Œ”√Õæ
-   9:MPU9250/mpu9250.c **** //ALIENTEK STM32F746ø™∑¢∞Â
-  10:MPU9250/mpu9250.c **** //MPU9250«˝∂Ø¥˙¬Î	   
-  11:MPU9250/mpu9250.c **** //’˝µ„‘≠◊”@ALIENTEK
-  12:MPU9250/mpu9250.c **** //ºº ı¬€Ã≥:www.openedv.com
-  13:MPU9250/mpu9250.c **** //¥¥Ω®»’∆⁄:2015/12/30
-  14:MPU9250/mpu9250.c **** //∞Ê±æ£∫V1.0
-  15:MPU9250/mpu9250.c **** //∞Ê»®À˘”–£¨µ¡∞Ê±ÿæø°£
-  16:MPU9250/mpu9250.c **** //Copyright(C) π„÷› ––«“ÌµÁ◊”ø∆ºº”–œﬁπ´Àæ 2014-2024
-  17:MPU9250/mpu9250.c **** //All rights reserved									  
-  18:MPU9250/mpu9250.c **** ////////////////////////////////////////////////////////////////////////////////// 	
-  19:MPU9250/mpu9250.c **** 
-  20:MPU9250/mpu9250.c **** //≥ı ºªØMPU9250
-  21:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,≥…π¶
-  22:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
-  23:MPU9250/mpu9250.c **** u8 MPU9250_Init(void)
-  24:MPU9250/mpu9250.c **** {
-  25:MPU9250/mpu9250.c ****     u8 res=0;
-  26:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT1_REG,0X80);//∏¥ŒªMPU9250
-  27:MPU9250/mpu9250.c ****     HAL_Delay(100);  //—” ±100ms
-  28:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT1_REG,0X00);//ªΩ–—MPU9250
-  29:MPU9250/mpu9250.c ****     MPU_Set_Gyro_Fsr(3);					        	//Õ”¬›“«¥´∏–∆˜,°¿2000dps
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 2
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	inv_row_2_scale:
+  27              	.LVL0:
+  28              	.LFB19:
+   1:user/Src/mpu9250.c **** #include "inv_mpu.h"
+   2:user/Src/mpu9250.c **** #include "inv_mpu_dmp_motion_driver.h"
+   3:user/Src/mpu9250.c **** #include "math.h"
+   4:user/Src/mpu9250.c **** #include "mpu9250.h"
+   5:user/Src/mpu9250.c **** 
+   6:user/Src/mpu9250.c **** /* The sensors can be mounted onto the board in any orientation. The mounting
+   7:user/Src/mpu9250.c ****  * matrix seen below tells the MPL how to rotate the raw data from thei
+   8:user/Src/mpu9250.c ****  * driver(s).
+   9:user/Src/mpu9250.c ****  * TODO: The following matrices refer to the configuration on an internal test
+  10:user/Src/mpu9250.c ****  * board at Invensense. If needed, please modify the matrices to match the
+  11:user/Src/mpu9250.c ****  * chip-to-body matrix for your particular set up.
+  12:user/Src/mpu9250.c ****  */
+  13:user/Src/mpu9250.c **** extern void uart_printf(char *fmt, ...);
+  14:user/Src/mpu9250.c **** static signed char gyro_orientation[9] = {-1, 0, 0, 0, -1, 0, 0, 0, 1};
+  15:user/Src/mpu9250.c **** 
+  16:user/Src/mpu9250.c **** /* These next two functions converts the orientation matrix (see
+  17:user/Src/mpu9250.c ****  * gyro_orientation) to a scalar representation for use by the DMP.
+  18:user/Src/mpu9250.c ****  * NOTE: These functions are borrowed from Invensense's MPL.
+  19:user/Src/mpu9250.c ****  */
+  20:user/Src/mpu9250.c **** static unsigned short inv_row_2_scale(const signed char *row) {
+  29              		.loc 1 20 63 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  21:user/Src/mpu9250.c ****   unsigned short b;
+  34              		.loc 1 21 3 view .LVU1
+  22:user/Src/mpu9250.c **** 
+  23:user/Src/mpu9250.c ****   if (row[0] > 0)
+  35              		.loc 1 23 3 view .LVU2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 2
 
 
-  30:MPU9250/mpu9250.c **** 	  MPU_Set_Accel_Fsr(0);					       	 	//º”ÀŸ∂»¥´∏–∆˜,°¿2g
-  31:MPU9250/mpu9250.c ****     MPU_Set_Rate(50);						       	 	//…Ë÷√≤…—˘¬ 50Hz
-  32:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_INT_EN_REG,0X00);   //πÿ±’À˘”–÷–∂œ
-  33:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_USER_CTRL_REG,0X00);//I2C÷˜ƒ£ Ωπÿ±’
-  34:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_FIFO_EN_REG,0X00);	//πÿ±’FIFO
-  35:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_INTBP_CFG_REG,0X82);//INT“˝Ω≈µÕµÁ∆Ω”––ß£¨ø™∆Ùbypassƒ£ Ω£¨ø…“‘÷±Ω
-  36:MPU9250/mpu9250.c ****     res=MPU_Read_Byte(MPU9250_ADDR,MPU_DEVICE_ID_REG);  //∂¡»°MPU6500µƒID
-  37:MPU9250/mpu9250.c ****     if(res==MPU6500_ID) //∆˜º˛ID’˝»∑
-  38:MPU9250/mpu9250.c ****     {
-  39:MPU9250/mpu9250.c ****         MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT1_REG,0X01);  	//…Ë÷√CLKSEL,PLL X÷·Œ™≤Œøº
-  40:MPU9250/mpu9250.c ****         MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT2_REG,0X00);  	//º”ÀŸ∂»”ÎÕ”¬›“«∂ºπ§◊˜
-  41:MPU9250/mpu9250.c **** 		    MPU_Set_Rate(50);						       	//…Ë÷√≤…—˘¬ Œ™50Hz   
-  42:MPU9250/mpu9250.c ****     }else return 1;
-  43:MPU9250/mpu9250.c ****  
-  44:MPU9250/mpu9250.c ****     res=MPU_Read_Byte(AK8963_ADDR,MAG_WIA);    			//∂¡»°AK8963 ID   
-  45:MPU9250/mpu9250.c ****     if(res==AK8963_ID)
-  46:MPU9250/mpu9250.c ****     {
-  47:MPU9250/mpu9250.c ****         MPU_Write_Byte(AK8963_ADDR,MAG_CNTL1,0X11);		//…Ë÷√AK8963Œ™µ•¥Œ≤‚¡øƒ£ Ω
-  48:MPU9250/mpu9250.c ****     }else return 1;
-  49:MPU9250/mpu9250.c **** 
-  50:MPU9250/mpu9250.c ****     return 0;
-  51:MPU9250/mpu9250.c **** }
-  52:MPU9250/mpu9250.c **** 
-  53:MPU9250/mpu9250.c **** //…Ë÷√MPU9250Õ”¬›“«¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß
-  54:MPU9250/mpu9250.c **** //fsr:0,°¿250dps;1,°¿500dps;2,°¿1000dps;3,°¿2000dps
-  55:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,…Ë÷√≥…π¶
-  56:MPU9250/mpu9250.c **** //    ∆‰À˚,…Ë÷√ ß∞‹ 
-  57:MPU9250/mpu9250.c **** u8 MPU_Set_Gyro_Fsr(u8 fsr)
-  58:MPU9250/mpu9250.c **** {
-  59:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_GYRO_CFG_REG,fsr<<3);//…Ë÷√Õ”¬›“«¬˙¡ø≥Ã∑∂Œß  
-  60:MPU9250/mpu9250.c **** }
-  61:MPU9250/mpu9250.c **** //…Ë÷√MPU9250º”ÀŸ∂»¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß
-  62:MPU9250/mpu9250.c **** //fsr:0,°¿2g;1,°¿4g;2,°¿8g;3,°¿16g
-  63:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,…Ë÷√≥…π¶
-  64:MPU9250/mpu9250.c **** //    ∆‰À˚,…Ë÷√ ß∞‹ 
-  65:MPU9250/mpu9250.c **** u8 MPU_Set_Accel_Fsr(u8 fsr)
-  66:MPU9250/mpu9250.c **** {
-  67:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_ACCEL_CFG_REG,fsr<<3);//…Ë÷√º”ÀŸ∂»¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß  
-  68:MPU9250/mpu9250.c **** }
-  69:MPU9250/mpu9250.c **** 
-  70:MPU9250/mpu9250.c **** //…Ë÷√MPU9250µƒ ˝◊÷µÕÕ®¬À≤®∆˜
-  71:MPU9250/mpu9250.c **** //lpf: ˝◊÷µÕÕ®¬À≤®∆µ¬ (Hz)
-  72:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,…Ë÷√≥…π¶
-  73:MPU9250/mpu9250.c **** //    ∆‰À˚,…Ë÷√ ß∞‹ 
-  74:MPU9250/mpu9250.c **** u8 MPU_Set_LPF(u16 lpf)
-  75:MPU9250/mpu9250.c **** {
-  76:MPU9250/mpu9250.c **** 	u8 data=0;
-  77:MPU9250/mpu9250.c **** 	if(lpf>=188)data=1;
-  78:MPU9250/mpu9250.c **** 	else if(lpf>=98)data=2;
-  79:MPU9250/mpu9250.c **** 	else if(lpf>=42)data=3;
-  80:MPU9250/mpu9250.c **** 	else if(lpf>=20)data=4;
-  81:MPU9250/mpu9250.c **** 	else if(lpf>=10)data=5;
-  82:MPU9250/mpu9250.c **** 	else data=6; 
-  83:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_CFG_REG,data);//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜  
-  84:MPU9250/mpu9250.c **** }
-  85:MPU9250/mpu9250.c **** 
-  86:MPU9250/mpu9250.c **** //…Ë÷√MPU9250µƒ≤…—˘¬ (ºŸ∂®Fs=1KHz)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 3
+  36              		.loc 1 23 10 is_stmt 0 view .LVU3
+  37 0000 90F90030 		ldrsb	r3, [r0]
+  38              		.loc 1 23 6 view .LVU4
+  39 0004 002B     		cmp	r3, #0
+  40 0006 01DD     		ble	.L9
+  24:user/Src/mpu9250.c ****     b = 0;
+  41              		.loc 1 24 7 view .LVU5
+  42 0008 0020     		movs	r0, #0
+  43              	.LVL1:
+  44              		.loc 1 24 7 view .LVU6
+  45 000a 7047     		bx	lr
+  46              	.LVL2:
+  47              	.L9:
+  25:user/Src/mpu9250.c ****   else if (row[0] < 0)
+  48              		.loc 1 25 8 is_stmt 1 view .LVU7
+  49              		.loc 1 25 11 is_stmt 0 view .LVU8
+  50 000c 0FDB     		blt	.L4
+  26:user/Src/mpu9250.c ****     b = 4;
+  27:user/Src/mpu9250.c ****   else if (row[1] > 0)
+  51              		.loc 1 27 8 is_stmt 1 view .LVU9
+  52              		.loc 1 27 15 is_stmt 0 view .LVU10
+  53 000e 90F90130 		ldrsb	r3, [r0, #1]
+  54              		.loc 1 27 11 view .LVU11
+  55 0012 002B     		cmp	r3, #0
+  56 0014 01DD     		ble	.L10
+  28:user/Src/mpu9250.c ****     b = 1;
+  57              		.loc 1 28 7 view .LVU12
+  58 0016 0120     		movs	r0, #1
+  59              	.LVL3:
+  60              		.loc 1 28 7 view .LVU13
+  61 0018 7047     		bx	lr
+  62              	.LVL4:
+  63              	.L10:
+  29:user/Src/mpu9250.c ****   else if (row[1] < 0)
+  64              		.loc 1 29 8 is_stmt 1 view .LVU14
+  65              		.loc 1 29 11 is_stmt 0 view .LVU15
+  66 001a 0ADB     		blt	.L6
+  30:user/Src/mpu9250.c ****     b = 5;
+  31:user/Src/mpu9250.c ****   else if (row[2] > 0)
+  67              		.loc 1 31 8 is_stmt 1 view .LVU16
+  68              		.loc 1 31 15 is_stmt 0 view .LVU17
+  69 001c 90F90230 		ldrsb	r3, [r0, #2]
+  70              		.loc 1 31 11 view .LVU18
+  71 0020 002B     		cmp	r3, #0
+  72 0022 08DC     		bgt	.L7
+  32:user/Src/mpu9250.c ****     b = 2;
+  33:user/Src/mpu9250.c ****   else if (row[2] < 0)
+  73              		.loc 1 33 8 is_stmt 1 view .LVU19
+  74              		.loc 1 33 11 is_stmt 0 view .LVU20
+  75 0024 01DB     		blt	.L11
+  34:user/Src/mpu9250.c ****     b = 6;
+  35:user/Src/mpu9250.c ****   else
+  36:user/Src/mpu9250.c ****     b = 7; // error
+  76              		.loc 1 36 7 view .LVU21
+  77 0026 0720     		movs	r0, #7
+  78              	.LVL5:
+  37:user/Src/mpu9250.c ****   return b;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 3
 
 
-  87:MPU9250/mpu9250.c **** //rate:4~1000(Hz)
-  88:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,…Ë÷√≥…π¶
-  89:MPU9250/mpu9250.c **** //    ∆‰À˚,…Ë÷√ ß∞‹ 
-  90:MPU9250/mpu9250.c **** u8 MPU_Set_Rate(u16 rate)
-  91:MPU9250/mpu9250.c **** {
-  92:MPU9250/mpu9250.c **** 	u8 data;
-  93:MPU9250/mpu9250.c **** 	if(rate>1000)rate=1000;
-  94:MPU9250/mpu9250.c **** 	if(rate<4)rate=4;
-  95:MPU9250/mpu9250.c **** 	data=1000/rate-1;
-  96:MPU9250/mpu9250.c **** 	data=MPU_Write_Byte(MPU9250_ADDR,MPU_SAMPLE_RATE_REG,data);	//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜
-  97:MPU9250/mpu9250.c ****  	return MPU_Set_LPF(rate/2);	//◊‘∂Ø…Ë÷√LPFŒ™≤…—˘¬ µƒ“ª∞Î
-  98:MPU9250/mpu9250.c **** }
-  99:MPU9250/mpu9250.c **** 
- 100:MPU9250/mpu9250.c **** //µ√µΩŒ¬∂»÷µ
- 101:MPU9250/mpu9250.c **** //∑µªÿ÷µ:Œ¬∂»÷µ(¿©¥Û¡À100±∂)
- 102:MPU9250/mpu9250.c **** short MPU_Get_Temperature(void)
- 103:MPU9250/mpu9250.c **** {
- 104:MPU9250/mpu9250.c ****     u8 buf[2]; 
- 105:MPU9250/mpu9250.c ****     short raw;
- 106:MPU9250/mpu9250.c **** 	float temp;
- 107:MPU9250/mpu9250.c **** 	MPU_Read_Len(MPU9250_ADDR,MPU_TEMP_OUTH_REG,2,buf); 
- 108:MPU9250/mpu9250.c ****     raw=((u16)buf[0]<<8)|buf[1];  
- 109:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 110:MPU9250/mpu9250.c ****     return temp*100;;
- 111:MPU9250/mpu9250.c **** }
- 112:MPU9250/mpu9250.c **** //µ√µΩÕ”¬›“«÷µ(‘≠ º÷µ)
- 113:MPU9250/mpu9250.c **** //gx,gy,gz:Õ”¬›“«x,y,z÷·µƒ‘≠ º∂¡ ˝(¥¯∑˚∫≈)
- 114:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,≥…π¶
- 115:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 116:MPU9250/mpu9250.c **** u8 MPU_Get_Gyroscope(short *gx,short *gy,short *gz)
- 117:MPU9250/mpu9250.c **** {
- 118:MPU9250/mpu9250.c ****     u8 buf[6],res; 
- 119:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(MPU9250_ADDR,MPU_GYRO_XOUTH_REG,6,buf);
- 120:MPU9250/mpu9250.c **** 	if(res==0)
- 121:MPU9250/mpu9250.c **** 	{
- 122:MPU9250/mpu9250.c **** 		*gx=((u16)buf[0]<<8)|buf[1];  
- 123:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 124:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 125:MPU9250/mpu9250.c **** 	} 	
- 126:MPU9250/mpu9250.c ****     return res;;
- 127:MPU9250/mpu9250.c **** }
- 128:MPU9250/mpu9250.c **** //µ√µΩº”ÀŸ∂»÷µ(‘≠ º÷µ)
- 129:MPU9250/mpu9250.c **** //gx,gy,gz:Õ”¬›“«x,y,z÷·µƒ‘≠ º∂¡ ˝(¥¯∑˚∫≈)
- 130:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,≥…π¶
- 131:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 132:MPU9250/mpu9250.c **** u8 MPU_Get_Accelerometer(short *ax,short *ay,short *az)
- 133:MPU9250/mpu9250.c **** {
- 134:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 135:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(MPU9250_ADDR,MPU_ACCEL_XOUTH_REG,6,buf);
- 136:MPU9250/mpu9250.c **** 	if(res==0)
- 137:MPU9250/mpu9250.c **** 	{
- 138:MPU9250/mpu9250.c **** 		*ax=((u16)buf[0]<<8)|buf[1];  
- 139:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 140:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 141:MPU9250/mpu9250.c **** 	} 	
- 142:MPU9250/mpu9250.c ****     return res;;
- 143:MPU9250/mpu9250.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 4
+  79              		.loc 1 37 3 is_stmt 1 view .LVU22
+  38:user/Src/mpu9250.c **** }
+  80              		.loc 1 38 1 is_stmt 0 view .LVU23
+  81 0028 7047     		bx	lr
+  82              	.LVL6:
+  83              	.L11:
+  34:user/Src/mpu9250.c ****     b = 6;
+  84              		.loc 1 34 7 view .LVU24
+  85 002a 0620     		movs	r0, #6
+  86              	.LVL7:
+  34:user/Src/mpu9250.c ****     b = 6;
+  87              		.loc 1 34 7 view .LVU25
+  88 002c 7047     		bx	lr
+  89              	.LVL8:
+  90              	.L4:
+  26:user/Src/mpu9250.c ****   else if (row[1] > 0)
+  91              		.loc 1 26 7 view .LVU26
+  92 002e 0420     		movs	r0, #4
+  93              	.LVL9:
+  26:user/Src/mpu9250.c ****   else if (row[1] > 0)
+  94              		.loc 1 26 7 view .LVU27
+  95 0030 7047     		bx	lr
+  96              	.LVL10:
+  97              	.L6:
+  30:user/Src/mpu9250.c ****   else if (row[2] > 0)
+  98              		.loc 1 30 7 view .LVU28
+  99 0032 0520     		movs	r0, #5
+ 100              	.LVL11:
+  30:user/Src/mpu9250.c ****   else if (row[2] > 0)
+ 101              		.loc 1 30 7 view .LVU29
+ 102 0034 7047     		bx	lr
+ 103              	.LVL12:
+ 104              	.L7:
+  32:user/Src/mpu9250.c ****   else if (row[2] < 0)
+ 105              		.loc 1 32 7 view .LVU30
+ 106 0036 0220     		movs	r0, #2
+ 107              	.LVL13:
+  32:user/Src/mpu9250.c ****   else if (row[2] < 0)
+ 108              		.loc 1 32 7 view .LVU31
+ 109 0038 7047     		bx	lr
+ 110              		.cfi_endproc
+ 111              	.LFE19:
+ 113              		.section	.text.inv_orientation_matrix_to_scalar,"ax",%progbits
+ 114              		.align	1
+ 115              		.syntax unified
+ 116              		.thumb
+ 117              		.thumb_func
+ 119              	inv_orientation_matrix_to_scalar:
+ 120              	.LVL14:
+ 121              	.LFB20:
+  39:user/Src/mpu9250.c **** 
+  40:user/Src/mpu9250.c **** static unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx) {
+ 122              		.loc 1 40 80 is_stmt 1 view -0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              		.loc 1 40 80 is_stmt 0 view .LVU33
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 4
 
 
- 144:MPU9250/mpu9250.c **** 
- 145:MPU9250/mpu9250.c **** //µ√µΩ¥≈¡¶º∆÷µ(‘≠ º÷µ)
- 146:MPU9250/mpu9250.c **** //mx,my,mz:¥≈¡¶º∆x,y,z÷·µƒ‘≠ º∂¡ ˝(¥¯∑˚∫≈)
- 147:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,≥…π¶
- 148:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 149:MPU9250/mpu9250.c **** u8 MPU_Get_Magnetometer(short *mx,short *my,short *mz)
- 150:MPU9250/mpu9250.c **** {
- 151:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 152:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(AK8963_ADDR,MAG_XOUT_L,6,buf);
- 153:MPU9250/mpu9250.c **** 	if(res==0)
- 154:MPU9250/mpu9250.c **** 	{
- 155:MPU9250/mpu9250.c **** 		*mx=((u16)buf[1]<<8)|buf[0];  
- 156:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 157:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 158:MPU9250/mpu9250.c **** 	} 	
- 159:MPU9250/mpu9250.c ****     MPU_Write_Byte(AK8963_ADDR,MAG_CNTL1,0X11); //AK8963√ø¥Œ∂¡ÕÍ“‘∫Û∂º–Ë“™÷ÿ–¬…Ë÷√Œ™µ•¥Œ≤‚¡øƒ£ Ω
- 160:MPU9250/mpu9250.c ****     return res;;
- 161:MPU9250/mpu9250.c **** }
- 162:MPU9250/mpu9250.c **** 
- 163:MPU9250/mpu9250.c **** 
- 164:MPU9250/mpu9250.c **** 
- 165:MPU9250/mpu9250.c **** //IIC¡¨–¯–¥
- 166:MPU9250/mpu9250.c **** //addr:∆˜º˛µÿ÷∑ 
- 167:MPU9250/mpu9250.c **** //reg:ºƒ¥Ê∆˜µÿ÷∑
- 168:MPU9250/mpu9250.c **** //len:–¥»Î≥§∂»
- 169:MPU9250/mpu9250.c **** //buf: ˝æ›«¯
- 170:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,’˝≥£
- 171:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 172:MPU9250/mpu9250.c **** u8 MPU_Write_Len(u8 addr,u8 reg,u8 len,u8 *buf)
- 173:MPU9250/mpu9250.c **** {
-  30              		.loc 1 173 1 view -0
-  31              		.cfi_startproc
-  32              		@ args = 0, pretend = 0, frame = 0
-  33              		@ frame_needed = 0, uses_anonymous_args = 0
-  34              		.loc 1 173 1 is_stmt 0 view .LVU1
-  35 0000 10B5     		push	{r4, lr}
-  36              	.LCFI0:
-  37              		.cfi_def_cfa_offset 8
-  38              		.cfi_offset 4, -8
-  39              		.cfi_offset 14, -4
-  40 0002 84B0     		sub	sp, sp, #16
-  41              	.LCFI1:
-  42              		.cfi_def_cfa_offset 24
- 174:MPU9250/mpu9250.c ****      HAL_I2C_Mem_Write(&hi2c1, (addr<<1), reg, I2C_MEMADD_SIZE_8BIT, buf, len, 0xfff);
-  43              		.loc 1 174 6 is_stmt 1 view .LVU2
-  44 0004 40F6FF74 		movw	r4, #4095
-  45 0008 0294     		str	r4, [sp, #8]
-  46 000a 0192     		str	r2, [sp, #4]
-  47 000c 0093     		str	r3, [sp]
-  48 000e 0123     		movs	r3, #1
-  49              	.LVL1:
-  50              		.loc 1 174 6 is_stmt 0 view .LVU3
-  51 0010 0A46     		mov	r2, r1
-  52              	.LVL2:
-  53              		.loc 1 174 6 view .LVU4
-  54 0012 00FA03F1 		lsl	r1, r0, r3
-  55              	.LVL3:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 5
+ 127 0000 38B5     		push	{r3, r4, r5, lr}
+ 128              	.LCFI0:
+ 129              		.cfi_def_cfa_offset 16
+ 130              		.cfi_offset 3, -16
+ 131              		.cfi_offset 4, -12
+ 132              		.cfi_offset 5, -8
+ 133              		.cfi_offset 14, -4
+ 134 0002 0546     		mov	r5, r0
+  41:user/Src/mpu9250.c ****   unsigned short scalar;
+ 135              		.loc 1 41 3 is_stmt 1 view .LVU34
+  42:user/Src/mpu9250.c **** 
+  43:user/Src/mpu9250.c ****   /*
+  44:user/Src/mpu9250.c ****      XYZ  010_001_000 Identity Matrix
+  45:user/Src/mpu9250.c ****      XZY  001_010_000
+  46:user/Src/mpu9250.c ****      YXZ  010_000_001
+  47:user/Src/mpu9250.c ****      YZX  000_010_001
+  48:user/Src/mpu9250.c ****      ZXY  001_000_010
+  49:user/Src/mpu9250.c ****      ZYX  000_001_010
+  50:user/Src/mpu9250.c ****    */
+  51:user/Src/mpu9250.c **** 
+  52:user/Src/mpu9250.c ****   scalar = inv_row_2_scale(mtx);
+ 136              		.loc 1 52 3 view .LVU35
+ 137              		.loc 1 52 12 is_stmt 0 view .LVU36
+ 138 0004 FFF7FEFF 		bl	inv_row_2_scale
+ 139              	.LVL15:
+ 140              		.loc 1 52 12 view .LVU37
+ 141 0008 0446     		mov	r4, r0
+ 142              	.LVL16:
+  53:user/Src/mpu9250.c ****   scalar |= inv_row_2_scale(mtx + 3) << 3;
+ 143              		.loc 1 53 3 is_stmt 1 view .LVU38
+ 144              		.loc 1 53 13 is_stmt 0 view .LVU39
+ 145 000a E81C     		adds	r0, r5, #3
+ 146 000c FFF7FEFF 		bl	inv_row_2_scale
+ 147              	.LVL17:
+ 148              		.loc 1 53 10 view .LVU40
+ 149 0010 44EAC004 		orr	r4, r4, r0, lsl #3
+ 150              	.LVL18:
+ 151              		.loc 1 53 10 view .LVU41
+ 152 0014 24B2     		sxth	r4, r4
+ 153              	.LVL19:
+  54:user/Src/mpu9250.c ****   scalar |= inv_row_2_scale(mtx + 6) << 6;
+ 154              		.loc 1 54 3 is_stmt 1 view .LVU42
+ 155              		.loc 1 54 13 is_stmt 0 view .LVU43
+ 156 0016 A81D     		adds	r0, r5, #6
+ 157 0018 FFF7FEFF 		bl	inv_row_2_scale
+ 158              	.LVL20:
+ 159              		.loc 1 54 10 view .LVU44
+ 160 001c 44EA8010 		orr	r0, r4, r0, lsl #6
+ 161              	.LVL21:
+  55:user/Src/mpu9250.c **** 
+  56:user/Src/mpu9250.c ****   return scalar;
+ 162              		.loc 1 56 3 is_stmt 1 view .LVU45
+  57:user/Src/mpu9250.c **** }
+ 163              		.loc 1 57 1 is_stmt 0 view .LVU46
+ 164 0020 80B2     		uxth	r0, r0
+ 165              		.loc 1 57 1 view .LVU47
+ 166 0022 38BD     		pop	{r3, r4, r5, pc}
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 5
 
 
-  56              		.loc 1 174 6 view .LVU5
-  57 0016 0348     		ldr	r0, .L3
-  58              	.LVL4:
-  59              		.loc 1 174 6 view .LVU6
-  60 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Write
-  61              	.LVL5:
- 175:MPU9250/mpu9250.c ****      return 0;
-  62              		.loc 1 175 6 is_stmt 1 view .LVU7
- 176:MPU9250/mpu9250.c **** } 
-  63              		.loc 1 176 1 is_stmt 0 view .LVU8
-  64 001c 0020     		movs	r0, #0
-  65 001e 04B0     		add	sp, sp, #16
-  66              	.LCFI2:
-  67              		.cfi_def_cfa_offset 8
-  68              		@ sp needed
-  69 0020 10BD     		pop	{r4, pc}
-  70              	.L4:
-  71 0022 00BF     		.align	2
-  72              	.L3:
-  73 0024 00000000 		.word	hi2c1
-  74              		.cfi_endproc
-  75              	.LFE142:
-  77              		.section	.text.MPU_Read_Len,"ax",%progbits
-  78              		.align	1
-  79              		.global	MPU_Read_Len
-  80              		.syntax unified
-  81              		.thumb
-  82              		.thumb_func
-  84              	MPU_Read_Len:
-  85              	.LVL6:
-  86              	.LFB143:
- 177:MPU9250/mpu9250.c **** 
- 178:MPU9250/mpu9250.c **** //IIC¡¨–¯∂¡
- 179:MPU9250/mpu9250.c **** //addr:∆˜º˛µÿ÷∑
- 180:MPU9250/mpu9250.c **** //reg:“™∂¡»°µƒºƒ¥Ê∆˜µÿ÷∑
- 181:MPU9250/mpu9250.c **** //len:“™∂¡»°µƒ≥§∂»
- 182:MPU9250/mpu9250.c **** //buf:∂¡»°µΩµƒ ˝æ›¥Ê¥¢«¯
- 183:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,’˝≥£
- 184:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 185:MPU9250/mpu9250.c **** u8 MPU_Read_Len(u8 addr,u8 reg,u8 len,u8 *buf)
- 186:MPU9250/mpu9250.c **** { 
-  87              		.loc 1 186 1 is_stmt 1 view -0
-  88              		.cfi_startproc
-  89              		@ args = 0, pretend = 0, frame = 0
-  90              		@ frame_needed = 0, uses_anonymous_args = 0
-  91              		.loc 1 186 1 is_stmt 0 view .LVU10
-  92 0000 10B5     		push	{r4, lr}
-  93              	.LCFI3:
-  94              		.cfi_def_cfa_offset 8
-  95              		.cfi_offset 4, -8
-  96              		.cfi_offset 14, -4
-  97 0002 84B0     		sub	sp, sp, #16
-  98              	.LCFI4:
-  99              		.cfi_def_cfa_offset 24
- 187:MPU9250/mpu9250.c ****     HAL_I2C_Mem_Read(&hi2c1, (addr<<1), reg, I2C_MEMADD_SIZE_8BIT, buf, len, 0xfff);
- 100              		.loc 1 187 5 is_stmt 1 view .LVU11
- 101 0004 40F6FF74 		movw	r4, #4095
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 6
+ 167              		.loc 1 57 1 view .LVU48
+ 168              		.cfi_endproc
+ 169              	.LFE20:
+ 171              		.section	.text.MPU9250_DMP_init,"ax",%progbits
+ 172              		.align	1
+ 173              		.global	MPU9250_DMP_init
+ 174              		.syntax unified
+ 175              		.thumb
+ 176              		.thumb_func
+ 178              	MPU9250_DMP_init:
+ 179              	.LFB22:
+  58:user/Src/mpu9250.c **** 
+  59:user/Src/mpu9250.c **** static int run_self_test(void) {
+  60:user/Src/mpu9250.c ****   int result;
+  61:user/Src/mpu9250.c ****   long gyro[3], accel[3];
+  62:user/Src/mpu9250.c **** 
+  63:user/Src/mpu9250.c ****   result = mpu_run_self_test(gyro, accel);
+  64:user/Src/mpu9250.c ****   if (result == 0x7) {
+  65:user/Src/mpu9250.c ****     /* Test passed. We can trust the gyro data here, so let's push it down
+  66:user/Src/mpu9250.c ****      * to the DMP.
+  67:user/Src/mpu9250.c ****      */
+  68:user/Src/mpu9250.c ****     float sens;
+  69:user/Src/mpu9250.c ****     unsigned short accel_sens;
+  70:user/Src/mpu9250.c ****     mpu_get_gyro_sens(&sens);
+  71:user/Src/mpu9250.c ****     gyro[0] = (long)(gyro[0] * sens);
+  72:user/Src/mpu9250.c ****     gyro[1] = (long)(gyro[1] * sens);
+  73:user/Src/mpu9250.c ****     gyro[2] = (long)(gyro[2] * sens);
+  74:user/Src/mpu9250.c ****     dmp_set_gyro_bias(gyro);
+  75:user/Src/mpu9250.c ****     mpu_get_accel_sens(&accel_sens);
+  76:user/Src/mpu9250.c ****     accel[0] *= accel_sens;
+  77:user/Src/mpu9250.c ****     accel[1] *= accel_sens;
+  78:user/Src/mpu9250.c ****     accel[2] *= accel_sens;
+  79:user/Src/mpu9250.c ****     dmp_set_accel_bias(accel);
+  80:user/Src/mpu9250.c ****   } else {
+  81:user/Src/mpu9250.c ****     return -1;
+  82:user/Src/mpu9250.c ****   }
+  83:user/Src/mpu9250.c **** 
+  84:user/Src/mpu9250.c ****   return 0;
+  85:user/Src/mpu9250.c **** }
+  86:user/Src/mpu9250.c **** 
+  87:user/Src/mpu9250.c **** int MPU9250_DMP_init(void) {
+ 180              		.loc 1 87 28 is_stmt 1 view -0
+ 181              		.cfi_startproc
+ 182              		@ args = 0, pretend = 0, frame = 8
+ 183              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184 0000 00B5     		push	{lr}
+ 185              	.LCFI1:
+ 186              		.cfi_def_cfa_offset 4
+ 187              		.cfi_offset 14, -4
+ 188 0002 83B0     		sub	sp, sp, #12
+ 189              	.LCFI2:
+ 190              		.cfi_def_cfa_offset 16
+  88:user/Src/mpu9250.c ****   int ret;
+ 191              		.loc 1 88 3 view .LVU50
+  89:user/Src/mpu9250.c ****   struct int_param_s int_param;
+ 192              		.loc 1 89 3 view .LVU51
+  90:user/Src/mpu9250.c ****   // mpu_init
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 6
 
 
- 102 0008 0294     		str	r4, [sp, #8]
- 103 000a 0192     		str	r2, [sp, #4]
- 104 000c 0093     		str	r3, [sp]
- 105 000e 0123     		movs	r3, #1
- 106              	.LVL7:
- 107              		.loc 1 187 5 is_stmt 0 view .LVU12
- 108 0010 0A46     		mov	r2, r1
- 109              	.LVL8:
- 110              		.loc 1 187 5 view .LVU13
- 111 0012 00FA03F1 		lsl	r1, r0, r3
- 112              	.LVL9:
- 113              		.loc 1 187 5 view .LVU14
- 114 0016 0348     		ldr	r0, .L7
- 115              	.LVL10:
- 116              		.loc 1 187 5 view .LVU15
- 117 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Read
- 118              	.LVL11:
- 188:MPU9250/mpu9250.c ****     return 0;       
- 119              		.loc 1 188 5 is_stmt 1 view .LVU16
- 189:MPU9250/mpu9250.c **** }
- 120              		.loc 1 189 1 is_stmt 0 view .LVU17
- 121 001c 0020     		movs	r0, #0
- 122 001e 04B0     		add	sp, sp, #16
- 123              	.LCFI5:
- 124              		.cfi_def_cfa_offset 8
- 125              		@ sp needed
- 126 0020 10BD     		pop	{r4, pc}
- 127              	.L8:
- 128 0022 00BF     		.align	2
- 129              	.L7:
- 130 0024 00000000 		.word	hi2c1
- 131              		.cfi_endproc
- 132              	.LFE143:
- 134              		.global	__aeabi_i2d
- 135              		.global	__aeabi_ddiv
- 136              		.global	__aeabi_dadd
- 137              		.global	__aeabi_d2f
- 138              		.section	.text.MPU_Get_Temperature,"ax",%progbits
- 139              		.align	1
- 140              		.global	MPU_Get_Temperature
- 141              		.syntax unified
- 142              		.thumb
- 143              		.thumb_func
- 145              	MPU_Get_Temperature:
- 146              	.LFB138:
- 103:MPU9250/mpu9250.c ****     u8 buf[2]; 
- 147              		.loc 1 103 1 is_stmt 1 view -0
- 148              		.cfi_startproc
- 149              		@ args = 0, pretend = 0, frame = 8
- 150              		@ frame_needed = 0, uses_anonymous_args = 0
- 151 0000 00B5     		push	{lr}
- 152              	.LCFI6:
- 153              		.cfi_def_cfa_offset 4
- 154              		.cfi_offset 14, -4
- 155 0002 83B0     		sub	sp, sp, #12
- 156              	.LCFI7:
- 157              		.cfi_def_cfa_offset 16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 7
+  91:user/Src/mpu9250.c ****   ret = mpu_init(&int_param);
+ 193              		.loc 1 91 3 view .LVU52
+ 194              		.loc 1 91 9 is_stmt 0 view .LVU53
+ 195 0004 01A8     		add	r0, sp, #4
+ 196 0006 FFF7FEFF 		bl	mpu_init
+ 197              	.LVL22:
+  92:user/Src/mpu9250.c ****   if (ret != 0) {
+ 198              		.loc 1 92 3 is_stmt 1 view .LVU54
+ 199              		.loc 1 92 6 is_stmt 0 view .LVU55
+ 200 000a 20BB     		cbnz	r0, .L16
+  93:user/Src/mpu9250.c ****     return ERROR_MPU_INIT;
+  94:user/Src/mpu9250.c ****   }
+  95:user/Src/mpu9250.c ****   // ËÆæÁΩÆ‰º†ÊÑüÂô®
+  96:user/Src/mpu9250.c ****   ret = mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+ 201              		.loc 1 96 3 is_stmt 1 view .LVU56
+ 202              		.loc 1 96 9 is_stmt 0 view .LVU57
+ 203 000c 7820     		movs	r0, #120
+ 204              	.LVL23:
+ 205              		.loc 1 96 9 view .LVU58
+ 206 000e FFF7FEFF 		bl	mpu_set_sensors
+ 207              	.LVL24:
+  97:user/Src/mpu9250.c ****   if (ret != 0) {
+ 208              		.loc 1 97 3 is_stmt 1 view .LVU59
+ 209              		.loc 1 97 6 is_stmt 0 view .LVU60
+ 210 0012 18BB     		cbnz	r0, .L17
+  98:user/Src/mpu9250.c ****     return ERROR_SET_SENSOR;
+  99:user/Src/mpu9250.c ****   }
+ 100:user/Src/mpu9250.c ****   // ËÆæÁΩÆfifo
+ 101:user/Src/mpu9250.c ****   ret = mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL);
+ 211              		.loc 1 101 3 is_stmt 1 view .LVU61
+ 212              		.loc 1 101 9 is_stmt 0 view .LVU62
+ 213 0014 7820     		movs	r0, #120
+ 214              	.LVL25:
+ 215              		.loc 1 101 9 view .LVU63
+ 216 0016 FFF7FEFF 		bl	mpu_configure_fifo
+ 217              	.LVL26:
+ 102:user/Src/mpu9250.c ****   if (ret != 0) {
+ 218              		.loc 1 102 3 is_stmt 1 view .LVU64
+ 219              		.loc 1 102 6 is_stmt 0 view .LVU65
+ 220 001a 10BB     		cbnz	r0, .L18
+ 103:user/Src/mpu9250.c ****     return ERROR_CONFIG_FIFO;
+ 104:user/Src/mpu9250.c ****   }
+ 105:user/Src/mpu9250.c ****   // ËÆæÁΩÆÈááÊ†∑Áéá
+ 106:user/Src/mpu9250.c ****   ret = mpu_set_sample_rate(DEFAULT_MPU_HZ);
+ 221              		.loc 1 106 3 is_stmt 1 view .LVU66
+ 222              		.loc 1 106 9 is_stmt 0 view .LVU67
+ 223 001c 6420     		movs	r0, #100
+ 224              	.LVL27:
+ 225              		.loc 1 106 9 view .LVU68
+ 226 001e FFF7FEFF 		bl	mpu_set_sample_rate
+ 227              	.LVL28:
+ 107:user/Src/mpu9250.c ****   if (ret != 0) {
+ 228              		.loc 1 107 3 is_stmt 1 view .LVU69
+ 229              		.loc 1 107 6 is_stmt 0 view .LVU70
+ 230 0022 08BB     		cbnz	r0, .L19
+ 108:user/Src/mpu9250.c ****     return ERROR_SET_RATE;
+ 109:user/Src/mpu9250.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 7
 
 
- 104:MPU9250/mpu9250.c ****     short raw;
- 158              		.loc 1 104 5 view .LVU19
- 105:MPU9250/mpu9250.c **** 	float temp;
- 159              		.loc 1 105 5 view .LVU20
- 106:MPU9250/mpu9250.c **** 	MPU_Read_Len(MPU9250_ADDR,MPU_TEMP_OUTH_REG,2,buf); 
- 160              		.loc 1 106 2 view .LVU21
- 107:MPU9250/mpu9250.c ****     raw=((u16)buf[0]<<8)|buf[1];  
- 161              		.loc 1 107 2 view .LVU22
- 162 0004 01AB     		add	r3, sp, #4
- 163 0006 0222     		movs	r2, #2
- 164 0008 4121     		movs	r1, #65
- 165 000a 6820     		movs	r0, #104
- 166 000c FFF7FEFF 		bl	MPU_Read_Len
- 167              	.LVL12:
- 108:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 168              		.loc 1 108 5 view .LVU23
- 108:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 169              		.loc 1 108 18 is_stmt 0 view .LVU24
- 170 0010 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
- 108:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 171              		.loc 1 108 21 view .LVU25
- 172 0014 1B02     		lsls	r3, r3, #8
- 108:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 173              		.loc 1 108 25 view .LVU26
- 174 0016 1BB2     		sxth	r3, r3
- 108:MPU9250/mpu9250.c ****     temp=21+((double)raw)/333.87;  
- 175              		.loc 1 108 29 view .LVU27
- 176 0018 9DF80500 		ldrb	r0, [sp, #5]	@ zero_extendqisi2
- 177              	.LVL13:
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 178              		.loc 1 109 5 is_stmt 1 view .LVU28
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 179              		.loc 1 109 14 is_stmt 0 view .LVU29
- 180 001c 1843     		orrs	r0, r0, r3
- 181              	.LVL14:
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 182              		.loc 1 109 14 view .LVU30
- 183 001e FFF7FEFF 		bl	__aeabi_i2d
- 184              	.LVL15:
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 185              		.loc 1 109 26 view .LVU31
- 186 0022 0FA3     		adr	r3, .L11+8
- 187 0024 D3E90023 		ldrd	r2, [r3]
- 188 0028 FFF7FEFF 		bl	__aeabi_ddiv
- 189              	.LVL16:
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 190              		.loc 1 109 12 view .LVU32
- 191 002c 0022     		movs	r2, #0
- 192 002e 0A4B     		ldr	r3, .L11
- 193 0030 FFF7FEFF 		bl	__aeabi_dadd
- 194              	.LVL17:
- 109:MPU9250/mpu9250.c ****     return temp*100;;
- 195              		.loc 1 109 9 view .LVU33
- 196 0034 FFF7FEFF 		bl	__aeabi_d2f
- 197              	.LVL18:
- 198 0038 07EE900A 		vmov	s15, r0
- 199              	.LVL19:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 8
+ 110:user/Src/mpu9250.c ****   // Âä†ËΩΩDMPÂõ∫‰ª∂
+ 111:user/Src/mpu9250.c ****   ret = dmp_load_motion_driver_firmware();
+ 231              		.loc 1 111 3 is_stmt 1 view .LVU71
+ 232              		.loc 1 111 9 is_stmt 0 view .LVU72
+ 233 0024 FFF7FEFF 		bl	dmp_load_motion_driver_firmware
+ 234              	.LVL29:
+ 112:user/Src/mpu9250.c ****   if (ret != 0) {
+ 235              		.loc 1 112 3 is_stmt 1 view .LVU73
+ 236              		.loc 1 112 6 is_stmt 0 view .LVU74
+ 237 0028 08BB     		cbnz	r0, .L20
+ 113:user/Src/mpu9250.c ****     return ERROR_LOAD_MOTION_DRIVER;
+ 114:user/Src/mpu9250.c ****   }
+ 115:user/Src/mpu9250.c ****   // ËÆæÁΩÆÈôÄËû∫‰ª™ÊñπÂêë
+ 116:user/Src/mpu9250.c ****   ret = dmp_set_orientation(inv_orientation_matrix_to_scalar(gyro_orientation));
+ 238              		.loc 1 116 3 is_stmt 1 view .LVU75
+ 239              		.loc 1 116 9 is_stmt 0 view .LVU76
+ 240 002a 1848     		ldr	r0, .L27
+ 241              	.LVL30:
+ 242              		.loc 1 116 9 view .LVU77
+ 243 002c FFF7FEFF 		bl	inv_orientation_matrix_to_scalar
+ 244              	.LVL31:
+ 245 0030 FFF7FEFF 		bl	dmp_set_orientation
+ 246              	.LVL32:
+ 117:user/Src/mpu9250.c ****   if (ret != 0) {
+ 247              		.loc 1 117 3 is_stmt 1 view .LVU78
+ 248              		.loc 1 117 6 is_stmt 0 view .LVU79
+ 249 0034 F0B9     		cbnz	r0, .L21
+ 118:user/Src/mpu9250.c ****     return ERROR_SET_ORIENTATION;
+ 119:user/Src/mpu9250.c ****   }
+ 120:user/Src/mpu9250.c ****   // ËÆæÁΩÆDMPÂäüËÉΩ
+ 121:user/Src/mpu9250.c ****   ret = dmp_enable_feature(DMP_FEATURE_6X_LP_QUAT | DMP_FEATURE_TAP |
+ 250              		.loc 1 121 3 is_stmt 1 view .LVU80
+ 251              		.loc 1 121 9 is_stmt 0 view .LVU81
+ 252 0036 40F27310 		movw	r0, #371
+ 253              	.LVL33:
+ 254              		.loc 1 121 9 view .LVU82
+ 255 003a FFF7FEFF 		bl	dmp_enable_feature
+ 256              	.LVL34:
+ 122:user/Src/mpu9250.c ****                            DMP_FEATURE_ANDROID_ORIENT |
+ 123:user/Src/mpu9250.c ****                            DMP_FEATURE_SEND_RAW_ACCEL |
+ 124:user/Src/mpu9250.c ****                            DMP_FEATURE_SEND_CAL_GYRO | DMP_FEATURE_GYRO_CAL);
+ 125:user/Src/mpu9250.c ****   if (ret != 0) {
+ 257              		.loc 1 125 3 is_stmt 1 view .LVU83
+ 258              		.loc 1 125 6 is_stmt 0 view .LVU84
+ 259 003e E0B9     		cbnz	r0, .L22
+ 126:user/Src/mpu9250.c ****     return ERROR_ENABLE_FEATURE;
+ 127:user/Src/mpu9250.c ****   }
+ 128:user/Src/mpu9250.c ****   // ËÆæÁΩÆËæìÂá∫ÈÄüÁéá
+ 129:user/Src/mpu9250.c ****   ret = dmp_set_fifo_rate(DEFAULT_MPU_HZ);
+ 260              		.loc 1 129 3 is_stmt 1 view .LVU85
+ 261              		.loc 1 129 9 is_stmt 0 view .LVU86
+ 262 0040 6420     		movs	r0, #100
+ 263              	.LVL35:
+ 264              		.loc 1 129 9 view .LVU87
+ 265 0042 FFF7FEFF 		bl	dmp_set_fifo_rate
+ 266              	.LVL36:
+ 130:user/Src/mpu9250.c ****   if (ret != 0) {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 8
 
 
- 110:MPU9250/mpu9250.c **** }
- 200              		.loc 1 110 5 is_stmt 1 view .LVU34
- 110:MPU9250/mpu9250.c **** }
- 201              		.loc 1 110 21 view .LVU35
- 110:MPU9250/mpu9250.c **** }
- 202              		.loc 1 110 16 is_stmt 0 view .LVU36
- 203 003c 9FED077A 		vldr.32	s14, .L11+4
- 204 0040 67EE877A 		vmul.f32	s15, s15, s14
- 205 0044 FDEEE77A 		vcvt.s32.f32	s15, s15
- 111:MPU9250/mpu9250.c **** //µ√µΩÕ”¬›“«÷µ(‘≠ º÷µ)
- 206              		.loc 1 111 1 view .LVU37
- 207 0048 17EE903A 		vmov	r3, s15	@ int
- 208 004c 18B2     		sxth	r0, r3
- 209              	.LVL20:
- 111:MPU9250/mpu9250.c **** //µ√µΩÕ”¬›“«÷µ(‘≠ º÷µ)
- 210              		.loc 1 111 1 view .LVU38
- 211 004e 03B0     		add	sp, sp, #12
- 212              	.LCFI8:
- 213              		.cfi_def_cfa_offset 4
- 214              		@ sp needed
- 215 0050 5DF804FB 		ldr	pc, [sp], #4
- 216              	.L12:
- 217 0054 AFF30080 		.align	3
- 218              	.L11:
- 219 0058 00003540 		.word	1077215232
- 220 005c 0000C842 		.word	1120403456
- 221 0060 52B81E85 		.word	-2061584302
- 222 0064 EBDD7440 		.word	1081400811
- 223              		.cfi_endproc
- 224              	.LFE138:
- 226              		.section	.text.MPU_Get_Gyroscope,"ax",%progbits
- 227              		.align	1
- 228              		.global	MPU_Get_Gyroscope
- 229              		.syntax unified
- 230              		.thumb
- 231              		.thumb_func
- 233              	MPU_Get_Gyroscope:
- 234              	.LVL21:
- 235              	.LFB139:
- 117:MPU9250/mpu9250.c ****     u8 buf[6],res; 
- 236              		.loc 1 117 1 is_stmt 1 view -0
- 237              		.cfi_startproc
- 238              		@ args = 0, pretend = 0, frame = 8
- 239              		@ frame_needed = 0, uses_anonymous_args = 0
- 117:MPU9250/mpu9250.c ****     u8 buf[6],res; 
- 240              		.loc 1 117 1 is_stmt 0 view .LVU40
- 241 0000 70B5     		push	{r4, r5, r6, lr}
- 242              	.LCFI9:
- 243              		.cfi_def_cfa_offset 16
- 244              		.cfi_offset 4, -16
- 245              		.cfi_offset 5, -12
- 246              		.cfi_offset 6, -8
- 247              		.cfi_offset 14, -4
- 248 0002 82B0     		sub	sp, sp, #8
- 249              	.LCFI10:
- 250              		.cfi_def_cfa_offset 24
- 251 0004 0646     		mov	r6, r0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 9
+ 267              		.loc 1 130 3 is_stmt 1 view .LVU88
+ 268              		.loc 1 130 6 is_stmt 0 view .LVU89
+ 269 0046 D8B9     		cbnz	r0, .L23
+ 131:user/Src/mpu9250.c ****     return ERROR_SET_FIFO_RATE;
+ 132:user/Src/mpu9250.c ****   }
+ 133:user/Src/mpu9250.c ****   // Ëá™Ê£Ä
+ 134:user/Src/mpu9250.c ****   /*ret = run_self_test();*/
+ 135:user/Src/mpu9250.c ****   /*if (ret != 0) {*/
+ 136:user/Src/mpu9250.c ****     /*return ERROR_SELF_TEST;*/
+ 137:user/Src/mpu9250.c ****   /*}*/
+ 138:user/Src/mpu9250.c ****   // ‰ΩøËÉΩDMP
+ 139:user/Src/mpu9250.c ****   ret = mpu_set_dmp_state(1);
+ 270              		.loc 1 139 3 is_stmt 1 view .LVU90
+ 271              		.loc 1 139 9 is_stmt 0 view .LVU91
+ 272 0048 0120     		movs	r0, #1
+ 273              	.LVL37:
+ 274              		.loc 1 139 9 view .LVU92
+ 275 004a FFF7FEFF 		bl	mpu_set_dmp_state
+ 276              	.LVL38:
+ 140:user/Src/mpu9250.c ****   if (ret != 0) {
+ 277              		.loc 1 140 3 is_stmt 1 view .LVU93
+ 278              		.loc 1 140 6 is_stmt 0 view .LVU94
+ 279 004e D0B9     		cbnz	r0, .L26
+ 280              	.LVL39:
+ 281              	.L14:
+ 141:user/Src/mpu9250.c ****     return ERROR_DMP_STATE;
+ 142:user/Src/mpu9250.c ****   }
+ 143:user/Src/mpu9250.c **** 
+ 144:user/Src/mpu9250.c ****   return 0;
+ 145:user/Src/mpu9250.c **** }
+ 282              		.loc 1 145 1 view .LVU95
+ 283 0050 03B0     		add	sp, sp, #12
+ 284              	.LCFI3:
+ 285              		.cfi_remember_state
+ 286              		.cfi_def_cfa_offset 4
+ 287              		@ sp needed
+ 288 0052 5DF804FB 		ldr	pc, [sp], #4
+ 289              	.LVL40:
+ 290              	.L16:
+ 291              	.LCFI4:
+ 292              		.cfi_restore_state
+  93:user/Src/mpu9250.c ****   }
+ 293              		.loc 1 93 12 view .LVU96
+ 294 0056 4FF0FF30 		mov	r0, #-1
+ 295              	.LVL41:
+  93:user/Src/mpu9250.c ****   }
+ 296              		.loc 1 93 12 view .LVU97
+ 297 005a F9E7     		b	.L14
+ 298              	.LVL42:
+ 299              	.L17:
+  98:user/Src/mpu9250.c ****   }
+ 300              		.loc 1 98 12 view .LVU98
+ 301 005c 6FF00100 		mvn	r0, #1
+ 302              	.LVL43:
+  98:user/Src/mpu9250.c ****   }
+ 303              		.loc 1 98 12 view .LVU99
+ 304 0060 F6E7     		b	.L14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 9
 
 
- 252 0006 0D46     		mov	r5, r1
- 253 0008 1446     		mov	r4, r2
- 118:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(MPU9250_ADDR,MPU_GYRO_XOUTH_REG,6,buf);
- 254              		.loc 1 118 5 is_stmt 1 view .LVU41
- 119:MPU9250/mpu9250.c **** 	if(res==0)
- 255              		.loc 1 119 2 view .LVU42
- 119:MPU9250/mpu9250.c **** 	if(res==0)
- 256              		.loc 1 119 6 is_stmt 0 view .LVU43
- 257 000a 6B46     		mov	r3, sp
- 258 000c 0622     		movs	r2, #6
- 259              	.LVL22:
- 119:MPU9250/mpu9250.c **** 	if(res==0)
- 260              		.loc 1 119 6 view .LVU44
- 261 000e 4321     		movs	r1, #67
- 262              	.LVL23:
- 119:MPU9250/mpu9250.c **** 	if(res==0)
- 263              		.loc 1 119 6 view .LVU45
- 264 0010 6820     		movs	r0, #104
- 265              	.LVL24:
- 119:MPU9250/mpu9250.c **** 	if(res==0)
- 266              		.loc 1 119 6 view .LVU46
- 267 0012 FFF7FEFF 		bl	MPU_Read_Len
- 268              	.LVL25:
- 120:MPU9250/mpu9250.c **** 	{
- 269              		.loc 1 120 2 is_stmt 1 view .LVU47
- 120:MPU9250/mpu9250.c **** 	{
- 270              		.loc 1 120 4 is_stmt 0 view .LVU48
- 271 0016 A0B9     		cbnz	r0, .L14
- 122:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 272              		.loc 1 122 3 is_stmt 1 view .LVU49
- 122:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 273              		.loc 1 122 16 is_stmt 0 view .LVU50
- 274 0018 9DF80020 		ldrb	r2, [sp]	@ zero_extendqisi2
- 122:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 275              		.loc 1 122 27 view .LVU51
- 276 001c 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
- 122:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 277              		.loc 1 122 23 view .LVU52
- 278 0020 43EA0223 		orr	r3, r3, r2, lsl #8
- 122:MPU9250/mpu9250.c **** 		*gy=((u16)buf[2]<<8)|buf[3];  
- 279              		.loc 1 122 6 view .LVU53
- 280 0024 3380     		strh	r3, [r6]	@ movhi
- 123:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 281              		.loc 1 123 3 is_stmt 1 view .LVU54
- 123:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 282              		.loc 1 123 16 is_stmt 0 view .LVU55
- 283 0026 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
- 123:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 284              		.loc 1 123 27 view .LVU56
- 285 002a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
- 123:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 286              		.loc 1 123 23 view .LVU57
- 287 002e 43EA0223 		orr	r3, r3, r2, lsl #8
- 123:MPU9250/mpu9250.c **** 		*gz=((u16)buf[4]<<8)|buf[5];
- 288              		.loc 1 123 6 view .LVU58
- 289 0032 2B80     		strh	r3, [r5]	@ movhi
- 124:MPU9250/mpu9250.c **** 	} 	
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 10
+ 305              	.LVL44:
+ 306              	.L18:
+ 103:user/Src/mpu9250.c ****   }
+ 307              		.loc 1 103 12 view .LVU100
+ 308 0062 6FF00200 		mvn	r0, #2
+ 309              	.LVL45:
+ 103:user/Src/mpu9250.c ****   }
+ 310              		.loc 1 103 12 view .LVU101
+ 311 0066 F3E7     		b	.L14
+ 312              	.LVL46:
+ 313              	.L19:
+ 108:user/Src/mpu9250.c ****   }
+ 314              		.loc 1 108 12 view .LVU102
+ 315 0068 6FF00300 		mvn	r0, #3
+ 316              	.LVL47:
+ 108:user/Src/mpu9250.c ****   }
+ 317              		.loc 1 108 12 view .LVU103
+ 318 006c F0E7     		b	.L14
+ 319              	.LVL48:
+ 320              	.L20:
+ 113:user/Src/mpu9250.c ****   }
+ 321              		.loc 1 113 12 view .LVU104
+ 322 006e 6FF00400 		mvn	r0, #4
+ 323              	.LVL49:
+ 113:user/Src/mpu9250.c ****   }
+ 324              		.loc 1 113 12 view .LVU105
+ 325 0072 EDE7     		b	.L14
+ 326              	.LVL50:
+ 327              	.L21:
+ 118:user/Src/mpu9250.c ****   }
+ 328              		.loc 1 118 12 view .LVU106
+ 329 0074 6FF00500 		mvn	r0, #5
+ 330              	.LVL51:
+ 118:user/Src/mpu9250.c ****   }
+ 331              		.loc 1 118 12 view .LVU107
+ 332 0078 EAE7     		b	.L14
+ 333              	.LVL52:
+ 334              	.L22:
+ 126:user/Src/mpu9250.c ****   }
+ 335              		.loc 1 126 12 view .LVU108
+ 336 007a 6FF00600 		mvn	r0, #6
+ 337              	.LVL53:
+ 126:user/Src/mpu9250.c ****   }
+ 338              		.loc 1 126 12 view .LVU109
+ 339 007e E7E7     		b	.L14
+ 340              	.LVL54:
+ 341              	.L23:
+ 131:user/Src/mpu9250.c ****   }
+ 342              		.loc 1 131 12 view .LVU110
+ 343 0080 6FF00700 		mvn	r0, #7
+ 344              	.LVL55:
+ 131:user/Src/mpu9250.c ****   }
+ 345              		.loc 1 131 12 view .LVU111
+ 346 0084 E4E7     		b	.L14
+ 347              	.LVL56:
+ 348              	.L26:
+ 141:user/Src/mpu9250.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 10
 
 
- 290              		.loc 1 124 3 is_stmt 1 view .LVU59
- 124:MPU9250/mpu9250.c **** 	} 	
- 291              		.loc 1 124 16 is_stmt 0 view .LVU60
- 292 0034 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
- 124:MPU9250/mpu9250.c **** 	} 	
- 293              		.loc 1 124 27 view .LVU61
- 294 0038 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
- 124:MPU9250/mpu9250.c **** 	} 	
- 295              		.loc 1 124 23 view .LVU62
- 296 003c 43EA0223 		orr	r3, r3, r2, lsl #8
- 124:MPU9250/mpu9250.c **** 	} 	
- 297              		.loc 1 124 6 view .LVU63
- 298 0040 2380     		strh	r3, [r4]	@ movhi
- 299              	.L14:
- 126:MPU9250/mpu9250.c **** }
- 300              		.loc 1 126 5 is_stmt 1 view .LVU64
- 126:MPU9250/mpu9250.c **** }
- 301              		.loc 1 126 16 view .LVU65
- 127:MPU9250/mpu9250.c **** //µ√µΩº”ÀŸ∂»÷µ(‘≠ º÷µ)
- 302              		.loc 1 127 1 is_stmt 0 view .LVU66
- 303 0042 02B0     		add	sp, sp, #8
- 304              	.LCFI11:
- 305              		.cfi_def_cfa_offset 16
- 306              	.LVL26:
- 127:MPU9250/mpu9250.c **** //µ√µΩº”ÀŸ∂»÷µ(‘≠ º÷µ)
- 307              		.loc 1 127 1 view .LVU67
- 308              		@ sp needed
- 309 0044 70BD     		pop	{r4, r5, r6, pc}
- 127:MPU9250/mpu9250.c **** //µ√µΩº”ÀŸ∂»÷µ(‘≠ º÷µ)
- 310              		.loc 1 127 1 view .LVU68
- 311              		.cfi_endproc
- 312              	.LFE139:
- 314              		.section	.text.MPU_Get_Accelerometer,"ax",%progbits
- 315              		.align	1
- 316              		.global	MPU_Get_Accelerometer
- 317              		.syntax unified
- 318              		.thumb
- 319              		.thumb_func
- 321              	MPU_Get_Accelerometer:
- 322              	.LVL27:
- 323              	.LFB140:
- 133:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 324              		.loc 1 133 1 is_stmt 1 view -0
- 325              		.cfi_startproc
- 326              		@ args = 0, pretend = 0, frame = 8
- 327              		@ frame_needed = 0, uses_anonymous_args = 0
- 133:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 328              		.loc 1 133 1 is_stmt 0 view .LVU70
- 329 0000 70B5     		push	{r4, r5, r6, lr}
- 330              	.LCFI12:
- 331              		.cfi_def_cfa_offset 16
- 332              		.cfi_offset 4, -16
- 333              		.cfi_offset 5, -12
- 334              		.cfi_offset 6, -8
- 335              		.cfi_offset 14, -4
- 336 0002 82B0     		sub	sp, sp, #8
- 337              	.LCFI13:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 11
+ 349              		.loc 1 141 12 view .LVU112
+ 350 0086 6FF00900 		mvn	r0, #9
+ 351              	.LVL57:
+ 141:user/Src/mpu9250.c ****   }
+ 352              		.loc 1 141 12 view .LVU113
+ 353 008a E1E7     		b	.L14
+ 354              	.L28:
+ 355              		.align	2
+ 356              	.L27:
+ 357 008c 00000000 		.word	gyro_orientation
+ 358              		.cfi_endproc
+ 359              	.LFE22:
+ 361              		.global	__aeabi_f2d
+ 362              		.global	__aeabi_dmul
+ 363              		.global	__aeabi_d2f
+ 364              		.section	.text.MPU9250_DMP_Get_Data,"ax",%progbits
+ 365              		.align	1
+ 366              		.global	MPU9250_DMP_Get_Data
+ 367              		.syntax unified
+ 368              		.thumb
+ 369              		.thumb_func
+ 371              	MPU9250_DMP_Get_Data:
+ 372              	.LVL58:
+ 373              	.LFB23:
+ 146:user/Src/mpu9250.c **** 
+ 147:user/Src/mpu9250.c **** int MPU9250_DMP_Get_Data(float *pitch, float *roll, float *yaw) {
+ 374              		.loc 1 147 65 is_stmt 1 view -0
+ 375              		.cfi_startproc
+ 376              		@ args = 0, pretend = 0, frame = 40
+ 377              		@ frame_needed = 0, uses_anonymous_args = 0
+ 378              		.loc 1 147 65 is_stmt 0 view .LVU115
+ 379 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 380              	.LCFI5:
+ 381              		.cfi_def_cfa_offset 20
+ 382              		.cfi_offset 4, -20
+ 383              		.cfi_offset 5, -16
+ 384              		.cfi_offset 6, -12
+ 385              		.cfi_offset 7, -8
+ 386              		.cfi_offset 14, -4
+ 387 0002 2DED088B 		vpush.64	{d8, d9, d10, d11}
+ 388              	.LCFI6:
+ 389              		.cfi_def_cfa_offset 52
+ 390              		.cfi_offset 80, -52
+ 391              		.cfi_offset 81, -48
+ 392              		.cfi_offset 82, -44
+ 393              		.cfi_offset 83, -40
+ 394              		.cfi_offset 84, -36
+ 395              		.cfi_offset 85, -32
+ 396              		.cfi_offset 86, -28
+ 397              		.cfi_offset 87, -24
+ 398 0006 8DB0     		sub	sp, sp, #52
+ 399              	.LCFI7:
+ 400              		.cfi_def_cfa_offset 104
+ 401 0008 0646     		mov	r6, r0
+ 402 000a 0F46     		mov	r7, r1
+ 403 000c 1546     		mov	r5, r2
+ 148:user/Src/mpu9250.c ****   float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 11
 
 
- 338              		.cfi_def_cfa_offset 24
- 339 0004 0646     		mov	r6, r0
- 340 0006 0D46     		mov	r5, r1
- 341 0008 1446     		mov	r4, r2
- 134:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(MPU9250_ADDR,MPU_ACCEL_XOUTH_REG,6,buf);
- 342              		.loc 1 134 5 is_stmt 1 view .LVU71
- 135:MPU9250/mpu9250.c **** 	if(res==0)
- 343              		.loc 1 135 2 view .LVU72
- 135:MPU9250/mpu9250.c **** 	if(res==0)
- 344              		.loc 1 135 6 is_stmt 0 view .LVU73
- 345 000a 6B46     		mov	r3, sp
- 346 000c 0622     		movs	r2, #6
- 347              	.LVL28:
- 135:MPU9250/mpu9250.c **** 	if(res==0)
- 348              		.loc 1 135 6 view .LVU74
- 349 000e 3B21     		movs	r1, #59
- 350              	.LVL29:
- 135:MPU9250/mpu9250.c **** 	if(res==0)
- 351              		.loc 1 135 6 view .LVU75
- 352 0010 6820     		movs	r0, #104
- 353              	.LVL30:
- 135:MPU9250/mpu9250.c **** 	if(res==0)
- 354              		.loc 1 135 6 view .LVU76
- 355 0012 FFF7FEFF 		bl	MPU_Read_Len
- 356              	.LVL31:
- 136:MPU9250/mpu9250.c **** 	{
- 357              		.loc 1 136 2 is_stmt 1 view .LVU77
- 136:MPU9250/mpu9250.c **** 	{
- 358              		.loc 1 136 4 is_stmt 0 view .LVU78
- 359 0016 A0B9     		cbnz	r0, .L17
- 138:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 360              		.loc 1 138 3 is_stmt 1 view .LVU79
- 138:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 361              		.loc 1 138 16 is_stmt 0 view .LVU80
- 362 0018 9DF80020 		ldrb	r2, [sp]	@ zero_extendqisi2
- 138:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 363              		.loc 1 138 27 view .LVU81
- 364 001c 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
- 138:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 365              		.loc 1 138 23 view .LVU82
- 366 0020 43EA0223 		orr	r3, r3, r2, lsl #8
- 138:MPU9250/mpu9250.c **** 		*ay=((u16)buf[2]<<8)|buf[3];  
- 367              		.loc 1 138 6 view .LVU83
- 368 0024 3380     		strh	r3, [r6]	@ movhi
- 139:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 369              		.loc 1 139 3 is_stmt 1 view .LVU84
- 139:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 370              		.loc 1 139 16 is_stmt 0 view .LVU85
- 371 0026 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
- 139:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 372              		.loc 1 139 27 view .LVU86
- 373 002a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
- 139:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 374              		.loc 1 139 23 view .LVU87
- 375 002e 43EA0223 		orr	r3, r3, r2, lsl #8
- 139:MPU9250/mpu9250.c **** 		*az=((u16)buf[4]<<8)|buf[5];
- 376              		.loc 1 139 6 view .LVU88
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 12
+ 404              		.loc 1 148 3 is_stmt 1 view .LVU116
+ 405              	.LVL59:
+ 149:user/Src/mpu9250.c ****   short gyro[3];
+ 406              		.loc 1 149 3 view .LVU117
+ 150:user/Src/mpu9250.c ****   short accel[3];
+ 407              		.loc 1 150 3 view .LVU118
+ 151:user/Src/mpu9250.c ****   long quat[4];
+ 408              		.loc 1 151 3 view .LVU119
+ 152:user/Src/mpu9250.c ****   unsigned long timestamp;
+ 409              		.loc 1 152 3 view .LVU120
+ 153:user/Src/mpu9250.c ****   short sensors;
+ 410              		.loc 1 153 3 view .LVU121
+ 154:user/Src/mpu9250.c ****   unsigned char more;
+ 411              		.loc 1 154 3 view .LVU122
+ 155:user/Src/mpu9250.c ****   if (dmp_read_fifo(gyro, accel, quat, &timestamp, &sensors, &more)) {
+ 412              		.loc 1 155 3 view .LVU123
+ 413              		.loc 1 155 7 is_stmt 0 view .LVU124
+ 414 000e 0DF10903 		add	r3, sp, #9
+ 415 0012 0193     		str	r3, [sp, #4]
+ 416 0014 0DF10A03 		add	r3, sp, #10
+ 417 0018 0093     		str	r3, [sp]
+ 418 001a 03AB     		add	r3, sp, #12
+ 419 001c 04AA     		add	r2, sp, #16
+ 420              	.LVL60:
+ 421              		.loc 1 155 7 view .LVU125
+ 422 001e 08A9     		add	r1, sp, #32
+ 423              	.LVL61:
+ 424              		.loc 1 155 7 view .LVU126
+ 425 0020 0AA8     		add	r0, sp, #40
+ 426              	.LVL62:
+ 427              		.loc 1 155 7 view .LVU127
+ 428 0022 FFF7FEFF 		bl	dmp_read_fifo
+ 429              	.LVL63:
+ 430              		.loc 1 155 6 view .LVU128
+ 431 0026 0028     		cmp	r0, #0
+ 432 0028 40F0A480 		bne	.L31
+ 433 002c 0446     		mov	r4, r0
+ 156:user/Src/mpu9250.c ****     return -1;
+ 157:user/Src/mpu9250.c ****   }
+ 158:user/Src/mpu9250.c **** 
+ 159:user/Src/mpu9250.c ****   if (sensors & INV_WXYZ_QUAT) {
+ 434              		.loc 1 159 3 is_stmt 1 view .LVU129
+ 435              		.loc 1 159 15 is_stmt 0 view .LVU130
+ 436 002e BDF90A30 		ldrsh	r3, [sp, #10]
+ 437              		.loc 1 159 6 view .LVU131
+ 438 0032 13F4807F 		tst	r3, #256
+ 439 0036 04D1     		bne	.L33
+ 440              	.LVL64:
+ 441              	.L29:
+ 160:user/Src/mpu9250.c ****     q0 = quat[0] / Q30;
+ 161:user/Src/mpu9250.c ****     q1 = quat[1] / Q30;
+ 162:user/Src/mpu9250.c ****     q2 = quat[2] / Q30;
+ 163:user/Src/mpu9250.c ****     q3 = quat[3] / Q30;
+ 164:user/Src/mpu9250.c **** 
+ 165:user/Src/mpu9250.c ****     *pitch = asin(-2 * q1 * q3 + 2 * q0 * q2) * 57.3; // pitch
+ 166:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 167:user/Src/mpu9250.c ****             57.3; // roll
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 12
 
 
- 377 0032 2B80     		strh	r3, [r5]	@ movhi
- 140:MPU9250/mpu9250.c **** 	} 	
- 378              		.loc 1 140 3 is_stmt 1 view .LVU89
- 140:MPU9250/mpu9250.c **** 	} 	
- 379              		.loc 1 140 16 is_stmt 0 view .LVU90
- 380 0034 9DF80420 		ldrb	r2, [sp, #4]	@ zero_extendqisi2
- 140:MPU9250/mpu9250.c **** 	} 	
- 381              		.loc 1 140 27 view .LVU91
- 382 0038 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
- 140:MPU9250/mpu9250.c **** 	} 	
- 383              		.loc 1 140 23 view .LVU92
- 384 003c 43EA0223 		orr	r3, r3, r2, lsl #8
- 140:MPU9250/mpu9250.c **** 	} 	
- 385              		.loc 1 140 6 view .LVU93
- 386 0040 2380     		strh	r3, [r4]	@ movhi
- 387              	.L17:
- 142:MPU9250/mpu9250.c **** }
- 388              		.loc 1 142 5 is_stmt 1 view .LVU94
- 142:MPU9250/mpu9250.c **** }
- 389              		.loc 1 142 16 view .LVU95
- 143:MPU9250/mpu9250.c **** 
- 390              		.loc 1 143 1 is_stmt 0 view .LVU96
- 391 0042 02B0     		add	sp, sp, #8
- 392              	.LCFI14:
- 393              		.cfi_def_cfa_offset 16
- 394              	.LVL32:
- 143:MPU9250/mpu9250.c **** 
- 395              		.loc 1 143 1 view .LVU97
- 396              		@ sp needed
- 397 0044 70BD     		pop	{r4, r5, r6, pc}
- 143:MPU9250/mpu9250.c **** 
- 398              		.loc 1 143 1 view .LVU98
- 399              		.cfi_endproc
- 400              	.LFE140:
- 402              		.section	.text.MPU_Write_Byte,"ax",%progbits
- 403              		.align	1
- 404              		.global	MPU_Write_Byte
- 405              		.syntax unified
- 406              		.thumb
- 407              		.thumb_func
- 409              	MPU_Write_Byte:
- 410              	.LVL33:
- 411              	.LFB144:
- 190:MPU9250/mpu9250.c **** 
- 191:MPU9250/mpu9250.c **** //IIC–¥“ª∏ˆ◊÷Ω⁄ 
- 192:MPU9250/mpu9250.c **** //devaddr:∆˜º˛IICµÿ÷∑
- 193:MPU9250/mpu9250.c **** //reg:ºƒ¥Ê∆˜µÿ÷∑
- 194:MPU9250/mpu9250.c **** //data: ˝æ›
- 195:MPU9250/mpu9250.c **** //∑µªÿ÷µ:0,’˝≥£
- 196:MPU9250/mpu9250.c **** //    ∆‰À˚,¥ÌŒÛ¥˙¬Î
- 197:MPU9250/mpu9250.c **** u8 MPU_Write_Byte(u8 addr,u8 reg,u8 data)
- 198:MPU9250/mpu9250.c **** {
- 412              		.loc 1 198 1 is_stmt 1 view -0
- 413              		.cfi_startproc
- 414              		@ args = 0, pretend = 0, frame = 8
- 415              		@ frame_needed = 0, uses_anonymous_args = 0
- 416              		.loc 1 198 1 is_stmt 0 view .LVU100
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 13
+ 168:user/Src/mpu9250.c ****     *yaw =
+ 169:user/Src/mpu9250.c ****         atan2(2 * (q0 * q3 + q1 * q2), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) *
+ 170:user/Src/mpu9250.c ****         57.3; // yaw
+ 171:user/Src/mpu9250.c ****   }
+ 172:user/Src/mpu9250.c **** 
+ 173:user/Src/mpu9250.c ****   return 0;
+ 174:user/Src/mpu9250.c **** }
+ 442              		.loc 1 174 1 view .LVU132
+ 443 0038 2046     		mov	r0, r4
+ 444 003a 0DB0     		add	sp, sp, #52
+ 445              	.LCFI8:
+ 446              		.cfi_remember_state
+ 447              		.cfi_def_cfa_offset 52
+ 448              		@ sp needed
+ 449 003c BDEC088B 		vldm	sp!, {d8-d11}
+ 450              	.LCFI9:
+ 451              		.cfi_restore 86
+ 452              		.cfi_restore 87
+ 453              		.cfi_restore 84
+ 454              		.cfi_restore 85
+ 455              		.cfi_restore 82
+ 456              		.cfi_restore 83
+ 457              		.cfi_restore 80
+ 458              		.cfi_restore 81
+ 459              		.cfi_def_cfa_offset 20
+ 460 0040 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 461              	.LVL65:
+ 462              	.L33:
+ 463              	.LCFI10:
+ 464              		.cfi_restore_state
+ 160:user/Src/mpu9250.c ****     q0 = quat[0] / Q30;
+ 465              		.loc 1 160 5 is_stmt 1 view .LVU133
+ 160:user/Src/mpu9250.c ****     q0 = quat[0] / Q30;
+ 466              		.loc 1 160 18 is_stmt 0 view .LVU134
+ 467 0042 DDED047A 		vldr.32	s15, [sp, #16]	@ int
+ 468 0046 B8EEE78A 		vcvt.f32.s32	s16, s15
+ 160:user/Src/mpu9250.c ****     q0 = quat[0] / Q30;
+ 469              		.loc 1 160 8 view .LVU135
+ 470 004a DFED4F7A 		vldr.32	s15, .L34+8
+ 471 004e 28EE278A 		vmul.f32	s16, s16, s15
+ 472              	.LVL66:
+ 161:user/Src/mpu9250.c ****     q2 = quat[2] / Q30;
+ 473              		.loc 1 161 5 is_stmt 1 view .LVU136
+ 161:user/Src/mpu9250.c ****     q2 = quat[2] / Q30;
+ 474              		.loc 1 161 18 is_stmt 0 view .LVU137
+ 475 0052 9DED057A 		vldr.32	s14, [sp, #20]	@ int
+ 476 0056 B8EEC79A 		vcvt.f32.s32	s18, s14
+ 161:user/Src/mpu9250.c ****     q2 = quat[2] / Q30;
+ 477              		.loc 1 161 8 view .LVU138
+ 478 005a 29EE279A 		vmul.f32	s18, s18, s15
+ 479              	.LVL67:
+ 162:user/Src/mpu9250.c ****     q3 = quat[3] / Q30;
+ 480              		.loc 1 162 5 is_stmt 1 view .LVU139
+ 162:user/Src/mpu9250.c ****     q3 = quat[3] / Q30;
+ 481              		.loc 1 162 18 is_stmt 0 view .LVU140
+ 482 005e 9DED067A 		vldr.32	s14, [sp, #24]	@ int
+ 483 0062 F8EEC78A 		vcvt.f32.s32	s17, s14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 13
 
 
- 417 0000 00B5     		push	{lr}
- 418              	.LCFI15:
- 419              		.cfi_def_cfa_offset 4
- 420              		.cfi_offset 14, -4
- 421 0002 87B0     		sub	sp, sp, #28
- 422              	.LCFI16:
- 423              		.cfi_def_cfa_offset 32
- 424 0004 8DF81720 		strb	r2, [sp, #23]
- 199:MPU9250/mpu9250.c ****     HAL_I2C_Mem_Write(&hi2c1, (addr<<1), reg, I2C_MEMADD_SIZE_8BIT, &data, 1, 0xfff);
- 425              		.loc 1 199 5 is_stmt 1 view .LVU101
- 426 0008 40F6FF73 		movw	r3, #4095
- 427 000c 0293     		str	r3, [sp, #8]
- 428 000e 0123     		movs	r3, #1
- 429 0010 0193     		str	r3, [sp, #4]
- 430 0012 0DF11702 		add	r2, sp, #23
- 431              	.LVL34:
- 432              		.loc 1 199 5 is_stmt 0 view .LVU102
- 433 0016 0092     		str	r2, [sp]
- 434 0018 0A46     		mov	r2, r1
- 435              	.LVL35:
- 436              		.loc 1 199 5 view .LVU103
- 437 001a 00FA03F1 		lsl	r1, r0, r3
- 438              	.LVL36:
- 439              		.loc 1 199 5 view .LVU104
- 440 001e 0348     		ldr	r0, .L21
- 441              	.LVL37:
- 442              		.loc 1 199 5 view .LVU105
- 443 0020 FFF7FEFF 		bl	HAL_I2C_Mem_Write
- 444              	.LVL38:
- 200:MPU9250/mpu9250.c ****     return 0;
- 445              		.loc 1 200 5 is_stmt 1 view .LVU106
- 201:MPU9250/mpu9250.c **** }
- 446              		.loc 1 201 1 is_stmt 0 view .LVU107
- 447 0024 0020     		movs	r0, #0
- 448 0026 07B0     		add	sp, sp, #28
- 449              	.LCFI17:
- 450              		.cfi_def_cfa_offset 4
- 451              		@ sp needed
- 452 0028 5DF804FB 		ldr	pc, [sp], #4
- 453              	.L22:
- 454              		.align	2
- 455              	.L21:
- 456 002c 00000000 		.word	hi2c1
- 457              		.cfi_endproc
- 458              	.LFE144:
- 460              		.section	.text.MPU_Set_Gyro_Fsr,"ax",%progbits
- 461              		.align	1
- 462              		.global	MPU_Set_Gyro_Fsr
- 463              		.syntax unified
- 464              		.thumb
- 465              		.thumb_func
- 467              	MPU_Set_Gyro_Fsr:
- 468              	.LVL39:
- 469              	.LFB134:
-  58:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_GYRO_CFG_REG,fsr<<3);//…Ë÷√Õ”¬›“«¬˙¡ø≥Ã∑∂Œß  
- 470              		.loc 1 58 1 is_stmt 1 view -0
- 471              		.cfi_startproc
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 14
+ 162:user/Src/mpu9250.c ****     q3 = quat[3] / Q30;
+ 484              		.loc 1 162 8 view .LVU141
+ 485 0066 68EEA78A 		vmul.f32	s17, s17, s15
+ 486              	.LVL68:
+ 163:user/Src/mpu9250.c **** 
+ 487              		.loc 1 163 5 is_stmt 1 view .LVU142
+ 163:user/Src/mpu9250.c **** 
+ 488              		.loc 1 163 18 is_stmt 0 view .LVU143
+ 489 006a 9DED077A 		vldr.32	s14, [sp, #28]	@ int
+ 490 006e F8EEC79A 		vcvt.f32.s32	s19, s14
+ 163:user/Src/mpu9250.c **** 
+ 491              		.loc 1 163 8 view .LVU144
+ 492 0072 69EEA79A 		vmul.f32	s19, s19, s15
+ 493              	.LVL69:
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 494              		.loc 1 165 5 is_stmt 1 view .LVU145
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 495              		.loc 1 165 22 is_stmt 0 view .LVU146
+ 496 0076 B8EE00AA 		vmov.f32	s20, #-2.0e+0
+ 497 007a 29EE0AAA 		vmul.f32	s20, s18, s20
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 498              		.loc 1 165 27 view .LVU147
+ 499 007e 2AEE297A 		vmul.f32	s14, s20, s19
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 500              		.loc 1 165 36 view .LVU148
+ 501 0082 78EE08AA 		vadd.f32	s21, s16, s16
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 502              		.loc 1 165 41 view .LVU149
+ 503 0086 6AEEA87A 		vmul.f32	s15, s21, s17
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 504              		.loc 1 165 14 view .LVU150
+ 505 008a 77EE277A 		vadd.f32	s15, s14, s15
+ 506 008e 17EE900A 		vmov	r0, s15
+ 507 0092 FFF7FEFF 		bl	__aeabi_f2d
+ 508              	.LVL70:
+ 509 0096 41EC100B 		vmov	d0, r0, r1
+ 510 009a FFF7FEFF 		bl	asin
+ 511              	.LVL71:
+ 512 009e 51EC100B 		vmov	r0, r1, d0
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 513              		.loc 1 165 47 view .LVU151
+ 514 00a2 37A3     		adr	r3, .L34
+ 515 00a4 D3E90023 		ldrd	r2, [r3]
+ 516 00a8 FFF7FEFF 		bl	__aeabi_dmul
+ 517              	.LVL72:
+ 518 00ac FFF7FEFF 		bl	__aeabi_d2f
+ 519              	.LVL73:
+ 165:user/Src/mpu9250.c ****     *roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) *
+ 520              		.loc 1 165 12 view .LVU152
+ 521 00b0 3060     		str	r0, [r6]	@ float
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 522              		.loc 1 166 5 is_stmt 1 view .LVU153
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 523              		.loc 1 166 21 is_stmt 0 view .LVU154
+ 524 00b2 78EEA87A 		vadd.f32	s15, s17, s17
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 525              		.loc 1 166 26 view .LVU155
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 14
 
 
- 472              		@ args = 0, pretend = 0, frame = 0
- 473              		@ frame_needed = 0, uses_anonymous_args = 0
-  58:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_GYRO_CFG_REG,fsr<<3);//…Ë÷√Õ”¬›“«¬˙¡ø≥Ã∑∂Œß  
- 474              		.loc 1 58 1 is_stmt 0 view .LVU109
- 475 0000 08B5     		push	{r3, lr}
- 476              	.LCFI18:
- 477              		.cfi_def_cfa_offset 8
- 478              		.cfi_offset 3, -8
- 479              		.cfi_offset 14, -4
-  59:MPU9250/mpu9250.c **** }
- 480              		.loc 1 59 2 is_stmt 1 view .LVU110
-  59:MPU9250/mpu9250.c **** }
- 481              		.loc 1 59 9 is_stmt 0 view .LVU111
- 482 0002 C200     		lsls	r2, r0, #3
- 483 0004 02F0F802 		and	r2, r2, #248
- 484 0008 1B21     		movs	r1, #27
- 485 000a 6820     		movs	r0, #104
- 486              	.LVL40:
-  59:MPU9250/mpu9250.c **** }
- 487              		.loc 1 59 9 view .LVU112
- 488 000c FFF7FEFF 		bl	MPU_Write_Byte
- 489              	.LVL41:
-  60:MPU9250/mpu9250.c **** //…Ë÷√MPU9250º”ÀŸ∂»¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß
- 490              		.loc 1 60 1 view .LVU113
- 491 0010 08BD     		pop	{r3, pc}
- 492              		.cfi_endproc
- 493              	.LFE134:
- 495              		.section	.text.MPU_Set_Accel_Fsr,"ax",%progbits
- 496              		.align	1
- 497              		.global	MPU_Set_Accel_Fsr
- 498              		.syntax unified
- 499              		.thumb
- 500              		.thumb_func
- 502              	MPU_Set_Accel_Fsr:
- 503              	.LVL42:
- 504              	.LFB135:
-  66:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_ACCEL_CFG_REG,fsr<<3);//…Ë÷√º”ÀŸ∂»¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß  
- 505              		.loc 1 66 1 is_stmt 1 view -0
- 506              		.cfi_startproc
- 507              		@ args = 0, pretend = 0, frame = 0
- 508              		@ frame_needed = 0, uses_anonymous_args = 0
-  66:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_ACCEL_CFG_REG,fsr<<3);//…Ë÷√º”ÀŸ∂»¥´∏–∆˜¬˙¡ø≥Ã∑∂Œß  
- 509              		.loc 1 66 1 is_stmt 0 view .LVU115
- 510 0000 08B5     		push	{r3, lr}
- 511              	.LCFI19:
- 512              		.cfi_def_cfa_offset 8
- 513              		.cfi_offset 3, -8
- 514              		.cfi_offset 14, -4
-  67:MPU9250/mpu9250.c **** }
- 515              		.loc 1 67 2 is_stmt 1 view .LVU116
-  67:MPU9250/mpu9250.c **** }
- 516              		.loc 1 67 9 is_stmt 0 view .LVU117
- 517 0002 C200     		lsls	r2, r0, #3
- 518 0004 02F0F802 		and	r2, r2, #248
- 519 0008 1C21     		movs	r1, #28
- 520 000a 6820     		movs	r0, #104
- 521              	.LVL43:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 15
+ 526 00b6 27EEA9BA 		vmul.f32	s22, s15, s19
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 527              		.loc 1 166 40 view .LVU156
+ 528 00ba 6AEE89AA 		vmul.f32	s21, s21, s18
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 529              		.loc 1 166 31 view .LVU157
+ 530 00be 3BEE2ABA 		vadd.f32	s22, s22, s21
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 531              		.loc 1 166 54 view .LVU158
+ 532 00c2 2AEE09AA 		vmul.f32	s20, s20, s18
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 533              		.loc 1 166 68 view .LVU159
+ 534 00c6 67EEA87A 		vmul.f32	s15, s15, s17
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 535              		.loc 1 166 59 view .LVU160
+ 536 00ca 3AEE67AA 		vsub.f32	s20, s20, s15
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 537              		.loc 1 166 13 view .LVU161
+ 538 00ce F7EE007A 		vmov.f32	s15, #1.0e+0
+ 539 00d2 7AEE277A 		vadd.f32	s15, s20, s15
+ 540 00d6 17EE900A 		vmov	r0, s15
+ 541 00da FFF7FEFF 		bl	__aeabi_f2d
+ 542              	.LVL74:
+ 543 00de 41EC1A0B 		vmov	d10, r0, r1
+ 544 00e2 1BEE100A 		vmov	r0, s22
+ 545 00e6 FFF7FEFF 		bl	__aeabi_f2d
+ 546              	.LVL75:
+ 547 00ea B0EE4A1A 		vmov.f32	s2, s20
+ 548 00ee F0EE6A1A 		vmov.f32	s3, s21
+ 549 00f2 41EC100B 		vmov	d0, r0, r1
+ 550 00f6 FFF7FEFF 		bl	atan2
+ 551              	.LVL76:
+ 552 00fa 51EC100B 		vmov	r0, r1, d0
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 553              		.loc 1 166 78 view .LVU162
+ 554 00fe 20A3     		adr	r3, .L34
+ 555 0100 D3E90023 		ldrd	r2, [r3]
+ 556 0104 FFF7FEFF 		bl	__aeabi_dmul
+ 557              	.LVL77:
+ 558 0108 FFF7FEFF 		bl	__aeabi_d2f
+ 559              	.LVL78:
+ 166:user/Src/mpu9250.c ****             57.3; // roll
+ 560              		.loc 1 166 11 view .LVU163
+ 561 010c 3860     		str	r0, [r7]	@ float
+ 168:user/Src/mpu9250.c ****         atan2(2 * (q0 * q3 + q1 * q2), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) *
+ 562              		.loc 1 168 5 is_stmt 1 view .LVU164
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 563              		.loc 1 169 23 is_stmt 0 view .LVU165
+ 564 010e 68EE297A 		vmul.f32	s15, s16, s19
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 565              		.loc 1 169 33 view .LVU166
+ 566 0112 29EE287A 		vmul.f32	s14, s18, s17
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 567              		.loc 1 169 28 view .LVU167
+ 568 0116 77EE877A 		vadd.f32	s15, s15, s14
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 569              		.loc 1 169 17 view .LVU168
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 15
 
 
-  67:MPU9250/mpu9250.c **** }
- 522              		.loc 1 67 9 view .LVU118
- 523 000c FFF7FEFF 		bl	MPU_Write_Byte
- 524              	.LVL44:
-  68:MPU9250/mpu9250.c **** 
- 525              		.loc 1 68 1 view .LVU119
- 526 0010 08BD     		pop	{r3, pc}
- 527              		.cfi_endproc
- 528              	.LFE135:
- 530              		.section	.text.MPU_Set_LPF,"ax",%progbits
- 531              		.align	1
- 532              		.global	MPU_Set_LPF
- 533              		.syntax unified
- 534              		.thumb
- 535              		.thumb_func
- 537              	MPU_Set_LPF:
- 538              	.LVL45:
- 539              	.LFB136:
-  75:MPU9250/mpu9250.c **** 	u8 data=0;
- 540              		.loc 1 75 1 is_stmt 1 view -0
- 541              		.cfi_startproc
- 542              		@ args = 0, pretend = 0, frame = 0
- 543              		@ frame_needed = 0, uses_anonymous_args = 0
-  75:MPU9250/mpu9250.c **** 	u8 data=0;
- 544              		.loc 1 75 1 is_stmt 0 view .LVU121
- 545 0000 08B5     		push	{r3, lr}
- 546              	.LCFI20:
- 547              		.cfi_def_cfa_offset 8
- 548              		.cfi_offset 3, -8
- 549              		.cfi_offset 14, -4
-  76:MPU9250/mpu9250.c **** 	if(lpf>=188)data=1;
- 550              		.loc 1 76 2 is_stmt 1 view .LVU122
- 551              	.LVL46:
-  77:MPU9250/mpu9250.c **** 	else if(lpf>=98)data=2;
- 552              		.loc 1 77 2 view .LVU123
-  77:MPU9250/mpu9250.c **** 	else if(lpf>=98)data=2;
- 553              		.loc 1 77 4 is_stmt 0 view .LVU124
- 554 0002 BB28     		cmp	r0, #187
- 555 0004 09D8     		bhi	.L29
-  78:MPU9250/mpu9250.c **** 	else if(lpf>=42)data=3;
- 556              		.loc 1 78 7 is_stmt 1 view .LVU125
-  78:MPU9250/mpu9250.c **** 	else if(lpf>=42)data=3;
- 557              		.loc 1 78 9 is_stmt 0 view .LVU126
- 558 0006 6128     		cmp	r0, #97
- 559 0008 0DD8     		bhi	.L30
-  79:MPU9250/mpu9250.c **** 	else if(lpf>=20)data=4;
- 560              		.loc 1 79 7 is_stmt 1 view .LVU127
-  79:MPU9250/mpu9250.c **** 	else if(lpf>=20)data=4;
- 561              		.loc 1 79 9 is_stmt 0 view .LVU128
- 562 000a 2928     		cmp	r0, #41
- 563 000c 0DD8     		bhi	.L31
-  80:MPU9250/mpu9250.c **** 	else if(lpf>=10)data=5;
- 564              		.loc 1 80 7 is_stmt 1 view .LVU129
-  80:MPU9250/mpu9250.c **** 	else if(lpf>=10)data=5;
- 565              		.loc 1 80 9 is_stmt 0 view .LVU130
- 566 000e 1328     		cmp	r0, #19
- 567 0010 0DD8     		bhi	.L32
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 16
+ 570 011a 37EEA7AA 		vadd.f32	s20, s15, s15
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 571              		.loc 1 169 43 view .LVU169
+ 572 011e 28EE088A 		vmul.f32	s16, s16, s16
+ 573              	.LVL79:
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 574              		.loc 1 169 53 view .LVU170
+ 575 0122 29EE099A 		vmul.f32	s18, s18, s18
+ 576              	.LVL80:
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 577              		.loc 1 169 48 view .LVU171
+ 578 0126 38EE098A 		vadd.f32	s16, s16, s18
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 579              		.loc 1 169 63 view .LVU172
+ 580 012a 68EEA88A 		vmul.f32	s17, s17, s17
+ 581              	.LVL81:
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 582              		.loc 1 169 58 view .LVU173
+ 583 012e 38EE688A 		vsub.f32	s16, s16, s17
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 584              		.loc 1 169 73 view .LVU174
+ 585 0132 69EEA99A 		vmul.f32	s19, s19, s19
+ 586              	.LVL82:
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 587              		.loc 1 169 9 view .LVU175
+ 588 0136 78EE697A 		vsub.f32	s15, s16, s19
+ 589 013a 17EE900A 		vmov	r0, s15
+ 590 013e FFF7FEFF 		bl	__aeabi_f2d
+ 591              	.LVL83:
+ 592 0142 41EC180B 		vmov	d8, r0, r1
+ 593 0146 1AEE100A 		vmov	r0, s20
+ 594 014a FFF7FEFF 		bl	__aeabi_f2d
+ 595              	.LVL84:
+ 596 014e B0EE481A 		vmov.f32	s2, s16
+ 597 0152 F0EE681A 		vmov.f32	s3, s17
+ 598 0156 41EC100B 		vmov	d0, r0, r1
+ 599 015a FFF7FEFF 		bl	atan2
+ 600              	.LVL85:
+ 601 015e 51EC100B 		vmov	r0, r1, d0
+ 169:user/Src/mpu9250.c ****         57.3; // yaw
+ 602              		.loc 1 169 79 view .LVU176
+ 603 0162 07A3     		adr	r3, .L34
+ 604 0164 D3E90023 		ldrd	r2, [r3]
+ 605 0168 FFF7FEFF 		bl	__aeabi_dmul
+ 606              	.LVL86:
+ 607 016c FFF7FEFF 		bl	__aeabi_d2f
+ 608              	.LVL87:
+ 168:user/Src/mpu9250.c ****         atan2(2 * (q0 * q3 + q1 * q2), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) *
+ 609              		.loc 1 168 10 view .LVU177
+ 610 0170 2860     		str	r0, [r5]	@ float
+ 611 0172 61E7     		b	.L29
+ 612              	.LVL88:
+ 613              	.L31:
+ 156:user/Src/mpu9250.c ****   }
+ 614              		.loc 1 156 12 view .LVU178
+ 615 0174 4FF0FF34 		mov	r4, #-1
+ 616 0178 5EE7     		b	.L29
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 16
 
 
-  81:MPU9250/mpu9250.c **** 	else data=6; 
- 568              		.loc 1 81 7 is_stmt 1 view .LVU131
-  81:MPU9250/mpu9250.c **** 	else data=6; 
- 569              		.loc 1 81 9 is_stmt 0 view .LVU132
- 570 0012 0928     		cmp	r0, #9
- 571 0014 0DD9     		bls	.L33
-  81:MPU9250/mpu9250.c **** 	else data=6; 
- 572              		.loc 1 81 22 view .LVU133
- 573 0016 0522     		movs	r2, #5
- 574 0018 00E0     		b	.L28
- 575              	.L29:
-  77:MPU9250/mpu9250.c **** 	else if(lpf>=98)data=2;
- 576              		.loc 1 77 18 view .LVU134
- 577 001a 0122     		movs	r2, #1
- 578              	.L28:
- 579              	.LVL47:
-  83:MPU9250/mpu9250.c **** }
- 580              		.loc 1 83 2 is_stmt 1 view .LVU135
-  83:MPU9250/mpu9250.c **** }
- 581              		.loc 1 83 9 is_stmt 0 view .LVU136
- 582 001c 1A21     		movs	r1, #26
- 583 001e 6820     		movs	r0, #104
- 584              	.LVL48:
-  83:MPU9250/mpu9250.c **** }
- 585              		.loc 1 83 9 view .LVU137
- 586 0020 FFF7FEFF 		bl	MPU_Write_Byte
- 587              	.LVL49:
-  84:MPU9250/mpu9250.c **** 
- 588              		.loc 1 84 1 view .LVU138
- 589 0024 08BD     		pop	{r3, pc}
- 590              	.LVL50:
- 591              	.L30:
-  78:MPU9250/mpu9250.c **** 	else if(lpf>=42)data=3;
- 592              		.loc 1 78 22 view .LVU139
- 593 0026 0222     		movs	r2, #2
- 594 0028 F8E7     		b	.L28
- 595              	.L31:
-  79:MPU9250/mpu9250.c **** 	else if(lpf>=20)data=4;
- 596              		.loc 1 79 22 view .LVU140
- 597 002a 0322     		movs	r2, #3
- 598 002c F6E7     		b	.L28
- 599              	.L32:
-  80:MPU9250/mpu9250.c **** 	else if(lpf>=10)data=5;
- 600              		.loc 1 80 22 view .LVU141
- 601 002e 0422     		movs	r2, #4
- 602 0030 F4E7     		b	.L28
- 603              	.L33:
-  82:MPU9250/mpu9250.c **** 	return MPU_Write_Byte(MPU9250_ADDR,MPU_CFG_REG,data);//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜  
- 604              		.loc 1 82 11 view .LVU142
- 605 0032 0622     		movs	r2, #6
- 606 0034 F2E7     		b	.L28
- 607              		.cfi_endproc
- 608              	.LFE136:
- 610              		.section	.text.MPU_Set_Rate,"ax",%progbits
- 611              		.align	1
- 612              		.global	MPU_Set_Rate
- 613              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 17
-
-
- 614              		.thumb
- 615              		.thumb_func
- 617              	MPU_Set_Rate:
- 618              	.LVL51:
- 619              	.LFB137:
-  91:MPU9250/mpu9250.c **** 	u8 data;
- 620              		.loc 1 91 1 is_stmt 1 view -0
- 621              		.cfi_startproc
- 622              		@ args = 0, pretend = 0, frame = 0
- 623              		@ frame_needed = 0, uses_anonymous_args = 0
-  91:MPU9250/mpu9250.c **** 	u8 data;
- 624              		.loc 1 91 1 is_stmt 0 view .LVU144
- 625 0000 10B5     		push	{r4, lr}
- 626              	.LCFI21:
- 627              		.cfi_def_cfa_offset 8
- 628              		.cfi_offset 4, -8
- 629              		.cfi_offset 14, -4
-  92:MPU9250/mpu9250.c **** 	if(rate>1000)rate=1000;
- 630              		.loc 1 92 2 is_stmt 1 view .LVU145
-  93:MPU9250/mpu9250.c **** 	if(rate<4)rate=4;
- 631              		.loc 1 93 2 view .LVU146
-  93:MPU9250/mpu9250.c **** 	if(rate<4)rate=4;
- 632              		.loc 1 93 4 is_stmt 0 view .LVU147
- 633 0002 B0F57A7F 		cmp	r0, #1000
- 634 0006 04D8     		bhi	.L37
- 635 0008 0446     		mov	r4, r0
-  94:MPU9250/mpu9250.c **** 	data=1000/rate-1;
- 636              		.loc 1 94 2 is_stmt 1 view .LVU148
-  94:MPU9250/mpu9250.c **** 	data=1000/rate-1;
- 637              		.loc 1 94 4 is_stmt 0 view .LVU149
- 638 000a 0328     		cmp	r0, #3
- 639 000c 03D8     		bhi	.L36
-  94:MPU9250/mpu9250.c **** 	data=1000/rate-1;
- 640              		.loc 1 94 16 view .LVU150
- 641 000e 0424     		movs	r4, #4
- 642 0010 01E0     		b	.L36
- 643              	.L37:
-  93:MPU9250/mpu9250.c **** 	if(rate<4)rate=4;
- 644              		.loc 1 93 19 view .LVU151
- 645 0012 4FF47A74 		mov	r4, #1000
- 646              	.L36:
- 647              	.LVL52:
-  95:MPU9250/mpu9250.c **** 	data=MPU_Write_Byte(MPU9250_ADDR,MPU_SAMPLE_RATE_REG,data);	//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜
- 648              		.loc 1 95 2 is_stmt 1 view .LVU152
-  95:MPU9250/mpu9250.c **** 	data=MPU_Write_Byte(MPU9250_ADDR,MPU_SAMPLE_RATE_REG,data);	//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜
- 649              		.loc 1 95 11 is_stmt 0 view .LVU153
- 650 0016 4FF47A72 		mov	r2, #1000
- 651 001a 92FBF4F2 		sdiv	r2, r2, r4
-  95:MPU9250/mpu9250.c **** 	data=MPU_Write_Byte(MPU9250_ADDR,MPU_SAMPLE_RATE_REG,data);	//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜
- 652              		.loc 1 95 16 view .LVU154
- 653 001e D2B2     		uxtb	r2, r2
-  95:MPU9250/mpu9250.c **** 	data=MPU_Write_Byte(MPU9250_ADDR,MPU_SAMPLE_RATE_REG,data);	//…Ë÷√ ˝◊÷µÕÕ®¬À≤®∆˜
- 654              		.loc 1 95 6 view .LVU155
- 655 0020 013A     		subs	r2, r2, #1
- 656              	.LVL53:
-  96:MPU9250/mpu9250.c ****  	return MPU_Set_LPF(rate/2);	//◊‘∂Ø…Ë÷√LPFŒ™≤…—˘¬ µƒ“ª∞Î
- 657              		.loc 1 96 2 is_stmt 1 view .LVU156
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 18
-
-
-  96:MPU9250/mpu9250.c ****  	return MPU_Set_LPF(rate/2);	//◊‘∂Ø…Ë÷√LPFŒ™≤…—˘¬ µƒ“ª∞Î
- 658              		.loc 1 96 7 is_stmt 0 view .LVU157
- 659 0022 D2B2     		uxtb	r2, r2
-  96:MPU9250/mpu9250.c ****  	return MPU_Set_LPF(rate/2);	//◊‘∂Ø…Ë÷√LPFŒ™≤…—˘¬ µƒ“ª∞Î
- 660              		.loc 1 96 7 view .LVU158
- 661 0024 1921     		movs	r1, #25
- 662 0026 6820     		movs	r0, #104
- 663 0028 FFF7FEFF 		bl	MPU_Write_Byte
- 664              	.LVL54:
-  97:MPU9250/mpu9250.c **** }
- 665              		.loc 1 97 3 is_stmt 1 view .LVU159
-  97:MPU9250/mpu9250.c **** }
- 666              		.loc 1 97 10 is_stmt 0 view .LVU160
- 667 002c 6008     		lsrs	r0, r4, #1
- 668 002e FFF7FEFF 		bl	MPU_Set_LPF
- 669              	.LVL55:
-  98:MPU9250/mpu9250.c **** 
- 670              		.loc 1 98 1 view .LVU161
- 671 0032 10BD     		pop	{r4, pc}
-  98:MPU9250/mpu9250.c **** 
- 672              		.loc 1 98 1 view .LVU162
- 673              		.cfi_endproc
- 674              	.LFE137:
- 676              		.section	.text.MPU_Get_Magnetometer,"ax",%progbits
- 677              		.align	1
- 678              		.global	MPU_Get_Magnetometer
- 679              		.syntax unified
- 680              		.thumb
- 681              		.thumb_func
- 683              	MPU_Get_Magnetometer:
- 684              	.LVL56:
- 685              	.LFB141:
- 150:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 686              		.loc 1 150 1 is_stmt 1 view -0
- 687              		.cfi_startproc
- 688              		@ args = 0, pretend = 0, frame = 8
- 689              		@ frame_needed = 0, uses_anonymous_args = 0
- 150:MPU9250/mpu9250.c ****     u8 buf[6],res;  
- 690              		.loc 1 150 1 is_stmt 0 view .LVU164
- 691 0000 F0B5     		push	{r4, r5, r6, r7, lr}
- 692              	.LCFI22:
- 693              		.cfi_def_cfa_offset 20
- 694              		.cfi_offset 4, -20
- 695              		.cfi_offset 5, -16
- 696              		.cfi_offset 6, -12
- 697              		.cfi_offset 7, -8
- 698              		.cfi_offset 14, -4
- 699 0002 83B0     		sub	sp, sp, #12
- 700              	.LCFI23:
- 701              		.cfi_def_cfa_offset 32
- 702 0004 0646     		mov	r6, r0
- 703 0006 0D46     		mov	r5, r1
- 704 0008 1446     		mov	r4, r2
- 151:MPU9250/mpu9250.c **** 	res=MPU_Read_Len(AK8963_ADDR,MAG_XOUT_L,6,buf);
- 705              		.loc 1 151 5 is_stmt 1 view .LVU165
- 152:MPU9250/mpu9250.c **** 	if(res==0)
- 706              		.loc 1 152 2 view .LVU166
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 19
-
-
- 152:MPU9250/mpu9250.c **** 	if(res==0)
- 707              		.loc 1 152 6 is_stmt 0 view .LVU167
- 708 000a 6B46     		mov	r3, sp
- 709 000c 0622     		movs	r2, #6
- 710              	.LVL57:
- 152:MPU9250/mpu9250.c **** 	if(res==0)
- 711              		.loc 1 152 6 view .LVU168
- 712 000e 0321     		movs	r1, #3
- 713              	.LVL58:
- 152:MPU9250/mpu9250.c **** 	if(res==0)
- 714              		.loc 1 152 6 view .LVU169
- 715 0010 0C20     		movs	r0, #12
- 716              	.LVL59:
- 152:MPU9250/mpu9250.c **** 	if(res==0)
- 717              		.loc 1 152 6 view .LVU170
- 718 0012 FFF7FEFF 		bl	MPU_Read_Len
- 719              	.LVL60:
- 153:MPU9250/mpu9250.c **** 	{
- 720              		.loc 1 153 2 is_stmt 1 view .LVU171
- 153:MPU9250/mpu9250.c **** 	{
- 721              		.loc 1 153 4 is_stmt 0 view .LVU172
- 722 0016 0746     		mov	r7, r0
- 723 0018 A0B9     		cbnz	r0, .L41
- 155:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 724              		.loc 1 155 3 is_stmt 1 view .LVU173
- 155:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 725              		.loc 1 155 16 is_stmt 0 view .LVU174
- 726 001a 9DF80120 		ldrb	r2, [sp, #1]	@ zero_extendqisi2
- 155:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 727              		.loc 1 155 27 view .LVU175
- 728 001e 9DF80030 		ldrb	r3, [sp]	@ zero_extendqisi2
- 155:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 729              		.loc 1 155 23 view .LVU176
- 730 0022 43EA0223 		orr	r3, r3, r2, lsl #8
- 155:MPU9250/mpu9250.c **** 		*my=((u16)buf[3]<<8)|buf[2];  
- 731              		.loc 1 155 6 view .LVU177
- 732 0026 3380     		strh	r3, [r6]	@ movhi
- 156:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 733              		.loc 1 156 3 is_stmt 1 view .LVU178
- 156:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 734              		.loc 1 156 16 is_stmt 0 view .LVU179
- 735 0028 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
- 156:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 736              		.loc 1 156 27 view .LVU180
- 737 002c 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
- 156:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 738              		.loc 1 156 23 view .LVU181
- 739 0030 43EA0223 		orr	r3, r3, r2, lsl #8
- 156:MPU9250/mpu9250.c **** 		*mz=((u16)buf[5]<<8)|buf[4];
- 740              		.loc 1 156 6 view .LVU182
- 741 0034 2B80     		strh	r3, [r5]	@ movhi
- 157:MPU9250/mpu9250.c **** 	} 	
- 742              		.loc 1 157 3 is_stmt 1 view .LVU183
- 157:MPU9250/mpu9250.c **** 	} 	
- 743              		.loc 1 157 16 is_stmt 0 view .LVU184
- 744 0036 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
- 157:MPU9250/mpu9250.c **** 	} 	
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 20
-
-
- 745              		.loc 1 157 27 view .LVU185
- 746 003a 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
- 157:MPU9250/mpu9250.c **** 	} 	
- 747              		.loc 1 157 23 view .LVU186
- 748 003e 43EA0223 		orr	r3, r3, r2, lsl #8
- 157:MPU9250/mpu9250.c **** 	} 	
- 749              		.loc 1 157 6 view .LVU187
- 750 0042 2380     		strh	r3, [r4]	@ movhi
- 751              	.L41:
- 159:MPU9250/mpu9250.c ****     return res;;
- 752              		.loc 1 159 5 is_stmt 1 view .LVU188
- 753 0044 1122     		movs	r2, #17
- 754 0046 0A21     		movs	r1, #10
- 755 0048 0C20     		movs	r0, #12
- 756              	.LVL61:
- 159:MPU9250/mpu9250.c ****     return res;;
- 757              		.loc 1 159 5 is_stmt 0 view .LVU189
- 758 004a FFF7FEFF 		bl	MPU_Write_Byte
- 759              	.LVL62:
- 160:MPU9250/mpu9250.c **** }
- 760              		.loc 1 160 5 is_stmt 1 view .LVU190
- 160:MPU9250/mpu9250.c **** }
- 761              		.loc 1 160 16 view .LVU191
- 161:MPU9250/mpu9250.c **** 
- 762              		.loc 1 161 1 is_stmt 0 view .LVU192
- 763 004e 3846     		mov	r0, r7
- 764 0050 03B0     		add	sp, sp, #12
- 765              	.LCFI24:
- 766              		.cfi_def_cfa_offset 20
- 767              		@ sp needed
- 768 0052 F0BD     		pop	{r4, r5, r6, r7, pc}
- 161:MPU9250/mpu9250.c **** 
- 769              		.loc 1 161 1 view .LVU193
- 770              		.cfi_endproc
- 771              	.LFE141:
- 773              		.section	.text.MPU_Read_Byte,"ax",%progbits
- 774              		.align	1
- 775              		.global	MPU_Read_Byte
- 776              		.syntax unified
- 777              		.thumb
- 778              		.thumb_func
- 780              	MPU_Read_Byte:
- 781              	.LVL63:
- 782              	.LFB145:
- 202:MPU9250/mpu9250.c **** 
- 203:MPU9250/mpu9250.c **** //IIC∂¡“ª∏ˆ◊÷Ω⁄ 
- 204:MPU9250/mpu9250.c **** //reg:ºƒ¥Ê∆˜µÿ÷∑ 
- 205:MPU9250/mpu9250.c **** //∑µªÿ÷µ:∂¡µΩµƒ ˝æ›
- 206:MPU9250/mpu9250.c **** u8 MPU_Read_Byte(u8 addr,u8 reg)
- 207:MPU9250/mpu9250.c **** {
- 783              		.loc 1 207 1 is_stmt 1 view -0
- 784              		.cfi_startproc
- 785              		@ args = 0, pretend = 0, frame = 8
- 786              		@ frame_needed = 0, uses_anonymous_args = 0
- 787              		.loc 1 207 1 is_stmt 0 view .LVU195
- 788 0000 00B5     		push	{lr}
- 789              	.LCFI25:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 21
-
-
- 790              		.cfi_def_cfa_offset 4
- 791              		.cfi_offset 14, -4
- 792 0002 87B0     		sub	sp, sp, #28
- 793              	.LCFI26:
- 794              		.cfi_def_cfa_offset 32
- 795 0004 0A46     		mov	r2, r1
- 208:MPU9250/mpu9250.c ****     u8 res;
- 796              		.loc 1 208 5 is_stmt 1 view .LVU196
- 209:MPU9250/mpu9250.c ****     HAL_I2C_Mem_Read(&hi2c1, (addr<<1), reg, I2C_MEMADD_SIZE_8BIT, &res, 1, 0xfff);
- 797              		.loc 1 209 5 view .LVU197
- 798 0006 40F6FF73 		movw	r3, #4095
- 799 000a 0293     		str	r3, [sp, #8]
- 800 000c 0123     		movs	r3, #1
- 801 000e 0193     		str	r3, [sp, #4]
- 802 0010 0DF11701 		add	r1, sp, #23
- 803              	.LVL64:
- 804              		.loc 1 209 5 is_stmt 0 view .LVU198
- 805 0014 0091     		str	r1, [sp]
- 806 0016 00FA03F1 		lsl	r1, r0, r3
- 807 001a 0448     		ldr	r0, .L45
- 808              	.LVL65:
- 809              		.loc 1 209 5 view .LVU199
- 810 001c FFF7FEFF 		bl	HAL_I2C_Mem_Read
- 811              	.LVL66:
- 210:MPU9250/mpu9250.c ****     return res;  
- 812              		.loc 1 210 5 is_stmt 1 view .LVU200
- 211:MPU9250/mpu9250.c **** }
- 813              		.loc 1 211 1 is_stmt 0 view .LVU201
- 814 0020 9DF81700 		ldrb	r0, [sp, #23]	@ zero_extendqisi2
- 815 0024 07B0     		add	sp, sp, #28
- 816              	.LCFI27:
- 817              		.cfi_def_cfa_offset 4
- 818              		@ sp needed
- 819 0026 5DF804FB 		ldr	pc, [sp], #4
- 820              	.L46:
- 821 002a 00BF     		.align	2
- 822              	.L45:
- 823 002c 00000000 		.word	hi2c1
- 824              		.cfi_endproc
- 825              	.LFE145:
- 827              		.section	.text.MPU9250_Init,"ax",%progbits
- 828              		.align	1
- 829              		.global	MPU9250_Init
- 830              		.syntax unified
- 831              		.thumb
- 832              		.thumb_func
- 834              	MPU9250_Init:
- 835              	.LFB133:
-  24:MPU9250/mpu9250.c ****     u8 res=0;
- 836              		.loc 1 24 1 is_stmt 1 view -0
- 837              		.cfi_startproc
- 838              		@ args = 0, pretend = 0, frame = 0
- 839              		@ frame_needed = 0, uses_anonymous_args = 0
- 840 0000 08B5     		push	{r3, lr}
- 841              	.LCFI28:
- 842              		.cfi_def_cfa_offset 8
- 843              		.cfi_offset 3, -8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 22
-
-
- 844              		.cfi_offset 14, -4
-  25:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT1_REG,0X80);//∏¥ŒªMPU9250
- 845              		.loc 1 25 5 view .LVU203
- 846              	.LVL67:
-  26:MPU9250/mpu9250.c ****     HAL_Delay(100);  //—” ±100ms
- 847              		.loc 1 26 5 view .LVU204
- 848 0002 8022     		movs	r2, #128
- 849 0004 6B21     		movs	r1, #107
- 850 0006 6820     		movs	r0, #104
- 851 0008 FFF7FEFF 		bl	MPU_Write_Byte
- 852              	.LVL68:
-  27:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT1_REG,0X00);//ªΩ–—MPU9250
- 853              		.loc 1 27 5 view .LVU205
- 854 000c 6420     		movs	r0, #100
- 855 000e FFF7FEFF 		bl	HAL_Delay
- 856              	.LVL69:
-  28:MPU9250/mpu9250.c ****     MPU_Set_Gyro_Fsr(3);					        	//Õ”¬›“«¥´∏–∆˜,°¿2000dps
- 857              		.loc 1 28 5 view .LVU206
- 858 0012 0022     		movs	r2, #0
- 859 0014 6B21     		movs	r1, #107
- 860 0016 6820     		movs	r0, #104
- 861 0018 FFF7FEFF 		bl	MPU_Write_Byte
- 862              	.LVL70:
-  29:MPU9250/mpu9250.c **** 	  MPU_Set_Accel_Fsr(0);					       	 	//º”ÀŸ∂»¥´∏–∆˜,°¿2g
- 863              		.loc 1 29 5 view .LVU207
- 864 001c 0320     		movs	r0, #3
- 865 001e FFF7FEFF 		bl	MPU_Set_Gyro_Fsr
- 866              	.LVL71:
-  30:MPU9250/mpu9250.c ****     MPU_Set_Rate(50);						       	 	//…Ë÷√≤…—˘¬ 50Hz
- 867              		.loc 1 30 4 view .LVU208
- 868 0022 0020     		movs	r0, #0
- 869 0024 FFF7FEFF 		bl	MPU_Set_Accel_Fsr
- 870              	.LVL72:
-  31:MPU9250/mpu9250.c ****     MPU_Write_Byte(MPU9250_ADDR,MPU_INT_EN_REG,0X00);   //πÿ±’À˘”–÷–∂œ
- 871              		.loc 1 31 5 view .LVU209
- 872 0028 3220     		movs	r0, #50
- 873 002a FFF7FEFF 		bl	MPU_Set_Rate
- 874              	.LVL73:
-  32:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_USER_CTRL_REG,0X00);//I2C÷˜ƒ£ Ωπÿ±’
- 875              		.loc 1 32 5 view .LVU210
- 876 002e 0022     		movs	r2, #0
- 877 0030 3821     		movs	r1, #56
- 878 0032 6820     		movs	r0, #104
- 879 0034 FFF7FEFF 		bl	MPU_Write_Byte
- 880              	.LVL74:
-  33:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_FIFO_EN_REG,0X00);	//πÿ±’FIFO
- 881              		.loc 1 33 4 view .LVU211
- 882 0038 0022     		movs	r2, #0
- 883 003a 6A21     		movs	r1, #106
- 884 003c 6820     		movs	r0, #104
- 885 003e FFF7FEFF 		bl	MPU_Write_Byte
- 886              	.LVL75:
-  34:MPU9250/mpu9250.c **** 	  MPU_Write_Byte(MPU9250_ADDR,MPU_INTBP_CFG_REG,0X82);//INT“˝Ω≈µÕµÁ∆Ω”––ß£¨ø™∆Ùbypassƒ£ Ω£¨ø…“‘÷±Ω
- 887              		.loc 1 34 4 view .LVU212
- 888 0042 0022     		movs	r2, #0
- 889 0044 2321     		movs	r1, #35
- 890 0046 6820     		movs	r0, #104
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 23
-
-
- 891 0048 FFF7FEFF 		bl	MPU_Write_Byte
- 892              	.LVL76:
-  35:MPU9250/mpu9250.c ****     res=MPU_Read_Byte(MPU9250_ADDR,MPU_DEVICE_ID_REG);  //∂¡»°MPU6500µƒID
- 893              		.loc 1 35 4 view .LVU213
- 894 004c 8222     		movs	r2, #130
- 895 004e 3721     		movs	r1, #55
- 896 0050 6820     		movs	r0, #104
- 897 0052 FFF7FEFF 		bl	MPU_Write_Byte
- 898              	.LVL77:
-  36:MPU9250/mpu9250.c ****     if(res==MPU6500_ID) //∆˜º˛ID’˝»∑
- 899              		.loc 1 36 5 view .LVU214
-  36:MPU9250/mpu9250.c ****     if(res==MPU6500_ID) //∆˜º˛ID’˝»∑
- 900              		.loc 1 36 9 is_stmt 0 view .LVU215
- 901 0056 7521     		movs	r1, #117
- 902 0058 6820     		movs	r0, #104
- 903 005a FFF7FEFF 		bl	MPU_Read_Byte
- 904              	.LVL78:
-  37:MPU9250/mpu9250.c ****     {
- 905              		.loc 1 37 5 is_stmt 1 view .LVU216
-  37:MPU9250/mpu9250.c ****     {
- 906              		.loc 1 37 7 is_stmt 0 view .LVU217
- 907 005e 7128     		cmp	r0, #113
- 908 0060 01D0     		beq	.L52
-  42:MPU9250/mpu9250.c ****  
- 909              		.loc 1 42 18 view .LVU218
- 910 0062 0120     		movs	r0, #1
- 911              	.LVL79:
- 912              	.L48:
-  51:MPU9250/mpu9250.c **** 
- 913              		.loc 1 51 1 view .LVU219
- 914 0064 08BD     		pop	{r3, pc}
- 915              	.LVL80:
- 916              	.L52:
-  39:MPU9250/mpu9250.c ****         MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT2_REG,0X00);  	//º”ÀŸ∂»”ÎÕ”¬›“«∂ºπ§◊˜
- 917              		.loc 1 39 9 is_stmt 1 view .LVU220
- 918 0066 0122     		movs	r2, #1
- 919 0068 6B21     		movs	r1, #107
- 920 006a 6820     		movs	r0, #104
- 921              	.LVL81:
-  39:MPU9250/mpu9250.c ****         MPU_Write_Byte(MPU9250_ADDR,MPU_PWR_MGMT2_REG,0X00);  	//º”ÀŸ∂»”ÎÕ”¬›“«∂ºπ§◊˜
- 922              		.loc 1 39 9 is_stmt 0 view .LVU221
- 923 006c FFF7FEFF 		bl	MPU_Write_Byte
- 924              	.LVL82:
-  40:MPU9250/mpu9250.c **** 		    MPU_Set_Rate(50);						       	//…Ë÷√≤…—˘¬ Œ™50Hz   
- 925              		.loc 1 40 9 is_stmt 1 view .LVU222
- 926 0070 0022     		movs	r2, #0
- 927 0072 6C21     		movs	r1, #108
- 928 0074 6820     		movs	r0, #104
- 929 0076 FFF7FEFF 		bl	MPU_Write_Byte
- 930              	.LVL83:
-  41:MPU9250/mpu9250.c ****     }else return 1;
- 931              		.loc 1 41 7 view .LVU223
- 932 007a 3220     		movs	r0, #50
- 933 007c FFF7FEFF 		bl	MPU_Set_Rate
- 934              	.LVL84:
-  44:MPU9250/mpu9250.c ****     if(res==AK8963_ID)
- 935              		.loc 1 44 5 view .LVU224
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 24
-
-
-  44:MPU9250/mpu9250.c ****     if(res==AK8963_ID)
- 936              		.loc 1 44 9 is_stmt 0 view .LVU225
- 937 0080 0021     		movs	r1, #0
- 938 0082 0C20     		movs	r0, #12
- 939 0084 FFF7FEFF 		bl	MPU_Read_Byte
- 940              	.LVL85:
-  45:MPU9250/mpu9250.c ****     {
- 941              		.loc 1 45 5 is_stmt 1 view .LVU226
-  45:MPU9250/mpu9250.c ****     {
- 942              		.loc 1 45 7 is_stmt 0 view .LVU227
- 943 0088 4828     		cmp	r0, #72
- 944 008a 01D0     		beq	.L53
-  48:MPU9250/mpu9250.c **** 
- 945              		.loc 1 48 18 view .LVU228
- 946 008c 0120     		movs	r0, #1
- 947              	.LVL86:
-  48:MPU9250/mpu9250.c **** 
- 948              		.loc 1 48 18 view .LVU229
- 949 008e E9E7     		b	.L48
- 950              	.LVL87:
- 951              	.L53:
-  47:MPU9250/mpu9250.c ****     }else return 1;
- 952              		.loc 1 47 9 is_stmt 1 view .LVU230
- 953 0090 1122     		movs	r2, #17
- 954 0092 0A21     		movs	r1, #10
- 955 0094 0C20     		movs	r0, #12
- 956              	.LVL88:
-  47:MPU9250/mpu9250.c ****     }else return 1;
- 957              		.loc 1 47 9 is_stmt 0 view .LVU231
- 958 0096 FFF7FEFF 		bl	MPU_Write_Byte
- 959              	.LVL89:
-  50:MPU9250/mpu9250.c **** }
- 960              		.loc 1 50 5 is_stmt 1 view .LVU232
-  50:MPU9250/mpu9250.c **** }
- 961              		.loc 1 50 12 is_stmt 0 view .LVU233
- 962 009a 0020     		movs	r0, #0
- 963 009c E2E7     		b	.L48
- 964              		.cfi_endproc
- 965              	.LFE133:
- 967              		.section	.rodata.mpu9250_Start.str1.4,"aMS",%progbits,1
- 968              		.align	2
- 969              	.LC0:
- 970 0000 6D70755F 		.ascii	"mpu_init_err:%d\015\012\000"
- 970      696E6974 
- 970      5F657272 
- 970      3A25640D 
- 970      0A00
- 971 0012 0000     		.align	2
- 972              	.LC1:
- 973 0014 6D707539 		.ascii	"mpu9250 Start !\015\000"
- 973      32353020 
- 973      53746172 
- 973      7420210D 
- 973      00
- 974              		.global	__aeabi_f2d
- 975 0025 000000   		.align	2
- 976              	.LC2:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 25
-
-
- 977 0028 5B253035 		.ascii	"[%05d]roll = %f   pitch = %f   yaw = %f (T = %d)\015"
- 977      645D726F 
- 977      6C6C203D 
- 977      20256620 
- 977      20207069 
- 978 0059 0A00     		.ascii	"\012\000"
- 979              		.section	.text.mpu9250_Start,"ax",%progbits
- 980              		.align	1
- 981              		.global	mpu9250_Start
- 982              		.syntax unified
- 983              		.thumb
- 984              		.thumb_func
- 986              	mpu9250_Start:
- 987              	.LFB146:
- 212:MPU9250/mpu9250.c **** 
- 213:MPU9250/mpu9250.c **** void mpu9250_Start(void)
- 214:MPU9250/mpu9250.c **** {
- 988              		.loc 1 214 1 is_stmt 1 view -0
- 989              		.cfi_startproc
- 990              		@ args = 0, pretend = 0, frame = 24
- 991              		@ frame_needed = 0, uses_anonymous_args = 0
- 992 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
- 993              	.LCFI29:
- 994              		.cfi_def_cfa_offset 24
- 995              		.cfi_offset 4, -24
- 996              		.cfi_offset 5, -20
- 997              		.cfi_offset 6, -16
- 998              		.cfi_offset 7, -12
- 999              		.cfi_offset 8, -8
- 1000              		.cfi_offset 14, -4
- 1001 0004 8CB0     		sub	sp, sp, #48
- 1002              	.LCFI30:
- 1003              		.cfi_def_cfa_offset 72
- 215:MPU9250/mpu9250.c **** 	
- 216:MPU9250/mpu9250.c **** 	float pitch,roll,yaw; 	        //≈∑¿≠Ω«
- 1004              		.loc 1 216 2 view .LVU235
- 217:MPU9250/mpu9250.c **** 	short aacx,aacy,aacz;	        //º”ÀŸ∂»¥´∏–∆˜‘≠ º ˝æ›
- 1005              		.loc 1 217 2 view .LVU236
- 218:MPU9250/mpu9250.c **** 	short gyrox,gyroy,gyroz;        //Õ”¬›“«‘≠ º ˝æ› 
- 1006              		.loc 1 218 2 view .LVU237
- 219:MPU9250/mpu9250.c ****     short temp;                     //Œ¬∂»
- 1007              		.loc 1 219 5 view .LVU238
- 220:MPU9250/mpu9250.c ****     uint16_t item = 0;
- 1008              		.loc 1 220 5 view .LVU239
- 1009              	.LVL90:
- 221:MPU9250/mpu9250.c ****     
- 222:MPU9250/mpu9250.c ****     uint8_t err = mpu_dmp_init();
- 1010              		.loc 1 222 5 view .LVU240
- 1011              		.loc 1 222 19 is_stmt 0 view .LVU241
- 1012 0006 FFF7FEFF 		bl	mpu_dmp_init
- 1013              	.LVL91:
- 223:MPU9250/mpu9250.c ****     while(err)         
- 1014              		.loc 1 223 5 is_stmt 1 view .LVU242
- 1015              		.loc 1 223 11 view .LVU243
- 1016 000a 20B1     		cbz	r0, .L55
- 1017 000c 0146     		mov	r1, r0
- 224:MPU9250/mpu9250.c **** 	{   
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 26
-
-
- 225:MPU9250/mpu9250.c ****         printf("mpu_init_err:%d\r\n",err);
- 1018              		.loc 1 225 9 view .LVU244
- 1019 000e 1D48     		ldr	r0, .L60
- 1020              	.LVL92:
- 1021              		.loc 1 225 9 is_stmt 0 view .LVU245
- 1022 0010 FFF7FEFF 		bl	printf
- 1023              	.LVL93:
- 1024              	.L56:
- 226:MPU9250/mpu9250.c ****         while(1);
- 1025              		.loc 1 226 9 is_stmt 1 discriminator 1 view .LVU246
- 1026              		.loc 1 226 14 discriminator 1 view .LVU247
- 1027 0014 FEE7     		b	.L56
- 1028              	.LVL94:
- 1029              	.L55:
- 227:MPU9250/mpu9250.c **** 	}
- 228:MPU9250/mpu9250.c ****     printf("mpu9250 Start !\r\n");
- 1030              		.loc 1 228 5 view .LVU248
- 1031 0016 1C48     		ldr	r0, .L60+4
- 1032              	.LVL95:
- 1033              		.loc 1 228 5 is_stmt 0 view .LVU249
- 1034 0018 FFF7FEFF 		bl	puts
- 1035              	.LVL96:
- 220:MPU9250/mpu9250.c ****     
- 1036              		.loc 1 220 14 view .LVU250
- 1037 001c 0024     		movs	r4, #0
- 1038              	.LVL97:
- 1039              	.L58:
- 220:MPU9250/mpu9250.c ****     
- 1040              		.loc 1 220 14 view .LVU251
- 1041 001e A046     		mov	r8, r4
- 1042              	.L57:
- 1043              	.LVL98:
- 229:MPU9250/mpu9250.c ****     while(1)
- 1044              		.loc 1 229 5 is_stmt 1 view .LVU252
- 230:MPU9250/mpu9250.c ****     {
- 231:MPU9250/mpu9250.c ****         err = mpu_mpl_get_data(&pitch,&roll,&yaw);
- 1045              		.loc 1 231 9 view .LVU253
- 1046              		.loc 1 231 15 is_stmt 0 view .LVU254
- 1047 0020 09AA     		add	r2, sp, #36
- 1048 0022 0AA9     		add	r1, sp, #40
- 1049 0024 0BA8     		add	r0, sp, #44
- 1050 0026 FFF7FEFF 		bl	mpu_mpl_get_data
- 1051              	.LVL99:
- 232:MPU9250/mpu9250.c ****         if(err == 0)
- 1052              		.loc 1 232 9 is_stmt 1 view .LVU255
- 1053              		.loc 1 232 11 is_stmt 0 view .LVU256
- 1054 002a 0028     		cmp	r0, #0
- 1055 002c F8D1     		bne	.L57
- 233:MPU9250/mpu9250.c ****         {
- 234:MPU9250/mpu9250.c ****                 temp = MPU_Get_Temperature();	                                     //µ√µΩŒ¬∂»÷µ
- 1056              		.loc 1 234 17 is_stmt 1 view .LVU257
- 1057              		.loc 1 234 24 is_stmt 0 view .LVU258
- 1058 002e FFF7FEFF 		bl	MPU_Get_Temperature
- 1059              	.LVL100:
- 1060              		.loc 1 234 24 view .LVU259
- 1061 0032 0546     		mov	r5, r0
- 1062              	.LVL101:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 27
-
-
- 235:MPU9250/mpu9250.c ****                 MPU_Get_Accelerometer(&aacx,&aacy,&aacz);	                         //µ√µΩº”ÀŸ∂»¥´∏–
- 1063              		.loc 1 235 17 is_stmt 1 view .LVU260
- 1064 0034 0DF11E02 		add	r2, sp, #30
- 1065 0038 08A9     		add	r1, sp, #32
- 1066 003a 0DF12200 		add	r0, sp, #34
- 1067 003e FFF7FEFF 		bl	MPU_Get_Accelerometer
- 1068              	.LVL102:
- 236:MPU9250/mpu9250.c ****                 MPU_Get_Gyroscope(&gyrox,&gyroy,&gyroz);	                         //µ√µΩÕ”¬›“« ˝æ›
- 1069              		.loc 1 236 17 view .LVU261
- 1070 0042 06AA     		add	r2, sp, #24
- 1071 0044 0DF11A01 		add	r1, sp, #26
- 1072 0048 07A8     		add	r0, sp, #28
- 1073 004a FFF7FEFF 		bl	MPU_Get_Gyroscope
- 1074              	.LVL103:
- 237:MPU9250/mpu9250.c ****                 printf("[%05d]roll = %f   pitch = %f   yaw = %f (T = %d)\r\n",item++,roll,pitch,yaw
- 1075              		.loc 1 237 17 view .LVU262
- 1076              		.loc 1 237 83 is_stmt 0 view .LVU263
- 1077 004e 08F10104 		add	r4, r8, #1
- 1078 0052 A4B2     		uxth	r4, r4
- 1079              	.LVL104:
- 1080              		.loc 1 237 17 view .LVU264
- 1081 0054 0A98     		ldr	r0, [sp, #40]	@ float
- 1082 0056 FFF7FEFF 		bl	__aeabi_f2d
- 1083              	.LVL105:
- 1084 005a 0646     		mov	r6, r0
- 1085 005c 0F46     		mov	r7, r1
- 1086 005e 0495     		str	r5, [sp, #16]
- 1087 0060 0998     		ldr	r0, [sp, #36]	@ float
- 1088 0062 FFF7FEFF 		bl	__aeabi_f2d
- 1089              	.LVL106:
- 1090 0066 CDE90201 		strd	r0, [sp, #8]
- 1091 006a 0B98     		ldr	r0, [sp, #44]	@ float
- 1092 006c FFF7FEFF 		bl	__aeabi_f2d
- 1093              	.LVL107:
- 1094 0070 CDE90001 		strd	r0, [sp]
- 1095 0074 3246     		mov	r2, r6
- 1096 0076 3B46     		mov	r3, r7
- 1097 0078 4146     		mov	r1, r8
- 1098 007a 0448     		ldr	r0, .L60+8
- 1099 007c FFF7FEFF 		bl	printf
- 1100              	.LVL108:
- 1101 0080 CDE7     		b	.L58
- 1102              	.L61:
- 1103 0082 00BF     		.align	2
- 1104              	.L60:
- 1105 0084 00000000 		.word	.LC0
- 1106 0088 14000000 		.word	.LC1
- 1107 008c 28000000 		.word	.LC2
- 1108              		.cfi_endproc
- 1109              	.LFE146:
- 1111              		.text
- 1112              	.Letext0:
- 1113              		.file 2 "/usr/local/include/_types/_uint8_t.h"
- 1114              		.file 3 "/usr/local/include/_types/_uint16_t.h"
- 1115              		.file 4 "/usr/local/include/_types/_uint32_t.h"
- 1116              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
- 1117              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 28
-
-
- 1118              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
- 1119              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_i2c.h"
- 1120              		.file 9 "MPU9250/mpu9250.h"
- 1121              		.file 10 "DMP/driver/eMPL/inv_mpu.h"
- 1122              		.file 11 "/usr/local/include/stdio.h"
- 1123              		.file 12 "Core/Inc/i2c.h"
- 1124              		.file 13 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
- 1125              		.file 14 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s 			page 29
+ 617              	.L35:
+ 618 017a 00BFAFF3 		.align	3
+ 618      0080
+ 619              	.L34:
+ 620 0180 66666666 		.word	1717986918
+ 621 0184 66A64C40 		.word	1078765158
+ 622 0188 00008030 		.word	813694976
+ 623              		.cfi_endproc
+ 624              	.LFE23:
+ 626              		.section	.data.gyro_orientation,"aw"
+ 627              		.align	2
+ 630              	gyro_orientation:
+ 631 0000 FF000000 		.ascii	"\377\000\000\000\377\000\000\000\001"
+ 631      FF000000 
+ 631      01
+ 632              		.text
+ 633              	.Letext0:
+ 634              		.file 2 "/usr/local/include/math.h"
+ 635              		.file 3 "DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h"
+ 636              		.file 4 "DMP/driver/eMPL/inv_mpu.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 mpu9250.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:21     .text.MPU_Write_Len:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:27     .text.MPU_Write_Len:00000000 MPU_Write_Len
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:73     .text.MPU_Write_Len:00000024 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:78     .text.MPU_Read_Len:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:84     .text.MPU_Read_Len:00000000 MPU_Read_Len
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:130    .text.MPU_Read_Len:00000024 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:139    .text.MPU_Get_Temperature:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:145    .text.MPU_Get_Temperature:00000000 MPU_Get_Temperature
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:219    .text.MPU_Get_Temperature:00000058 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:227    .text.MPU_Get_Gyroscope:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:233    .text.MPU_Get_Gyroscope:00000000 MPU_Get_Gyroscope
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:315    .text.MPU_Get_Accelerometer:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:321    .text.MPU_Get_Accelerometer:00000000 MPU_Get_Accelerometer
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:403    .text.MPU_Write_Byte:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:409    .text.MPU_Write_Byte:00000000 MPU_Write_Byte
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:456    .text.MPU_Write_Byte:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:461    .text.MPU_Set_Gyro_Fsr:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:467    .text.MPU_Set_Gyro_Fsr:00000000 MPU_Set_Gyro_Fsr
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:496    .text.MPU_Set_Accel_Fsr:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:502    .text.MPU_Set_Accel_Fsr:00000000 MPU_Set_Accel_Fsr
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:531    .text.MPU_Set_LPF:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:537    .text.MPU_Set_LPF:00000000 MPU_Set_LPF
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:611    .text.MPU_Set_Rate:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:617    .text.MPU_Set_Rate:00000000 MPU_Set_Rate
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:677    .text.MPU_Get_Magnetometer:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:683    .text.MPU_Get_Magnetometer:00000000 MPU_Get_Magnetometer
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:774    .text.MPU_Read_Byte:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:780    .text.MPU_Read_Byte:00000000 MPU_Read_Byte
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:823    .text.MPU_Read_Byte:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:828    .text.MPU9250_Init:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:834    .text.MPU9250_Init:00000000 MPU9250_Init
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:968    .rodata.mpu9250_Start.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:980    .text.mpu9250_Start:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:986    .text.mpu9250_Start:00000000 mpu9250_Start
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccusK2oz.s:1105   .text.mpu9250_Start:00000084 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:21     .text.inv_row_2_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:26     .text.inv_row_2_scale:00000000 inv_row_2_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:114    .text.inv_orientation_matrix_to_scalar:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:119    .text.inv_orientation_matrix_to_scalar:00000000 inv_orientation_matrix_to_scalar
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:172    .text.MPU9250_DMP_init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:178    .text.MPU9250_DMP_init:00000000 MPU9250_DMP_init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:357    .text.MPU9250_DMP_init:0000008c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:630    .data.gyro_orientation:00000000 gyro_orientation
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:365    .text.MPU9250_DMP_Get_Data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:371    .text.MPU9250_DMP_Get_Data:00000000 MPU9250_DMP_Get_Data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:620    .text.MPU9250_DMP_Get_Data:00000180 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczuhb3m.s:627    .data.gyro_orientation:00000000 $d
 
 UNDEFINED SYMBOLS
-HAL_I2C_Mem_Write
-hi2c1
-HAL_I2C_Mem_Read
-__aeabi_i2d
-__aeabi_ddiv
-__aeabi_dadd
-__aeabi_d2f
-HAL_Delay
+mpu_init
+mpu_set_sensors
+mpu_configure_fifo
+mpu_set_sample_rate
+dmp_load_motion_driver_firmware
+dmp_set_orientation
+dmp_enable_feature
+dmp_set_fifo_rate
+mpu_set_dmp_state
 __aeabi_f2d
-mpu_dmp_init
-printf
-puts
-mpu_mpl_get_data
+__aeabi_dmul
+__aeabi_d2f
+dmp_read_fifo
+asin
+atan2

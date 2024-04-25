@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "cmsis_gcc.h"
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h"
 #include "dmpKey.h"
@@ -33,12 +34,13 @@
  * get_ms(unsigned long *count)
  */
 #if defined EMPL_TARGET_STM32F4
-#include "mpu9250.h"   
+#include "i2c.h"   
+   
+#define i2c_write   Sensors_I2C_WriteRegister
+#define i2c_read    Sensors_I2C_ReadRegister
+#define get_ms      get_tick_count
 
-#define i2c_write   MPU_Write_Len
-#define i2c_read    MPU_Read_Len
-#define get_ms      mget_ms
-
+void get_tick_count(unsigned long *count){}
 #elif defined MOTION_DRIVER_TARGET_MSP430
 #include "msp430.h"
 #include "msp430_clock.h"
@@ -633,7 +635,8 @@ int dmp_set_accel_bias(long *bias)
 
     mpu_get_accel_sens(&accel_sens);
     accel_sf = (long long)accel_sens << 15;
-   // __no_operation();
+    /*__no_operation();*/
+    __NOP();
 
     accel_bias_body[0] = bias[dmp.orient & 3];
     if (dmp.orient & 4)

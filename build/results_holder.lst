@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
   27:DMP/mllite/results_holder.c **** // These 2 status bits are used to control when the 9 axis quaternion is updated
   28:DMP/mllite/results_holder.c **** #define INV_COMPASS_CORRECTION_SET 1
   29:DMP/mllite/results_holder.c **** #define INV_6_AXIS_QUAT_SET 2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 2
 
 
   30:DMP/mllite/results_holder.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
   84:DMP/mllite/results_holder.c **** {
   85:DMP/mllite/results_holder.c ****     memcpy(data, rh.compass_correction, sizeof(rh.compass_correction));
   86:DMP/mllite/results_holder.c ****     *timestamp = rh.nav_timestamp;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 3
 
 
   87:DMP/mllite/results_holder.c **** }
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  141:DMP/mllite/results_holder.c ****             rh.motion_state_counter++;
  142:DMP/mllite/results_holder.c ****         } else {
  143:DMP/mllite/results_holder.c ****             rh.motion_state_counter = 0;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 4
 
 
  144:DMP/mllite/results_holder.c ****         }
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  198:DMP/mllite/results_holder.c ****  */
  199:DMP/mllite/results_holder.c **** inv_error_t inv_get_gravity(long *data)
  200:DMP/mllite/results_holder.c **** {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 5
 
 
  201:DMP/mllite/results_holder.c ****     data[0] =
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  255:DMP/mllite/results_holder.c ****  */
  256:DMP/mllite/results_holder.c **** void inv_get_quaternion_set(long *data, int *accuracy, inv_time_t *timestamp)
  257:DMP/mllite/results_holder.c **** {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 6
 
 
  258:DMP/mllite/results_holder.c ****     inv_get_quaternion(data);
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  283:DMP/mllite/results_holder.c ****  *  inv_enable_results_holder(). Typically not called by users.
  284:DMP/mllite/results_holder.c ****  * @return Returns INV_SUCCESS if successful or an error code if not.
  285:DMP/mllite/results_holder.c ****  */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 7
 
 
  286:DMP/mllite/results_holder.c **** inv_error_t inv_start_results_holder(void)
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  109 0004 0D46     		mov	r5, r1
   61:DMP/mllite/results_holder.c ****     memcpy(&rh.gam_quat, quat, sizeof(rh.gam_quat));
  110              		.loc 1 61 5 is_stmt 1 view .LVU12
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 8
 
 
   61:DMP/mllite/results_holder.c ****     memcpy(&rh.gam_quat, quat, sizeof(rh.gam_quat));
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  157              	.LVL8:
  158              	.LFB35:
   72:DMP/mllite/results_holder.c ****     rh.status |= INV_COMPASS_CORRECTION_SET;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 9
 
 
  159              		.loc 1 72 1 is_stmt 1 view -0
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
   76:DMP/mllite/results_holder.c **** 
  202              		.loc 1 76 1 view .LVU35
  203 0024 7047     		bx	lr
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 10
 
 
  204              	.L15:
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  252              	.L19:
   87:DMP/mllite/results_holder.c **** 
  253              		.loc 1 87 1 view .LVU44
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 11
 
 
  254 0026 00BF     		.align	2
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  305              		.loc 1 103 1 view .LVU51
  306 0004 7047     		bx	lr
  307              	.L25:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 12
 
 
  308 0006 00BF     		.align	2
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  359              		.loc 1 119 5 is_stmt 1 view .LVU58
  120:DMP/mllite/results_holder.c **** 
  360              		.loc 1 120 1 is_stmt 0 view .LVU59
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 13
 
 
  361 0004 7047     		bx	lr
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  412              	.LFB42:
  137:DMP/mllite/results_holder.c ****     long set;
  413              		.loc 1 137 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 14
 
 
  414              		.cfi_startproc
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  454 0024 08BD     		pop	{r3, pc}
  455              	.LVL23:
  456              	.L43:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 15
 
 
  140:DMP/mllite/results_holder.c ****             rh.motion_state_counter++;
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  502 0002 034B     		ldr	r3, .L48
  503 0004 0068     		ldr	r0, [r0]	@ unaligned
  504              	.LVL25:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 16
 
 
  164:DMP/mllite/results_holder.c **** }
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  553              		.cfi_def_cfa_offset 0
  554 0012 7047     		bx	lr
  555              	.L53:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 17
 
 
  556              		.align	2
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  191:DMP/mllite/results_holder.c ****     memcpy(data, rh.mag_scale, sizeof(rh.mag_scale));
  608              		.loc 1 191 1 is_stmt 1 view -0
  609              		.cfi_startproc
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 18
 
 
  610              		@ args = 0, pretend = 0, frame = 0
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  660              		.cfi_offset 6, -8
  661              		.cfi_offset 14, -4
  662 0002 0646     		mov	r6, r0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 19
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 19
 
 
  201:DMP/mllite/results_holder.c ****         inv_q29_mult(rh.nav_quat[1], rh.nav_quat[3]) - inv_q29_mult(rh.nav_quat[2], rh.nav_quat[0])
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  704 003a 0546     		mov	r5, r0
  206:DMP/mllite/results_holder.c ****         1073741824L;
  705              		.loc 1 206 57 view .LVU127
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 20
 
 
  706 003c 2068     		ldr	r0, [r4]
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  753              	.LVL44:
  218:DMP/mllite/results_holder.c ****     return INV_SUCCESS;
  754              		.loc 1 218 5 is_stmt 0 view .LVU137
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 21
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 21
 
 
  755 0008 CCF80000 		str	r0, [ip]	@ unaligned
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  804              	.LVL46:
  805              	.L70:
  232:DMP/mllite/results_holder.c ****     return INV_SUCCESS;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 22
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 22
 
 
  806              		.loc 1 232 5 is_stmt 1 view .LVU145
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  854              		@ args = 0, pretend = 0, frame = 16
  855              		@ frame_needed = 0, uses_anonymous_args = 0
  241:DMP/mllite/results_holder.c ****     long ldata[4];
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 23
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 23
 
 
  856              		.loc 1 241 1 is_stmt 0 view .LVU154
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
   28:DMP/mllite/ml_math_func.h ****         float state[4];
   29:DMP/mllite/ml_math_func.h ****         float c[5];
   30:DMP/mllite/ml_math_func.h ****         float input;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 24
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 24
 
 
   31:DMP/mllite/ml_math_func.h ****         float output;
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  920 0034 F8EEE77A 		vcvt.f32.s32	s15, s15
  921              		.loc 2 36 28 view .LVU177
  922 0038 67EE877A 		vmul.f32	s15, s15, s14
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 25
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 25
 
 
  923              	.LVL57:
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  972              	.LFB51:
  257:DMP/mllite/results_holder.c ****     inv_get_quaternion(data);
  973              		.loc 1 257 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 26
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 26
 
 
  974              		.cfi_startproc
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1014              		.loc 1 262 16 is_stmt 0 view .LVU204
  1015 001e FFF7FEFF 		bl	inv_get_gyro_on
  1016              	.LVL67:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 27
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 27
 
 
  262:DMP/mllite/results_holder.c ****         *accuracy = inv_get_gyro_accuracy();
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  293:DMP/mllite/results_holder.c **** /** Initializes results holder. This is called automatically by the
  294:DMP/mllite/results_holder.c **** * enable function inv_enable_results_holder(). It may be called any time the feature is enabled, bu
  295:DMP/mllite/results_holder.c **** * is typically not needed to be called by outside callers.
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 28
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 28
 
 
  296:DMP/mllite/results_holder.c **** * @return Returns INV_SUCCESS if successful or an error code if not.
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1099              		.loc 1 309 1 is_stmt 0 view .LVU235
  1100 0024 0020     		movs	r0, #0
  1101 0026 10BD     		pop	{r4, pc}
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 29
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 29
 
 
  1102              	.L89:
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  321:DMP/mllite/results_holder.c ****     return result;
  1143              		.loc 1 321 14 is_stmt 0 view .LVU244
  1144 000a 0248     		ldr	r0, .L94
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 30
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 30
 
 
  1145 000c FFF7FEFF 		bl	inv_register_mpl_start_notification
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1192              	.LFB57:
  333:DMP/mllite/results_holder.c **** 
  334:DMP/mllite/results_holder.c **** /** Sets whether we know the accel bias
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 31
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 31
 
 
  335:DMP/mllite/results_holder.c ****  * @param[in] state Set to 1 if we know the accel bias. 
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1233 0008 00000000 		.word	rh
  1234              		.cfi_endproc
  1235              	.LFE58:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 32
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 32
 
 
  1237              		.section	.text.inv_set_compass_bias_found,"ax",%progbits
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1279              		@ link register save eliminated.
  366:DMP/mllite/results_holder.c ****     rh.compass_state = state;
  1280              		.loc 1 366 5 view .LVU262
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 33
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 33
 
 
  1281              		.loc 1 366 22 is_stmt 0 view .LVU263
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  377:DMP/mllite/results_holder.c **** /** Set compass bias error. See inv_get_compass_bias_error()
  378:DMP/mllite/results_holder.c ****  * @param[in] bias_error Set's how accurate we know the compass bias. It is the 
  379:DMP/mllite/results_holder.c ****  * error squared.
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 34
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 34
 
 
  380:DMP/mllite/results_holder.c ****  */
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1374              		.cfi_offset 4, -4
  1375 0002 0346     		mov	r3, r0
  391:DMP/mllite/results_holder.c ****     memcpy(bias_error, rh.compass_bias_error, sizeof(rh.compass_bias_error));
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 35
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 35
 
 
  1376              		.loc 1 391 5 is_stmt 1 view .LVU276
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1416 0002 10B5     		push	{r4, lr}
  1417              	.LCFI23:
  1418              		.cfi_def_cfa_offset 8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 36
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 36
 
 
  1419              		.cfi_offset 4, -8
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1461              		.cfi_def_cfa_offset 8
  1462              		@ sp needed
  1463 0038 10BD     		pop	{r4, pc}
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 37
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 37
 
 
  1464              	.LVL87:
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1506              		.loc 1 430 9 view .LVU305
  1507              		.loc 1 430 16 is_stmt 0 view .LVU306
  1508 000c 0020     		movs	r0, #0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 38
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 38
 
 
  431:DMP/mllite/results_holder.c ****     }
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1545 0002 10B5     		push	{r4, lr}
  1546              	.LCFI29:
  1547              		.cfi_def_cfa_offset 8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 39
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 39
 
 
  1548              		.cfi_offset 4, -8
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  455:DMP/mllite/results_holder.c ****         return INV_ERROR_INVALID_PARAMETER;
  456:DMP/mllite/results_holder.c ****     }
  457:DMP/mllite/results_holder.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 40
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 40
 
 
  1593              		.loc 1 457 1 is_stmt 0 view .LVU329
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  466:DMP/mllite/results_holder.c **** {
  1637              		.loc 1 466 1 is_stmt 1 view -0
  1638              		.cfi_startproc
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 41
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 41
 
 
  1639              		@ args = 0, pretend = 0, frame = 16
@@ -2458,7 +2458,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  472:DMP/mllite/results_holder.c ****         for (i = 0; i < 3; ++i) {
  1685              		.loc 1 472 28 is_stmt 1 discriminator 3 view .LVU352
  1686 0034 0133     		adds	r3, r3, #1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 42
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 42
 
 
  1687              	.LVL107:
@@ -2518,7 +2518,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  483:DMP/mllite/results_holder.c **** * @param[in] ci Confidence interval in radians.
  484:DMP/mllite/results_holder.c **** */
  485:DMP/mllite/results_holder.c **** void inv_set_heading_confidence_interval(float ci)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 43
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 43
 
 
  486:DMP/mllite/results_holder.c **** {
@@ -2578,7 +2578,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1777              		.global	inv_get_linear_accel_float
  1778              		.syntax unified
  1779              		.thumb
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 44
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 44
 
 
  1780              		.thumb_func
@@ -2638,7 +2638,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1819 0014 04AA     		add	r2, sp, #16
  1820 0016 02EB8302 		add	r2, r2, r3, lsl #2
  1821 001a 52ED037A 		vldr.32	s15, [r2, #-12]	@ int
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 45
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 45
 
 
  1822              		.loc 1 511 24 discriminator 3 view .LVU378
@@ -2698,7 +2698,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  516:DMP/mllite/results_holder.c ****     }
  1864              		.loc 1 516 9 is_stmt 1 view .LVU388
  516:DMP/mllite/results_holder.c ****     }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 46
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 46
 
 
  1865              		.loc 1 516 16 is_stmt 0 view .LVU389
@@ -2728,127 +2728,127 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 1
  1888              		.file 6 "DMP/mllite/start_manager.h"
  1889              		.file 7 "DMP/mllite/message_layer.h"
  1890              		.file 8 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 47
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 47
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 results_holder.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:21     .text.inv_generate_results:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:27     .text.inv_generate_results:00000000 inv_generate_results
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:48     .text.inv_generate_results:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1881   .bss.rh:00000000 rh
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:53     .text.inv_start_results_holder:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:59     .text.inv_start_results_holder:00000000 inv_start_results_holder
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:83     .text.inv_start_results_holder:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:88     .text.inv_store_gaming_quaternion:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:94     .text.inv_store_gaming_quaternion:00000000 inv_store_gaming_quaternion
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:145    .text.inv_store_gaming_quaternion:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:150    .text.inv_set_compass_correction:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:156    .text.inv_set_compass_correction:00000000 inv_set_compass_correction
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:207    .text.inv_set_compass_correction:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:212    .text.inv_get_compass_correction:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:218    .text.inv_get_compass_correction:00000000 inv_get_compass_correction
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:256    .text.inv_get_compass_correction:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:261    .text.inv_get_large_mag_field:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:267    .text.inv_get_large_mag_field:00000000 inv_get_large_mag_field
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:282    .text.inv_get_large_mag_field:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:287    .text.inv_set_large_mag_field:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:293    .text.inv_set_large_mag_field:00000000 inv_set_large_mag_field
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:310    .text.inv_set_large_mag_field:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:315    .text.inv_get_acc_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:321    .text.inv_get_acc_state:00000000 inv_get_acc_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:336    .text.inv_get_acc_state:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:341    .text.inv_set_acc_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:347    .text.inv_set_acc_state:00000000 inv_set_acc_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:365    .text.inv_set_acc_state:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:370    .text.inv_get_motion_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:376    .text.inv_get_motion_state:00000000 inv_get_motion_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:399    .text.inv_get_motion_state:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:404    .text.inv_set_motion_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:410    .text.inv_set_motion_state:00000000 inv_set_motion_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:480    .text.inv_set_motion_state:0000003c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:485    .text.inv_set_local_field:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:491    .text.inv_set_local_field:00000000 inv_set_local_field
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:516    .text.inv_set_local_field:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:521    .text.inv_get_local_field:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:527    .text.inv_get_local_field:00000000 inv_get_local_field
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:558    .text.inv_get_local_field:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:563    .text.inv_set_mag_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:569    .text.inv_set_mag_scale:00000000 inv_set_mag_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:594    .text.inv_set_mag_scale:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:599    .text.inv_get_mag_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:605    .text.inv_get_mag_scale:00000000 inv_get_mag_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:636    .text.inv_get_mag_scale:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:641    .text.inv_get_gravity:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:647    .text.inv_get_gravity:00000000 inv_get_gravity
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:725    .text.inv_get_gravity:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:730    .text.inv_get_6axis_quaternion:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:736    .text.inv_get_6axis_quaternion:00000000 inv_get_6axis_quaternion
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:770    .text.inv_get_6axis_quaternion:00000020 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:775    .text.inv_get_quaternion:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:781    .text.inv_get_quaternion:00000000 inv_get_quaternion
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:838    .text.inv_get_quaternion:00000038 $d
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 48
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:21     .text.inv_generate_results:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:27     .text.inv_generate_results:00000000 inv_generate_results
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:48     .text.inv_generate_results:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1881   .bss.rh:00000000 rh
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:53     .text.inv_start_results_holder:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:59     .text.inv_start_results_holder:00000000 inv_start_results_holder
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:83     .text.inv_start_results_holder:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:88     .text.inv_store_gaming_quaternion:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:94     .text.inv_store_gaming_quaternion:00000000 inv_store_gaming_quaternion
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:145    .text.inv_store_gaming_quaternion:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:150    .text.inv_set_compass_correction:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:156    .text.inv_set_compass_correction:00000000 inv_set_compass_correction
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:207    .text.inv_set_compass_correction:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:212    .text.inv_get_compass_correction:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:218    .text.inv_get_compass_correction:00000000 inv_get_compass_correction
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:256    .text.inv_get_compass_correction:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:261    .text.inv_get_large_mag_field:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:267    .text.inv_get_large_mag_field:00000000 inv_get_large_mag_field
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:282    .text.inv_get_large_mag_field:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:287    .text.inv_set_large_mag_field:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:293    .text.inv_set_large_mag_field:00000000 inv_set_large_mag_field
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:310    .text.inv_set_large_mag_field:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:315    .text.inv_get_acc_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:321    .text.inv_get_acc_state:00000000 inv_get_acc_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:336    .text.inv_get_acc_state:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:341    .text.inv_set_acc_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:347    .text.inv_set_acc_state:00000000 inv_set_acc_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:365    .text.inv_set_acc_state:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:370    .text.inv_get_motion_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:376    .text.inv_get_motion_state:00000000 inv_get_motion_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:399    .text.inv_get_motion_state:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:404    .text.inv_set_motion_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:410    .text.inv_set_motion_state:00000000 inv_set_motion_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:480    .text.inv_set_motion_state:0000003c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:485    .text.inv_set_local_field:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:491    .text.inv_set_local_field:00000000 inv_set_local_field
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:516    .text.inv_set_local_field:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:521    .text.inv_get_local_field:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:527    .text.inv_get_local_field:00000000 inv_get_local_field
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:558    .text.inv_get_local_field:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:563    .text.inv_set_mag_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:569    .text.inv_set_mag_scale:00000000 inv_set_mag_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:594    .text.inv_set_mag_scale:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:599    .text.inv_get_mag_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:605    .text.inv_get_mag_scale:00000000 inv_get_mag_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:636    .text.inv_get_mag_scale:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:641    .text.inv_get_gravity:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:647    .text.inv_get_gravity:00000000 inv_get_gravity
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:725    .text.inv_get_gravity:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:730    .text.inv_get_6axis_quaternion:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:736    .text.inv_get_6axis_quaternion:00000000 inv_get_6axis_quaternion
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:770    .text.inv_get_6axis_quaternion:00000020 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:775    .text.inv_get_quaternion:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:781    .text.inv_get_quaternion:00000000 inv_get_quaternion
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:838    .text.inv_get_quaternion:00000038 $d
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 48
 
 
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:843    .text.inv_get_quaternion_float:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:849    .text.inv_get_quaternion_float:00000000 inv_get_quaternion_float
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:959    .text.inv_get_quaternion_float:00000054 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:964    .text.inv_get_quaternion_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:970    .text.inv_get_quaternion_set:00000000 inv_get_quaternion_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1051   .text.inv_init_results_holder:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1057   .text.inv_init_results_holder:00000000 inv_init_results_holder
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1105   .text.inv_init_results_holder:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1111   .text.inv_enable_results_holder:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1117   .text.inv_enable_results_holder:00000000 inv_enable_results_holder
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1153   .text.inv_enable_results_holder:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1158   .text.inv_got_accel_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1164   .text.inv_got_accel_bias:00000000 inv_got_accel_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1179   .text.inv_got_accel_bias:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1184   .text.inv_set_accel_bias_found:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1190   .text.inv_set_accel_bias_found:00000000 inv_set_accel_bias_found
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1207   .text.inv_set_accel_bias_found:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1212   .text.inv_got_compass_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1218   .text.inv_got_compass_bias:00000000 inv_got_compass_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1233   .text.inv_got_compass_bias:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1238   .text.inv_set_compass_bias_found:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1244   .text.inv_set_compass_bias_found:00000000 inv_set_compass_bias_found
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1261   .text.inv_set_compass_bias_found:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1266   .text.inv_set_compass_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1272   .text.inv_set_compass_state:00000000 inv_set_compass_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1289   .text.inv_set_compass_state:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1294   .text.inv_get_compass_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1300   .text.inv_get_compass_state:00000000 inv_get_compass_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1315   .text.inv_get_compass_state:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1320   .text.inv_set_compass_bias_error:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1326   .text.inv_set_compass_bias_error:00000000 inv_set_compass_bias_error
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1351   .text.inv_set_compass_bias_error:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1356   .text.inv_get_compass_bias_error:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1362   .text.inv_get_compass_bias_error:00000000 inv_get_compass_bias_error
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1393   .text.inv_get_compass_bias_error:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1398   .text.inv_get_linear_accel:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1404   .text.inv_get_linear_accel:00000000 inv_get_linear_accel
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1479   .text.inv_get_accel:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1485   .text.inv_get_accel:00000000 inv_get_accel
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1526   .text.inv_get_accel_float:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1532   .text.inv_get_accel_float:00000000 inv_get_accel_float
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1623   .text.inv_get_accel_float:00000048 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1628   .text.inv_get_gyro_float:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1634   .text.inv_get_gyro_float:00000000 inv_get_gyro_float
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1717   .text.inv_get_gyro_float:00000048 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1722   .text.inv_set_heading_confidence_interval:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1728   .text.inv_set_heading_confidence_interval:00000000 inv_set_heading_confidence_interval
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1745   .text.inv_set_heading_confidence_interval:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1750   .text.inv_get_heading_confidence_interval:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1756   .text.inv_get_heading_confidence_interval:00000000 inv_get_heading_confidence_interval
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1771   .text.inv_get_heading_confidence_interval:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1776   .text.inv_get_linear_accel_float:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1782   .text.inv_get_linear_accel_float:00000000 inv_get_linear_accel_float
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1873   .text.inv_get_linear_accel_float:00000048 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s:1878   .bss.rh:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:843    .text.inv_get_quaternion_float:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:849    .text.inv_get_quaternion_float:00000000 inv_get_quaternion_float
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:959    .text.inv_get_quaternion_float:00000054 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:964    .text.inv_get_quaternion_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:970    .text.inv_get_quaternion_set:00000000 inv_get_quaternion_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1051   .text.inv_init_results_holder:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1057   .text.inv_init_results_holder:00000000 inv_init_results_holder
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1105   .text.inv_init_results_holder:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1111   .text.inv_enable_results_holder:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1117   .text.inv_enable_results_holder:00000000 inv_enable_results_holder
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1153   .text.inv_enable_results_holder:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1158   .text.inv_got_accel_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1164   .text.inv_got_accel_bias:00000000 inv_got_accel_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1179   .text.inv_got_accel_bias:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1184   .text.inv_set_accel_bias_found:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1190   .text.inv_set_accel_bias_found:00000000 inv_set_accel_bias_found
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1207   .text.inv_set_accel_bias_found:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1212   .text.inv_got_compass_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1218   .text.inv_got_compass_bias:00000000 inv_got_compass_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1233   .text.inv_got_compass_bias:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1238   .text.inv_set_compass_bias_found:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1244   .text.inv_set_compass_bias_found:00000000 inv_set_compass_bias_found
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1261   .text.inv_set_compass_bias_found:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1266   .text.inv_set_compass_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1272   .text.inv_set_compass_state:00000000 inv_set_compass_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1289   .text.inv_set_compass_state:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1294   .text.inv_get_compass_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1300   .text.inv_get_compass_state:00000000 inv_get_compass_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1315   .text.inv_get_compass_state:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1320   .text.inv_set_compass_bias_error:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1326   .text.inv_set_compass_bias_error:00000000 inv_set_compass_bias_error
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1351   .text.inv_set_compass_bias_error:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1356   .text.inv_get_compass_bias_error:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1362   .text.inv_get_compass_bias_error:00000000 inv_get_compass_bias_error
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1393   .text.inv_get_compass_bias_error:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1398   .text.inv_get_linear_accel:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1404   .text.inv_get_linear_accel:00000000 inv_get_linear_accel
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1479   .text.inv_get_accel:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1485   .text.inv_get_accel:00000000 inv_get_accel
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1526   .text.inv_get_accel_float:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1532   .text.inv_get_accel_float:00000000 inv_get_accel_float
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1623   .text.inv_get_accel_float:00000048 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1628   .text.inv_get_gyro_float:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1634   .text.inv_get_gyro_float:00000000 inv_get_gyro_float
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1717   .text.inv_get_gyro_float:00000048 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1722   .text.inv_set_heading_confidence_interval:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1728   .text.inv_set_heading_confidence_interval:00000000 inv_set_heading_confidence_interval
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1745   .text.inv_set_heading_confidence_interval:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1750   .text.inv_get_heading_confidence_interval:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1756   .text.inv_get_heading_confidence_interval:00000000 inv_get_heading_confidence_interval
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1771   .text.inv_get_heading_confidence_interval:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1776   .text.inv_get_linear_accel_float:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1782   .text.inv_get_linear_accel_float:00000000 inv_get_linear_accel_float
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1873   .text.inv_get_linear_accel_float:00000048 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s:1878   .bss.rh:00000000 $d
 
 UNDEFINED SYMBOLS
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKLOuPD.s 			page 49
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccKm4Yal.s 			page 49
 
 
 inv_register_data_cb

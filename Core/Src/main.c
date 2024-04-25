@@ -34,6 +34,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+#include "mpu9250.h"
 
 /* USER CODE END PTD */
 
@@ -63,6 +64,7 @@ extern uint8_t MPU_readbuf[128];
 float angle = 0.0;
 extern MPU_data gryo_data;
 extern MPU_data acc_data;
+extern uint8_t ak_id;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -113,6 +115,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   MX_I2C1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_RegisterCallback(&huart1, HAL_UART_RX_COMPLETE_CB_ID, CmdProcessing);
   HAL_UART_Receive_IT(&huart1, (uint8_t *)chcmd, 1);
@@ -120,17 +123,34 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  int ret = 0;
+  float pitch, roll, yaw;
+  do {
+    ret = MPU9250_DMP_init();
+    uart_printf("MPU init ret = %d\n", ret);
+    HAL_Delay(1000);
+  } while (ret);
   while (1) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
     /*HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);*/
     /*MPU_ReadMulBytes(MPU_RA_GYRO_XOUT_H, 4, MPU_readbuf);*/
-    HAL_Delay(100);
-    MPU_ReadMulBytes(MPU_RA_GYRO_XOUT_H, 6, MPU_readbuf);
-    MPU_ReadMulBytes(MPU_RA_ACCEL_XOUT_H, 6, MPU_readbuf);
-    /*uart_printf("x_gryo:%d, y_gryo:%d, z_gryo:%d\n", gryo_data.x, gryo_data.y, gryo_data.z);*/
-    uart_printf("x_acc:%d, y_acc:%d, z_acc:%d\n", acc_data.x, acc_data.y, acc_data.z);
+    /*HAL_Delay(100);*/
+    /*MPU_ReadMulBytes(MPU_RA_MAG, 2, MPU_readbuf);*/
+    /*uart_printf("%x\n", ak_id);*/
+    /*MPU_ReadMulBytes(MPU_RA_ACCEL_XOUT_H, 6, MPU_readbuf);*/
+    /*uart_printf("x_gryo:%d, y_gryo:%d, z_gryo:%d\n", gryo_data.x, gryo_data.y,*/
+     /*gryo_data.z);*/
+    /*uart_printf("x_acc:%d, y_acc:%d, z_acc:%d\n", acc_data.x, acc_data.y,*/
+     /*acc_data.z);*/
+    /*if (MPU9250_DMP_Get_Data(&pitch, &roll, &yaw) == 0) {*/
+      /*uart_printf("pitch = %f, roll = %f\n", pitch, roll);*/
+    /*}*/
+    if (MPU9250_DMP_Get_Data(&pitch, &roll, &yaw) == 0) {
+      uart_printf("y%fyp%fpr%fr\n", yaw, pitch, roll);
+    }
+    HAL_Delay(5);
   }
   /* USER CODE END 3 */
 }

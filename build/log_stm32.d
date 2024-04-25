@@ -1,39 +1,38 @@
 build/log_stm32.o: DMP/driver/stm32L/log_stm32.c \
- /usr/local/include/stdio.h /usr/local/include/_stdio.h \
- /usr/local/include/sys/cdefs.h /usr/local/include/sys/_symbol_aliasing.h \
- /usr/local/include/sys/_posix_availability.h \
- /usr/local/include/Availability.h \
- /usr/local/include/AvailabilityVersions.h \
- /usr/local/include/AvailabilityInternal.h \
- /usr/local/include/AvailabilityInternalLegacy.h \
- /usr/local/include/_types.h /usr/local/include/sys/_types.h \
- /usr/local/include/machine/_types.h /usr/local/include/arm/_types.h \
- /usr/local/include/sys/_pthread/_pthread_types.h \
- /usr/local/include/sys/_types/_va_list.h \
- /usr/local/include/machine/types.h /usr/local/include/arm/types.h \
- /usr/local/include/sys/_types/_int8_t.h \
+ /usr/local/include/stdint.h /usr/local/include/sys/_types/_int8_t.h \
  /usr/local/include/sys/_types/_int16_t.h \
  /usr/local/include/sys/_types/_int32_t.h \
  /usr/local/include/sys/_types/_int64_t.h \
+ /usr/local/include/_types/_uint8_t.h \
+ /usr/local/include/_types/_uint16_t.h \
+ /usr/local/include/_types/_uint32_t.h \
+ /usr/local/include/_types/_uint64_t.h /usr/local/include/sys/_types.h \
+ /usr/local/include/sys/cdefs.h /usr/local/include/sys/_symbol_aliasing.h \
+ /usr/local/include/sys/_posix_availability.h \
+ /usr/local/include/machine/_types.h /usr/local/include/arm/_types.h \
+ /usr/local/include/sys/_pthread/_pthread_types.h \
+ /usr/local/include/sys/_types/_intptr_t.h \
+ /usr/local/include/machine/types.h /usr/local/include/arm/types.h \
  /usr/local/include/sys/_types/_u_int8_t.h \
  /usr/local/include/sys/_types/_u_int16_t.h \
  /usr/local/include/sys/_types/_u_int32_t.h \
  /usr/local/include/sys/_types/_u_int64_t.h \
- /usr/local/include/sys/_types/_intptr_t.h \
  /usr/local/include/sys/_types/_uintptr_t.h \
+ /usr/local/include/_types/_intmax_t.h \
+ /usr/local/include/_types/_uintmax_t.h /usr/local/include/stdio.h \
+ /usr/local/include/_stdio.h /usr/local/include/Availability.h \
+ /usr/local/include/AvailabilityVersions.h \
+ /usr/local/include/AvailabilityInternal.h \
+ /usr/local/include/AvailabilityInternalLegacy.h \
+ /usr/local/include/_types.h /usr/local/include/sys/_types/_va_list.h \
  /usr/local/include/sys/_types/_size_t.h \
  /usr/local/include/sys/_types/_null.h /usr/local/include/sys/stdio.h \
  /usr/local/include/sys/_types/_seek_set.h /usr/local/include/_ctermid.h \
  /usr/local/include/sys/_types/_off_t.h \
  /usr/local/include/sys/_types/_ssize_t.h \
  /usr/local/include/secure/_stdio.h /usr/local/include/secure/_common.h \
- /usr/local/include/stdint.h /usr/local/include/_types/_uint8_t.h \
- /usr/local/include/_types/_uint16_t.h \
- /usr/local/include/_types/_uint32_t.h \
- /usr/local/include/_types/_uint64_t.h \
- /usr/local/include/_types/_intmax_t.h \
- /usr/local/include/_types/_uintmax_t.h /usr/local/include/stdlib.h \
- /usr/local/include/sys/wait.h /usr/local/include/sys/_types/_pid_t.h \
+ /usr/local/include/stdlib.h /usr/local/include/sys/wait.h \
+ /usr/local/include/sys/_types/_pid_t.h \
  /usr/local/include/sys/_types/_id_t.h /usr/local/include/sys/signal.h \
  /usr/local/include/sys/appleapiopts.h \
  /usr/local/include/machine/signal.h /usr/local/include/arm/signal.h \
@@ -62,12 +61,12 @@ build/log_stm32.o: DMP/driver/stm32L/log_stm32.c \
  /usr/local/include/sys/_types/_rsize_t.h \
  /usr/local/include/sys/_types/_errno_t.h /usr/local/include/strings.h \
  /usr/local/include/secure/_strings.h /usr/local/include/secure/_string.h \
- DMP/driver/stm32L/packet.h DMP/driver/include/mltypes.h \
- DMP/driver/include/stdint_invensense.h /usr/local/include/errno.h \
- /usr/local/include/sys/errno.h /usr/local/include/limits.h \
- /usr/local/include/machine/limits.h /usr/local/include/arm/limits.h \
- /usr/local/include/arm/_limits.h /usr/local/include/sys/syslimits.h \
- DMP/driver/include/log.h \
+ DMP/driver/include/log.h DMP/driver/stm32L/packet.h \
+ DMP/driver/include/mltypes.h DMP/driver/include/stdint_invensense.h \
+ /usr/local/include/errno.h /usr/local/include/sys/errno.h \
+ /usr/local/include/limits.h /usr/local/include/machine/limits.h \
+ /usr/local/include/arm/limits.h /usr/local/include/arm/_limits.h \
+ /usr/local/include/sys/syslimits.h \
  Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h \
  Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h \
  Drivers/CMSIS/Include/core_cm4.h Drivers/CMSIS/Include/cmsis_version.h \
@@ -99,34 +98,42 @@ build/log_stm32.o: DMP/driver/stm32L/log_stm32.c \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
- Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
-/usr/local/include/stdio.h:
-/usr/local/include/_stdio.h:
+ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
+ Core/Inc/usart.h Core/Inc/main.h
+/usr/local/include/stdint.h:
+/usr/local/include/sys/_types/_int8_t.h:
+/usr/local/include/sys/_types/_int16_t.h:
+/usr/local/include/sys/_types/_int32_t.h:
+/usr/local/include/sys/_types/_int64_t.h:
+/usr/local/include/_types/_uint8_t.h:
+/usr/local/include/_types/_uint16_t.h:
+/usr/local/include/_types/_uint32_t.h:
+/usr/local/include/_types/_uint64_t.h:
+/usr/local/include/sys/_types.h:
 /usr/local/include/sys/cdefs.h:
 /usr/local/include/sys/_symbol_aliasing.h:
 /usr/local/include/sys/_posix_availability.h:
+/usr/local/include/machine/_types.h:
+/usr/local/include/arm/_types.h:
+/usr/local/include/sys/_pthread/_pthread_types.h:
+/usr/local/include/sys/_types/_intptr_t.h:
+/usr/local/include/machine/types.h:
+/usr/local/include/arm/types.h:
+/usr/local/include/sys/_types/_u_int8_t.h:
+/usr/local/include/sys/_types/_u_int16_t.h:
+/usr/local/include/sys/_types/_u_int32_t.h:
+/usr/local/include/sys/_types/_u_int64_t.h:
+/usr/local/include/sys/_types/_uintptr_t.h:
+/usr/local/include/_types/_intmax_t.h:
+/usr/local/include/_types/_uintmax_t.h:
+/usr/local/include/stdio.h:
+/usr/local/include/_stdio.h:
 /usr/local/include/Availability.h:
 /usr/local/include/AvailabilityVersions.h:
 /usr/local/include/AvailabilityInternal.h:
 /usr/local/include/AvailabilityInternalLegacy.h:
 /usr/local/include/_types.h:
-/usr/local/include/sys/_types.h:
-/usr/local/include/machine/_types.h:
-/usr/local/include/arm/_types.h:
-/usr/local/include/sys/_pthread/_pthread_types.h:
 /usr/local/include/sys/_types/_va_list.h:
-/usr/local/include/machine/types.h:
-/usr/local/include/arm/types.h:
-/usr/local/include/sys/_types/_int8_t.h:
-/usr/local/include/sys/_types/_int16_t.h:
-/usr/local/include/sys/_types/_int32_t.h:
-/usr/local/include/sys/_types/_int64_t.h:
-/usr/local/include/sys/_types/_u_int8_t.h:
-/usr/local/include/sys/_types/_u_int16_t.h:
-/usr/local/include/sys/_types/_u_int32_t.h:
-/usr/local/include/sys/_types/_u_int64_t.h:
-/usr/local/include/sys/_types/_intptr_t.h:
-/usr/local/include/sys/_types/_uintptr_t.h:
 /usr/local/include/sys/_types/_size_t.h:
 /usr/local/include/sys/_types/_null.h:
 /usr/local/include/sys/stdio.h:
@@ -136,13 +143,6 @@ build/log_stm32.o: DMP/driver/stm32L/log_stm32.c \
 /usr/local/include/sys/_types/_ssize_t.h:
 /usr/local/include/secure/_stdio.h:
 /usr/local/include/secure/_common.h:
-/usr/local/include/stdint.h:
-/usr/local/include/_types/_uint8_t.h:
-/usr/local/include/_types/_uint16_t.h:
-/usr/local/include/_types/_uint32_t.h:
-/usr/local/include/_types/_uint64_t.h:
-/usr/local/include/_types/_intmax_t.h:
-/usr/local/include/_types/_uintmax_t.h:
 /usr/local/include/stdlib.h:
 /usr/local/include/sys/wait.h:
 /usr/local/include/sys/_types/_pid_t.h:
@@ -182,6 +182,7 @@ build/log_stm32.o: DMP/driver/stm32L/log_stm32.c \
 /usr/local/include/strings.h:
 /usr/local/include/secure/_strings.h:
 /usr/local/include/secure/_string.h:
+DMP/driver/include/log.h:
 DMP/driver/stm32L/packet.h:
 DMP/driver/include/mltypes.h:
 DMP/driver/include/stdint_invensense.h:
@@ -192,7 +193,6 @@ DMP/driver/include/stdint_invensense.h:
 /usr/local/include/arm/limits.h:
 /usr/local/include/arm/_limits.h:
 /usr/local/include/sys/syslimits.h:
-DMP/driver/include/log.h:
 Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h:
 Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h:
 Drivers/CMSIS/Include/core_cm4.h:
@@ -228,3 +228,5 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
+Core/Inc/usart.h:
+Core/Inc/main.h:
