@@ -1,0 +1,212 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Cmd_Serial.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/Src/Cmd_Serial.c"
+  20              		.section	.text.CmdProcessing,"ax",%progbits
+  21              		.align	1
+  22              		.global	CmdProcessing
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	CmdProcessing:
+  28              	.LVL0:
+  29              	.LFB133:
+   1:user/Src/Cmd_Serial.c **** #include "main.h"
+   2:user/Src/Cmd_Serial.c **** #include "stm32g4xx_hal_gpio.h"
+   3:user/Src/Cmd_Serial.c **** #include "usart.h"
+   4:user/Src/Cmd_Serial.c **** #include <stdio.h>
+   5:user/Src/Cmd_Serial.c **** #include <string.h>
+   6:user/Src/Cmd_Serial.c **** 
+   7:user/Src/Cmd_Serial.c **** extern void uart_printf(char *fmt, ...);
+   8:user/Src/Cmd_Serial.c **** extern float angle;
+   9:user/Src/Cmd_Serial.c **** char chcmd[64];
+  10:user/Src/Cmd_Serial.c **** uint16_t cmd_i = 0;
+  11:user/Src/Cmd_Serial.c **** 
+  12:user/Src/Cmd_Serial.c **** void CmdProcessing(UART_HandleTypeDef *huart) {
+  30              		.loc 1 12 47 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 12 47 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0446     		mov	r4, r0
+  13:user/Src/Cmd_Serial.c ****   static uint16_t cmd_start = 0;
+  41              		.loc 1 13 3 is_stmt 1 view .LVU2
+  14:user/Src/Cmd_Serial.c **** 
+  15:user/Src/Cmd_Serial.c ****   if (chcmd[cmd_i] == '\n') {
+  42              		.loc 1 15 3 view .LVU3
+  43              		.loc 1 15 12 is_stmt 0 view .LVU4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s 			page 2
+
+
+  44 0004 124B     		ldr	r3, .L8
+  45 0006 1B88     		ldrh	r3, [r3]
+  46 0008 124A     		ldr	r2, .L8+4
+  47 000a D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+  48              		.loc 1 15 6 view .LVU5
+  49 000c 0A2A     		cmp	r2, #10
+  50 000e 0BD0     		beq	.L6
+  16:user/Src/Cmd_Serial.c ****     chcmd[cmd_i + 1] = 0;
+  17:user/Src/Cmd_Serial.c ****     switch (chcmd[cmd_start]) {
+  18:user/Src/Cmd_Serial.c ****     case 'r': {
+  19:user/Src/Cmd_Serial.c ****       HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  20:user/Src/Cmd_Serial.c ****       angle = 0.0;
+  21:user/Src/Cmd_Serial.c ****     } break;
+  22:user/Src/Cmd_Serial.c ****     default:
+  23:user/Src/Cmd_Serial.c ****       break;
+  24:user/Src/Cmd_Serial.c ****     }
+  25:user/Src/Cmd_Serial.c ****     cmd_i = 0;
+  26:user/Src/Cmd_Serial.c ****   } else {
+  27:user/Src/Cmd_Serial.c ****     cmd_i++;
+  51              		.loc 1 27 5 is_stmt 1 view .LVU6
+  52              		.loc 1 27 10 is_stmt 0 view .LVU7
+  53 0010 0133     		adds	r3, r3, #1
+  54 0012 0F4A     		ldr	r2, .L8
+  55 0014 1380     		strh	r3, [r2]	@ movhi
+  56              	.LVL1:
+  57              	.L4:
+  28:user/Src/Cmd_Serial.c ****   }
+  29:user/Src/Cmd_Serial.c ****   HAL_UART_Receive_IT(huart, (uint8_t *)&chcmd[cmd_i], 1);
+  58              		.loc 1 29 3 is_stmt 1 view .LVU8
+  59              		.loc 1 29 47 is_stmt 0 view .LVU9
+  60 0016 0E4B     		ldr	r3, .L8
+  61 0018 1B88     		ldrh	r3, [r3]
+  62              		.loc 1 29 3 view .LVU10
+  63 001a 0122     		movs	r2, #1
+  64 001c 0D49     		ldr	r1, .L8+4
+  65 001e 1944     		add	r1, r1, r3
+  66 0020 2046     		mov	r0, r4
+  67 0022 FFF7FEFF 		bl	HAL_UART_Receive_IT
+  68              	.LVL2:
+  30:user/Src/Cmd_Serial.c **** }
+  69              		.loc 1 30 1 view .LVU11
+  70 0026 10BD     		pop	{r4, pc}
+  71              	.LVL3:
+  72              	.L6:
+  16:user/Src/Cmd_Serial.c ****     chcmd[cmd_i + 1] = 0;
+  73              		.loc 1 16 5 is_stmt 1 view .LVU12
+  16:user/Src/Cmd_Serial.c ****     chcmd[cmd_i + 1] = 0;
+  74              		.loc 1 16 17 is_stmt 0 view .LVU13
+  75 0028 0133     		adds	r3, r3, #1
+  16:user/Src/Cmd_Serial.c ****     chcmd[cmd_i + 1] = 0;
+  76              		.loc 1 16 22 view .LVU14
+  77 002a 0A4A     		ldr	r2, .L8+4
+  78 002c 0021     		movs	r1, #0
+  79 002e D154     		strb	r1, [r2, r3]
+  17:user/Src/Cmd_Serial.c ****     case 'r': {
+  80              		.loc 1 17 5 is_stmt 1 view .LVU15
+  17:user/Src/Cmd_Serial.c ****     case 'r': {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s 			page 3
+
+
+  81              		.loc 1 17 18 is_stmt 0 view .LVU16
+  82 0030 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  17:user/Src/Cmd_Serial.c ****     case 'r': {
+  83              		.loc 1 17 5 view .LVU17
+  84 0032 722B     		cmp	r3, #114
+  85 0034 03D0     		beq	.L7
+  86              	.LVL4:
+  87              	.L3:
+  25:user/Src/Cmd_Serial.c ****   } else {
+  88              		.loc 1 25 5 is_stmt 1 view .LVU18
+  25:user/Src/Cmd_Serial.c ****   } else {
+  89              		.loc 1 25 11 is_stmt 0 view .LVU19
+  90 0036 064B     		ldr	r3, .L8
+  91 0038 0022     		movs	r2, #0
+  92 003a 1A80     		strh	r2, [r3]	@ movhi
+  93 003c EBE7     		b	.L4
+  94              	.LVL5:
+  95              	.L7:
+  19:user/Src/Cmd_Serial.c ****       angle = 0.0;
+  96              		.loc 1 19 7 is_stmt 1 view .LVU20
+  97 003e 2021     		movs	r1, #32
+  98 0040 4FF09040 		mov	r0, #1207959552
+  99              	.LVL6:
+  19:user/Src/Cmd_Serial.c ****       angle = 0.0;
+ 100              		.loc 1 19 7 is_stmt 0 view .LVU21
+ 101 0044 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 102              	.LVL7:
+  20:user/Src/Cmd_Serial.c ****     } break;
+ 103              		.loc 1 20 7 is_stmt 1 view .LVU22
+  20:user/Src/Cmd_Serial.c ****     } break;
+ 104              		.loc 1 20 13 is_stmt 0 view .LVU23
+ 105 0048 034B     		ldr	r3, .L8+8
+ 106 004a 0022     		movs	r2, #0
+ 107 004c 1A60     		str	r2, [r3]	@ float
+  21:user/Src/Cmd_Serial.c ****     default:
+ 108              		.loc 1 21 7 is_stmt 1 view .LVU24
+ 109 004e F2E7     		b	.L3
+ 110              	.L9:
+ 111              		.align	2
+ 112              	.L8:
+ 113 0050 00000000 		.word	cmd_i
+ 114 0054 00000000 		.word	chcmd
+ 115 0058 00000000 		.word	angle
+ 116              		.cfi_endproc
+ 117              	.LFE133:
+ 119              		.global	cmd_i
+ 120              		.section	.bss.cmd_i,"aw",%nobits
+ 121              		.align	1
+ 124              	cmd_i:
+ 125 0000 0000     		.space	2
+ 126              		.global	chcmd
+ 127              		.section	.bss.chcmd,"aw",%nobits
+ 128              		.align	2
+ 131              	chcmd:
+ 132 0000 00000000 		.space	64
+ 132      00000000 
+ 132      00000000 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s 			page 4
+
+
+ 132      00000000 
+ 132      00000000 
+ 133              		.text
+ 134              	.Letext0:
+ 135              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 136              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 137              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 138              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 139              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 140              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 141              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h"
+ 142              		.file 9 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_gpio.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Cmd_Serial.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:21     .text.CmdProcessing:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:27     .text.CmdProcessing:00000000 CmdProcessing
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:113    .text.CmdProcessing:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:124    .bss.cmd_i:00000000 cmd_i
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:131    .bss.chcmd:00000000 chcmd
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:121    .bss.cmd_i:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccZh8fij.s:128    .bss.chcmd:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Receive_IT
+HAL_GPIO_TogglePin
+angle

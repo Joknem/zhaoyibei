@@ -1,0 +1,1037 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"log_stm32.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "DMP/driver/stm32L/log_stm32.c"
+  20              		.section	.text._MLPrintLog,"ax",%progbits
+  21              		.align	1
+  22              		.global	_MLPrintLog
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_MLPrintLog:
+  28              	.LVL0:
+  29              	.LFB143:
+   1:DMP/driver/stm32L/log_stm32.c **** /*
+   2:DMP/driver/stm32L/log_stm32.c ****  $License:
+   3:DMP/driver/stm32L/log_stm32.c ****     Copyright (C) 2010 InvenSense Corporation, All Rights Reserved.
+   4:DMP/driver/stm32L/log_stm32.c ****  $
+   5:DMP/driver/stm32L/log_stm32.c ****  */
+   6:DMP/driver/stm32L/log_stm32.c **** /*******************************************************************************
+   7:DMP/driver/stm32L/log_stm32.c ****  * $Id: $
+   8:DMP/driver/stm32L/log_stm32.c ****  *******************************************************************************/
+   9:DMP/driver/stm32L/log_stm32.c **** 
+  10:DMP/driver/stm32L/log_stm32.c **** /**
+  11:DMP/driver/stm32L/log_stm32.c ****  *  @defgroup MSP430_System_Layer MSP430 System Layer
+  12:DMP/driver/stm32L/log_stm32.c ****  *  @brief  MSP430 System Layer APIs.
+  13:DMP/driver/stm32L/log_stm32.c ****  *          To interface with any platform, eMPL needs access to various
+  14:DMP/driver/stm32L/log_stm32.c ****  *          system layer functions.
+  15:DMP/driver/stm32L/log_stm32.c ****  *
+  16:DMP/driver/stm32L/log_stm32.c ****  *  @{
+  17:DMP/driver/stm32L/log_stm32.c ****  *      @file   log_msp430.c
+  18:DMP/driver/stm32L/log_stm32.c ****  *      @brief  Logging facility for the TI MSP430.
+  19:DMP/driver/stm32L/log_stm32.c ****  */
+  20:DMP/driver/stm32L/log_stm32.c **** 
+  21:DMP/driver/stm32L/log_stm32.c **** #include <stdarg.h>
+  22:DMP/driver/stm32L/log_stm32.c **** #include <stdint.h>
+  23:DMP/driver/stm32L/log_stm32.c **** #include <stdio.h>
+  24:DMP/driver/stm32L/log_stm32.c **** #include <stdlib.h>
+  25:DMP/driver/stm32L/log_stm32.c **** #include <string.h>
+  26:DMP/driver/stm32L/log_stm32.c **** 
+  27:DMP/driver/stm32L/log_stm32.c **** #include "log.h"
+  28:DMP/driver/stm32L/log_stm32.c **** #include "packet.h"
+  29:DMP/driver/stm32L/log_stm32.c **** #include "stm32g4xx.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 2
+
+
+  30:DMP/driver/stm32L/log_stm32.c **** // #include "usart.h"
+  31:DMP/driver/stm32L/log_stm32.c **** #include "stdio.h"
+  32:DMP/driver/stm32L/log_stm32.c **** 
+  33:DMP/driver/stm32L/log_stm32.c **** #define BUF_SIZE (256)
+  34:DMP/driver/stm32L/log_stm32.c **** #define PACKET_LENGTH (23)
+  35:DMP/driver/stm32L/log_stm32.c **** 
+  36:DMP/driver/stm32L/log_stm32.c **** #define PACKET_DEBUG (1)
+  37:DMP/driver/stm32L/log_stm32.c **** #define PACKET_QUAT (2)
+  38:DMP/driver/stm32L/log_stm32.c **** #define PACKET_DATA (3)
+  39:DMP/driver/stm32L/log_stm32.c **** 
+  40:DMP/driver/stm32L/log_stm32.c **** /**
+  41:DMP/driver/stm32L/log_stm32.c ****  *  @brief      Prints a variable argument log message.
+  42:DMP/driver/stm32L/log_stm32.c ****  *  USB output will be formatted as follows:\n
+  43:DMP/driver/stm32L/log_stm32.c ****  *  packet[0]       = $\n
+  44:DMP/driver/stm32L/log_stm32.c ****  *  packet[1]       = packet type (1: debug, 2: quat, 3: data)\n
+  45:DMP/driver/stm32L/log_stm32.c ****  *  packet[2]       = \n for debug packets: log priority\n
+  46:DMP/driver/stm32L/log_stm32.c ****  *                    for quaternion packets: unused\n
+  47:DMP/driver/stm32L/log_stm32.c ****  *                    for data packets: packet content (accel, gyro, etc)\n
+  48:DMP/driver/stm32L/log_stm32.c ****  *  packet[3-20]    = data\n
+  49:DMP/driver/stm32L/log_stm32.c ****  *  packet[21]      = \\r\n
+  50:DMP/driver/stm32L/log_stm32.c ****  *  packet[22]      = \\n
+  51:DMP/driver/stm32L/log_stm32.c ****  *  @param[in]  priority    Log priority (based on Android).
+  52:DMP/driver/stm32L/log_stm32.c ****  *  @param[in]  tag         File specific string.
+  53:DMP/driver/stm32L/log_stm32.c ****  *  @param[in]  fmt         String of text with optional format tags.
+  54:DMP/driver/stm32L/log_stm32.c ****  *
+  55:DMP/driver/stm32L/log_stm32.c ****  *  @return     0 if successful.
+  56:DMP/driver/stm32L/log_stm32.c ****  */
+  57:DMP/driver/stm32L/log_stm32.c **** int _MLPrintLog(int priority, const char *tag, const char *fmt, ...) {
+  30              		.loc 1 57 70 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 8, frame = 288
+  33              		@ frame_needed = 0, uses_anonymous_args = 1
+  34              		.loc 1 57 70 is_stmt 0 view .LVU1
+  35 0000 0CB4     		push	{r2, r3}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 2, -8
+  39              		.cfi_offset 3, -4
+  40 0002 70B5     		push	{r4, r5, r6, lr}
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 24
+  43              		.cfi_offset 4, -24
+  44              		.cfi_offset 5, -20
+  45              		.cfi_offset 6, -16
+  46              		.cfi_offset 14, -12
+  47 0004 CAB0     		sub	sp, sp, #296
+  48              	.LCFI2:
+  49              		.cfi_def_cfa_offset 320
+  50 0006 0446     		mov	r4, r0
+  58:DMP/driver/stm32L/log_stm32.c ****   va_list args;
+  51              		.loc 1 58 3 is_stmt 1 view .LVU2
+  59:DMP/driver/stm32L/log_stm32.c ****   int length, ii, i;
+  52              		.loc 1 59 3 view .LVU3
+  60:DMP/driver/stm32L/log_stm32.c ****   FILE *noUse;
+  53              		.loc 1 60 3 view .LVU4
+  61:DMP/driver/stm32L/log_stm32.c ****   char buf[BUF_SIZE], out[PACKET_LENGTH], this_length;
+  54              		.loc 1 61 3 view .LVU5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 3
+
+
+  62:DMP/driver/stm32L/log_stm32.c **** 
+  63:DMP/driver/stm32L/log_stm32.c ****   /* This can be modified to exit for unsupported priorities. */
+  64:DMP/driver/stm32L/log_stm32.c ****   switch (priority) {
+  55              		.loc 1 64 3 view .LVU6
+  56 0008 0628     		cmp	r0, #6
+  57 000a 08DC     		bgt	.L2
+  58 000c 0028     		cmp	r0, #0
+  59 000e 0ADA     		bge	.L3
+  60 0010 0026     		movs	r6, #0
+  61              	.LVL1:
+  62              	.L1:
+  65:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_UNKNOWN:
+  66:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_DEFAULT:
+  67:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_VERBOSE:
+  68:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_DEBUG:
+  69:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_INFO:
+  70:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_WARN:
+  71:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_ERROR:
+  72:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_SILENT:
+  73:DMP/driver/stm32L/log_stm32.c ****     break;
+  74:DMP/driver/stm32L/log_stm32.c ****   default:
+  75:DMP/driver/stm32L/log_stm32.c ****     return 0;
+  76:DMP/driver/stm32L/log_stm32.c ****   }
+  77:DMP/driver/stm32L/log_stm32.c **** 
+  78:DMP/driver/stm32L/log_stm32.c ****   va_start(args, fmt);
+  79:DMP/driver/stm32L/log_stm32.c **** 
+  80:DMP/driver/stm32L/log_stm32.c ****   length = vsprintf(buf, fmt, args);
+  81:DMP/driver/stm32L/log_stm32.c ****   if (length <= 0) {
+  82:DMP/driver/stm32L/log_stm32.c ****     va_end(args);
+  83:DMP/driver/stm32L/log_stm32.c ****     return length;
+  84:DMP/driver/stm32L/log_stm32.c ****   }
+  85:DMP/driver/stm32L/log_stm32.c **** 
+  86:DMP/driver/stm32L/log_stm32.c ****   memset(out, 0, PACKET_LENGTH);
+  87:DMP/driver/stm32L/log_stm32.c ****   out[0] = '$';
+  88:DMP/driver/stm32L/log_stm32.c ****   out[1] = PACKET_DEBUG;
+  89:DMP/driver/stm32L/log_stm32.c ****   out[2] = priority;
+  90:DMP/driver/stm32L/log_stm32.c ****   out[21] = '\r';
+  91:DMP/driver/stm32L/log_stm32.c ****   out[22] = '\n';
+  92:DMP/driver/stm32L/log_stm32.c ****   for (ii = 0; ii < length; ii += (PACKET_LENGTH - 5)) {
+  93:DMP/driver/stm32L/log_stm32.c **** #define min(a, b) ((a < b) ? a : b)
+  94:DMP/driver/stm32L/log_stm32.c ****     this_length = min(length - ii, PACKET_LENGTH - 5);
+  95:DMP/driver/stm32L/log_stm32.c ****     memset(out + 3, 0, 18);
+  96:DMP/driver/stm32L/log_stm32.c ****     memcpy(out + 3, buf + ii, this_length);
+  97:DMP/driver/stm32L/log_stm32.c ****     for (i = 0; i < PACKET_LENGTH; i++) {
+  98:DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
+  99:DMP/driver/stm32L/log_stm32.c ****     }
+ 100:DMP/driver/stm32L/log_stm32.c ****   }
+ 101:DMP/driver/stm32L/log_stm32.c **** 
+ 102:DMP/driver/stm32L/log_stm32.c ****   va_end(args);
+ 103:DMP/driver/stm32L/log_stm32.c **** 
+ 104:DMP/driver/stm32L/log_stm32.c ****   return 0;
+ 105:DMP/driver/stm32L/log_stm32.c **** }
+  63              		.loc 1 105 1 is_stmt 0 view .LVU7
+  64 0012 3046     		mov	r0, r6
+  65 0014 4AB0     		add	sp, sp, #296
+  66              	.LCFI3:
+  67              		.cfi_remember_state
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 4
+
+
+  68              		.cfi_def_cfa_offset 24
+  69              		@ sp needed
+  70 0016 BDE87040 		pop	{r4, r5, r6, lr}
+  71              	.LCFI4:
+  72              		.cfi_restore 14
+  73              		.cfi_restore 6
+  74              		.cfi_restore 5
+  75              		.cfi_restore 4
+  76              		.cfi_def_cfa_offset 8
+  77 001a 02B0     		add	sp, sp, #8
+  78              	.LCFI5:
+  79              		.cfi_restore 3
+  80              		.cfi_restore 2
+  81              		.cfi_def_cfa_offset 0
+  82 001c 7047     		bx	lr
+  83              	.LVL2:
+  84              	.L2:
+  85              	.LCFI6:
+  86              		.cfi_restore_state
+  64:DMP/driver/stm32L/log_stm32.c ****   case MPL_LOG_UNKNOWN:
+  87              		.loc 1 64 3 view .LVU8
+  88 001e 0828     		cmp	r0, #8
+  89 0020 01D0     		beq	.L3
+  90 0022 0026     		movs	r6, #0
+  91 0024 F5E7     		b	.L1
+  92              	.L3:
+  73:DMP/driver/stm32L/log_stm32.c ****   default:
+  93              		.loc 1 73 5 is_stmt 1 view .LVU9
+  78:DMP/driver/stm32L/log_stm32.c **** 
+  94              		.loc 1 78 3 view .LVU10
+  95 0026 4FAB     		add	r3, sp, #316
+  96 0028 4993     		str	r3, [sp, #292]
+  80:DMP/driver/stm32L/log_stm32.c ****   if (length <= 0) {
+  97              		.loc 1 80 3 view .LVU11
+  80:DMP/driver/stm32L/log_stm32.c ****   if (length <= 0) {
+  98              		.loc 1 80 12 is_stmt 0 view .LVU12
+  99 002a 0093     		str	r3, [sp]
+ 100 002c 4E9B     		ldr	r3, [sp, #312]
+ 101 002e 4FF48072 		mov	r2, #256
+ 102 0032 0021     		movs	r1, #0
+ 103              	.LVL3:
+  80:DMP/driver/stm32L/log_stm32.c ****   if (length <= 0) {
+ 104              		.loc 1 80 12 view .LVU13
+ 105 0034 09A8     		add	r0, sp, #36
+ 106              	.LVL4:
+  80:DMP/driver/stm32L/log_stm32.c ****   if (length <= 0) {
+ 107              		.loc 1 80 12 view .LVU14
+ 108 0036 FFF7FEFF 		bl	__vsprintf_chk
+ 109              	.LVL5:
+  81:DMP/driver/stm32L/log_stm32.c ****     va_end(args);
+ 110              		.loc 1 81 3 is_stmt 1 view .LVU15
+  81:DMP/driver/stm32L/log_stm32.c ****     va_end(args);
+ 111              		.loc 1 81 6 is_stmt 0 view .LVU16
+ 112 003a 061E     		subs	r6, r0, #0
+ 113 003c E9DD     		ble	.L1
+  86:DMP/driver/stm32L/log_stm32.c ****   out[0] = '$';
+ 114              		.loc 1 86 3 is_stmt 1 view .LVU17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 5
+
+
+ 115 003e 0025     		movs	r5, #0
+ 116 0040 0395     		str	r5, [sp, #12]
+ 117 0042 0495     		str	r5, [sp, #16]
+ 118 0044 0595     		str	r5, [sp, #20]
+ 119 0046 0695     		str	r5, [sp, #24]
+ 120 0048 0795     		str	r5, [sp, #28]
+ 121 004a CDF81F50 		str	r5, [sp, #31]	@ unaligned
+  87:DMP/driver/stm32L/log_stm32.c ****   out[1] = PACKET_DEBUG;
+ 122              		.loc 1 87 3 view .LVU18
+  87:DMP/driver/stm32L/log_stm32.c ****   out[1] = PACKET_DEBUG;
+ 123              		.loc 1 87 10 is_stmt 0 view .LVU19
+ 124 004e 2423     		movs	r3, #36
+ 125 0050 8DF80C30 		strb	r3, [sp, #12]
+  88:DMP/driver/stm32L/log_stm32.c ****   out[2] = priority;
+ 126              		.loc 1 88 3 is_stmt 1 view .LVU20
+  88:DMP/driver/stm32L/log_stm32.c ****   out[2] = priority;
+ 127              		.loc 1 88 10 is_stmt 0 view .LVU21
+ 128 0054 0123     		movs	r3, #1
+ 129 0056 8DF80D30 		strb	r3, [sp, #13]
+  89:DMP/driver/stm32L/log_stm32.c ****   out[21] = '\r';
+ 130              		.loc 1 89 3 is_stmt 1 view .LVU22
+  89:DMP/driver/stm32L/log_stm32.c ****   out[21] = '\r';
+ 131              		.loc 1 89 10 is_stmt 0 view .LVU23
+ 132 005a 8DF80E40 		strb	r4, [sp, #14]
+  90:DMP/driver/stm32L/log_stm32.c ****   out[22] = '\n';
+ 133              		.loc 1 90 3 is_stmt 1 view .LVU24
+  90:DMP/driver/stm32L/log_stm32.c ****   out[22] = '\n';
+ 134              		.loc 1 90 11 is_stmt 0 view .LVU25
+ 135 005e 0D23     		movs	r3, #13
+ 136 0060 8DF82130 		strb	r3, [sp, #33]
+  91:DMP/driver/stm32L/log_stm32.c ****   for (ii = 0; ii < length; ii += (PACKET_LENGTH - 5)) {
+ 137              		.loc 1 91 3 is_stmt 1 view .LVU26
+  91:DMP/driver/stm32L/log_stm32.c ****   for (ii = 0; ii < length; ii += (PACKET_LENGTH - 5)) {
+ 138              		.loc 1 91 11 is_stmt 0 view .LVU27
+ 139 0064 0A23     		movs	r3, #10
+ 140 0066 8DF82230 		strb	r3, [sp, #34]
+  92:DMP/driver/stm32L/log_stm32.c **** #define min(a, b) ((a < b) ? a : b)
+ 141              		.loc 1 92 3 is_stmt 1 view .LVU28
+ 142              	.LVL6:
+  92:DMP/driver/stm32L/log_stm32.c **** #define min(a, b) ((a < b) ? a : b)
+ 143              		.loc 1 92 3 is_stmt 0 view .LVU29
+ 144 006a 08E0     		b	.L5
+ 145              	.LVL7:
+ 146              	.L7:
+  98:DMP/driver/stm32L/log_stm32.c ****     }
+ 147              		.loc 1 98 7 is_stmt 1 discriminator 3 view .LVU30
+ 148 006c 0021     		movs	r1, #0
+ 149 006e 03AB     		add	r3, sp, #12
+ 150 0070 185D     		ldrb	r0, [r3, r4]	@ zero_extendqisi2
+ 151 0072 FFF7FEFF 		bl	fputc
+ 152              	.LVL8:
+  97:DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
+ 153              		.loc 1 97 37 discriminator 3 view .LVU31
+ 154 0076 0134     		adds	r4, r4, #1
+ 155              	.LVL9:
+ 156              	.L6:
+  97:DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 6
+
+
+ 157              		.loc 1 97 19 discriminator 1 view .LVU32
+ 158 0078 162C     		cmp	r4, #22
+ 159 007a F7DD     		ble	.L7
+  92:DMP/driver/stm32L/log_stm32.c **** #define min(a, b) ((a < b) ? a : b)
+ 160              		.loc 1 92 32 discriminator 2 view .LVU33
+ 161 007c 1235     		adds	r5, r5, #18
+ 162              	.LVL10:
+ 163              	.L5:
+  92:DMP/driver/stm32L/log_stm32.c **** #define min(a, b) ((a < b) ? a : b)
+ 164              		.loc 1 92 19 discriminator 1 view .LVU34
+ 165 007e B542     		cmp	r5, r6
+ 166 0080 17DA     		bge	.L11
+  94:DMP/driver/stm32L/log_stm32.c ****     memset(out + 3, 0, 18);
+ 167              		.loc 1 94 5 view .LVU35
+  94:DMP/driver/stm32L/log_stm32.c ****     memset(out + 3, 0, 18);
+ 168              		.loc 1 94 19 is_stmt 0 view .LVU36
+ 169 0082 721B     		subs	r2, r6, r5
+ 170 0084 122A     		cmp	r2, #18
+ 171 0086 A8BF     		it	ge
+ 172 0088 1222     		movge	r2, #18
+ 173              	.LVL11:
+  95:DMP/driver/stm32L/log_stm32.c ****     memcpy(out + 3, buf + ii, this_length);
+ 174              		.loc 1 95 5 is_stmt 1 view .LVU37
+ 175 008a 0024     		movs	r4, #0
+ 176 008c CDF80F40 		str	r4, [sp, #15]	@ unaligned
+ 177 0090 CDF81340 		str	r4, [sp, #19]	@ unaligned
+ 178 0094 CDF81740 		str	r4, [sp, #23]	@ unaligned
+ 179 0098 CDF81B40 		str	r4, [sp, #27]	@ unaligned
+ 180 009c ADF81F40 		strh	r4, [sp, #31]	@ unaligned
+  96:DMP/driver/stm32L/log_stm32.c ****     for (i = 0; i < PACKET_LENGTH; i++) {
+ 181              		.loc 1 96 5 view .LVU38
+ 182 00a0 1423     		movs	r3, #20
+ 183 00a2 D2B2     		uxtb	r2, r2
+  96:DMP/driver/stm32L/log_stm32.c ****     for (i = 0; i < PACKET_LENGTH; i++) {
+ 184              		.loc 1 96 5 is_stmt 0 view .LVU39
+ 185 00a4 09A9     		add	r1, sp, #36
+ 186 00a6 2944     		add	r1, r1, r5
+ 187 00a8 0DF10F00 		add	r0, sp, #15
+ 188 00ac FFF7FEFF 		bl	__memcpy_chk
+ 189              	.LVL12:
+  97:DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
+ 190              		.loc 1 97 5 is_stmt 1 view .LVU40
+  97:DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
+ 191              		.loc 1 97 5 is_stmt 0 view .LVU41
+ 192 00b0 E2E7     		b	.L6
+ 193              	.LVL13:
+ 194              	.L11:
+ 104:DMP/driver/stm32L/log_stm32.c **** }
+ 195              		.loc 1 104 10 view .LVU42
+ 196 00b2 0026     		movs	r6, #0
+ 197              	.LVL14:
+ 104:DMP/driver/stm32L/log_stm32.c **** }
+ 198              		.loc 1 104 10 view .LVU43
+ 199 00b4 ADE7     		b	.L1
+ 200              		.cfi_endproc
+ 201              	.LFE143:
+ 203              		.section	.text.eMPL_send_quat,"ax",%progbits
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 7
+
+
+ 204              		.align	1
+ 205              		.global	eMPL_send_quat
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 210              	eMPL_send_quat:
+ 211              	.LVL15:
+ 212              	.LFB144:
+ 106:DMP/driver/stm32L/log_stm32.c **** 
+ 107:DMP/driver/stm32L/log_stm32.c **** void eMPL_send_quat(long *quat) {
+ 213              		.loc 1 107 33 is_stmt 1 view -0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 24
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108:DMP/driver/stm32L/log_stm32.c ****   char out[PACKET_LENGTH];
+ 217              		.loc 1 108 3 view .LVU45
+ 109:DMP/driver/stm32L/log_stm32.c ****   int i;
+ 218              		.loc 1 109 3 view .LVU46
+ 110:DMP/driver/stm32L/log_stm32.c ****   FILE *noUse;
+ 219              		.loc 1 110 3 view .LVU47
+ 111:DMP/driver/stm32L/log_stm32.c ****   if (!quat)
+ 220              		.loc 1 111 3 view .LVU48
+ 221              		.loc 1 111 6 is_stmt 0 view .LVU49
+ 222 0000 0028     		cmp	r0, #0
+ 223 0002 5BD0     		beq	.L18
+ 107:DMP/driver/stm32L/log_stm32.c ****   char out[PACKET_LENGTH];
+ 224              		.loc 1 107 33 view .LVU50
+ 225 0004 10B5     		push	{r4, lr}
+ 226              	.LCFI7:
+ 227              		.cfi_def_cfa_offset 8
+ 228              		.cfi_offset 4, -8
+ 229              		.cfi_offset 14, -4
+ 230 0006 86B0     		sub	sp, sp, #24
+ 231              	.LCFI8:
+ 232              		.cfi_def_cfa_offset 32
+ 112:DMP/driver/stm32L/log_stm32.c ****     return;
+ 113:DMP/driver/stm32L/log_stm32.c ****   memset(out, 0, PACKET_LENGTH);
+ 233              		.loc 1 113 3 is_stmt 1 view .LVU51
+ 234 0008 0024     		movs	r4, #0
+ 235 000a 0094     		str	r4, [sp]
+ 236 000c 0194     		str	r4, [sp, #4]
+ 237 000e 0294     		str	r4, [sp, #8]
+ 238 0010 0394     		str	r4, [sp, #12]
+ 239 0012 0494     		str	r4, [sp, #16]
+ 240 0014 CDF81340 		str	r4, [sp, #19]	@ unaligned
+ 114:DMP/driver/stm32L/log_stm32.c ****   out[0] = '$';
+ 241              		.loc 1 114 3 view .LVU52
+ 242              		.loc 1 114 10 is_stmt 0 view .LVU53
+ 243 0018 2422     		movs	r2, #36
+ 244 001a 8DF80020 		strb	r2, [sp]
+ 115:DMP/driver/stm32L/log_stm32.c ****   out[1] = PACKET_QUAT;
+ 245              		.loc 1 115 3 is_stmt 1 view .LVU54
+ 246              		.loc 1 115 10 is_stmt 0 view .LVU55
+ 247 001e 0222     		movs	r2, #2
+ 248 0020 8DF80120 		strb	r2, [sp, #1]
+ 116:DMP/driver/stm32L/log_stm32.c ****   out[3] = (char)(quat[0] >> 24);
+ 249              		.loc 1 116 3 is_stmt 1 view .LVU56
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 8
+
+
+ 250              		.loc 1 116 23 is_stmt 0 view .LVU57
+ 251 0024 0268     		ldr	r2, [r0]
+ 252              		.loc 1 116 12 view .LVU58
+ 253 0026 110E     		lsrs	r1, r2, #24
+ 254              		.loc 1 116 10 view .LVU59
+ 255 0028 8DF80310 		strb	r1, [sp, #3]
+ 117:DMP/driver/stm32L/log_stm32.c ****   out[4] = (char)(quat[0] >> 16);
+ 256              		.loc 1 117 3 is_stmt 1 view .LVU60
+ 257              		.loc 1 117 12 is_stmt 0 view .LVU61
+ 258 002c C2F30741 		ubfx	r1, r2, #16, #8
+ 259              		.loc 1 117 10 view .LVU62
+ 260 0030 8DF80410 		strb	r1, [sp, #4]
+ 118:DMP/driver/stm32L/log_stm32.c ****   out[5] = (char)(quat[0] >> 8);
+ 261              		.loc 1 118 3 is_stmt 1 view .LVU63
+ 262              		.loc 1 118 12 is_stmt 0 view .LVU64
+ 263 0034 C2F30721 		ubfx	r1, r2, #8, #8
+ 264              		.loc 1 118 10 view .LVU65
+ 265 0038 8DF80510 		strb	r1, [sp, #5]
+ 119:DMP/driver/stm32L/log_stm32.c ****   out[6] = (char)quat[0];
+ 266              		.loc 1 119 3 is_stmt 1 view .LVU66
+ 267              		.loc 1 119 10 is_stmt 0 view .LVU67
+ 268 003c 8DF80620 		strb	r2, [sp, #6]
+ 120:DMP/driver/stm32L/log_stm32.c ****   out[7] = (char)(quat[1] >> 24);
+ 269              		.loc 1 120 3 is_stmt 1 view .LVU68
+ 270              		.loc 1 120 23 is_stmt 0 view .LVU69
+ 271 0040 4268     		ldr	r2, [r0, #4]
+ 272              		.loc 1 120 12 view .LVU70
+ 273 0042 110E     		lsrs	r1, r2, #24
+ 274              		.loc 1 120 10 view .LVU71
+ 275 0044 8DF80710 		strb	r1, [sp, #7]
+ 121:DMP/driver/stm32L/log_stm32.c ****   out[8] = (char)(quat[1] >> 16);
+ 276              		.loc 1 121 3 is_stmt 1 view .LVU72
+ 277              		.loc 1 121 12 is_stmt 0 view .LVU73
+ 278 0048 C2F30741 		ubfx	r1, r2, #16, #8
+ 279              		.loc 1 121 10 view .LVU74
+ 280 004c 8DF80810 		strb	r1, [sp, #8]
+ 122:DMP/driver/stm32L/log_stm32.c ****   out[9] = (char)(quat[1] >> 8);
+ 281              		.loc 1 122 3 is_stmt 1 view .LVU75
+ 282              		.loc 1 122 12 is_stmt 0 view .LVU76
+ 283 0050 C2F30721 		ubfx	r1, r2, #8, #8
+ 284              		.loc 1 122 10 view .LVU77
+ 285 0054 8DF80910 		strb	r1, [sp, #9]
+ 123:DMP/driver/stm32L/log_stm32.c ****   out[10] = (char)quat[1];
+ 286              		.loc 1 123 3 is_stmt 1 view .LVU78
+ 287              		.loc 1 123 11 is_stmt 0 view .LVU79
+ 288 0058 8DF80A20 		strb	r2, [sp, #10]
+ 124:DMP/driver/stm32L/log_stm32.c ****   out[11] = (char)(quat[2] >> 24);
+ 289              		.loc 1 124 3 is_stmt 1 view .LVU80
+ 290              		.loc 1 124 24 is_stmt 0 view .LVU81
+ 291 005c 8268     		ldr	r2, [r0, #8]
+ 292              		.loc 1 124 13 view .LVU82
+ 293 005e 110E     		lsrs	r1, r2, #24
+ 294              		.loc 1 124 11 view .LVU83
+ 295 0060 8DF80B10 		strb	r1, [sp, #11]
+ 125:DMP/driver/stm32L/log_stm32.c ****   out[12] = (char)(quat[2] >> 16);
+ 296              		.loc 1 125 3 is_stmt 1 view .LVU84
+ 297              		.loc 1 125 13 is_stmt 0 view .LVU85
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 9
+
+
+ 298 0064 C2F30741 		ubfx	r1, r2, #16, #8
+ 299              		.loc 1 125 11 view .LVU86
+ 300 0068 8DF80C10 		strb	r1, [sp, #12]
+ 126:DMP/driver/stm32L/log_stm32.c ****   out[13] = (char)(quat[2] >> 8);
+ 301              		.loc 1 126 3 is_stmt 1 view .LVU87
+ 302              		.loc 1 126 13 is_stmt 0 view .LVU88
+ 303 006c C2F30721 		ubfx	r1, r2, #8, #8
+ 304              		.loc 1 126 11 view .LVU89
+ 305 0070 8DF80D10 		strb	r1, [sp, #13]
+ 127:DMP/driver/stm32L/log_stm32.c ****   out[14] = (char)quat[2];
+ 306              		.loc 1 127 3 is_stmt 1 view .LVU90
+ 307              		.loc 1 127 11 is_stmt 0 view .LVU91
+ 308 0074 8DF80E20 		strb	r2, [sp, #14]
+ 128:DMP/driver/stm32L/log_stm32.c ****   out[15] = (char)(quat[3] >> 24);
+ 309              		.loc 1 128 3 is_stmt 1 view .LVU92
+ 310              		.loc 1 128 24 is_stmt 0 view .LVU93
+ 311 0078 C368     		ldr	r3, [r0, #12]
+ 312              		.loc 1 128 13 view .LVU94
+ 313 007a 1A0E     		lsrs	r2, r3, #24
+ 314              		.loc 1 128 11 view .LVU95
+ 315 007c 8DF80F20 		strb	r2, [sp, #15]
+ 129:DMP/driver/stm32L/log_stm32.c ****   out[16] = (char)(quat[3] >> 16);
+ 316              		.loc 1 129 3 is_stmt 1 view .LVU96
+ 317              		.loc 1 129 13 is_stmt 0 view .LVU97
+ 318 0080 C3F30742 		ubfx	r2, r3, #16, #8
+ 319              		.loc 1 129 11 view .LVU98
+ 320 0084 8DF81020 		strb	r2, [sp, #16]
+ 130:DMP/driver/stm32L/log_stm32.c ****   out[17] = (char)(quat[3] >> 8);
+ 321              		.loc 1 130 3 is_stmt 1 view .LVU99
+ 322              		.loc 1 130 13 is_stmt 0 view .LVU100
+ 323 0088 C3F30722 		ubfx	r2, r3, #8, #8
+ 324              		.loc 1 130 11 view .LVU101
+ 325 008c 8DF81120 		strb	r2, [sp, #17]
+ 131:DMP/driver/stm32L/log_stm32.c ****   out[18] = (char)quat[3];
+ 326              		.loc 1 131 3 is_stmt 1 view .LVU102
+ 327              		.loc 1 131 11 is_stmt 0 view .LVU103
+ 328 0090 8DF81230 		strb	r3, [sp, #18]
+ 132:DMP/driver/stm32L/log_stm32.c ****   out[21] = '\r';
+ 329              		.loc 1 132 3 is_stmt 1 view .LVU104
+ 330              		.loc 1 132 11 is_stmt 0 view .LVU105
+ 331 0094 0D23     		movs	r3, #13
+ 332 0096 8DF81530 		strb	r3, [sp, #21]
+ 133:DMP/driver/stm32L/log_stm32.c ****   out[22] = '\n';
+ 333              		.loc 1 133 3 is_stmt 1 view .LVU106
+ 334              		.loc 1 133 11 is_stmt 0 view .LVU107
+ 335 009a 0A23     		movs	r3, #10
+ 336 009c 8DF81630 		strb	r3, [sp, #22]
+ 134:DMP/driver/stm32L/log_stm32.c **** 
+ 135:DMP/driver/stm32L/log_stm32.c ****   for (i = 0; i < PACKET_LENGTH; i++) {
+ 337              		.loc 1 135 3 is_stmt 1 view .LVU108
+ 338              	.LVL16:
+ 339              		.loc 1 135 3 is_stmt 0 view .LVU109
+ 340 00a0 08E0     		b	.L15
+ 341              	.LVL17:
+ 342              	.L16:
+ 136:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 343              		.loc 1 136 5 is_stmt 1 discriminator 3 view .LVU110
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 10
+
+
+ 344              		.loc 1 136 14 is_stmt 0 discriminator 3 view .LVU111
+ 345 00a2 04F11803 		add	r3, r4, #24
+ 346 00a6 6B44     		add	r3, sp, r3
+ 347              		.loc 1 136 5 discriminator 3 view .LVU112
+ 348 00a8 0021     		movs	r1, #0
+ 349 00aa 13F8180C 		ldrb	r0, [r3, #-24]	@ zero_extendqisi2
+ 350 00ae FFF7FEFF 		bl	fputc
+ 351              	.LVL18:
+ 135:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 352              		.loc 1 135 35 is_stmt 1 discriminator 3 view .LVU113
+ 353 00b2 0134     		adds	r4, r4, #1
+ 354              	.LVL19:
+ 355              	.L15:
+ 135:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 356              		.loc 1 135 17 discriminator 1 view .LVU114
+ 357 00b4 162C     		cmp	r4, #22
+ 358 00b6 F4DD     		ble	.L16
+ 137:DMP/driver/stm32L/log_stm32.c ****   }
+ 138:DMP/driver/stm32L/log_stm32.c **** }
+ 359              		.loc 1 138 1 is_stmt 0 view .LVU115
+ 360 00b8 06B0     		add	sp, sp, #24
+ 361              	.LCFI9:
+ 362              		.cfi_def_cfa_offset 8
+ 363              		@ sp needed
+ 364 00ba 10BD     		pop	{r4, pc}
+ 365              	.LVL20:
+ 366              	.L18:
+ 367              	.LCFI10:
+ 368              		.cfi_def_cfa_offset 0
+ 369              		.cfi_restore 4
+ 370              		.cfi_restore 14
+ 371              		.loc 1 138 1 view .LVU116
+ 372 00bc 7047     		bx	lr
+ 373              		.cfi_endproc
+ 374              	.LFE144:
+ 376              		.section	.text.eMPL_send_data,"ax",%progbits
+ 377              		.align	1
+ 378              		.global	eMPL_send_data
+ 379              		.syntax unified
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	eMPL_send_data:
+ 384              	.LVL21:
+ 385              	.LFB145:
+ 139:DMP/driver/stm32L/log_stm32.c **** 
+ 140:DMP/driver/stm32L/log_stm32.c **** void eMPL_send_data(unsigned char type, long *data) {
+ 386              		.loc 1 140 53 is_stmt 1 view -0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 24
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141:DMP/driver/stm32L/log_stm32.c ****   char out[PACKET_LENGTH];
+ 390              		.loc 1 141 3 view .LVU118
+ 142:DMP/driver/stm32L/log_stm32.c ****   int i;
+ 391              		.loc 1 142 3 view .LVU119
+ 143:DMP/driver/stm32L/log_stm32.c ****   FILE *noUse;
+ 392              		.loc 1 143 3 view .LVU120
+ 144:DMP/driver/stm32L/log_stm32.c ****   if (!data)
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 11
+
+
+ 393              		.loc 1 144 3 view .LVU121
+ 394              		.loc 1 144 6 is_stmt 0 view .LVU122
+ 395 0000 0029     		cmp	r1, #0
+ 396 0002 00F0C180 		beq	.L35
+ 140:DMP/driver/stm32L/log_stm32.c ****   char out[PACKET_LENGTH];
+ 397              		.loc 1 140 53 view .LVU123
+ 398 0006 10B5     		push	{r4, lr}
+ 399              	.LCFI11:
+ 400              		.cfi_def_cfa_offset 8
+ 401              		.cfi_offset 4, -8
+ 402              		.cfi_offset 14, -4
+ 403 0008 86B0     		sub	sp, sp, #24
+ 404              	.LCFI12:
+ 405              		.cfi_def_cfa_offset 32
+ 406 000a 0A46     		mov	r2, r1
+ 145:DMP/driver/stm32L/log_stm32.c ****     return;
+ 146:DMP/driver/stm32L/log_stm32.c ****   memset(out, 0, PACKET_LENGTH);
+ 407              		.loc 1 146 3 is_stmt 1 view .LVU124
+ 408 000c 0023     		movs	r3, #0
+ 409 000e 0093     		str	r3, [sp]
+ 410 0010 0193     		str	r3, [sp, #4]
+ 411 0012 0293     		str	r3, [sp, #8]
+ 412 0014 0393     		str	r3, [sp, #12]
+ 413 0016 0493     		str	r3, [sp, #16]
+ 414 0018 CDF81330 		str	r3, [sp, #19]	@ unaligned
+ 147:DMP/driver/stm32L/log_stm32.c ****   out[0] = '$';
+ 415              		.loc 1 147 3 view .LVU125
+ 416              		.loc 1 147 10 is_stmt 0 view .LVU126
+ 417 001c 2423     		movs	r3, #36
+ 418 001e 8DF80030 		strb	r3, [sp]
+ 148:DMP/driver/stm32L/log_stm32.c ****   out[1] = PACKET_DATA;
+ 419              		.loc 1 148 3 is_stmt 1 view .LVU127
+ 420              		.loc 1 148 10 is_stmt 0 view .LVU128
+ 421 0022 0323     		movs	r3, #3
+ 422 0024 8DF80130 		strb	r3, [sp, #1]
+ 149:DMP/driver/stm32L/log_stm32.c ****   out[2] = type;
+ 423              		.loc 1 149 3 is_stmt 1 view .LVU129
+ 424              		.loc 1 149 10 is_stmt 0 view .LVU130
+ 425 0028 8DF80200 		strb	r0, [sp, #2]
+ 150:DMP/driver/stm32L/log_stm32.c ****   out[21] = '\r';
+ 426              		.loc 1 150 3 is_stmt 1 view .LVU131
+ 427              		.loc 1 150 11 is_stmt 0 view .LVU132
+ 428 002c 0D23     		movs	r3, #13
+ 429 002e 8DF81530 		strb	r3, [sp, #21]
+ 151:DMP/driver/stm32L/log_stm32.c ****   out[22] = '\n';
+ 430              		.loc 1 151 3 is_stmt 1 view .LVU133
+ 431              		.loc 1 151 11 is_stmt 0 view .LVU134
+ 432 0032 0A23     		movs	r3, #10
+ 433 0034 8DF81630 		strb	r3, [sp, #22]
+ 152:DMP/driver/stm32L/log_stm32.c ****   switch (type) {
+ 434              		.loc 1 152 3 is_stmt 1 view .LVU135
+ 435 0038 0628     		cmp	r0, #6
+ 436 003a 00F2A380 		bhi	.L21
+ 437 003e DFE800F0 		tbb	[pc, r0]
+ 438              	.L24:
+ 439 0042 5B       		.byte	(.L26-.L24)/2
+ 440 0043 5B       		.byte	(.L26-.L24)/2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 12
+
+
+ 441 0044 5B       		.byte	(.L26-.L24)/2
+ 442 0045 4D       		.byte	(.L27-.L24)/2
+ 443 0046 5B       		.byte	(.L26-.L24)/2
+ 444 0047 04       		.byte	(.L25-.L24)/2
+ 445 0048 87       		.byte	(.L23-.L24)/2
+ 446 0049 00       		.p2align 1
+ 447              	.L25:
+ 153:DMP/driver/stm32L/log_stm32.c ****   /* Two bytes per-element. */
+ 154:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_ROT:
+ 155:DMP/driver/stm32L/log_stm32.c ****     out[3] = (char)(data[0] >> 24);
+ 448              		.loc 1 155 5 view .LVU136
+ 449              		.loc 1 155 25 is_stmt 0 view .LVU137
+ 450 004a 0B68     		ldr	r3, [r1]
+ 451              		.loc 1 155 14 view .LVU138
+ 452 004c 190E     		lsrs	r1, r3, #24
+ 453              	.LVL22:
+ 454              		.loc 1 155 12 view .LVU139
+ 455 004e 8DF80310 		strb	r1, [sp, #3]
+ 156:DMP/driver/stm32L/log_stm32.c ****     out[4] = (char)(data[0] >> 16);
+ 456              		.loc 1 156 5 is_stmt 1 view .LVU140
+ 457              		.loc 1 156 14 is_stmt 0 view .LVU141
+ 458 0052 C3F30743 		ubfx	r3, r3, #16, #8
+ 459              		.loc 1 156 12 view .LVU142
+ 460 0056 8DF80430 		strb	r3, [sp, #4]
+ 157:DMP/driver/stm32L/log_stm32.c ****     out[5] = (char)(data[1] >> 24);
+ 461              		.loc 1 157 5 is_stmt 1 view .LVU143
+ 462              		.loc 1 157 25 is_stmt 0 view .LVU144
+ 463 005a 5368     		ldr	r3, [r2, #4]
+ 464              		.loc 1 157 14 view .LVU145
+ 465 005c 190E     		lsrs	r1, r3, #24
+ 466              		.loc 1 157 12 view .LVU146
+ 467 005e 8DF80510 		strb	r1, [sp, #5]
+ 158:DMP/driver/stm32L/log_stm32.c ****     out[6] = (char)(data[1] >> 16);
+ 468              		.loc 1 158 5 is_stmt 1 view .LVU147
+ 469              		.loc 1 158 14 is_stmt 0 view .LVU148
+ 470 0062 C3F30743 		ubfx	r3, r3, #16, #8
+ 471              		.loc 1 158 12 view .LVU149
+ 472 0066 8DF80630 		strb	r3, [sp, #6]
+ 159:DMP/driver/stm32L/log_stm32.c ****     out[7] = (char)(data[2] >> 24);
+ 473              		.loc 1 159 5 is_stmt 1 view .LVU150
+ 474              		.loc 1 159 25 is_stmt 0 view .LVU151
+ 475 006a 9368     		ldr	r3, [r2, #8]
+ 476              		.loc 1 159 14 view .LVU152
+ 477 006c 190E     		lsrs	r1, r3, #24
+ 478              		.loc 1 159 12 view .LVU153
+ 479 006e 8DF80710 		strb	r1, [sp, #7]
+ 160:DMP/driver/stm32L/log_stm32.c ****     out[8] = (char)(data[2] >> 16);
+ 480              		.loc 1 160 5 is_stmt 1 view .LVU154
+ 481              		.loc 1 160 14 is_stmt 0 view .LVU155
+ 482 0072 C3F30743 		ubfx	r3, r3, #16, #8
+ 483              		.loc 1 160 12 view .LVU156
+ 484 0076 8DF80830 		strb	r3, [sp, #8]
+ 161:DMP/driver/stm32L/log_stm32.c ****     out[9] = (char)(data[3] >> 24);
+ 485              		.loc 1 161 5 is_stmt 1 view .LVU157
+ 486              		.loc 1 161 25 is_stmt 0 view .LVU158
+ 487 007a D368     		ldr	r3, [r2, #12]
+ 488              		.loc 1 161 14 view .LVU159
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 13
+
+
+ 489 007c 190E     		lsrs	r1, r3, #24
+ 490              		.loc 1 161 12 view .LVU160
+ 491 007e 8DF80910 		strb	r1, [sp, #9]
+ 162:DMP/driver/stm32L/log_stm32.c ****     out[10] = (char)(data[3] >> 16);
+ 492              		.loc 1 162 5 is_stmt 1 view .LVU161
+ 493              		.loc 1 162 15 is_stmt 0 view .LVU162
+ 494 0082 C3F30743 		ubfx	r3, r3, #16, #8
+ 495              		.loc 1 162 13 view .LVU163
+ 496 0086 8DF80A30 		strb	r3, [sp, #10]
+ 163:DMP/driver/stm32L/log_stm32.c ****     out[11] = (char)(data[4] >> 24);
+ 497              		.loc 1 163 5 is_stmt 1 view .LVU164
+ 498              		.loc 1 163 26 is_stmt 0 view .LVU165
+ 499 008a 1369     		ldr	r3, [r2, #16]
+ 500              		.loc 1 163 15 view .LVU166
+ 501 008c 190E     		lsrs	r1, r3, #24
+ 502              		.loc 1 163 13 view .LVU167
+ 503 008e 8DF80B10 		strb	r1, [sp, #11]
+ 164:DMP/driver/stm32L/log_stm32.c ****     out[12] = (char)(data[4] >> 16);
+ 504              		.loc 1 164 5 is_stmt 1 view .LVU168
+ 505              		.loc 1 164 15 is_stmt 0 view .LVU169
+ 506 0092 C3F30743 		ubfx	r3, r3, #16, #8
+ 507              		.loc 1 164 13 view .LVU170
+ 508 0096 8DF80C30 		strb	r3, [sp, #12]
+ 165:DMP/driver/stm32L/log_stm32.c ****     out[13] = (char)(data[5] >> 24);
+ 509              		.loc 1 165 5 is_stmt 1 view .LVU171
+ 510              		.loc 1 165 26 is_stmt 0 view .LVU172
+ 511 009a 5369     		ldr	r3, [r2, #20]
+ 512              		.loc 1 165 15 view .LVU173
+ 513 009c 190E     		lsrs	r1, r3, #24
+ 514              		.loc 1 165 13 view .LVU174
+ 515 009e 8DF80D10 		strb	r1, [sp, #13]
+ 166:DMP/driver/stm32L/log_stm32.c ****     out[14] = (char)(data[5] >> 16);
+ 516              		.loc 1 166 5 is_stmt 1 view .LVU175
+ 517              		.loc 1 166 15 is_stmt 0 view .LVU176
+ 518 00a2 C3F30743 		ubfx	r3, r3, #16, #8
+ 519              		.loc 1 166 13 view .LVU177
+ 520 00a6 8DF80E30 		strb	r3, [sp, #14]
+ 167:DMP/driver/stm32L/log_stm32.c ****     out[15] = (char)(data[6] >> 24);
+ 521              		.loc 1 167 5 is_stmt 1 view .LVU178
+ 522              		.loc 1 167 26 is_stmt 0 view .LVU179
+ 523 00aa 9369     		ldr	r3, [r2, #24]
+ 524              		.loc 1 167 15 view .LVU180
+ 525 00ac 190E     		lsrs	r1, r3, #24
+ 526              		.loc 1 167 13 view .LVU181
+ 527 00ae 8DF80F10 		strb	r1, [sp, #15]
+ 168:DMP/driver/stm32L/log_stm32.c ****     out[16] = (char)(data[6] >> 16);
+ 528              		.loc 1 168 5 is_stmt 1 view .LVU182
+ 529              		.loc 1 168 15 is_stmt 0 view .LVU183
+ 530 00b2 C3F30743 		ubfx	r3, r3, #16, #8
+ 531              		.loc 1 168 13 view .LVU184
+ 532 00b6 8DF81030 		strb	r3, [sp, #16]
+ 169:DMP/driver/stm32L/log_stm32.c ****     out[17] = (char)(data[7] >> 24);
+ 533              		.loc 1 169 5 is_stmt 1 view .LVU185
+ 534              		.loc 1 169 26 is_stmt 0 view .LVU186
+ 535 00ba D369     		ldr	r3, [r2, #28]
+ 536              		.loc 1 169 15 view .LVU187
+ 537 00bc 190E     		lsrs	r1, r3, #24
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 14
+
+
+ 538              		.loc 1 169 13 view .LVU188
+ 539 00be 8DF81110 		strb	r1, [sp, #17]
+ 170:DMP/driver/stm32L/log_stm32.c ****     out[18] = (char)(data[7] >> 16);
+ 540              		.loc 1 170 5 is_stmt 1 view .LVU189
+ 541              		.loc 1 170 15 is_stmt 0 view .LVU190
+ 542 00c2 C3F30743 		ubfx	r3, r3, #16, #8
+ 543              		.loc 1 170 13 view .LVU191
+ 544 00c6 8DF81230 		strb	r3, [sp, #18]
+ 171:DMP/driver/stm32L/log_stm32.c ****     out[19] = (char)(data[8] >> 24);
+ 545              		.loc 1 171 5 is_stmt 1 view .LVU192
+ 546              		.loc 1 171 26 is_stmt 0 view .LVU193
+ 547 00ca 136A     		ldr	r3, [r2, #32]
+ 548              		.loc 1 171 15 view .LVU194
+ 549 00cc 1A0E     		lsrs	r2, r3, #24
+ 550              	.LVL23:
+ 551              		.loc 1 171 13 view .LVU195
+ 552 00ce 8DF81320 		strb	r2, [sp, #19]
+ 172:DMP/driver/stm32L/log_stm32.c ****     out[20] = (char)(data[8] >> 16);
+ 553              		.loc 1 172 5 is_stmt 1 view .LVU196
+ 554              		.loc 1 172 15 is_stmt 0 view .LVU197
+ 555 00d2 C3F30743 		ubfx	r3, r3, #16, #8
+ 556              		.loc 1 172 13 view .LVU198
+ 557 00d6 8DF81430 		strb	r3, [sp, #20]
+ 173:DMP/driver/stm32L/log_stm32.c ****     break;
+ 558              		.loc 1 173 5 is_stmt 1 view .LVU199
+ 559 00da 37E0     		b	.L28
+ 560              	.LVL24:
+ 561              	.L27:
+ 174:DMP/driver/stm32L/log_stm32.c ****   /* Four bytes per-element. */
+ 175:DMP/driver/stm32L/log_stm32.c ****   /* Four elements. */
+ 176:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_QUAT:
+ 177:DMP/driver/stm32L/log_stm32.c ****     out[15] = (char)(data[3] >> 24);
+ 562              		.loc 1 177 5 view .LVU200
+ 563              		.loc 1 177 26 is_stmt 0 view .LVU201
+ 564 00dc CB68     		ldr	r3, [r1, #12]
+ 565              		.loc 1 177 15 view .LVU202
+ 566 00de 190E     		lsrs	r1, r3, #24
+ 567              	.LVL25:
+ 568              		.loc 1 177 13 view .LVU203
+ 569 00e0 8DF80F10 		strb	r1, [sp, #15]
+ 178:DMP/driver/stm32L/log_stm32.c ****     out[16] = (char)(data[3] >> 16);
+ 570              		.loc 1 178 5 is_stmt 1 view .LVU204
+ 571              		.loc 1 178 15 is_stmt 0 view .LVU205
+ 572 00e4 C3F30741 		ubfx	r1, r3, #16, #8
+ 573              		.loc 1 178 13 view .LVU206
+ 574 00e8 8DF81010 		strb	r1, [sp, #16]
+ 179:DMP/driver/stm32L/log_stm32.c ****     out[17] = (char)(data[3] >> 8);
+ 575              		.loc 1 179 5 is_stmt 1 view .LVU207
+ 576              		.loc 1 179 15 is_stmt 0 view .LVU208
+ 577 00ec C3F30721 		ubfx	r1, r3, #8, #8
+ 578              		.loc 1 179 13 view .LVU209
+ 579 00f0 8DF81110 		strb	r1, [sp, #17]
+ 180:DMP/driver/stm32L/log_stm32.c ****     out[18] = (char)data[3];
+ 580              		.loc 1 180 5 is_stmt 1 view .LVU210
+ 581              		.loc 1 180 13 is_stmt 0 view .LVU211
+ 582 00f4 8DF81230 		strb	r3, [sp, #18]
+ 583              	.L26:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 15
+
+
+ 181:DMP/driver/stm32L/log_stm32.c ****   /* Three elements. */
+ 182:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_ACCEL:
+ 183:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_GYRO:
+ 184:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_COMPASS:
+ 185:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_EULER:
+ 186:DMP/driver/stm32L/log_stm32.c ****     out[3] = (char)(data[0] >> 24);
+ 584              		.loc 1 186 5 is_stmt 1 view .LVU212
+ 585              		.loc 1 186 25 is_stmt 0 view .LVU213
+ 586 00f8 1368     		ldr	r3, [r2]
+ 587              		.loc 1 186 14 view .LVU214
+ 588 00fa 190E     		lsrs	r1, r3, #24
+ 589              		.loc 1 186 12 view .LVU215
+ 590 00fc 8DF80310 		strb	r1, [sp, #3]
+ 187:DMP/driver/stm32L/log_stm32.c ****     out[4] = (char)(data[0] >> 16);
+ 591              		.loc 1 187 5 is_stmt 1 view .LVU216
+ 592              		.loc 1 187 14 is_stmt 0 view .LVU217
+ 593 0100 C3F30741 		ubfx	r1, r3, #16, #8
+ 594              		.loc 1 187 12 view .LVU218
+ 595 0104 8DF80410 		strb	r1, [sp, #4]
+ 188:DMP/driver/stm32L/log_stm32.c ****     out[5] = (char)(data[0] >> 8);
+ 596              		.loc 1 188 5 is_stmt 1 view .LVU219
+ 597              		.loc 1 188 14 is_stmt 0 view .LVU220
+ 598 0108 C3F30721 		ubfx	r1, r3, #8, #8
+ 599              		.loc 1 188 12 view .LVU221
+ 600 010c 8DF80510 		strb	r1, [sp, #5]
+ 189:DMP/driver/stm32L/log_stm32.c ****     out[6] = (char)data[0];
+ 601              		.loc 1 189 5 is_stmt 1 view .LVU222
+ 602              		.loc 1 189 12 is_stmt 0 view .LVU223
+ 603 0110 8DF80630 		strb	r3, [sp, #6]
+ 190:DMP/driver/stm32L/log_stm32.c ****     out[7] = (char)(data[1] >> 24);
+ 604              		.loc 1 190 5 is_stmt 1 view .LVU224
+ 605              		.loc 1 190 25 is_stmt 0 view .LVU225
+ 606 0114 5368     		ldr	r3, [r2, #4]
+ 607              		.loc 1 190 14 view .LVU226
+ 608 0116 190E     		lsrs	r1, r3, #24
+ 609              		.loc 1 190 12 view .LVU227
+ 610 0118 8DF80710 		strb	r1, [sp, #7]
+ 191:DMP/driver/stm32L/log_stm32.c ****     out[8] = (char)(data[1] >> 16);
+ 611              		.loc 1 191 5 is_stmt 1 view .LVU228
+ 612              		.loc 1 191 14 is_stmt 0 view .LVU229
+ 613 011c C3F30741 		ubfx	r1, r3, #16, #8
+ 614              		.loc 1 191 12 view .LVU230
+ 615 0120 8DF80810 		strb	r1, [sp, #8]
+ 192:DMP/driver/stm32L/log_stm32.c ****     out[9] = (char)(data[1] >> 8);
+ 616              		.loc 1 192 5 is_stmt 1 view .LVU231
+ 617              		.loc 1 192 14 is_stmt 0 view .LVU232
+ 618 0124 C3F30721 		ubfx	r1, r3, #8, #8
+ 619              		.loc 1 192 12 view .LVU233
+ 620 0128 8DF80910 		strb	r1, [sp, #9]
+ 193:DMP/driver/stm32L/log_stm32.c ****     out[10] = (char)data[1];
+ 621              		.loc 1 193 5 is_stmt 1 view .LVU234
+ 622              		.loc 1 193 13 is_stmt 0 view .LVU235
+ 623 012c 8DF80A30 		strb	r3, [sp, #10]
+ 194:DMP/driver/stm32L/log_stm32.c ****     out[11] = (char)(data[2] >> 24);
+ 624              		.loc 1 194 5 is_stmt 1 view .LVU236
+ 625              		.loc 1 194 26 is_stmt 0 view .LVU237
+ 626 0130 9368     		ldr	r3, [r2, #8]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 16
+
+
+ 627              		.loc 1 194 15 view .LVU238
+ 628 0132 1A0E     		lsrs	r2, r3, #24
+ 629              	.LVL26:
+ 630              		.loc 1 194 13 view .LVU239
+ 631 0134 8DF80B20 		strb	r2, [sp, #11]
+ 195:DMP/driver/stm32L/log_stm32.c ****     out[12] = (char)(data[2] >> 16);
+ 632              		.loc 1 195 5 is_stmt 1 view .LVU240
+ 633              		.loc 1 195 15 is_stmt 0 view .LVU241
+ 634 0138 C3F30742 		ubfx	r2, r3, #16, #8
+ 635              		.loc 1 195 13 view .LVU242
+ 636 013c 8DF80C20 		strb	r2, [sp, #12]
+ 196:DMP/driver/stm32L/log_stm32.c ****     out[13] = (char)(data[2] >> 8);
+ 637              		.loc 1 196 5 is_stmt 1 view .LVU243
+ 638              		.loc 1 196 15 is_stmt 0 view .LVU244
+ 639 0140 C3F30722 		ubfx	r2, r3, #8, #8
+ 640              		.loc 1 196 13 view .LVU245
+ 641 0144 8DF80D20 		strb	r2, [sp, #13]
+ 197:DMP/driver/stm32L/log_stm32.c ****     out[14] = (char)data[2];
+ 642              		.loc 1 197 5 is_stmt 1 view .LVU246
+ 643              		.loc 1 197 13 is_stmt 0 view .LVU247
+ 644 0148 8DF80E30 		strb	r3, [sp, #14]
+ 198:DMP/driver/stm32L/log_stm32.c ****     break;
+ 645              		.loc 1 198 5 is_stmt 1 view .LVU248
+ 646              	.L28:
+ 140:DMP/driver/stm32L/log_stm32.c ****   char out[PACKET_LENGTH];
+ 647              		.loc 1 140 53 is_stmt 0 discriminator 1 view .LVU249
+ 648 014c 0024     		movs	r4, #0
+ 649 014e 17E0     		b	.L29
+ 650              	.LVL27:
+ 651              	.L23:
+ 199:DMP/driver/stm32L/log_stm32.c ****   case PACKET_DATA_HEADING:
+ 200:DMP/driver/stm32L/log_stm32.c ****     out[3] = (char)(data[0] >> 24);
+ 652              		.loc 1 200 5 is_stmt 1 view .LVU250
+ 653              		.loc 1 200 25 is_stmt 0 view .LVU251
+ 654 0150 0B68     		ldr	r3, [r1]
+ 655              		.loc 1 200 14 view .LVU252
+ 656 0152 1A0E     		lsrs	r2, r3, #24
+ 657              		.loc 1 200 12 view .LVU253
+ 658 0154 8DF80320 		strb	r2, [sp, #3]
+ 201:DMP/driver/stm32L/log_stm32.c ****     out[4] = (char)(data[0] >> 16);
+ 659              		.loc 1 201 5 is_stmt 1 view .LVU254
+ 660              		.loc 1 201 14 is_stmt 0 view .LVU255
+ 661 0158 C3F30742 		ubfx	r2, r3, #16, #8
+ 662              		.loc 1 201 12 view .LVU256
+ 663 015c 8DF80420 		strb	r2, [sp, #4]
+ 202:DMP/driver/stm32L/log_stm32.c ****     out[5] = (char)(data[0] >> 8);
+ 664              		.loc 1 202 5 is_stmt 1 view .LVU257
+ 665              		.loc 1 202 14 is_stmt 0 view .LVU258
+ 666 0160 C3F30722 		ubfx	r2, r3, #8, #8
+ 667              		.loc 1 202 12 view .LVU259
+ 668 0164 8DF80520 		strb	r2, [sp, #5]
+ 203:DMP/driver/stm32L/log_stm32.c ****     out[6] = (char)data[0];
+ 669              		.loc 1 203 5 is_stmt 1 view .LVU260
+ 670              		.loc 1 203 12 is_stmt 0 view .LVU261
+ 671 0168 8DF80630 		strb	r3, [sp, #6]
+ 204:DMP/driver/stm32L/log_stm32.c ****     break;
+ 672              		.loc 1 204 5 is_stmt 1 view .LVU262
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 17
+
+
+ 673 016c EEE7     		b	.L28
+ 674              	.LVL28:
+ 675              	.L30:
+ 205:DMP/driver/stm32L/log_stm32.c ****   default:
+ 206:DMP/driver/stm32L/log_stm32.c ****     return;
+ 207:DMP/driver/stm32L/log_stm32.c ****   }
+ 208:DMP/driver/stm32L/log_stm32.c ****   for (i = 0; i < PACKET_LENGTH; i++) {
+ 209:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 676              		.loc 1 209 5 discriminator 3 view .LVU263
+ 677              		.loc 1 209 14 is_stmt 0 discriminator 3 view .LVU264
+ 678 016e 04F11803 		add	r3, r4, #24
+ 679 0172 6B44     		add	r3, sp, r3
+ 680              		.loc 1 209 5 discriminator 3 view .LVU265
+ 681 0174 0021     		movs	r1, #0
+ 682 0176 13F8180C 		ldrb	r0, [r3, #-24]	@ zero_extendqisi2
+ 683 017a FFF7FEFF 		bl	fputc
+ 684              	.LVL29:
+ 208:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 685              		.loc 1 208 35 is_stmt 1 discriminator 3 view .LVU266
+ 686 017e 0134     		adds	r4, r4, #1
+ 687              	.LVL30:
+ 688              	.L29:
+ 208:DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
+ 689              		.loc 1 208 17 discriminator 1 view .LVU267
+ 690 0180 162C     		cmp	r4, #22
+ 691 0182 F4DD     		ble	.L30
+ 692              	.LVL31:
+ 693              	.L21:
+ 210:DMP/driver/stm32L/log_stm32.c ****   }
+ 211:DMP/driver/stm32L/log_stm32.c **** }
+ 694              		.loc 1 211 1 is_stmt 0 view .LVU268
+ 695 0184 06B0     		add	sp, sp, #24
+ 696              	.LCFI13:
+ 697              		.cfi_def_cfa_offset 8
+ 698              		@ sp needed
+ 699 0186 10BD     		pop	{r4, pc}
+ 700              	.LVL32:
+ 701              	.L35:
+ 702              	.LCFI14:
+ 703              		.cfi_def_cfa_offset 0
+ 704              		.cfi_restore 4
+ 705              		.cfi_restore 14
+ 706              		.loc 1 211 1 view .LVU269
+ 707 0188 7047     		bx	lr
+ 708              		.cfi_endproc
+ 709              	.LFE145:
+ 711              		.text
+ 712              	.Letext0:
+ 713              		.file 2 "/Applications/ArmGNUToolchain/12.2.mpacbti-rel1/arm-none-eabi/lib/gcc/arm-none-eabi/12.2.
+ 714              		.file 3 "/usr/local/include/arm/_types.h"
+ 715              		.file 4 "/usr/local/include/sys/_types.h"
+ 716              		.file 5 "/usr/local/include/_stdio.h"
+ 717              		.file 6 "<built-in>"
+ 718              		.file 7 "DMP/driver/stm32L/packet.h"
+ 719              		.file 8 "/usr/local/include/stdio.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 log_stm32.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:21     .text._MLPrintLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:27     .text._MLPrintLog:00000000 _MLPrintLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:204    .text.eMPL_send_quat:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:210    .text.eMPL_send_quat:00000000 eMPL_send_quat
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:377    .text.eMPL_send_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:383    .text.eMPL_send_data:00000000 eMPL_send_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:439    .text.eMPL_send_data:00000042 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:446    .text.eMPL_send_data:00000049 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRSvFJh.s:446    .text.eMPL_send_data:0000004a $t
+
+UNDEFINED SYMBOLS
+__vsprintf_chk
+fputc
+__memcpy_chk

@@ -1,0 +1,525 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"ws2812.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/Src/ws2812.c"
+  20              		.section	.text.WS_Load,"ax",%progbits
+  21              		.align	1
+  22              		.global	WS_Load
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	WS_Load:
+  28              	.LFB132:
+   1:user/Src/ws2812.c **** #include "ws2812.h"
+   2:user/Src/ws2812.c **** #include "tim.h"
+   3:user/Src/ws2812.c **** 
+   4:user/Src/ws2812.c **** uint16_t send_Buf[NUM];
+   5:user/Src/ws2812.c **** extern void uart_printf(char *fmt, ...);
+   6:user/Src/ws2812.c **** 
+   7:user/Src/ws2812.c **** void WS_Load(void) {
+  29              		.loc 1 7 20 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+   8:user/Src/ws2812.c ****   HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, send_Buf, NUM);
+  38              		.loc 1 8 3 view .LVU1
+  39 0002 4FF49273 		mov	r3, #292
+  40 0006 034A     		ldr	r2, .L3
+  41 0008 0021     		movs	r1, #0
+  42 000a 0348     		ldr	r0, .L3+4
+  43 000c FFF7FEFF 		bl	HAL_TIM_PWM_Start_DMA
+  44              	.LVL0:
+   9:user/Src/ws2812.c **** }
+  45              		.loc 1 9 1 is_stmt 0 view .LVU2
+  46 0010 08BD     		pop	{r3, pc}
+  47              	.L4:
+  48 0012 00BF     		.align	2
+  49              	.L3:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 2
+
+
+  50 0014 00000000 		.word	send_Buf
+  51 0018 00000000 		.word	htim1
+  52              		.cfi_endproc
+  53              	.LFE132:
+  55              		.section	.text.WS_WriteAll_RGB,"ax",%progbits
+  56              		.align	1
+  57              		.global	WS_WriteAll_RGB
+  58              		.syntax unified
+  59              		.thumb
+  60              		.thumb_func
+  62              	WS_WriteAll_RGB:
+  63              	.LVL1:
+  64              	.LFB133:
+  10:user/Src/ws2812.c **** 
+  11:user/Src/ws2812.c **** void WS_WriteAll_RGB(uint8_t n_R, uint8_t n_G, uint8_t n_B) {
+  65              		.loc 1 11 61 is_stmt 1 view -0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 48
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		.loc 1 11 61 is_stmt 0 view .LVU4
+  70 0000 00B5     		push	{lr}
+  71              	.LCFI1:
+  72              		.cfi_def_cfa_offset 4
+  73              		.cfi_offset 14, -4
+  74 0002 8DB0     		sub	sp, sp, #52
+  75              	.LCFI2:
+  76              		.cfi_def_cfa_offset 56
+  12:user/Src/ws2812.c ****   uint16_t i, j;
+  77              		.loc 1 12 3 is_stmt 1 view .LVU5
+  13:user/Src/ws2812.c ****   uint16_t dat[24];
+  78              		.loc 1 13 3 view .LVU6
+  14:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+  79              		.loc 1 14 3 view .LVU7
+  80              	.LVL2:
+  81              		.loc 1 14 10 is_stmt 0 view .LVU8
+  82 0004 0023     		movs	r3, #0
+  83              		.loc 1 14 3 view .LVU9
+  84 0006 0BE0     		b	.L6
+  85              	.LVL3:
+  86              	.L26:
+  15:user/Src/ws2812.c ****     dat[i] = ((n_G & 0x80) ? WS1 : WS0);
+  87              		.loc 1 15 12 view .LVU10
+  88 0008 4FF00E0E 		mov	lr, #14
+  89              	.L7:
+  90              		.loc 1 15 12 discriminator 4 view .LVU11
+  91 000c 0DF1300C 		add	ip, sp, #48
+  92 0010 0CEB430C 		add	ip, ip, r3, lsl #1
+  93 0014 2CF830EC 		strh	lr, [ip, #-48]	@ movhi
+  16:user/Src/ws2812.c ****     n_G <<= 1;
+  94              		.loc 1 16 5 is_stmt 1 discriminator 4 view .LVU12
+  95              		.loc 1 16 9 is_stmt 0 discriminator 4 view .LVU13
+  96 0018 4900     		lsls	r1, r1, #1
+  97              	.LVL4:
+  98              		.loc 1 16 9 discriminator 4 view .LVU14
+  99 001a C9B2     		uxtb	r1, r1
+ 100              	.LVL5:
+  14:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 3
+
+
+ 101              		.loc 1 14 23 is_stmt 1 discriminator 4 view .LVU15
+ 102 001c 0133     		adds	r3, r3, #1
+ 103              	.LVL6:
+  14:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+ 104              		.loc 1 14 23 is_stmt 0 discriminator 4 view .LVU16
+ 105 001e 9BB2     		uxth	r3, r3
+ 106              	.LVL7:
+ 107              	.L6:
+  14:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+ 108              		.loc 1 14 17 is_stmt 1 discriminator 2 view .LVU17
+ 109 0020 072B     		cmp	r3, #7
+ 110 0022 05D8     		bhi	.L25
+  15:user/Src/ws2812.c ****     dat[i] = ((n_G & 0x80) ? WS1 : WS0);
+ 111              		.loc 1 15 5 view .LVU18
+  15:user/Src/ws2812.c ****     dat[i] = ((n_G & 0x80) ? WS1 : WS0);
+ 112              		.loc 1 15 12 is_stmt 0 view .LVU19
+ 113 0024 11F0800F 		tst	r1, #128
+ 114 0028 EED1     		bne	.L26
+ 115 002a 4FF0060E 		mov	lr, #6
+ 116 002e EDE7     		b	.L7
+ 117              	.L25:
+  17:user/Src/ws2812.c ****   }
+  18:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+ 118              		.loc 1 18 10 view .LVU20
+ 119 0030 0023     		movs	r3, #0
+ 120              	.LVL8:
+ 121              		.loc 1 18 10 view .LVU21
+ 122 0032 0DE0     		b	.L9
+ 123              	.LVL9:
+ 124              	.L28:
+  19:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 125              		.loc 1 19 16 view .LVU22
+ 126 0034 4FF00E0C 		mov	ip, #14
+ 127              	.L10:
+ 128              		.loc 1 19 11 discriminator 4 view .LVU23
+ 129 0038 03F10801 		add	r1, r3, #8
+ 130              		.loc 1 19 16 discriminator 4 view .LVU24
+ 131 003c 0DF1300E 		add	lr, sp, #48
+ 132 0040 0EEB4101 		add	r1, lr, r1, lsl #1
+ 133 0044 21F830CC 		strh	ip, [r1, #-48]	@ movhi
+  20:user/Src/ws2812.c ****     n_R <<= 1;
+ 134              		.loc 1 20 5 is_stmt 1 discriminator 4 view .LVU25
+ 135              		.loc 1 20 9 is_stmt 0 discriminator 4 view .LVU26
+ 136 0048 4000     		lsls	r0, r0, #1
+ 137              	.LVL10:
+ 138              		.loc 1 20 9 discriminator 4 view .LVU27
+ 139 004a C0B2     		uxtb	r0, r0
+ 140              	.LVL11:
+  18:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 141              		.loc 1 18 23 is_stmt 1 discriminator 4 view .LVU28
+ 142 004c 0133     		adds	r3, r3, #1
+ 143              	.LVL12:
+  18:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 144              		.loc 1 18 23 is_stmt 0 discriminator 4 view .LVU29
+ 145 004e 9BB2     		uxth	r3, r3
+ 146              	.LVL13:
+ 147              	.L9:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 4
+
+
+  18:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 148              		.loc 1 18 17 is_stmt 1 discriminator 2 view .LVU30
+ 149 0050 072B     		cmp	r3, #7
+ 150 0052 05D8     		bhi	.L27
+  19:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 151              		.loc 1 19 5 view .LVU31
+  19:user/Src/ws2812.c ****     dat[i + 8] = ((n_R & 0x80) ? WS1 : WS0);
+ 152              		.loc 1 19 16 is_stmt 0 view .LVU32
+ 153 0054 10F0800F 		tst	r0, #128
+ 154 0058 ECD1     		bne	.L28
+ 155 005a 4FF0060C 		mov	ip, #6
+ 156 005e EBE7     		b	.L10
+ 157              	.L27:
+  21:user/Src/ws2812.c ****   }
+  22:user/Src/ws2812.c ****   for (i = 0; i < 8; i++) {
+ 158              		.loc 1 22 10 view .LVU33
+ 159 0060 0023     		movs	r3, #0
+ 160              	.LVL14:
+ 161              		.loc 1 22 10 view .LVU34
+ 162 0062 0CE0     		b	.L12
+ 163              	.LVL15:
+ 164              	.L30:
+  23:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 165              		.loc 1 23 17 view .LVU35
+ 166 0064 0E20     		movs	r0, #14
+ 167              	.L13:
+ 168              		.loc 1 23 11 discriminator 4 view .LVU36
+ 169 0066 03F11001 		add	r1, r3, #16
+ 170              		.loc 1 23 17 discriminator 4 view .LVU37
+ 171 006a 0DF1300C 		add	ip, sp, #48
+ 172 006e 0CEB4101 		add	r1, ip, r1, lsl #1
+ 173 0072 21F8300C 		strh	r0, [r1, #-48]	@ movhi
+  24:user/Src/ws2812.c ****     n_B <<= 1;
+ 174              		.loc 1 24 5 is_stmt 1 discriminator 4 view .LVU38
+ 175              		.loc 1 24 9 is_stmt 0 discriminator 4 view .LVU39
+ 176 0076 5200     		lsls	r2, r2, #1
+ 177              	.LVL16:
+ 178              		.loc 1 24 9 discriminator 4 view .LVU40
+ 179 0078 D2B2     		uxtb	r2, r2
+ 180              	.LVL17:
+  22:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 181              		.loc 1 22 23 is_stmt 1 discriminator 4 view .LVU41
+ 182 007a 0133     		adds	r3, r3, #1
+ 183              	.LVL18:
+  22:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 184              		.loc 1 22 23 is_stmt 0 discriminator 4 view .LVU42
+ 185 007c 9BB2     		uxth	r3, r3
+ 186              	.LVL19:
+ 187              	.L12:
+  22:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 188              		.loc 1 22 17 is_stmt 1 discriminator 2 view .LVU43
+ 189 007e 072B     		cmp	r3, #7
+ 190 0080 04D8     		bhi	.L29
+  23:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 191              		.loc 1 23 5 view .LVU44
+  23:user/Src/ws2812.c ****     dat[i + 16] = ((n_B & 0x80) ? WS1 : WS0);
+ 192              		.loc 1 23 17 is_stmt 0 view .LVU45
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 5
+
+
+ 193 0082 12F0800F 		tst	r2, #128
+ 194 0086 EDD1     		bne	.L30
+ 195 0088 0620     		movs	r0, #6
+ 196 008a ECE7     		b	.L13
+ 197              	.L29:
+  25:user/Src/ws2812.c ****   }
+  26:user/Src/ws2812.c ****   for (i = 0; i < PIXEL_NUM; i++) {
+ 198              		.loc 1 26 10 view .LVU46
+ 199 008c 0021     		movs	r1, #0
+ 200 008e 11E0     		b	.L15
+ 201              	.LVL20:
+ 202              	.L16:
+  27:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+  28:user/Src/ws2812.c ****       send_Buf[i * 24 + j] = dat[j];
+ 203              		.loc 1 28 7 is_stmt 1 discriminator 3 view .LVU47
+ 204              		.loc 1 28 18 is_stmt 0 discriminator 3 view .LVU48
+ 205 0090 01EB4102 		add	r2, r1, r1, lsl #1
+ 206              		.loc 1 28 23 discriminator 3 view .LVU49
+ 207 0094 03EBC202 		add	r2, r3, r2, lsl #3
+ 208              		.loc 1 28 33 discriminator 3 view .LVU50
+ 209 0098 0CA8     		add	r0, sp, #48
+ 210 009a 00EB4300 		add	r0, r0, r3, lsl #1
+ 211 009e 30F830CC 		ldrh	ip, [r0, #-48]
+ 212              		.loc 1 28 28 discriminator 3 view .LVU51
+ 213 00a2 0E48     		ldr	r0, .L33
+ 214 00a4 20F812C0 		strh	ip, [r0, r2, lsl #1]	@ movhi
+  27:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 215              		.loc 1 27 26 is_stmt 1 discriminator 3 view .LVU52
+ 216 00a8 0133     		adds	r3, r3, #1
+ 217              	.LVL21:
+  27:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 218              		.loc 1 27 26 is_stmt 0 discriminator 3 view .LVU53
+ 219 00aa 9BB2     		uxth	r3, r3
+ 220              	.LVL22:
+ 221              	.L17:
+  27:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 222              		.loc 1 27 19 is_stmt 1 discriminator 1 view .LVU54
+ 223 00ac 172B     		cmp	r3, #23
+ 224 00ae EFD9     		bls	.L16
+  26:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 225              		.loc 1 26 31 discriminator 2 view .LVU55
+ 226 00b0 0131     		adds	r1, r1, #1
+ 227              	.LVL23:
+  26:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 228              		.loc 1 26 31 is_stmt 0 discriminator 2 view .LVU56
+ 229 00b2 89B2     		uxth	r1, r1
+ 230              	.LVL24:
+ 231              	.L15:
+  26:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 232              		.loc 1 26 17 is_stmt 1 discriminator 1 view .LVU57
+ 233 00b4 0729     		cmp	r1, #7
+ 234 00b6 01D8     		bhi	.L31
+  27:user/Src/ws2812.c ****     for (j = 0; j < 24; j++) {
+ 235              		.loc 1 27 12 is_stmt 0 view .LVU58
+ 236 00b8 0023     		movs	r3, #0
+ 237 00ba F7E7     		b	.L17
+ 238              	.L31:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 6
+
+
+  29:user/Src/ws2812.c ****     }
+  30:user/Src/ws2812.c ****   }
+  31:user/Src/ws2812.c ****   for (i = PIXEL_NUM * 24; i < NUM; i++)
+ 239              		.loc 1 31 10 view .LVU59
+ 240 00bc C023     		movs	r3, #192
+ 241              	.LVL25:
+ 242              	.L18:
+ 243              		.loc 1 31 30 is_stmt 1 discriminator 1 view .LVU60
+ 244 00be B3F5927F 		cmp	r3, #292
+ 245 00c2 06D2     		bcs	.L32
+  32:user/Src/ws2812.c ****     send_Buf[i] = 0;
+ 246              		.loc 1 32 5 discriminator 3 view .LVU61
+ 247              		.loc 1 32 17 is_stmt 0 discriminator 3 view .LVU62
+ 248 00c4 054A     		ldr	r2, .L33
+ 249 00c6 0021     		movs	r1, #0
+ 250 00c8 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+  31:user/Src/ws2812.c ****     send_Buf[i] = 0;
+ 251              		.loc 1 31 38 is_stmt 1 discriminator 3 view .LVU63
+ 252 00cc 0133     		adds	r3, r3, #1
+ 253              	.LVL26:
+  31:user/Src/ws2812.c ****     send_Buf[i] = 0;
+ 254              		.loc 1 31 38 is_stmt 0 discriminator 3 view .LVU64
+ 255 00ce 9BB2     		uxth	r3, r3
+ 256              	.LVL27:
+  31:user/Src/ws2812.c ****     send_Buf[i] = 0;
+ 257              		.loc 1 31 38 discriminator 3 view .LVU65
+ 258 00d0 F5E7     		b	.L18
+ 259              	.L32:
+  33:user/Src/ws2812.c ****   WS_Load();
+ 260              		.loc 1 33 3 is_stmt 1 view .LVU66
+ 261 00d2 FFF7FEFF 		bl	WS_Load
+ 262              	.LVL28:
+  34:user/Src/ws2812.c **** }
+ 263              		.loc 1 34 1 is_stmt 0 view .LVU67
+ 264 00d6 0DB0     		add	sp, sp, #52
+ 265              	.LCFI3:
+ 266              		.cfi_def_cfa_offset 4
+ 267              		@ sp needed
+ 268 00d8 5DF804FB 		ldr	pc, [sp], #4
+ 269              	.L34:
+ 270              		.align	2
+ 271              	.L33:
+ 272 00dc 00000000 		.word	send_Buf
+ 273              		.cfi_endproc
+ 274              	.LFE133:
+ 276              		.section	.text.breathing,"ax",%progbits
+ 277              		.align	1
+ 278              		.global	breathing
+ 279              		.syntax unified
+ 280              		.thumb
+ 281              		.thumb_func
+ 283              	breathing:
+ 284              	.LFB134:
+  35:user/Src/ws2812.c **** 
+  36:user/Src/ws2812.c **** void breathing() {
+ 285              		.loc 1 36 18 is_stmt 1 view -0
+ 286              		.cfi_startproc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 7
+
+
+ 287              		@ args = 0, pretend = 0, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 10B5     		push	{r4, lr}
+ 290              	.LCFI4:
+ 291              		.cfi_def_cfa_offset 8
+ 292              		.cfi_offset 4, -8
+ 293              		.cfi_offset 14, -4
+  37:user/Src/ws2812.c **** 	int i = 0;
+ 294              		.loc 1 37 2 view .LVU69
+ 295              	.LVL29:
+  38:user/Src/ws2812.c ****   for (i; i < 80; i += 2) {
+ 296              		.loc 1 38 3 view .LVU70
+  37:user/Src/ws2812.c **** 	int i = 0;
+ 297              		.loc 1 37 6 is_stmt 0 view .LVU71
+ 298 0002 0024     		movs	r4, #0
+ 299              		.loc 1 38 3 view .LVU72
+ 300 0004 08E0     		b	.L36
+ 301              	.LVL30:
+ 302              	.L37:
+  39:user/Src/ws2812.c ****     WS_WriteAll_RGB(i, i, i);
+ 303              		.loc 1 39 5 is_stmt 1 discriminator 2 view .LVU73
+ 304 0006 E0B2     		uxtb	r0, r4
+ 305 0008 0246     		mov	r2, r0
+ 306 000a 0146     		mov	r1, r0
+ 307 000c FFF7FEFF 		bl	WS_WriteAll_RGB
+ 308              	.LVL31:
+  40:user/Src/ws2812.c ****     HAL_Delay(100);
+ 309              		.loc 1 40 5 discriminator 2 view .LVU74
+ 310 0010 6420     		movs	r0, #100
+ 311 0012 FFF7FEFF 		bl	HAL_Delay
+ 312              	.LVL32:
+  38:user/Src/ws2812.c ****   for (i; i < 80; i += 2) {
+ 313              		.loc 1 38 21 discriminator 2 view .LVU75
+ 314 0016 0234     		adds	r4, r4, #2
+ 315              	.LVL33:
+ 316              	.L36:
+  38:user/Src/ws2812.c ****   for (i; i < 80; i += 2) {
+ 317              		.loc 1 38 13 discriminator 1 view .LVU76
+ 318 0018 4F2C     		cmp	r4, #79
+ 319 001a F4DD     		ble	.L37
+ 320 001c 08E0     		b	.L38
+ 321              	.L39:
+  41:user/Src/ws2812.c ****   }
+  42:user/Src/ws2812.c ****   for (i; i > 0; i -= 2) {
+  43:user/Src/ws2812.c ****     WS_WriteAll_RGB(i, i, i);
+ 322              		.loc 1 43 5 discriminator 2 view .LVU77
+ 323 001e E0B2     		uxtb	r0, r4
+ 324 0020 0246     		mov	r2, r0
+ 325 0022 0146     		mov	r1, r0
+ 326 0024 FFF7FEFF 		bl	WS_WriteAll_RGB
+ 327              	.LVL34:
+  44:user/Src/ws2812.c ****     HAL_Delay(100);
+ 328              		.loc 1 44 5 discriminator 2 view .LVU78
+ 329 0028 6420     		movs	r0, #100
+ 330 002a FFF7FEFF 		bl	HAL_Delay
+ 331              	.LVL35:
+  42:user/Src/ws2812.c ****     WS_WriteAll_RGB(i, i, i);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 8
+
+
+ 332              		.loc 1 42 20 discriminator 2 view .LVU79
+ 333 002e 023C     		subs	r4, r4, #2
+ 334              	.LVL36:
+ 335              	.L38:
+  42:user/Src/ws2812.c ****     WS_WriteAll_RGB(i, i, i);
+ 336              		.loc 1 42 13 discriminator 1 view .LVU80
+ 337 0030 002C     		cmp	r4, #0
+ 338 0032 F4DC     		bgt	.L39
+  45:user/Src/ws2812.c ****   }
+  46:user/Src/ws2812.c **** }
+ 339              		.loc 1 46 1 is_stmt 0 view .LVU81
+ 340 0034 10BD     		pop	{r4, pc}
+ 341              		.loc 1 46 1 view .LVU82
+ 342              		.cfi_endproc
+ 343              	.LFE134:
+ 345              		.section	.text.HAL_TIM_PWM_PulseFinishedCallback,"ax",%progbits
+ 346              		.align	1
+ 347              		.global	HAL_TIM_PWM_PulseFinishedCallback
+ 348              		.syntax unified
+ 349              		.thumb
+ 350              		.thumb_func
+ 352              	HAL_TIM_PWM_PulseFinishedCallback:
+ 353              	.LVL37:
+ 354              	.LFB135:
+  47:user/Src/ws2812.c **** 
+  48:user/Src/ws2812.c **** void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+  49:user/Src/ws2812.c **** {
+ 355              		.loc 1 49 1 is_stmt 1 view -0
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 0, uses_anonymous_args = 0
+ 359              		.loc 1 49 1 is_stmt 0 view .LVU84
+ 360 0000 08B5     		push	{r3, lr}
+ 361              	.LCFI5:
+ 362              		.cfi_def_cfa_offset 8
+ 363              		.cfi_offset 3, -8
+ 364              		.cfi_offset 14, -4
+  50:user/Src/ws2812.c ****         HAL_TIM_PWM_Stop_DMA(&htim1,TIM_CHANNEL_1);
+ 365              		.loc 1 50 9 is_stmt 1 view .LVU85
+ 366 0002 0021     		movs	r1, #0
+ 367 0004 0148     		ldr	r0, .L43
+ 368              	.LVL38:
+ 369              		.loc 1 50 9 is_stmt 0 view .LVU86
+ 370 0006 FFF7FEFF 		bl	HAL_TIM_PWM_Stop_DMA
+ 371              	.LVL39:
+  51:user/Src/ws2812.c **** }...
+ 372              		.loc 1 51 1 view .LVU87
+ 373 000a 08BD     		pop	{r3, pc}
+ 374              	.L44:
+ 375              		.align	2
+ 376              	.L43:
+ 377 000c 00000000 		.word	htim1
+ 378              		.cfi_endproc
+ 379              	.LFE135:
+ 381              		.global	send_Buf
+ 382              		.section	.bss.send_Buf,"aw",%nobits
+ 383              		.align	2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 9
+
+
+ 386              	send_Buf:
+ 387 0000 00000000 		.space	584
+ 387      00000000 
+ 387      00000000 
+ 387      00000000 
+ 387      00000000 
+ 388              		.text
+ 389              	.Letext0:
+ 390              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 391              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 392              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 393              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 394              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 395              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 396              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h"
+ 397              		.file 9 "user/Inc/ws2812.h"
+ 398              		.file 10 "Core/Inc/tim.h"
+ 399              		.file 11 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ws2812.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:21     .text.WS_Load:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:27     .text.WS_Load:00000000 WS_Load
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:50     .text.WS_Load:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:386    .bss.send_Buf:00000000 send_Buf
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:56     .text.WS_WriteAll_RGB:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:62     .text.WS_WriteAll_RGB:00000000 WS_WriteAll_RGB
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:272    .text.WS_WriteAll_RGB:000000dc $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:277    .text.breathing:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:283    .text.breathing:00000000 breathing
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:346    .text.HAL_TIM_PWM_PulseFinishedCallback:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:352    .text.HAL_TIM_PWM_PulseFinishedCallback:00000000 HAL_TIM_PWM_PulseFinishedCallback
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:377    .text.HAL_TIM_PWM_PulseFinishedCallback:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLU3OOC.s:383    .bss.send_Buf:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_TIM_PWM_Start_DMA
+htim1
+HAL_Delay
+HAL_TIM_PWM_Stop_DMA
