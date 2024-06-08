@@ -1,5 +1,5 @@
-#include "i2c.h"
 #include "mpu.h"
+#include "i2c.h"
 #include <stdint.h>
 
 uint8_t MPU_readbuf[128];
@@ -26,4 +26,22 @@ void MPU_ReadMulBytes(uint8_t reg, uint8_t length, uint8_t *buf) {
     ak_id = buf[0];
   } break;
   }
+}
+
+float Cal_Angle(){
+}
+
+float Angle_Get() {
+  float roll;
+  float yaw;
+  float pitch;
+  float angle_list[WINDOW_SIZE];
+  float sum = 0;
+  for(int i = 0; i < WINDOW_SIZE; i++){
+    mpu_dmp_get_data(&pitch, &roll, &yaw);
+    angle_list[i] = pitch;
+    sum += angle_list[i];
+  }
+  float aver_angle = sum / WINDOW_SIZE;
+  return aver_angle;
 }

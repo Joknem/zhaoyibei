@@ -3384,9 +3384,9 @@ u8 mpu_dmp_init(void) {
     res = dmp_set_fifo_rate(DEFAULT_MPU_HZ); // 设置DMP输出速率(最大不超过200Hz)
     if (res)
       return 9;
-    res = run_self_test(); // 自检
-    if (res)
-      return 10;
+    // res = run_self_test(); // 自检
+    // if (res)
+    //   return 10;
     res = mpu_set_dmp_state(1); // 使能DMP
     if (res)
       return 11;
@@ -3436,7 +3436,6 @@ u8 mpu_dmp_get_data(float *pitch, float *roll, float *yaw) {
   return 0;
 }
 
-// 得到mpl处理后的数据(注意,本函数需要比较多堆栈,局部变量有点多)
 // pitch:俯仰角 精度:0.1°   范围:-90.0° <---> +90.0°
 // roll:横滚角  精度:0.1°   范围:-180.0°<---> +180.0°
 // yaw:航向角   精度:0.1°   范围:-180.0°<---> +180.0°

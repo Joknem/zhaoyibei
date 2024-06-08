@@ -1,0 +1,1324 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"oled.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/Src/oled.c"
+  20              		.section	.text.ssd1306_write,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	ssd1306_write:
+  27              	.LVL0:
+  28              	.LFB134:
+   1:user/Src/oled.c **** #include "oled.h"
+   2:user/Src/oled.c **** #include <stdarg.h>
+   3:user/Src/oled.c **** #include <stdio.h>
+   4:user/Src/oled.c **** 
+   5:user/Src/oled.c **** extern void uart_printf(char *fmt, ...);
+   6:user/Src/oled.c **** 
+   7:user/Src/oled.c **** static char SSD1306_BUFFER[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
+   8:user/Src/oled.c **** SSD1306_t SSD1306;
+   9:user/Src/oled.c **** 
+  10:user/Src/oled.c **** void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c){
+  11:user/Src/oled.c **** 
+  12:user/Src/oled.c **** };
+  13:user/Src/oled.c **** 
+  14:user/Src/oled.c **** static uint8_t ssd1306_write(uint8_t command) {
+  29              		.loc 1 14 47 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 14 47 is_stmt 0 view .LVU1
+  34 0000 00B5     		push	{lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 14, -4
+  38 0002 87B0     		sub	sp, sp, #28
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 32
+  41 0004 8DF81700 		strb	r0, [sp, #23]
+  15:user/Src/oled.c ****   // return HAL_I2C_Mem_Write_DMA(&hi2c2, SSD1306_ADDRESS, 0x00, 1, &command, 1);
+  16:user/Src/oled.c ****   HAL_I2C_Mem_Write(&hi2c2, SSD1306_ADDRESS, 0x00, 1, &command, 1, 10);
+  42              		.loc 1 16 3 is_stmt 1 view .LVU2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 2
+
+
+  43 0008 0A23     		movs	r3, #10
+  44 000a 0293     		str	r3, [sp, #8]
+  45 000c 0123     		movs	r3, #1
+  46 000e 0193     		str	r3, [sp, #4]
+  47 0010 0DF11702 		add	r2, sp, #23
+  48 0014 0092     		str	r2, [sp]
+  49 0016 0022     		movs	r2, #0
+  50 0018 7821     		movs	r1, #120
+  51 001a 0348     		ldr	r0, .L3
+  52              	.LVL1:
+  53              		.loc 1 16 3 is_stmt 0 view .LVU3
+  54 001c FFF7FEFF 		bl	HAL_I2C_Mem_Write
+  55              	.LVL2:
+  17:user/Src/oled.c **** }
+  56              		.loc 1 17 1 view .LVU4
+  57 0020 07B0     		add	sp, sp, #28
+  58              	.LCFI2:
+  59              		.cfi_def_cfa_offset 4
+  60              		@ sp needed
+  61 0022 5DF804FB 		ldr	pc, [sp], #4
+  62              	.L4:
+  63 0026 00BF     		.align	2
+  64              	.L3:
+  65 0028 00000000 		.word	hi2c2
+  66              		.cfi_endproc
+  67              	.LFE134:
+  69              		.section	.text.HAL_I2C_MemTxCpltCallback,"ax",%progbits
+  70              		.align	1
+  71              		.global	HAL_I2C_MemTxCpltCallback
+  72              		.syntax unified
+  73              		.thumb
+  74              		.thumb_func
+  76              	HAL_I2C_MemTxCpltCallback:
+  77              	.LVL3:
+  78              	.LFB133:
+  10:user/Src/oled.c **** 
+  79              		.loc 1 10 56 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  12:user/Src/oled.c **** 
+  84              		.loc 1 12 1 view .LVU6
+  85 0000 7047     		bx	lr
+  86              		.cfi_endproc
+  87              	.LFE133:
+  89              		.section	.text.ssd1306_Fill,"ax",%progbits
+  90              		.align	1
+  91              		.global	ssd1306_Fill
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  96              	ssd1306_Fill:
+  97              	.LVL4:
+  98              	.LFB135:
+  18:user/Src/oled.c **** 
+  19:user/Src/oled.c **** void ssd1306_Fill(uint8_t color) {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 3
+
+
+  99              		.loc 1 19 34 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+  20:user/Src/oled.c ****   // Fill screenbuffer with a constant value (color)
+  21:user/Src/oled.c ****   uint32_t i;
+ 104              		.loc 1 21 3 view .LVU8
+  22:user/Src/oled.c **** 
+  23:user/Src/oled.c ****   for (i = 0; i < sizeof(SSD1306_BUFFER); i++) {
+ 105              		.loc 1 23 3 view .LVU9
+ 106              		.loc 1 23 10 is_stmt 0 view .LVU10
+ 107 0000 0023     		movs	r3, #0
+ 108              		.loc 1 23 3 view .LVU11
+ 109 0002 02E0     		b	.L7
+ 110              	.LVL5:
+ 111              	.L8:
+  24:user/Src/oled.c ****     SSD1306_BUFFER[i] = color;
+ 112              		.loc 1 24 5 is_stmt 1 discriminator 3 view .LVU12
+ 113              		.loc 1 24 23 is_stmt 0 discriminator 3 view .LVU13
+ 114 0004 034A     		ldr	r2, .L9
+ 115 0006 D054     		strb	r0, [r2, r3]
+  23:user/Src/oled.c ****     SSD1306_BUFFER[i] = color;
+ 116              		.loc 1 23 44 is_stmt 1 discriminator 3 view .LVU14
+ 117 0008 0133     		adds	r3, r3, #1
+ 118              	.LVL6:
+ 119              	.L7:
+  23:user/Src/oled.c ****     SSD1306_BUFFER[i] = color;
+ 120              		.loc 1 23 17 discriminator 1 view .LVU15
+ 121 000a B3F5806F 		cmp	r3, #1024
+ 122 000e F9D3     		bcc	.L8
+  25:user/Src/oled.c ****   }
+  26:user/Src/oled.c **** }
+ 123              		.loc 1 26 1 is_stmt 0 view .LVU16
+ 124 0010 7047     		bx	lr
+ 125              	.L10:
+ 126 0012 00BF     		.align	2
+ 127              	.L9:
+ 128 0014 00000000 		.word	SSD1306_BUFFER
+ 129              		.cfi_endproc
+ 130              	.LFE135:
+ 132              		.section	.text.ssd1306_UpdateScreen,"ax",%progbits
+ 133              		.align	1
+ 134              		.global	ssd1306_UpdateScreen
+ 135              		.syntax unified
+ 136              		.thumb
+ 137              		.thumb_func
+ 139              	ssd1306_UpdateScreen:
+ 140              	.LFB136:
+  27:user/Src/oled.c **** 
+  28:user/Src/oled.c **** void ssd1306_UpdateScreen() {
+ 141              		.loc 1 28 29 is_stmt 1 view -0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 0000 10B5     		push	{r4, lr}
+ 146              	.LCFI3:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 4
+
+
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 4, -8
+ 149              		.cfi_offset 14, -4
+ 150 0002 84B0     		sub	sp, sp, #16
+ 151              	.LCFI4:
+ 152              		.cfi_def_cfa_offset 24
+  29:user/Src/oled.c ****   uint8_t i;
+ 153              		.loc 1 29 3 view .LVU18
+  30:user/Src/oled.c **** 
+  31:user/Src/oled.c ****   for (i = 0; i < 8; i++) {
+ 154              		.loc 1 31 3 view .LVU19
+ 155              	.LVL7:
+ 156              		.loc 1 31 10 is_stmt 0 view .LVU20
+ 157 0004 0024     		movs	r4, #0
+ 158              		.loc 1 31 3 view .LVU21
+ 159 0006 1AE0     		b	.L12
+ 160              	.LVL8:
+ 161              	.L13:
+  32:user/Src/oled.c ****     ssd1306_write(0xB0 + i);
+ 162              		.loc 1 32 5 is_stmt 1 discriminator 3 view .LVU22
+ 163 0008 A4F15000 		sub	r0, r4, #80
+ 164 000c C0B2     		uxtb	r0, r0
+ 165 000e FFF7FEFF 		bl	ssd1306_write
+ 166              	.LVL9:
+  33:user/Src/oled.c ****     ssd1306_write(0x00);
+ 167              		.loc 1 33 5 discriminator 3 view .LVU23
+ 168 0012 0020     		movs	r0, #0
+ 169 0014 FFF7FEFF 		bl	ssd1306_write
+ 170              	.LVL10:
+  34:user/Src/oled.c ****     ssd1306_write(0x10);
+ 171              		.loc 1 34 5 discriminator 3 view .LVU24
+ 172 0018 1020     		movs	r0, #16
+ 173 001a FFF7FEFF 		bl	ssd1306_write
+ 174              	.LVL11:
+  35:user/Src/oled.c ****     HAL_I2C_Mem_Write(&hi2c2, SSD1306_ADDRESS, 0x40, 1,
+ 175              		.loc 1 35 5 discriminator 3 view .LVU25
+  36:user/Src/oled.c ****                       &SSD1306_BUFFER[SSD1306_WIDTH * i], SSD1306_WIDTH, 100);
+ 176              		.loc 1 36 23 is_stmt 0 discriminator 3 view .LVU26
+ 177 001e 0A4B     		ldr	r3, .L15
+ 178 0020 03EBC413 		add	r3, r3, r4, lsl #7
+  35:user/Src/oled.c ****     HAL_I2C_Mem_Write(&hi2c2, SSD1306_ADDRESS, 0x40, 1,
+ 179              		.loc 1 35 5 discriminator 3 view .LVU27
+ 180 0024 6422     		movs	r2, #100
+ 181 0026 0292     		str	r2, [sp, #8]
+ 182 0028 8022     		movs	r2, #128
+ 183 002a 0192     		str	r2, [sp, #4]
+ 184 002c 0093     		str	r3, [sp]
+ 185 002e 0123     		movs	r3, #1
+ 186 0030 4022     		movs	r2, #64
+ 187 0032 7821     		movs	r1, #120
+ 188 0034 0548     		ldr	r0, .L15+4
+ 189 0036 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 190              	.LVL12:
+  31:user/Src/oled.c ****     ssd1306_write(0xB0 + i);
+ 191              		.loc 1 31 23 is_stmt 1 discriminator 3 view .LVU28
+ 192 003a 0134     		adds	r4, r4, #1
+ 193              	.LVL13:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 5
+
+
+  31:user/Src/oled.c ****     ssd1306_write(0xB0 + i);
+ 194              		.loc 1 31 23 is_stmt 0 discriminator 3 view .LVU29
+ 195 003c E4B2     		uxtb	r4, r4
+ 196              	.LVL14:
+ 197              	.L12:
+  31:user/Src/oled.c ****     ssd1306_write(0xB0 + i);
+ 198              		.loc 1 31 17 is_stmt 1 discriminator 1 view .LVU30
+ 199 003e 072C     		cmp	r4, #7
+ 200 0040 E2D9     		bls	.L13
+  37:user/Src/oled.c ****   }
+  38:user/Src/oled.c **** }
+ 201              		.loc 1 38 1 is_stmt 0 view .LVU31
+ 202 0042 04B0     		add	sp, sp, #16
+ 203              	.LCFI5:
+ 204              		.cfi_def_cfa_offset 8
+ 205              		@ sp needed
+ 206 0044 10BD     		pop	{r4, pc}
+ 207              	.LVL15:
+ 208              	.L16:
+ 209              		.loc 1 38 1 view .LVU32
+ 210 0046 00BF     		.align	2
+ 211              	.L15:
+ 212 0048 00000000 		.word	SSD1306_BUFFER
+ 213 004c 00000000 		.word	hi2c2
+ 214              		.cfi_endproc
+ 215              	.LFE136:
+ 217              		.section	.text.ssd1306_init,"ax",%progbits
+ 218              		.align	1
+ 219              		.global	ssd1306_init
+ 220              		.syntax unified
+ 221              		.thumb
+ 222              		.thumb_func
+ 224              	ssd1306_init:
+ 225              	.LFB137:
+  39:user/Src/oled.c **** 
+  40:user/Src/oled.c **** uint8_t ssd1306_init(void) {
+ 226              		.loc 1 40 28 is_stmt 1 view -0
+ 227              		.cfi_startproc
+ 228              		@ args = 0, pretend = 0, frame = 0
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230 0000 10B5     		push	{r4, lr}
+ 231              	.LCFI6:
+ 232              		.cfi_def_cfa_offset 8
+ 233              		.cfi_offset 4, -8
+ 234              		.cfi_offset 14, -4
+  41:user/Src/oled.c ****   int ret = 0;
+ 235              		.loc 1 41 3 view .LVU34
+ 236              	.LVL16:
+  42:user/Src/oled.c ****   // 关闭OLED
+  43:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_DISPLAYOFF);
+ 237              		.loc 1 43 3 view .LVU35
+ 238              		.loc 1 43 10 is_stmt 0 view .LVU36
+ 239 0002 AE20     		movs	r0, #174
+ 240 0004 FFF7FEFF 		bl	ssd1306_write
+ 241              	.LVL17:
+ 242 0008 0446     		mov	r4, r0
+ 243              	.LVL18:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 6
+
+
+  44:user/Src/oled.c ****   // 设置内存寻址模式
+  45:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_MEMADDR_MODE);
+ 244              		.loc 1 45 3 is_stmt 1 view .LVU37
+ 245              		.loc 1 45 10 is_stmt 0 view .LVU38
+ 246 000a 2020     		movs	r0, #32
+ 247              	.LVL19:
+ 248              		.loc 1 45 10 view .LVU39
+ 249 000c FFF7FEFF 		bl	ssd1306_write
+ 250              	.LVL20:
+ 251              		.loc 1 45 7 view .LVU40
+ 252 0010 0444     		add	r4, r4, r0
+ 253              	.LVL21:
+  46:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_PAGEADDR_MODE);
+ 254              		.loc 1 46 3 is_stmt 1 view .LVU41
+ 255              		.loc 1 46 10 is_stmt 0 view .LVU42
+ 256 0012 1020     		movs	r0, #16
+ 257 0014 FFF7FEFF 		bl	ssd1306_write
+ 258              	.LVL22:
+ 259              		.loc 1 46 7 view .LVU43
+ 260 0018 0444     		add	r4, r4, r0
+ 261              	.LVL23:
+  47:user/Src/oled.c **** 
+  48:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_PAGESTART_B0);
+ 262              		.loc 1 48 3 is_stmt 1 view .LVU44
+ 263              		.loc 1 48 10 is_stmt 0 view .LVU45
+ 264 001a B020     		movs	r0, #176
+ 265 001c FFF7FEFF 		bl	ssd1306_write
+ 266              	.LVL24:
+ 267              		.loc 1 48 7 view .LVU46
+ 268 0020 0444     		add	r4, r4, r0
+ 269              	.LVL25:
+  49:user/Src/oled.c ****   // configure direction, A1左右反, C8上下正常
+  50:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SEGMENTREMAP0);
+ 270              		.loc 1 50 3 is_stmt 1 view .LVU47
+ 271              		.loc 1 50 10 is_stmt 0 view .LVU48
+ 272 0022 A020     		movs	r0, #160
+ 273 0024 FFF7FEFF 		bl	ssd1306_write
+ 274              	.LVL26:
+ 275              		.loc 1 50 7 view .LVU49
+ 276 0028 0444     		add	r4, r4, r0
+ 277              	.LVL27:
+  51:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SCAN_DIRECTION1);
+ 278              		.loc 1 51 3 is_stmt 1 view .LVU50
+ 279              		.loc 1 51 10 is_stmt 0 view .LVU51
+ 280 002a C020     		movs	r0, #192
+ 281 002c FFF7FEFF 		bl	ssd1306_write
+ 282              	.LVL28:
+ 283              		.loc 1 51 7 view .LVU52
+ 284 0030 0444     		add	r4, r4, r0
+ 285              	.LVL29:
+  52:user/Src/oled.c ****   //
+  53:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_LOWCOLUMN_START);
+ 286              		.loc 1 53 3 is_stmt 1 view .LVU53
+ 287              		.loc 1 53 10 is_stmt 0 view .LVU54
+ 288 0032 0020     		movs	r0, #0
+ 289 0034 FFF7FEFF 		bl	ssd1306_write
+ 290              	.LVL30:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 7
+
+
+ 291              		.loc 1 53 7 view .LVU55
+ 292 0038 0444     		add	r4, r4, r0
+ 293              	.LVL31:
+  54:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_HIGHCOLUMN_START);
+ 294              		.loc 1 54 3 is_stmt 1 view .LVU56
+ 295              		.loc 1 54 10 is_stmt 0 view .LVU57
+ 296 003a 1020     		movs	r0, #16
+ 297 003c FFF7FEFF 		bl	ssd1306_write
+ 298              	.LVL32:
+ 299              		.loc 1 54 7 view .LVU58
+ 300 0040 0444     		add	r4, r4, r0
+ 301              	.LVL33:
+  55:user/Src/oled.c ****   // 设置屏幕(GDDRAM)起始行
+  56:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_STARTLINE);
+ 302              		.loc 1 56 3 is_stmt 1 view .LVU59
+ 303              		.loc 1 56 10 is_stmt 0 view .LVU60
+ 304 0042 4020     		movs	r0, #64
+ 305 0044 FFF7FEFF 		bl	ssd1306_write
+ 306              	.LVL34:
+ 307              		.loc 1 56 7 view .LVU61
+ 308 0048 0444     		add	r4, r4, r0
+ 309              	.LVL35:
+  57:user/Src/oled.c ****   // 设置对比度
+  58:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_CONTRAST);
+ 310              		.loc 1 58 3 is_stmt 1 view .LVU62
+ 311              		.loc 1 58 10 is_stmt 0 view .LVU63
+ 312 004a 8120     		movs	r0, #129
+ 313 004c FFF7FEFF 		bl	ssd1306_write
+ 314              	.LVL36:
+ 315              		.loc 1 58 7 view .LVU64
+ 316 0050 0444     		add	r4, r4, r0
+ 317              	.LVL37:
+  59:user/Src/oled.c ****   ret += ssd1306_write(0xFF); // Set contrast control register to maximum
+ 318              		.loc 1 59 3 is_stmt 1 view .LVU65
+ 319              		.loc 1 59 10 is_stmt 0 view .LVU66
+ 320 0052 FF20     		movs	r0, #255
+ 321 0054 FFF7FEFF 		bl	ssd1306_write
+ 322              	.LVL38:
+ 323              		.loc 1 59 7 view .LVU67
+ 324 0058 0444     		add	r4, r4, r0
+ 325              	.LVL39:
+  60:user/Src/oled.c ****   // 正常显示颜色，不反显
+  61:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_NORMAL_DISPLAY);
+ 326              		.loc 1 61 3 is_stmt 1 view .LVU68
+ 327              		.loc 1 61 10 is_stmt 0 view .LVU69
+ 328 005a A620     		movs	r0, #166
+ 329 005c FFF7FEFF 		bl	ssd1306_write
+ 330              	.LVL40:
+ 331              		.loc 1 61 7 view .LVU70
+ 332 0060 0444     		add	r4, r4, r0
+ 333              	.LVL41:
+  62:user/Src/oled.c ****   // 全局显示开启
+  63:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_DISPLAYALLON_RESUME); // output ram content
+ 334              		.loc 1 63 3 is_stmt 1 view .LVU71
+ 335              		.loc 1 63 10 is_stmt 0 view .LVU72
+ 336 0062 A420     		movs	r0, #164
+ 337 0064 FFF7FEFF 		bl	ssd1306_write
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 8
+
+
+ 338              	.LVL42:
+ 339              		.loc 1 63 7 view .LVU73
+ 340 0068 0444     		add	r4, r4, r0
+ 341              	.LVL43:
+  64:user/Src/oled.c ****   // 设置显示偏移
+  65:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SETDISPLAY_OFFSET);
+ 342              		.loc 1 65 3 is_stmt 1 view .LVU74
+ 343              		.loc 1 65 10 is_stmt 0 view .LVU75
+ 344 006a D320     		movs	r0, #211
+ 345 006c FFF7FEFF 		bl	ssd1306_write
+ 346              	.LVL44:
+ 347              		.loc 1 65 7 view .LVU76
+ 348 0070 0444     		add	r4, r4, r0
+ 349              	.LVL45:
+  66:user/Src/oled.c ****   ret += ssd1306_write(0x00); // no offset
+ 350              		.loc 1 66 3 is_stmt 1 view .LVU77
+ 351              		.loc 1 66 10 is_stmt 0 view .LVU78
+ 352 0072 0020     		movs	r0, #0
+ 353 0074 FFF7FEFF 		bl	ssd1306_write
+ 354              	.LVL46:
+ 355              		.loc 1 66 7 view .LVU79
+ 356 0078 0444     		add	r4, r4, r0
+ 357              	.LVL47:
+  67:user/Src/oled.c ****   // 设置时钟分频因子
+  68:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SETCLOCK_DIVIDE_RATIO);
+ 358              		.loc 1 68 3 is_stmt 1 view .LVU80
+ 359              		.loc 1 68 10 is_stmt 0 view .LVU81
+ 360 007a D520     		movs	r0, #213
+ 361 007c FFF7FEFF 		bl	ssd1306_write
+ 362              	.LVL48:
+ 363              		.loc 1 68 7 view .LVU82
+ 364 0080 0444     		add	r4, r4, r0
+ 365              	.LVL49:
+  69:user/Src/oled.c ****   ret += ssd1306_write(
+ 366              		.loc 1 69 3 is_stmt 1 view .LVU83
+ 367              		.loc 1 69 10 is_stmt 0 view .LVU84
+ 368 0082 F020     		movs	r0, #240
+ 369 0084 FFF7FEFF 		bl	ssd1306_write
+ 370              	.LVL50:
+ 371              		.loc 1 69 7 view .LVU85
+ 372 0088 0444     		add	r4, r4, r0
+ 373              	.LVL51:
+  70:user/Src/oled.c ****       0xF0); // Set divide ratio to generate DCLK (Display Clock) from CLK
+  71:user/Src/oled.c ****   // 设置预充电时间
+  72:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_PRECHARGE_PERIOD);
+ 374              		.loc 1 72 3 is_stmt 1 view .LVU86
+ 375              		.loc 1 72 10 is_stmt 0 view .LVU87
+ 376 008a D920     		movs	r0, #217
+ 377 008c FFF7FEFF 		bl	ssd1306_write
+ 378              	.LVL52:
+ 379              		.loc 1 72 7 view .LVU88
+ 380 0090 0444     		add	r4, r4, r0
+ 381              	.LVL53:
+  73:user/Src/oled.c ****   ret += ssd1306_write(0x22);
+ 382              		.loc 1 73 3 is_stmt 1 view .LVU89
+ 383              		.loc 1 73 10 is_stmt 0 view .LVU90
+ 384 0092 2220     		movs	r0, #34
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 9
+
+
+ 385 0094 FFF7FEFF 		bl	ssd1306_write
+ 386              	.LVL54:
+ 387              		.loc 1 73 7 view .LVU91
+ 388 0098 0444     		add	r4, r4, r0
+ 389              	.LVL55:
+  74:user/Src/oled.c ****   // 设置列引脚配置
+  75:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_COM_CONFIG);
+ 390              		.loc 1 75 3 is_stmt 1 view .LVU92
+ 391              		.loc 1 75 10 is_stmt 0 view .LVU93
+ 392 009a DA20     		movs	r0, #218
+ 393 009c FFF7FEFF 		bl	ssd1306_write
+ 394              	.LVL56:
+ 395              		.loc 1 75 7 view .LVU94
+ 396 00a0 0444     		add	r4, r4, r0
+ 397              	.LVL57:
+  76:user/Src/oled.c ****   ret += ssd1306_write(0x12);
+ 398              		.loc 1 76 3 is_stmt 1 view .LVU95
+ 399              		.loc 1 76 10 is_stmt 0 view .LVU96
+ 400 00a2 1220     		movs	r0, #18
+ 401 00a4 FFF7FEFF 		bl	ssd1306_write
+ 402              	.LVL58:
+ 403              		.loc 1 76 7 view .LVU97
+ 404 00a8 0444     		add	r4, r4, r0
+ 405              	.LVL59:
+  77:user/Src/oled.c ****   // 设置VCOM调节器的输出
+  78:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_DESELECT);
+ 406              		.loc 1 78 3 is_stmt 1 view .LVU98
+ 407              		.loc 1 78 10 is_stmt 0 view .LVU99
+ 408 00aa DB20     		movs	r0, #219
+ 409 00ac FFF7FEFF 		bl	ssd1306_write
+ 410              	.LVL60:
+ 411              		.loc 1 78 7 view .LVU100
+ 412 00b0 0444     		add	r4, r4, r0
+ 413              	.LVL61:
+  79:user/Src/oled.c ****   ret += ssd1306_write(0x20); // 0x20,0.77xVcc
+ 414              		.loc 1 79 3 is_stmt 1 view .LVU101
+ 415              		.loc 1 79 10 is_stmt 0 view .LVU102
+ 416 00b2 2020     		movs	r0, #32
+ 417 00b4 FFF7FEFF 		bl	ssd1306_write
+ 418              	.LVL62:
+ 419              		.loc 1 79 7 view .LVU103
+ 420 00b8 0444     		add	r4, r4, r0
+ 421              	.LVL63:
+  80:user/Src/oled.c ****   // 设置charge pump enable
+  81:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_SET_CHARGEPUMP);
+ 422              		.loc 1 81 3 is_stmt 1 view .LVU104
+ 423              		.loc 1 81 10 is_stmt 0 view .LVU105
+ 424 00ba 8D20     		movs	r0, #141
+ 425 00bc FFF7FEFF 		bl	ssd1306_write
+ 426              	.LVL64:
+ 427              		.loc 1 81 7 view .LVU106
+ 428 00c0 0444     		add	r4, r4, r0
+ 429              	.LVL65:
+  82:user/Src/oled.c ****   ret += ssd1306_write(0x14);
+ 430              		.loc 1 82 3 is_stmt 1 view .LVU107
+ 431              		.loc 1 82 10 is_stmt 0 view .LVU108
+ 432 00c2 1420     		movs	r0, #20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 10
+
+
+ 433 00c4 FFF7FEFF 		bl	ssd1306_write
+ 434              	.LVL66:
+ 435              		.loc 1 82 7 view .LVU109
+ 436 00c8 0444     		add	r4, r4, r0
+ 437              	.LVL67:
+  83:user/Src/oled.c ****   // 开启OLED
+  84:user/Src/oled.c ****   ret += ssd1306_write(SSD1306_DISPLAYON);
+ 438              		.loc 1 84 3 is_stmt 1 view .LVU110
+ 439              		.loc 1 84 10 is_stmt 0 view .LVU111
+ 440 00ca AF20     		movs	r0, #175
+ 441 00cc FFF7FEFF 		bl	ssd1306_write
+ 442              	.LVL68:
+  85:user/Src/oled.c **** 
+  86:user/Src/oled.c ****   if (ret != 0) {
+ 443              		.loc 1 86 3 is_stmt 1 view .LVU112
+ 444              		.loc 1 86 6 is_stmt 0 view .LVU113
+ 445 00d0 0019     		adds	r0, r0, r4
+ 446              	.LVL69:
+ 447              		.loc 1 86 6 view .LVU114
+ 448 00d2 01D0     		beq	.L18
+  87:user/Src/oled.c ****     return ret;
+ 449              		.loc 1 87 5 is_stmt 1 view .LVU115
+ 450              		.loc 1 87 12 is_stmt 0 view .LVU116
+ 451 00d4 C0B2     		uxtb	r0, r0
+ 452              	.LVL70:
+ 453              	.L19:
+  88:user/Src/oled.c ****   }
+  89:user/Src/oled.c ****   ssd1306_Fill(0x00);
+  90:user/Src/oled.c ****   ssd1306_UpdateScreen();
+  91:user/Src/oled.c ****   SSD1306.CurrentX = 0;
+  92:user/Src/oled.c ****   SSD1306.CurrentY = 0;
+  93:user/Src/oled.c ****   SSD1306.Initialized = 1;
+  94:user/Src/oled.c ****   return 0;
+  95:user/Src/oled.c **** }
+ 454              		.loc 1 95 1 view .LVU117
+ 455 00d6 10BD     		pop	{r4, pc}
+ 456              	.LVL71:
+ 457              	.L18:
+  89:user/Src/oled.c ****   ssd1306_UpdateScreen();
+ 458              		.loc 1 89 3 is_stmt 1 view .LVU118
+ 459 00d8 0020     		movs	r0, #0
+ 460              	.LVL72:
+  89:user/Src/oled.c ****   ssd1306_UpdateScreen();
+ 461              		.loc 1 89 3 is_stmt 0 view .LVU119
+ 462 00da FFF7FEFF 		bl	ssd1306_Fill
+ 463              	.LVL73:
+  90:user/Src/oled.c ****   SSD1306.CurrentX = 0;
+ 464              		.loc 1 90 3 is_stmt 1 view .LVU120
+ 465 00de FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 466              	.LVL74:
+  91:user/Src/oled.c ****   SSD1306.CurrentY = 0;
+ 467              		.loc 1 91 3 view .LVU121
+  91:user/Src/oled.c ****   SSD1306.CurrentY = 0;
+ 468              		.loc 1 91 20 is_stmt 0 view .LVU122
+ 469 00e2 034B     		ldr	r3, .L21
+ 470 00e4 0020     		movs	r0, #0
+ 471 00e6 1880     		strh	r0, [r3]	@ movhi
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 11
+
+
+  92:user/Src/oled.c ****   SSD1306.Initialized = 1;
+ 472              		.loc 1 92 3 is_stmt 1 view .LVU123
+  92:user/Src/oled.c ****   SSD1306.Initialized = 1;
+ 473              		.loc 1 92 20 is_stmt 0 view .LVU124
+ 474 00e8 5880     		strh	r0, [r3, #2]	@ movhi
+  93:user/Src/oled.c ****   return 0;
+ 475              		.loc 1 93 3 is_stmt 1 view .LVU125
+  93:user/Src/oled.c ****   return 0;
+ 476              		.loc 1 93 23 is_stmt 0 view .LVU126
+ 477 00ea 0122     		movs	r2, #1
+ 478 00ec 5A71     		strb	r2, [r3, #5]
+  94:user/Src/oled.c **** }
+ 479              		.loc 1 94 3 is_stmt 1 view .LVU127
+  94:user/Src/oled.c **** }
+ 480              		.loc 1 94 10 is_stmt 0 view .LVU128
+ 481 00ee F2E7     		b	.L19
+ 482              	.L22:
+ 483              		.align	2
+ 484              	.L21:
+ 485 00f0 00000000 		.word	SSD1306
+ 486              		.cfi_endproc
+ 487              	.LFE137:
+ 489              		.section	.text.ssd1306_DrawPixel,"ax",%progbits
+ 490              		.align	1
+ 491              		.global	ssd1306_DrawPixel
+ 492              		.syntax unified
+ 493              		.thumb
+ 494              		.thumb_func
+ 496              	ssd1306_DrawPixel:
+ 497              	.LVL75:
+ 498              	.LFB138:
+  96:user/Src/oled.c **** 
+  97:user/Src/oled.c **** void ssd1306_DrawPixel(uint8_t x, uint8_t y, uint8_t color) {
+ 499              		.loc 1 97 61 is_stmt 1 view -0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503              		@ link register save eliminated.
+  98:user/Src/oled.c ****   if (x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
+ 504              		.loc 1 98 3 view .LVU130
+ 505              		.loc 1 98 6 is_stmt 0 view .LVU131
+ 506 0000 10F0800F 		tst	r0, #128
+ 507 0004 24D1     		bne	.L28
+ 508              		.loc 1 98 26 discriminator 1 view .LVU132
+ 509 0006 3F29     		cmp	r1, #63
+ 510 0008 22D8     		bhi	.L28
+  97:user/Src/oled.c ****   if (x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
+ 511              		.loc 1 97 61 view .LVU133
+ 512 000a 10B4     		push	{r4}
+ 513              	.LCFI7:
+ 514              		.cfi_def_cfa_offset 4
+ 515              		.cfi_offset 4, -4
+  99:user/Src/oled.c ****     // Don't write outside the buffer
+ 100:user/Src/oled.c ****     return;
+ 101:user/Src/oled.c ****   }
+ 102:user/Src/oled.c **** 
+ 103:user/Src/oled.c ****   // Check if pixel should be inverted
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 12
+
+
+ 104:user/Src/oled.c ****   if (SSD1306.Inverted) {
+ 516              		.loc 1 104 3 is_stmt 1 view .LVU134
+ 517              		.loc 1 104 14 is_stmt 0 view .LVU135
+ 518 000c 114B     		ldr	r3, .L31
+ 519 000e 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 520              		.loc 1 104 6 view .LVU136
+ 521 0010 0BB1     		cbz	r3, .L25
+ 105:user/Src/oled.c ****     color = ~color;
+ 522              		.loc 1 105 5 is_stmt 1 view .LVU137
+ 523              		.loc 1 105 11 is_stmt 0 view .LVU138
+ 524 0012 D243     		mvns	r2, r2
+ 525              	.LVL76:
+ 526              		.loc 1 105 11 view .LVU139
+ 527 0014 D2B2     		uxtb	r2, r2
+ 528              	.LVL77:
+ 529              	.L25:
+ 106:user/Src/oled.c ****   }
+ 107:user/Src/oled.c ****   // Draw in the correct color
+ 108:user/Src/oled.c ****   if (color == WHITE) {
+ 530              		.loc 1 108 3 is_stmt 1 view .LVU140
+ 531              		.loc 1 108 6 is_stmt 0 view .LVU141
+ 532 0016 6AB9     		cbnz	r2, .L26
+ 109:user/Src/oled.c ****     SSD1306_BUFFER[x + (y / 8) * SSD1306_WIDTH] |= 1 << (y % 8);
+ 533              		.loc 1 109 5 is_stmt 1 view .LVU142
+ 534              		.loc 1 109 19 is_stmt 0 view .LVU143
+ 535 0018 CB08     		lsrs	r3, r1, #3
+ 536 001a 00EBC310 		add	r0, r0, r3, lsl #7
+ 537              	.LVL78:
+ 538              		.loc 1 109 19 view .LVU144
+ 539 001e 0E4C     		ldr	r4, .L31+4
+ 540 0020 235C     		ldrb	r3, [r4, r0]	@ zero_extendqisi2
+ 541              		.loc 1 109 60 view .LVU145
+ 542 0022 01F00701 		and	r1, r1, #7
+ 543              	.LVL79:
+ 544              		.loc 1 109 54 view .LVU146
+ 545 0026 0122     		movs	r2, #1
+ 546              	.LVL80:
+ 547              		.loc 1 109 54 view .LVU147
+ 548 0028 8A40     		lsls	r2, r2, r1
+ 549              		.loc 1 109 49 view .LVU148
+ 550 002a 1343     		orrs	r3, r3, r2
+ 551 002c 2354     		strb	r3, [r4, r0]
+ 552              	.L23:
+ 110:user/Src/oled.c ****   } else {
+ 111:user/Src/oled.c ****     SSD1306_BUFFER[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
+ 112:user/Src/oled.c ****   }
+ 113:user/Src/oled.c **** }
+ 553              		.loc 1 113 1 view .LVU149
+ 554 002e 5DF8044B 		ldr	r4, [sp], #4
+ 555              	.LCFI8:
+ 556              		.cfi_remember_state
+ 557              		.cfi_restore 4
+ 558              		.cfi_def_cfa_offset 0
+ 559 0032 7047     		bx	lr
+ 560              	.LVL81:
+ 561              	.L26:
+ 562              	.LCFI9:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 13
+
+
+ 563              		.cfi_restore_state
+ 111:user/Src/oled.c ****   }
+ 564              		.loc 1 111 5 is_stmt 1 view .LVU150
+ 111:user/Src/oled.c ****   }
+ 565              		.loc 1 111 19 is_stmt 0 view .LVU151
+ 566 0034 CB08     		lsrs	r3, r1, #3
+ 567 0036 00EBC310 		add	r0, r0, r3, lsl #7
+ 568              	.LVL82:
+ 111:user/Src/oled.c ****   }
+ 569              		.loc 1 111 19 view .LVU152
+ 570 003a 074C     		ldr	r4, .L31+4
+ 571 003c 225C     		ldrb	r2, [r4, r0]	@ zero_extendqisi2
+ 572              	.LVL83:
+ 111:user/Src/oled.c ****   }
+ 573              		.loc 1 111 62 view .LVU153
+ 574 003e 01F00701 		and	r1, r1, #7
+ 575              	.LVL84:
+ 111:user/Src/oled.c ****   }
+ 576              		.loc 1 111 56 view .LVU154
+ 577 0042 0123     		movs	r3, #1
+ 578 0044 8B40     		lsls	r3, r3, r1
+ 111:user/Src/oled.c ****   }
+ 579              		.loc 1 111 49 view .LVU155
+ 580 0046 DB43     		mvns	r3, r3
+ 581 0048 5BB2     		sxtb	r3, r3
+ 582 004a 1340     		ands	r3, r3, r2
+ 583 004c 2354     		strb	r3, [r4, r0]
+ 584 004e EEE7     		b	.L23
+ 585              	.LVL85:
+ 586              	.L28:
+ 587              	.LCFI10:
+ 588              		.cfi_def_cfa_offset 0
+ 589              		.cfi_restore 4
+ 111:user/Src/oled.c ****   }
+ 590              		.loc 1 111 49 view .LVU156
+ 591 0050 7047     		bx	lr
+ 592              	.L32:
+ 593 0052 00BF     		.align	2
+ 594              	.L31:
+ 595 0054 00000000 		.word	SSD1306
+ 596 0058 00000000 		.word	SSD1306_BUFFER
+ 597              		.cfi_endproc
+ 598              	.LFE138:
+ 600              		.section	.text.ssd1306_WriteChar,"ax",%progbits
+ 601              		.align	1
+ 602              		.global	ssd1306_WriteChar
+ 603              		.syntax unified
+ 604              		.thumb
+ 605              		.thumb_func
+ 607              	ssd1306_WriteChar:
+ 608              	.LVL86:
+ 609              	.LFB139:
+ 114:user/Src/oled.c **** 
+ 115:user/Src/oled.c **** char ssd1306_WriteChar(char ch, FontDef Font, uint8_t color) {
+ 610              		.loc 1 115 62 is_stmt 1 view -0
+ 611              		.cfi_startproc
+ 612              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 14
+
+
+ 613              		@ frame_needed = 0, uses_anonymous_args = 0
+ 614              		.loc 1 115 62 is_stmt 0 view .LVU158
+ 615 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 616              	.LCFI11:
+ 617              		.cfi_def_cfa_offset 32
+ 618              		.cfi_offset 4, -32
+ 619              		.cfi_offset 5, -28
+ 620              		.cfi_offset 6, -24
+ 621              		.cfi_offset 7, -20
+ 622              		.cfi_offset 8, -16
+ 623              		.cfi_offset 9, -12
+ 624              		.cfi_offset 10, -8
+ 625              		.cfi_offset 14, -4
+ 626 0004 82B0     		sub	sp, sp, #8
+ 627              	.LCFI12:
+ 628              		.cfi_def_cfa_offset 40
+ 629 0006 8146     		mov	r9, r0
+ 630 0008 02A8     		add	r0, sp, #8
+ 631              	.LVL87:
+ 632              		.loc 1 115 62 view .LVU159
+ 633 000a 00E90600 		stmdb	r0, {r1, r2}
+ 634 000e 9846     		mov	r8, r3
+ 116:user/Src/oled.c ****   uint32_t i, b, j;
+ 635              		.loc 1 116 3 is_stmt 1 view .LVU160
+ 117:user/Src/oled.c ****   // Check remaining space on current line
+ 118:user/Src/oled.c ****   if (SSD1306_WIDTH <= (SSD1306.CurrentX + Font.FontWidth) ||
+ 636              		.loc 1 118 3 view .LVU161
+ 637              		.loc 1 118 32 is_stmt 0 view .LVU162
+ 638 0010 234B     		ldr	r3, .L46
+ 639              	.LVL88:
+ 640              		.loc 1 118 32 view .LVU163
+ 641 0012 1B88     		ldrh	r3, [r3]
+ 642              		.loc 1 118 48 view .LVU164
+ 643 0014 9DF80060 		ldrb	r6, [sp]	@ zero_extendqisi2
+ 644              		.loc 1 118 42 view .LVU165
+ 645 0018 3344     		add	r3, r3, r6
+ 646              		.loc 1 118 6 view .LVU166
+ 647 001a 7F2B     		cmp	r3, #127
+ 648 001c 3BDC     		bgt	.L41
+ 119:user/Src/oled.c ****       SSD1306_HEIGHT <= (SSD1306.CurrentY + Font.FontHeight)) {
+ 649              		.loc 1 119 33 discriminator 1 view .LVU167
+ 650 001e 204B     		ldr	r3, .L46
+ 651 0020 5B88     		ldrh	r3, [r3, #2]
+ 652              		.loc 1 119 49 discriminator 1 view .LVU168
+ 653 0022 9DF801A0 		ldrb	r10, [sp, #1]	@ zero_extendqisi2
+ 654              		.loc 1 119 43 discriminator 1 view .LVU169
+ 655 0026 5344     		add	r3, r3, r10
+ 118:user/Src/oled.c ****       SSD1306_HEIGHT <= (SSD1306.CurrentY + Font.FontHeight)) {
+ 656              		.loc 1 118 60 discriminator 1 view .LVU170
+ 657 0028 3F2B     		cmp	r3, #63
+ 658 002a 36DC     		bgt	.L42
+ 120:user/Src/oled.c ****     return 0;
+ 121:user/Src/oled.c ****   }
+ 122:user/Src/oled.c ****   // Translate font to screenbuffer
+ 123:user/Src/oled.c ****   for (i = 0; i < Font.FontHeight; i++) {
+ 659              		.loc 1 123 10 view .LVU171
+ 660 002c 0025     		movs	r5, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 15
+
+
+ 661 002e 1FE0     		b	.L35
+ 662              	.LVL89:
+ 663              	.L37:
+ 124:user/Src/oled.c ****     b = Font.data[(ch - 32) * Font.FontHeight + i];
+ 125:user/Src/oled.c ****     for (j = 0; j < Font.FontWidth; j++) {
+ 126:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 127:user/Src/oled.c ****         ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), color);
+ 128:user/Src/oled.c ****       } else {
+ 129:user/Src/oled.c ****         ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i),
+ 664              		.loc 1 129 9 is_stmt 1 view .LVU172
+ 665              		.loc 1 129 34 is_stmt 0 view .LVU173
+ 666 0030 1B4B     		ldr	r3, .L46
+ 667 0032 1888     		ldrh	r0, [r3]
+ 668              		.loc 1 129 57 view .LVU174
+ 669 0034 5988     		ldrh	r1, [r3, #2]
+ 670              		.loc 1 129 9 view .LVU175
+ 671 0036 2944     		add	r1, r1, r5
+ 672 0038 2044     		add	r0, r0, r4
+ 673 003a B8FA88F2 		clz	r2, r8
+ 674 003e 5209     		lsrs	r2, r2, #5
+ 675 0040 C9B2     		uxtb	r1, r1
+ 676 0042 C0B2     		uxtb	r0, r0
+ 677 0044 FFF7FEFF 		bl	ssd1306_DrawPixel
+ 678              	.LVL90:
+ 679              	.L38:
+ 125:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 680              		.loc 1 125 38 is_stmt 1 discriminator 2 view .LVU176
+ 681 0048 0134     		adds	r4, r4, #1
+ 682              	.LVL91:
+ 683              	.L36:
+ 125:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 684              		.loc 1 125 19 discriminator 1 view .LVU177
+ 685 004a A642     		cmp	r6, r4
+ 686 004c 0FD9     		bls	.L44
+ 126:user/Src/oled.c ****         ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), color);
+ 687              		.loc 1 126 7 view .LVU178
+ 126:user/Src/oled.c ****         ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), color);
+ 688              		.loc 1 126 14 is_stmt 0 view .LVU179
+ 689 004e 07FA04F3 		lsl	r3, r7, r4
+ 126:user/Src/oled.c ****         ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), color);
+ 690              		.loc 1 126 10 view .LVU180
+ 691 0052 13F4004F 		tst	r3, #32768
+ 692 0056 EBD0     		beq	.L37
+ 127:user/Src/oled.c ****       } else {
+ 693              		.loc 1 127 9 is_stmt 1 view .LVU181
+ 127:user/Src/oled.c ****       } else {
+ 694              		.loc 1 127 34 is_stmt 0 view .LVU182
+ 695 0058 114B     		ldr	r3, .L46
+ 696 005a 1888     		ldrh	r0, [r3]
+ 127:user/Src/oled.c ****       } else {
+ 697              		.loc 1 127 57 view .LVU183
+ 698 005c 5988     		ldrh	r1, [r3, #2]
+ 127:user/Src/oled.c ****       } else {
+ 699              		.loc 1 127 9 view .LVU184
+ 700 005e 2944     		add	r1, r1, r5
+ 701 0060 2044     		add	r0, r0, r4
+ 702 0062 4246     		mov	r2, r8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 16
+
+
+ 703 0064 C9B2     		uxtb	r1, r1
+ 704 0066 C0B2     		uxtb	r0, r0
+ 705 0068 FFF7FEFF 		bl	ssd1306_DrawPixel
+ 706              	.LVL92:
+ 707 006c ECE7     		b	.L38
+ 708              	.L44:
+ 123:user/Src/oled.c ****     b = Font.data[(ch - 32) * Font.FontHeight + i];
+ 709              		.loc 1 123 37 is_stmt 1 discriminator 2 view .LVU185
+ 710 006e 0135     		adds	r5, r5, #1
+ 711              	.LVL93:
+ 712              	.L35:
+ 123:user/Src/oled.c ****     b = Font.data[(ch - 32) * Font.FontHeight + i];
+ 713              		.loc 1 123 17 discriminator 1 view .LVU186
+ 714 0070 AA45     		cmp	r10, r5
+ 715 0072 08D9     		bls	.L45
+ 124:user/Src/oled.c ****     for (j = 0; j < Font.FontWidth; j++) {
+ 716              		.loc 1 124 5 view .LVU187
+ 124:user/Src/oled.c ****     for (j = 0; j < Font.FontWidth; j++) {
+ 717              		.loc 1 124 23 is_stmt 0 view .LVU188
+ 718 0074 A9F12003 		sub	r3, r9, #32
+ 124:user/Src/oled.c ****     for (j = 0; j < Font.FontWidth; j++) {
+ 719              		.loc 1 124 47 view .LVU189
+ 720 0078 03FB0A53 		mla	r3, r3, r10, r5
+ 124:user/Src/oled.c ****     for (j = 0; j < Font.FontWidth; j++) {
+ 721              		.loc 1 124 18 view .LVU190
+ 722 007c 019A     		ldr	r2, [sp, #4]
+ 723 007e 32F81370 		ldrh	r7, [r2, r3, lsl #1]
+ 724              	.LVL94:
+ 125:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 725              		.loc 1 125 5 is_stmt 1 view .LVU191
+ 125:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 726              		.loc 1 125 12 is_stmt 0 view .LVU192
+ 727 0082 0024     		movs	r4, #0
+ 125:user/Src/oled.c ****       if ((b << j) & 0x8000) {
+ 728              		.loc 1 125 5 view .LVU193
+ 729 0084 E1E7     		b	.L36
+ 730              	.LVL95:
+ 731              	.L45:
+ 130:user/Src/oled.c ****                           (uint8_t)!color);
+ 131:user/Src/oled.c ****       }
+ 132:user/Src/oled.c ****     }
+ 133:user/Src/oled.c ****   }
+ 134:user/Src/oled.c **** 
+ 135:user/Src/oled.c ****   // The current space is now taken
+ 136:user/Src/oled.c ****   SSD1306.CurrentX += Font.FontWidth;
+ 732              		.loc 1 136 3 is_stmt 1 view .LVU194
+ 733              		.loc 1 136 10 is_stmt 0 view .LVU195
+ 734 0086 064A     		ldr	r2, .L46
+ 735 0088 1388     		ldrh	r3, [r2]
+ 736              		.loc 1 136 20 view .LVU196
+ 737 008a 3344     		add	r3, r3, r6
+ 738 008c 1380     		strh	r3, [r2]	@ movhi
+ 137:user/Src/oled.c **** 
+ 138:user/Src/oled.c ****   // Return written char for validation
+ 139:user/Src/oled.c ****   return ch;
+ 739              		.loc 1 139 3 is_stmt 1 view .LVU197
+ 740              		.loc 1 139 10 is_stmt 0 view .LVU198
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 17
+
+
+ 741 008e 4846     		mov	r0, r9
+ 742              	.LVL96:
+ 743              	.L34:
+ 140:user/Src/oled.c **** }
+ 744              		.loc 1 140 1 view .LVU199
+ 745 0090 02B0     		add	sp, sp, #8
+ 746              	.LCFI13:
+ 747              		.cfi_remember_state
+ 748              		.cfi_def_cfa_offset 32
+ 749              		@ sp needed
+ 750 0092 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 751              	.L41:
+ 752              	.LCFI14:
+ 753              		.cfi_restore_state
+ 120:user/Src/oled.c ****   }
+ 754              		.loc 1 120 12 view .LVU200
+ 755 0096 0020     		movs	r0, #0
+ 756 0098 FAE7     		b	.L34
+ 757              	.L42:
+ 758 009a 0020     		movs	r0, #0
+ 759 009c F8E7     		b	.L34
+ 760              	.L47:
+ 761 009e 00BF     		.align	2
+ 762              	.L46:
+ 763 00a0 00000000 		.word	SSD1306
+ 764              		.cfi_endproc
+ 765              	.LFE139:
+ 767              		.section	.text.ssd1306_WriteString,"ax",%progbits
+ 768              		.align	1
+ 769              		.global	ssd1306_WriteString
+ 770              		.syntax unified
+ 771              		.thumb
+ 772              		.thumb_func
+ 774              	ssd1306_WriteString:
+ 775              	.LVL97:
+ 776              	.LFB140:
+ 141:user/Src/oled.c **** 
+ 142:user/Src/oled.c **** int ssd1306_WriteString(const char *str, int size, FontDef Font,
+ 143:user/Src/oled.c ****                         uint8_t color) {
+ 777              		.loc 1 143 40 is_stmt 1 view -0
+ 778              		.cfi_startproc
+ 779              		@ args = 4, pretend = 0, frame = 8
+ 780              		@ frame_needed = 0, uses_anonymous_args = 0
+ 781              		.loc 1 143 40 is_stmt 0 view .LVU202
+ 782 0000 70B5     		push	{r4, r5, r6, lr}
+ 783              	.LCFI15:
+ 784              		.cfi_def_cfa_offset 16
+ 785              		.cfi_offset 4, -16
+ 786              		.cfi_offset 5, -12
+ 787              		.cfi_offset 6, -8
+ 788              		.cfi_offset 14, -4
+ 789 0002 82B0     		sub	sp, sp, #8
+ 790              	.LCFI16:
+ 791              		.cfi_def_cfa_offset 24
+ 792 0004 0446     		mov	r4, r0
+ 793 0006 0846     		mov	r0, r1
+ 794              	.LVL98:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 18
+
+
+ 795              		.loc 1 143 40 view .LVU203
+ 796 0008 02A9     		add	r1, sp, #8
+ 797              	.LVL99:
+ 798              		.loc 1 143 40 view .LVU204
+ 799 000a 01E90C00 		stmdb	r1, {r2, r3}
+ 800 000e 9DF81860 		ldrb	r6, [sp, #24]	@ zero_extendqisi2
+ 144:user/Src/oled.c ****   // Write until null-byte
+ 145:user/Src/oled.c ****   while (size--) {
+ 801              		.loc 1 145 3 is_stmt 1 view .LVU205
+ 802              		.loc 1 145 9 is_stmt 0 view .LVU206
+ 803 0012 01E0     		b	.L49
+ 804              	.LVL100:
+ 805              	.L54:
+ 146:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 147:user/Src/oled.c ****       return 1;
+ 148:user/Src/oled.c ****     }
+ 149:user/Src/oled.c ****     str++;
+ 806              		.loc 1 149 5 is_stmt 1 view .LVU207
+ 807              		.loc 1 149 8 is_stmt 0 view .LVU208
+ 808 0014 0134     		adds	r4, r4, #1
+ 809              	.LVL101:
+ 145:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 810              		.loc 1 145 14 view .LVU209
+ 811 0016 2846     		mov	r0, r5
+ 812              	.LVL102:
+ 813              	.L49:
+ 145:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 814              		.loc 1 145 10 is_stmt 1 view .LVU210
+ 145:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 815              		.loc 1 145 14 is_stmt 0 view .LVU211
+ 816 0018 451E     		subs	r5, r0, #1
+ 817              	.LVL103:
+ 145:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 818              		.loc 1 145 10 view .LVU212
+ 819 001a 50B1     		cbz	r0, .L50
+ 146:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 820              		.loc 1 146 5 is_stmt 1 view .LVU213
+ 146:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 821              		.loc 1 146 9 is_stmt 0 view .LVU214
+ 822 001c 3346     		mov	r3, r6
+ 823 001e 02AA     		add	r2, sp, #8
+ 824 0020 12E90600 		ldmdb	r2, {r1, r2}
+ 825 0024 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 826 0026 FFF7FEFF 		bl	ssd1306_WriteChar
+ 827              	.LVL104:
+ 146:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 828              		.loc 1 146 46 view .LVU215
+ 829 002a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 146:user/Src/oled.c ****     if (ssd1306_WriteChar(*str, Font, color) != *str) {
+ 830              		.loc 1 146 8 view .LVU216
+ 831 002c 9842     		cmp	r0, r3
+ 832 002e F1D0     		beq	.L54
+ 147:user/Src/oled.c ****     }
+ 833              		.loc 1 147 14 view .LVU217
+ 834 0030 0120     		movs	r0, #1
+ 835              	.L50:
+ 150:user/Src/oled.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 19
+
+
+ 151:user/Src/oled.c ****   return 0;
+ 152:user/Src/oled.c **** }
+ 836              		.loc 1 152 1 view .LVU218
+ 837 0032 02B0     		add	sp, sp, #8
+ 838              	.LCFI17:
+ 839              		.cfi_def_cfa_offset 16
+ 840              		@ sp needed
+ 841 0034 70BD     		pop	{r4, r5, r6, pc}
+ 842              		.loc 1 152 1 view .LVU219
+ 843              		.cfi_endproc
+ 844              	.LFE140:
+ 846              		.section	.text.ssd1306_printf,"ax",%progbits
+ 847              		.align	1
+ 848              		.global	ssd1306_printf
+ 849              		.syntax unified
+ 850              		.thumb
+ 851              		.thumb_func
+ 853              	ssd1306_printf:
+ 854              	.LVL105:
+ 855              	.LFB141:
+ 153:user/Src/oled.c **** 
+ 154:user/Src/oled.c **** void ssd1306_printf(FontDef Font, char *fmt, ...) {
+ 856              		.loc 1 154 51 is_stmt 1 view -0
+ 857              		.cfi_startproc
+ 858              		@ args = 4, pretend = 8, frame = 16
+ 859              		@ frame_needed = 0, uses_anonymous_args = 1
+ 860              		.loc 1 154 51 is_stmt 0 view .LVU221
+ 861 0000 0CB4     		push	{r2, r3}
+ 862              	.LCFI18:
+ 863              		.cfi_def_cfa_offset 8
+ 864              		.cfi_offset 2, -8
+ 865              		.cfi_offset 3, -4
+ 866 0002 00B5     		push	{lr}
+ 867              	.LCFI19:
+ 868              		.cfi_def_cfa_offset 12
+ 869              		.cfi_offset 14, -12
+ 870 0004 87B0     		sub	sp, sp, #28
+ 871              	.LCFI20:
+ 872              		.cfi_def_cfa_offset 40
+ 873 0006 02AB     		add	r3, sp, #8
+ 874 0008 83E80300 		stm	r3, {r0, r1}
+ 875 000c 08AA     		add	r2, sp, #32
+ 876 000e 52F8043B 		ldr	r3, [r2], #4
+ 155:user/Src/oled.c ****   va_list args;
+ 877              		.loc 1 155 3 is_stmt 1 view .LVU222
+ 156:user/Src/oled.c ****   int ret;
+ 878              		.loc 1 156 3 view .LVU223
+ 157:user/Src/oled.c ****   static char str[64];
+ 879              		.loc 1 157 3 view .LVU224
+ 158:user/Src/oled.c ****   va_start(args, fmt);
+ 880              		.loc 1 158 3 view .LVU225
+ 881 0012 0592     		str	r2, [sp, #20]
+ 159:user/Src/oled.c ****   ret = vsprintf(str, fmt, args);
+ 882              		.loc 1 159 3 view .LVU226
+ 883              		.loc 1 159 9 is_stmt 0 view .LVU227
+ 884 0014 0092     		str	r2, [sp]
+ 885 0016 4022     		movs	r2, #64
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 20
+
+
+ 886 0018 0021     		movs	r1, #0
+ 887 001a 0A48     		ldr	r0, .L59
+ 888 001c FFF7FEFF 		bl	__vsprintf_chk
+ 889              	.LVL106:
+ 160:user/Src/oled.c ****   va_end(args);
+ 890              		.loc 1 160 3 is_stmt 1 view .LVU228
+ 161:user/Src/oled.c ****   if (ret > 0) {
+ 891              		.loc 1 161 3 view .LVU229
+ 892              		.loc 1 161 6 is_stmt 0 view .LVU230
+ 893 0020 011E     		subs	r1, r0, #0
+ 894 0022 06DC     		bgt	.L58
+ 895              	.LVL107:
+ 896              	.L56:
+ 162:user/Src/oled.c ****     ssd1306_WriteString(str, ret, Font, WHITE);
+ 163:user/Src/oled.c ****   }
+ 164:user/Src/oled.c ****   ssd1306_UpdateScreen();
+ 897              		.loc 1 164 3 is_stmt 1 view .LVU231
+ 898 0024 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 899              	.LVL108:
+ 165:user/Src/oled.c **** }
+ 900              		.loc 1 165 1 is_stmt 0 view .LVU232
+ 901 0028 07B0     		add	sp, sp, #28
+ 902              	.LCFI21:
+ 903              		.cfi_remember_state
+ 904              		.cfi_def_cfa_offset 12
+ 905              		@ sp needed
+ 906 002a 5DF804EB 		ldr	lr, [sp], #4
+ 907              	.LCFI22:
+ 908              		.cfi_restore 14
+ 909              		.cfi_def_cfa_offset 8
+ 910 002e 02B0     		add	sp, sp, #8
+ 911              	.LCFI23:
+ 912              		.cfi_restore 3
+ 913              		.cfi_restore 2
+ 914              		.cfi_def_cfa_offset 0
+ 915 0030 7047     		bx	lr
+ 916              	.LVL109:
+ 917              	.L58:
+ 918              	.LCFI24:
+ 919              		.cfi_restore_state
+ 162:user/Src/oled.c ****     ssd1306_WriteString(str, ret, Font, WHITE);
+ 920              		.loc 1 162 5 is_stmt 1 view .LVU233
+ 921 0032 0023     		movs	r3, #0
+ 922 0034 0093     		str	r3, [sp]
+ 923 0036 02AB     		add	r3, sp, #8
+ 924 0038 0CCB     		ldm	r3, {r2, r3}
+ 925 003a 0248     		ldr	r0, .L59
+ 926              	.LVL110:
+ 162:user/Src/oled.c ****     ssd1306_WriteString(str, ret, Font, WHITE);
+ 927              		.loc 1 162 5 is_stmt 0 view .LVU234
+ 928 003c FFF7FEFF 		bl	ssd1306_WriteString
+ 929              	.LVL111:
+ 162:user/Src/oled.c ****     ssd1306_WriteString(str, ret, Font, WHITE);
+ 930              		.loc 1 162 5 view .LVU235
+ 931 0040 F0E7     		b	.L56
+ 932              	.L60:
+ 933 0042 00BF     		.align	2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 21
+
+
+ 934              	.L59:
+ 935 0044 00000000 		.word	str.0
+ 936              		.cfi_endproc
+ 937              	.LFE141:
+ 939              		.section	.text.ssd1306_SetCursor,"ax",%progbits
+ 940              		.align	1
+ 941              		.global	ssd1306_SetCursor
+ 942              		.syntax unified
+ 943              		.thumb
+ 944              		.thumb_func
+ 946              	ssd1306_SetCursor:
+ 947              	.LVL112:
+ 948              	.LFB142:
+ 166:user/Src/oled.c **** 
+ 167:user/Src/oled.c **** void ssd1306_SetCursor(uint8_t x, uint8_t y) {
+ 949              		.loc 1 167 46 is_stmt 1 view -0
+ 950              		.cfi_startproc
+ 951              		@ args = 0, pretend = 0, frame = 0
+ 952              		@ frame_needed = 0, uses_anonymous_args = 0
+ 953              		@ link register save eliminated.
+ 168:user/Src/oled.c ****   SSD1306.CurrentX = x;
+ 954              		.loc 1 168 3 view .LVU237
+ 955              		.loc 1 168 20 is_stmt 0 view .LVU238
+ 956 0000 014B     		ldr	r3, .L62
+ 957 0002 1880     		strh	r0, [r3]	@ movhi
+ 169:user/Src/oled.c ****   SSD1306.CurrentY = y;
+ 958              		.loc 1 169 3 is_stmt 1 view .LVU239
+ 959              		.loc 1 169 20 is_stmt 0 view .LVU240
+ 960 0004 5980     		strh	r1, [r3, #2]	@ movhi
+ 170:user/Src/oled.c **** }
+ 961              		.loc 1 170 1 view .LVU241
+ 962 0006 7047     		bx	lr
+ 963              	.L63:
+ 964              		.align	2
+ 965              	.L62:
+ 966 0008 00000000 		.word	SSD1306
+ 967              		.cfi_endproc
+ 968              	.LFE142:
+ 970              		.section	.bss.str.0,"aw",%nobits
+ 971              		.align	2
+ 974              	str.0:
+ 975 0000 00000000 		.space	64
+ 975      00000000 
+ 975      00000000 
+ 975      00000000 
+ 975      00000000 
+ 976              		.global	SSD1306
+ 977              		.section	.bss.SSD1306,"aw",%nobits
+ 978              		.align	2
+ 981              	SSD1306:
+ 982 0000 00000000 		.space	6
+ 982      0000
+ 983              		.section	.bss.SSD1306_BUFFER,"aw",%nobits
+ 984              		.align	2
+ 987              	SSD1306_BUFFER:
+ 988 0000 00000000 		.space	1024
+ 988      00000000 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 22
+
+
+ 988      00000000 
+ 988      00000000 
+ 988      00000000 
+ 989              		.text
+ 990              	.Letext0:
+ 991              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 992              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 993              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 994              		.file 5 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 995              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 996              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 997              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_i2c.h"
+ 998              		.file 9 "user/Inc/fonts.h"
+ 999              		.file 10 "user/Inc/oled.h"
+ 1000              		.file 11 "/Applications/ArmGNUToolchain/12.2.mpacbti-rel1/arm-none-eabi/lib/gcc/arm-none-eabi/12.2
+ 1001              		.file 12 "Core/Inc/i2c.h"
+ 1002              		.file 13 "<built-in>"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 oled.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:21     .text.ssd1306_write:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:26     .text.ssd1306_write:00000000 ssd1306_write
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:65     .text.ssd1306_write:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:70     .text.HAL_I2C_MemTxCpltCallback:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:76     .text.HAL_I2C_MemTxCpltCallback:00000000 HAL_I2C_MemTxCpltCallback
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:90     .text.ssd1306_Fill:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:96     .text.ssd1306_Fill:00000000 ssd1306_Fill
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:128    .text.ssd1306_Fill:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:987    .bss.SSD1306_BUFFER:00000000 SSD1306_BUFFER
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:133    .text.ssd1306_UpdateScreen:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:139    .text.ssd1306_UpdateScreen:00000000 ssd1306_UpdateScreen
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:212    .text.ssd1306_UpdateScreen:00000048 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:218    .text.ssd1306_init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:224    .text.ssd1306_init:00000000 ssd1306_init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:485    .text.ssd1306_init:000000f0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:981    .bss.SSD1306:00000000 SSD1306
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:490    .text.ssd1306_DrawPixel:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:496    .text.ssd1306_DrawPixel:00000000 ssd1306_DrawPixel
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:595    .text.ssd1306_DrawPixel:00000054 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:601    .text.ssd1306_WriteChar:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:607    .text.ssd1306_WriteChar:00000000 ssd1306_WriteChar
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:763    .text.ssd1306_WriteChar:000000a0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:768    .text.ssd1306_WriteString:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:774    .text.ssd1306_WriteString:00000000 ssd1306_WriteString
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:847    .text.ssd1306_printf:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:853    .text.ssd1306_printf:00000000 ssd1306_printf
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:935    .text.ssd1306_printf:00000044 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:974    .bss.str.0:00000000 str.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:940    .text.ssd1306_SetCursor:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:946    .text.ssd1306_SetCursor:00000000 ssd1306_SetCursor
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:966    .text.ssd1306_SetCursor:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:971    .bss.str.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:978    .bss.SSD1306:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccmk30hF.s:984    .bss.SSD1306_BUFFER:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Mem_Write
+hi2c2
+__vsprintf_chk

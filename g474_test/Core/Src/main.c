@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "dma.h"
 #include "i2c.h"
 #include "tim.h"
@@ -26,7 +27,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "mpu.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -35,8 +35,14 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#include "mpu9250.h"
+// #include "mpu9250.h"
+// #include "mpu.h"
+#include "inv_mpu.h"
+#include "oled.h"
 #include "ws2812.h"
+#include "mpu.h"
+
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -61,11 +67,9 @@ void uart_printf(char *fmt, ...) {
 extern void CmdProcessing(UART_HandleTypeDef *huart);
 extern char chcmd[64];
 extern uint8_t MPU_readbuf[128];
+extern SSD1306_t SSD1306;
 
 float angle = 0.0;
-extern MPU_data gryo_data;
-extern MPU_data acc_data;
-extern uint8_t ak_id;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -76,6 +80,7 @@ extern uint8_t ak_id;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 // printf("mpu9250 Start !\r\n");
 
@@ -122,30 +127,51 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_UART_RegisterCallback(&huart1, HAL_UART_RX_COMPLETE_CB_ID, CmdProcessing);
   HAL_UART_Receive_IT(&huart1, (uint8_t *)chcmd, 1);
-  int ret;
-  // ret = mpu_dmp_init();
+  HAL_GPIO_WritePin(AD0_GPIO_Port, AD0_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(AD1_GPIO_Port, AD1_Pin, GPIO_PIN_RESET);
+  if (ssd1306_init() != 0) {
+    while (1) {
+      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+      HAL_Delay(500);
+    }
+  }
   float pitch, roll, yaw;
-  // while (ret) {
-    // ret = mpu_dmp_init();
-    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    // uart_printf("res is %d\n", ret);
-    // HAL_Delay(100);
-  // }
+  int ret;
+  while (ret = mpu_dmp_init()) {
+    ssd1306_printf(Font_7x10, "error");
+    ssd1306_SetCursor(0, 0);
+    HAL_Delay(1000);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  }
+
   /* USER CODE END 2 */
 
+  /* Init scheduler */
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int r = 0;
   while (1) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
     // if (mpu_dmp_get_data(&pitch, &roll, &yaw) == 0) {
-      // uart_printf("y%fyp%fpr%fr\n", yaw, pitch, roll);
-      // uart_printf("pitch = %f, roll = %f\n", pitch, roll);
+    //   uart_printf("pitch:%4.1f\n", -pitch);
+    //   ssd1306_printf(Font_11x18, "ang:%3.1f", -pitch);
+    //   ssd1306_SetCursor(0, 0);
+    //   HAL_Delay(50);
     // }
+    float angle = Angle_Get();
+    ssd1306_printf(Font_11x18, "ang:%3.1f", angle);
+    ssd1306_SetCursor(0, 0);
+    HAL_Delay(30);
     // WS_WriteAll_RGB(0xff, 0xff, 0xff);
-    breathing();
+    // breathing();
   }
   /* USER CODE END 3 */
 }
@@ -166,12 +192,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV2;
   RCC_OscInitStruct.PLL.PLLN = 8;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
@@ -199,6 +224,27 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM2 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM2) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

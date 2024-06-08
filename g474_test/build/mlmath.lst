@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
   17:DMP/mllite/mlmath.c ****     return asin(x);
   40              		.loc 1 17 5 is_stmt 1 view .LVU2
   41              		.loc 1 17 12 is_stmt 0 view .LVU3
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 2
 
 
   42 0002 FFF7FEFF 		bl	asin
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
   91              		@ frame_needed = 0, uses_anonymous_args = 0
   92              		.loc 1 26 1 is_stmt 0 view .LVU11
   93 0000 08B5     		push	{r3, lr}
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 3
 
 
   94              	.LCFI2:
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
  145              	.LFB23:
   34:DMP/mllite/mlmath.c **** 
   35:DMP/mllite/mlmath.c **** double ml_sqrt(double x)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 4
 
 
   36:DMP/mllite/mlmath.c **** {
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
  195              		.align	1
  196              		.global	ml_floor
  197              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 5
 
 
  198              		.thumb
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
  246              	.LVL15:
   53:DMP/mllite/mlmath.c **** }
  247              		.loc 1 53 1 view .LVU39
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 6
 
 
  248 0006 08BD     		pop	{r3, pc}
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
  298              		.cfi_def_cfa_offset 8
  299              		.cfi_offset 3, -8
  300              		.cfi_offset 14, -4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 7
 
 
   62:DMP/mllite/mlmath.c ****     return acos(x);
@@ -406,33 +406,33 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 1
  339              		.text
  340              	.Letext0:
  341              		.file 2 "/usr/local/include/math.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 mlmath.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:21     .text.ml_asin:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:27     .text.ml_asin:00000000 ml_asin
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:50     .text.ml_atan:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:56     .text.ml_atan:00000000 ml_atan
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:79     .text.ml_atan2:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:85     .text.ml_atan2:00000000 ml_atan2
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:108    .text.ml_log:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:114    .text.ml_log:00000000 ml_log
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:137    .text.ml_sqrt:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:143    .text.ml_sqrt:00000000 ml_sqrt
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:166    .text.ml_ceil:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:172    .text.ml_ceil:00000000 ml_ceil
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:195    .text.ml_floor:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:201    .text.ml_floor:00000000 ml_floor
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:224    .text.ml_cos:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:230    .text.ml_cos:00000000 ml_cos
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:253    .text.ml_sin:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:259    .text.ml_sin:00000000 ml_sin
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:282    .text.ml_acos:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:288    .text.ml_acos:00000000 ml_acos
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:311    .text.ml_pow:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIRTDoJ.s:317    .text.ml_pow:00000000 ml_pow
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:21     .text.ml_asin:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:27     .text.ml_asin:00000000 ml_asin
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:50     .text.ml_atan:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:56     .text.ml_atan:00000000 ml_atan
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:79     .text.ml_atan2:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:85     .text.ml_atan2:00000000 ml_atan2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:108    .text.ml_log:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:114    .text.ml_log:00000000 ml_log
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:137    .text.ml_sqrt:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:143    .text.ml_sqrt:00000000 ml_sqrt
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:166    .text.ml_ceil:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:172    .text.ml_ceil:00000000 ml_ceil
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:195    .text.ml_floor:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:201    .text.ml_floor:00000000 ml_floor
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:224    .text.ml_cos:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:230    .text.ml_cos:00000000 ml_cos
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:253    .text.ml_sin:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:259    .text.ml_sin:00000000 ml_sin
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:282    .text.ml_acos:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:288    .text.ml_acos:00000000 ml_acos
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:311    .text.ml_pow:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccCc9tAj.s:317    .text.ml_pow:00000000 ml_pow
 
 UNDEFINED SYMBOLS
 asin

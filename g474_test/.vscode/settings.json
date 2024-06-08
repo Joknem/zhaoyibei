@@ -1,5 +1,21 @@
 {
     "files.associations": {
-        "ws2812.h": "c"
+        "ws2812.h": "c",
+        "oled.h": "c",
+        "ssd1306.h": "c",
+        "fonts.h": "c",
+        "mpu9250.h": "c",
+        "stm32g4xx_it.h": "c",
+        "stdarg.h": "c",
+        "mpu.h": "c",
+        "stdint.h": "c",
+        "stdio.h": "c",
+        "math.h": "c",
+        "inv_mpu.h": "c",
+        "main.h": "c",
+        "usart.h": "c",
+        "cmsis_os.h": "c",
+        "dma.h": "c",
+        "gpio.h": "c"
     }
 }

@@ -3,11 +3,13 @@
 
 #include "main.h"
 #include <stdint.h>
+#include "inv_mpu.h"
 
 #define MPU_ADDR 0xd0
 #define MPU_RA_GYRO_XOUT_H 0x43
 #define MPU_RA_ACCEL_XOUT_H 0x3B
 #define MPU_RA_MAG 0x00
+#define WINDOW_SIZE 6
 
 typedef struct {
   int16_t x;
@@ -17,5 +19,5 @@ typedef struct {
 
 void MPU_Init();
 void MPU_ReadMulBytes(uint8_t reg, uint8_t length, uint8_t *buf);
-
+float Angle_Get();
 #endif

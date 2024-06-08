@@ -11,7 +11,6 @@ uint16_t cmd_i = 0;
 
 void CmdProcessing(UART_HandleTypeDef *huart) {
   static uint16_t cmd_start = 0;
-
   if (chcmd[cmd_i] == '\n') {
     chcmd[cmd_i + 1] = 0;
     switch (chcmd[cmd_start]) {

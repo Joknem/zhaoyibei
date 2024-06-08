@@ -1,0 +1,3159 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"lv_mem.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "lvgl/src/misc/lv_mem.c"
+  20              		.section	.text.lv_mem_walker,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	lv_mem_walker:
+  27              	.LVL0:
+  28              	.LFB38:
+   1:lvgl/src/misc/lv_mem.c **** /**
+   2:lvgl/src/misc/lv_mem.c ****  * @file lv_mem.c
+   3:lvgl/src/misc/lv_mem.c ****  * General and portable implementation of malloc and free.
+   4:lvgl/src/misc/lv_mem.c ****  * The dynamic memory monitoring is also supported.
+   5:lvgl/src/misc/lv_mem.c ****  */
+   6:lvgl/src/misc/lv_mem.c **** 
+   7:lvgl/src/misc/lv_mem.c **** /*********************
+   8:lvgl/src/misc/lv_mem.c ****  *      INCLUDES
+   9:lvgl/src/misc/lv_mem.c ****  *********************/
+  10:lvgl/src/misc/lv_mem.c **** #include "lv_mem.h"
+  11:lvgl/src/misc/lv_mem.c **** #include "lv_tlsf.h"
+  12:lvgl/src/misc/lv_mem.c **** #include "lv_gc.h"
+  13:lvgl/src/misc/lv_mem.c **** #include "lv_assert.h"
+  14:lvgl/src/misc/lv_mem.c **** #include "lv_log.h"
+  15:lvgl/src/misc/lv_mem.c **** 
+  16:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM != 0
+  17:lvgl/src/misc/lv_mem.c ****     #include LV_MEM_CUSTOM_INCLUDE
+  18:lvgl/src/misc/lv_mem.c **** #endif
+  19:lvgl/src/misc/lv_mem.c **** 
+  20:lvgl/src/misc/lv_mem.c **** #ifdef LV_MEM_POOL_INCLUDE
+  21:lvgl/src/misc/lv_mem.c ****     #include LV_MEM_POOL_INCLUDE
+  22:lvgl/src/misc/lv_mem.c **** #endif
+  23:lvgl/src/misc/lv_mem.c **** 
+  24:lvgl/src/misc/lv_mem.c **** /*********************
+  25:lvgl/src/misc/lv_mem.c ****  *      DEFINES
+  26:lvgl/src/misc/lv_mem.c ****  *********************/
+  27:lvgl/src/misc/lv_mem.c **** /*memset the allocated memories to 0xaa and freed memories to 0xbb (just for testing purposes)*/
+  28:lvgl/src/misc/lv_mem.c **** #ifndef LV_MEM_ADD_JUNK
+  29:lvgl/src/misc/lv_mem.c ****     #define LV_MEM_ADD_JUNK  0
+  30:lvgl/src/misc/lv_mem.c **** #endif
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 2
+
+
+  31:lvgl/src/misc/lv_mem.c **** 
+  32:lvgl/src/misc/lv_mem.c **** #ifdef LV_ARCH_64
+  33:lvgl/src/misc/lv_mem.c ****     #define MEM_UNIT         uint64_t
+  34:lvgl/src/misc/lv_mem.c ****     #define ALIGN_MASK       0x7
+  35:lvgl/src/misc/lv_mem.c **** #else
+  36:lvgl/src/misc/lv_mem.c ****     #define MEM_UNIT         uint32_t
+  37:lvgl/src/misc/lv_mem.c ****     #define ALIGN_MASK       0x3
+  38:lvgl/src/misc/lv_mem.c **** #endif
+  39:lvgl/src/misc/lv_mem.c **** 
+  40:lvgl/src/misc/lv_mem.c **** #define ZERO_MEM_SENTINEL  0xa1b2c3d4
+  41:lvgl/src/misc/lv_mem.c **** 
+  42:lvgl/src/misc/lv_mem.c **** /**********************
+  43:lvgl/src/misc/lv_mem.c ****  *      TYPEDEFS
+  44:lvgl/src/misc/lv_mem.c ****  **********************/
+  45:lvgl/src/misc/lv_mem.c **** 
+  46:lvgl/src/misc/lv_mem.c **** /**********************
+  47:lvgl/src/misc/lv_mem.c ****  *  STATIC PROTOTYPES
+  48:lvgl/src/misc/lv_mem.c ****  **********************/
+  49:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+  50:lvgl/src/misc/lv_mem.c ****     static void lv_mem_walker(void * ptr, size_t size, int used, void * user);
+  51:lvgl/src/misc/lv_mem.c **** #endif
+  52:lvgl/src/misc/lv_mem.c **** 
+  53:lvgl/src/misc/lv_mem.c **** /**********************
+  54:lvgl/src/misc/lv_mem.c ****  *  STATIC VARIABLES
+  55:lvgl/src/misc/lv_mem.c ****  **********************/
+  56:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+  57:lvgl/src/misc/lv_mem.c ****     static lv_tlsf_t tlsf;
+  58:lvgl/src/misc/lv_mem.c ****     static uint32_t cur_used;
+  59:lvgl/src/misc/lv_mem.c ****     static uint32_t max_used;
+  60:lvgl/src/misc/lv_mem.c **** #endif
+  61:lvgl/src/misc/lv_mem.c **** 
+  62:lvgl/src/misc/lv_mem.c **** static uint32_t zero_mem = ZERO_MEM_SENTINEL; /*Give the address of this variable if 0 byte should 
+  63:lvgl/src/misc/lv_mem.c **** 
+  64:lvgl/src/misc/lv_mem.c **** /**********************
+  65:lvgl/src/misc/lv_mem.c ****  *      MACROS
+  66:lvgl/src/misc/lv_mem.c ****  **********************/
+  67:lvgl/src/misc/lv_mem.c **** #if LV_LOG_TRACE_MEM
+  68:lvgl/src/misc/lv_mem.c ****     #define MEM_TRACE(...) LV_LOG_TRACE(__VA_ARGS__)
+  69:lvgl/src/misc/lv_mem.c **** #else
+  70:lvgl/src/misc/lv_mem.c ****     #define MEM_TRACE(...)
+  71:lvgl/src/misc/lv_mem.c **** #endif
+  72:lvgl/src/misc/lv_mem.c **** 
+  73:lvgl/src/misc/lv_mem.c **** #define COPY32 *d32 = *s32; d32++; s32++;
+  74:lvgl/src/misc/lv_mem.c **** #define COPY8 *d8 = *s8; d8++; s8++;
+  75:lvgl/src/misc/lv_mem.c **** #define SET32(x) *d32 = x; d32++;
+  76:lvgl/src/misc/lv_mem.c **** #define SET8(x) *d8 = x; d8++;
+  77:lvgl/src/misc/lv_mem.c **** #define REPEAT8(expr) expr expr expr expr expr expr expr expr
+  78:lvgl/src/misc/lv_mem.c **** 
+  79:lvgl/src/misc/lv_mem.c **** /**********************
+  80:lvgl/src/misc/lv_mem.c ****  *   GLOBAL FUNCTIONS
+  81:lvgl/src/misc/lv_mem.c ****  **********************/
+  82:lvgl/src/misc/lv_mem.c **** 
+  83:lvgl/src/misc/lv_mem.c **** /**
+  84:lvgl/src/misc/lv_mem.c ****  * Initialize the dyn_mem module (work memory and other variables)
+  85:lvgl/src/misc/lv_mem.c ****  */
+  86:lvgl/src/misc/lv_mem.c **** void lv_mem_init(void)
+  87:lvgl/src/misc/lv_mem.c **** {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 3
+
+
+  88:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+  89:lvgl/src/misc/lv_mem.c **** 
+  90:lvgl/src/misc/lv_mem.c **** #if LV_MEM_ADR == 0
+  91:lvgl/src/misc/lv_mem.c **** #ifdef LV_MEM_POOL_ALLOC
+  92:lvgl/src/misc/lv_mem.c ****     tlsf = lv_tlsf_create_with_pool((void *)LV_MEM_POOL_ALLOC(LV_MEM_SIZE), LV_MEM_SIZE);
+  93:lvgl/src/misc/lv_mem.c **** #else
+  94:lvgl/src/misc/lv_mem.c ****     /*Allocate a large array to store the dynamically allocated data*/
+  95:lvgl/src/misc/lv_mem.c ****     static LV_ATTRIBUTE_LARGE_RAM_ARRAY MEM_UNIT work_mem_int[LV_MEM_SIZE / sizeof(MEM_UNIT)];
+  96:lvgl/src/misc/lv_mem.c ****     tlsf = lv_tlsf_create_with_pool((void *)work_mem_int, LV_MEM_SIZE);
+  97:lvgl/src/misc/lv_mem.c **** #endif
+  98:lvgl/src/misc/lv_mem.c **** #else
+  99:lvgl/src/misc/lv_mem.c ****     tlsf = lv_tlsf_create_with_pool((void *)LV_MEM_ADR, LV_MEM_SIZE);
+ 100:lvgl/src/misc/lv_mem.c **** #endif
+ 101:lvgl/src/misc/lv_mem.c **** #endif
+ 102:lvgl/src/misc/lv_mem.c **** 
+ 103:lvgl/src/misc/lv_mem.c **** #if LV_MEM_ADD_JUNK
+ 104:lvgl/src/misc/lv_mem.c ****     LV_LOG_WARN("LV_MEM_ADD_JUNK is enabled which makes LVGL much slower");
+ 105:lvgl/src/misc/lv_mem.c **** #endif
+ 106:lvgl/src/misc/lv_mem.c **** }
+ 107:lvgl/src/misc/lv_mem.c **** 
+ 108:lvgl/src/misc/lv_mem.c **** /**
+ 109:lvgl/src/misc/lv_mem.c ****  * Clean up the memory buffer which frees all the allocated memories.
+ 110:lvgl/src/misc/lv_mem.c ****  * @note It work only if `LV_MEM_CUSTOM == 0`
+ 111:lvgl/src/misc/lv_mem.c ****  */
+ 112:lvgl/src/misc/lv_mem.c **** void lv_mem_deinit(void)
+ 113:lvgl/src/misc/lv_mem.c **** {
+ 114:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 115:lvgl/src/misc/lv_mem.c ****     lv_tlsf_destroy(tlsf);
+ 116:lvgl/src/misc/lv_mem.c ****     lv_mem_init();
+ 117:lvgl/src/misc/lv_mem.c **** #endif
+ 118:lvgl/src/misc/lv_mem.c **** }
+ 119:lvgl/src/misc/lv_mem.c **** 
+ 120:lvgl/src/misc/lv_mem.c **** /**
+ 121:lvgl/src/misc/lv_mem.c ****  * Allocate a memory dynamically
+ 122:lvgl/src/misc/lv_mem.c ****  * @param size size of the memory to allocate in bytes
+ 123:lvgl/src/misc/lv_mem.c ****  * @return pointer to the allocated memory
+ 124:lvgl/src/misc/lv_mem.c ****  */
+ 125:lvgl/src/misc/lv_mem.c **** void * lv_mem_alloc(size_t size)
+ 126:lvgl/src/misc/lv_mem.c **** {
+ 127:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("allocating %lu bytes", (unsigned long)size);
+ 128:lvgl/src/misc/lv_mem.c ****     if(size == 0) {
+ 129:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 130:lvgl/src/misc/lv_mem.c ****         return &zero_mem;
+ 131:lvgl/src/misc/lv_mem.c ****     }
+ 132:lvgl/src/misc/lv_mem.c **** 
+ 133:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 134:lvgl/src/misc/lv_mem.c ****     void * alloc = lv_tlsf_malloc(tlsf, size);
+ 135:lvgl/src/misc/lv_mem.c **** #else
+ 136:lvgl/src/misc/lv_mem.c ****     void * alloc = LV_MEM_CUSTOM_ALLOC(size);
+ 137:lvgl/src/misc/lv_mem.c **** #endif
+ 138:lvgl/src/misc/lv_mem.c **** 
+ 139:lvgl/src/misc/lv_mem.c ****     if(alloc == NULL) {
+ 140:lvgl/src/misc/lv_mem.c ****         LV_LOG_INFO("couldn't allocate memory (%lu bytes)", (unsigned long)size);
+ 141:lvgl/src/misc/lv_mem.c **** #if LV_LOG_LEVEL <= LV_LOG_LEVEL_INFO
+ 142:lvgl/src/misc/lv_mem.c ****         lv_mem_monitor_t mon;
+ 143:lvgl/src/misc/lv_mem.c ****         lv_mem_monitor(&mon);
+ 144:lvgl/src/misc/lv_mem.c ****         LV_LOG_INFO("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d",
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 4
+
+
+ 145:lvgl/src/misc/lv_mem.c ****                     (int)(mon.total_size - mon.free_size), mon.used_pct, mon.frag_pct,
+ 146:lvgl/src/misc/lv_mem.c ****                     (int)mon.free_biggest_size);
+ 147:lvgl/src/misc/lv_mem.c **** #endif
+ 148:lvgl/src/misc/lv_mem.c ****     }
+ 149:lvgl/src/misc/lv_mem.c **** #if LV_MEM_ADD_JUNK
+ 150:lvgl/src/misc/lv_mem.c ****     else {
+ 151:lvgl/src/misc/lv_mem.c ****         lv_memset(alloc, 0xaa, size);
+ 152:lvgl/src/misc/lv_mem.c ****     }
+ 153:lvgl/src/misc/lv_mem.c **** #endif
+ 154:lvgl/src/misc/lv_mem.c **** 
+ 155:lvgl/src/misc/lv_mem.c ****     if(alloc) {
+ 156:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 157:lvgl/src/misc/lv_mem.c ****         cur_used += size;
+ 158:lvgl/src/misc/lv_mem.c ****         max_used = LV_MAX(cur_used, max_used);
+ 159:lvgl/src/misc/lv_mem.c **** #endif
+ 160:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("allocated at %p", alloc);
+ 161:lvgl/src/misc/lv_mem.c ****     }
+ 162:lvgl/src/misc/lv_mem.c ****     return alloc;
+ 163:lvgl/src/misc/lv_mem.c **** }
+ 164:lvgl/src/misc/lv_mem.c **** 
+ 165:lvgl/src/misc/lv_mem.c **** /**
+ 166:lvgl/src/misc/lv_mem.c ****  * Free an allocated data
+ 167:lvgl/src/misc/lv_mem.c ****  * @param data pointer to an allocated memory
+ 168:lvgl/src/misc/lv_mem.c ****  */
+ 169:lvgl/src/misc/lv_mem.c **** void lv_mem_free(void * data)
+ 170:lvgl/src/misc/lv_mem.c **** {
+ 171:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("freeing %p", data);
+ 172:lvgl/src/misc/lv_mem.c ****     if(data == &zero_mem) return;
+ 173:lvgl/src/misc/lv_mem.c ****     if(data == NULL) return;
+ 174:lvgl/src/misc/lv_mem.c **** 
+ 175:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 176:lvgl/src/misc/lv_mem.c **** #  if LV_MEM_ADD_JUNK
+ 177:lvgl/src/misc/lv_mem.c ****     lv_memset(data, 0xbb, lv_tlsf_block_size(data));
+ 178:lvgl/src/misc/lv_mem.c **** #  endif
+ 179:lvgl/src/misc/lv_mem.c ****     size_t size = lv_tlsf_free(tlsf, data);
+ 180:lvgl/src/misc/lv_mem.c ****     if(cur_used > size) cur_used -= size;
+ 181:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 182:lvgl/src/misc/lv_mem.c **** #else
+ 183:lvgl/src/misc/lv_mem.c ****     LV_MEM_CUSTOM_FREE(data);
+ 184:lvgl/src/misc/lv_mem.c **** #endif
+ 185:lvgl/src/misc/lv_mem.c **** }
+ 186:lvgl/src/misc/lv_mem.c **** 
+ 187:lvgl/src/misc/lv_mem.c **** /**
+ 188:lvgl/src/misc/lv_mem.c ****  * Reallocate a memory with a new size. The old content will be kept.
+ 189:lvgl/src/misc/lv_mem.c ****  * @param data pointer to an allocated memory.
+ 190:lvgl/src/misc/lv_mem.c ****  * Its content will be copied to the new memory block and freed
+ 191:lvgl/src/misc/lv_mem.c ****  * @param new_size the desired new size in byte
+ 192:lvgl/src/misc/lv_mem.c ****  * @return pointer to the new memory
+ 193:lvgl/src/misc/lv_mem.c ****  */
+ 194:lvgl/src/misc/lv_mem.c **** void * lv_mem_realloc(void * data_p, size_t new_size)
+ 195:lvgl/src/misc/lv_mem.c **** {
+ 196:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("reallocating %p with %lu size", data_p, (unsigned long)new_size);
+ 197:lvgl/src/misc/lv_mem.c ****     if(new_size == 0) {
+ 198:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 199:lvgl/src/misc/lv_mem.c ****         lv_mem_free(data_p);
+ 200:lvgl/src/misc/lv_mem.c ****         return &zero_mem;
+ 201:lvgl/src/misc/lv_mem.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 5
+
+
+ 202:lvgl/src/misc/lv_mem.c **** 
+ 203:lvgl/src/misc/lv_mem.c ****     if(data_p == &zero_mem) return lv_mem_alloc(new_size);
+ 204:lvgl/src/misc/lv_mem.c **** 
+ 205:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 206:lvgl/src/misc/lv_mem.c ****     void * new_p = lv_tlsf_realloc(tlsf, data_p, new_size);
+ 207:lvgl/src/misc/lv_mem.c **** #else
+ 208:lvgl/src/misc/lv_mem.c ****     void * new_p = LV_MEM_CUSTOM_REALLOC(data_p, new_size);
+ 209:lvgl/src/misc/lv_mem.c **** #endif
+ 210:lvgl/src/misc/lv_mem.c ****     if(new_p == NULL) {
+ 211:lvgl/src/misc/lv_mem.c ****         LV_LOG_ERROR("couldn't allocate memory");
+ 212:lvgl/src/misc/lv_mem.c ****         return NULL;
+ 213:lvgl/src/misc/lv_mem.c ****     }
+ 214:lvgl/src/misc/lv_mem.c **** 
+ 215:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("allocated at %p", new_p);
+ 216:lvgl/src/misc/lv_mem.c ****     return new_p;
+ 217:lvgl/src/misc/lv_mem.c **** }
+ 218:lvgl/src/misc/lv_mem.c **** 
+ 219:lvgl/src/misc/lv_mem.c **** lv_res_t lv_mem_test(void)
+ 220:lvgl/src/misc/lv_mem.c **** {
+ 221:lvgl/src/misc/lv_mem.c ****     if(zero_mem != ZERO_MEM_SENTINEL) {
+ 222:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("zero_mem is written");
+ 223:lvgl/src/misc/lv_mem.c ****         return LV_RES_INV;
+ 224:lvgl/src/misc/lv_mem.c ****     }
+ 225:lvgl/src/misc/lv_mem.c **** 
+ 226:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 227:lvgl/src/misc/lv_mem.c ****     if(lv_tlsf_check(tlsf)) {
+ 228:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("failed");
+ 229:lvgl/src/misc/lv_mem.c ****         return LV_RES_INV;
+ 230:lvgl/src/misc/lv_mem.c ****     }
+ 231:lvgl/src/misc/lv_mem.c **** 
+ 232:lvgl/src/misc/lv_mem.c ****     if(lv_tlsf_check_pool(lv_tlsf_get_pool(tlsf))) {
+ 233:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("pool failed");
+ 234:lvgl/src/misc/lv_mem.c ****         return LV_RES_INV;
+ 235:lvgl/src/misc/lv_mem.c ****     }
+ 236:lvgl/src/misc/lv_mem.c **** #endif
+ 237:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("passed");
+ 238:lvgl/src/misc/lv_mem.c ****     return LV_RES_OK;
+ 239:lvgl/src/misc/lv_mem.c **** }
+ 240:lvgl/src/misc/lv_mem.c **** 
+ 241:lvgl/src/misc/lv_mem.c **** /**
+ 242:lvgl/src/misc/lv_mem.c ****  * Give information about the work memory of dynamic allocation
+ 243:lvgl/src/misc/lv_mem.c ****  * @param mon_p pointer to a lv_mem_monitor_t variable,
+ 244:lvgl/src/misc/lv_mem.c ****  *              the result of the analysis will be stored here
+ 245:lvgl/src/misc/lv_mem.c ****  */
+ 246:lvgl/src/misc/lv_mem.c **** void lv_mem_monitor(lv_mem_monitor_t * mon_p)
+ 247:lvgl/src/misc/lv_mem.c **** {
+ 248:lvgl/src/misc/lv_mem.c ****     /*Init the data*/
+ 249:lvgl/src/misc/lv_mem.c ****     lv_memset(mon_p, 0, sizeof(lv_mem_monitor_t));
+ 250:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 251:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("begin");
+ 252:lvgl/src/misc/lv_mem.c **** 
+ 253:lvgl/src/misc/lv_mem.c ****     lv_tlsf_walk_pool(lv_tlsf_get_pool(tlsf), lv_mem_walker, mon_p);
+ 254:lvgl/src/misc/lv_mem.c **** 
+ 255:lvgl/src/misc/lv_mem.c ****     mon_p->total_size = LV_MEM_SIZE;
+ 256:lvgl/src/misc/lv_mem.c ****     mon_p->used_pct = 100 - (100U * mon_p->free_size) / mon_p->total_size;
+ 257:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = mon_p->free_biggest_size * 100U / mon_p->free_size;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 6
+
+
+ 259:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 260:lvgl/src/misc/lv_mem.c ****     }
+ 261:lvgl/src/misc/lv_mem.c ****     else {
+ 262:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 0; /*no fragmentation if all the RAM is used*/
+ 263:lvgl/src/misc/lv_mem.c ****     }
+ 264:lvgl/src/misc/lv_mem.c **** 
+ 265:lvgl/src/misc/lv_mem.c ****     mon_p->max_used = max_used;
+ 266:lvgl/src/misc/lv_mem.c **** 
+ 267:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("finished");
+ 268:lvgl/src/misc/lv_mem.c **** #endif
+ 269:lvgl/src/misc/lv_mem.c **** }
+ 270:lvgl/src/misc/lv_mem.c **** 
+ 271:lvgl/src/misc/lv_mem.c **** /**
+ 272:lvgl/src/misc/lv_mem.c ****  * Get a temporal buffer with the given size.
+ 273:lvgl/src/misc/lv_mem.c ****  * @param size the required size
+ 274:lvgl/src/misc/lv_mem.c ****  */
+ 275:lvgl/src/misc/lv_mem.c **** void * lv_mem_buf_get(uint32_t size)
+ 276:lvgl/src/misc/lv_mem.c **** {
+ 277:lvgl/src/misc/lv_mem.c ****     if(size == 0) return NULL;
+ 278:lvgl/src/misc/lv_mem.c **** 
+ 279:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("begin, getting %d bytes", size);
+ 280:lvgl/src/misc/lv_mem.c **** 
+ 281:lvgl/src/misc/lv_mem.c ****     /*Try to find a free buffer with suitable size*/
+ 282:lvgl/src/misc/lv_mem.c ****     int8_t i_guess = -1;
+ 283:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 284:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0 && LV_GC_ROOT(lv_mem_buf[i]).size >= size) {
+ 285:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 286:lvgl/src/misc/lv_mem.c ****                 LV_GC_ROOT(lv_mem_buf[i]).used = 1;
+ 287:lvgl/src/misc/lv_mem.c ****                 return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 288:lvgl/src/misc/lv_mem.c ****             }
+ 289:lvgl/src/misc/lv_mem.c ****             else if(i_guess < 0) {
+ 290:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 291:lvgl/src/misc/lv_mem.c ****             }
+ 292:lvgl/src/misc/lv_mem.c ****             /*If size of `i` is closer to `size` prefer it*/
+ 293:lvgl/src/misc/lv_mem.c ****             else if(LV_GC_ROOT(lv_mem_buf[i]).size < LV_GC_ROOT(lv_mem_buf[i_guess]).size) {
+ 294:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 295:lvgl/src/misc/lv_mem.c ****             }
+ 296:lvgl/src/misc/lv_mem.c ****         }
+ 297:lvgl/src/misc/lv_mem.c ****     }
+ 298:lvgl/src/misc/lv_mem.c **** 
+ 299:lvgl/src/misc/lv_mem.c ****     if(i_guess >= 0) {
+ 300:lvgl/src/misc/lv_mem.c ****         LV_GC_ROOT(lv_mem_buf[i_guess]).used = 1;
+ 301:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("returning already allocated buffer (buffer id: %d, address: %p)", i_guess,
+ 302:lvgl/src/misc/lv_mem.c ****                   LV_GC_ROOT(lv_mem_buf[i_guess]).p);
+ 303:lvgl/src/misc/lv_mem.c ****         return LV_GC_ROOT(lv_mem_buf[i_guess]).p;
+ 304:lvgl/src/misc/lv_mem.c ****     }
+ 305:lvgl/src/misc/lv_mem.c **** 
+ 306:lvgl/src/misc/lv_mem.c ****     /*Reallocate a free buffer*/
+ 307:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 308:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 309:lvgl/src/misc/lv_mem.c ****             /*if this fails you probably need to increase your LV_MEM_SIZE/heap size*/
+ 310:lvgl/src/misc/lv_mem.c ****             void * buf = lv_mem_realloc(LV_GC_ROOT(lv_mem_buf[i]).p, size);
+ 311:lvgl/src/misc/lv_mem.c ****             LV_ASSERT_MSG(buf != NULL, "Out of memory, can't allocate a new buffer (increase your L
+ 312:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 313:lvgl/src/misc/lv_mem.c **** 
+ 314:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 1;
+ 315:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = size;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 7
+
+
+ 316:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).p    = buf;
+ 317:lvgl/src/misc/lv_mem.c ****             MEM_TRACE("allocated (buffer id: %d, address: %p)", i, LV_GC_ROOT(lv_mem_buf[i]).p);
+ 318:lvgl/src/misc/lv_mem.c ****             return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 319:lvgl/src/misc/lv_mem.c ****         }
+ 320:lvgl/src/misc/lv_mem.c ****     }
+ 321:lvgl/src/misc/lv_mem.c **** 
+ 322:lvgl/src/misc/lv_mem.c ****     LV_LOG_ERROR("no more buffers. (increase LV_MEM_BUF_MAX_NUM)");
+ 323:lvgl/src/misc/lv_mem.c ****     LV_ASSERT_MSG(false, "No more buffers. Increase LV_MEM_BUF_MAX_NUM.");
+ 324:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 325:lvgl/src/misc/lv_mem.c **** }
+ 326:lvgl/src/misc/lv_mem.c **** 
+ 327:lvgl/src/misc/lv_mem.c **** /**
+ 328:lvgl/src/misc/lv_mem.c ****  * Release a memory buffer
+ 329:lvgl/src/misc/lv_mem.c ****  * @param p buffer to release
+ 330:lvgl/src/misc/lv_mem.c ****  */
+ 331:lvgl/src/misc/lv_mem.c **** void lv_mem_buf_release(void * p)
+ 332:lvgl/src/misc/lv_mem.c **** {
+ 333:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("begin (address: %p)", p);
+ 334:lvgl/src/misc/lv_mem.c **** 
+ 335:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 336:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 337:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 338:lvgl/src/misc/lv_mem.c ****             return;
+ 339:lvgl/src/misc/lv_mem.c ****         }
+ 340:lvgl/src/misc/lv_mem.c ****     }
+ 341:lvgl/src/misc/lv_mem.c **** 
+ 342:lvgl/src/misc/lv_mem.c ****     LV_LOG_ERROR("p is not a known buffer");
+ 343:lvgl/src/misc/lv_mem.c **** }
+ 344:lvgl/src/misc/lv_mem.c **** 
+ 345:lvgl/src/misc/lv_mem.c **** /**
+ 346:lvgl/src/misc/lv_mem.c ****  * Free all memory buffers
+ 347:lvgl/src/misc/lv_mem.c ****  */
+ 348:lvgl/src/misc/lv_mem.c **** void lv_mem_buf_free_all(void)
+ 349:lvgl/src/misc/lv_mem.c **** {
+ 350:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 351:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 352:lvgl/src/misc/lv_mem.c ****             lv_mem_free(LV_GC_ROOT(lv_mem_buf[i]).p);
+ 353:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).p = NULL;
+ 354:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 355:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = 0;
+ 356:lvgl/src/misc/lv_mem.c ****         }
+ 357:lvgl/src/misc/lv_mem.c ****     }
+ 358:lvgl/src/misc/lv_mem.c **** }
+ 359:lvgl/src/misc/lv_mem.c **** 
+ 360:lvgl/src/misc/lv_mem.c **** #if LV_MEMCPY_MEMSET_STD == 0
+ 361:lvgl/src/misc/lv_mem.c **** /**
+ 362:lvgl/src/misc/lv_mem.c ****  * Same as `memcpy` but optimized for 4 byte operation.
+ 363:lvgl/src/misc/lv_mem.c ****  * @param dst pointer to the destination buffer
+ 364:lvgl/src/misc/lv_mem.c ****  * @param src pointer to the source buffer
+ 365:lvgl/src/misc/lv_mem.c ****  * @param len number of byte to copy
+ 366:lvgl/src/misc/lv_mem.c ****  */
+ 367:lvgl/src/misc/lv_mem.c **** void * LV_ATTRIBUTE_FAST_MEM lv_memcpy(void * dst, const void * src, size_t len)
+ 368:lvgl/src/misc/lv_mem.c **** {
+ 369:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = dst;
+ 370:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 371:lvgl/src/misc/lv_mem.c **** 
+ 372:lvgl/src/misc/lv_mem.c ****     lv_uintptr_t d_align = (lv_uintptr_t)d8 & ALIGN_MASK;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 8
+
+
+ 373:lvgl/src/misc/lv_mem.c ****     lv_uintptr_t s_align = (lv_uintptr_t)s8 & ALIGN_MASK;
+ 374:lvgl/src/misc/lv_mem.c **** 
+ 375:lvgl/src/misc/lv_mem.c ****     /*Byte copy for unaligned memories*/
+ 376:lvgl/src/misc/lv_mem.c ****     if(s_align != d_align) {
+ 377:lvgl/src/misc/lv_mem.c ****         while(len > 32) {
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 381:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 382:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 383:lvgl/src/misc/lv_mem.c ****         }
+ 384:lvgl/src/misc/lv_mem.c ****         while(len) {
+ 385:lvgl/src/misc/lv_mem.c ****             COPY8
+ 386:lvgl/src/misc/lv_mem.c ****             len--;
+ 387:lvgl/src/misc/lv_mem.c ****         }
+ 388:lvgl/src/misc/lv_mem.c ****         return dst;
+ 389:lvgl/src/misc/lv_mem.c ****     }
+ 390:lvgl/src/misc/lv_mem.c **** 
+ 391:lvgl/src/misc/lv_mem.c ****     /*Make the memories aligned*/
+ 392:lvgl/src/misc/lv_mem.c ****     if(d_align) {
+ 393:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 394:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 395:lvgl/src/misc/lv_mem.c ****             COPY8;
+ 396:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 397:lvgl/src/misc/lv_mem.c ****             len--;
+ 398:lvgl/src/misc/lv_mem.c ****         }
+ 399:lvgl/src/misc/lv_mem.c ****     }
+ 400:lvgl/src/misc/lv_mem.c **** 
+ 401:lvgl/src/misc/lv_mem.c ****     uint32_t * d32 = (uint32_t *)d8;
+ 402:lvgl/src/misc/lv_mem.c ****     const uint32_t * s32 = (uint32_t *)s8;
+ 403:lvgl/src/misc/lv_mem.c ****     while(len > 32) {
+ 404:lvgl/src/misc/lv_mem.c ****         REPEAT8(COPY32)
+ 405:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 406:lvgl/src/misc/lv_mem.c ****     }
+ 407:lvgl/src/misc/lv_mem.c **** 
+ 408:lvgl/src/misc/lv_mem.c ****     while(len > 4) {
+ 409:lvgl/src/misc/lv_mem.c ****         COPY32;
+ 410:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 411:lvgl/src/misc/lv_mem.c ****     }
+ 412:lvgl/src/misc/lv_mem.c **** 
+ 413:lvgl/src/misc/lv_mem.c ****     d8 = (uint8_t *)d32;
+ 414:lvgl/src/misc/lv_mem.c ****     s8 = (const uint8_t *)s32;
+ 415:lvgl/src/misc/lv_mem.c ****     while(len) {
+ 416:lvgl/src/misc/lv_mem.c ****         COPY8
+ 417:lvgl/src/misc/lv_mem.c ****         len--;
+ 418:lvgl/src/misc/lv_mem.c ****     }
+ 419:lvgl/src/misc/lv_mem.c **** 
+ 420:lvgl/src/misc/lv_mem.c ****     return dst;
+ 421:lvgl/src/misc/lv_mem.c **** }
+ 422:lvgl/src/misc/lv_mem.c **** 
+ 423:lvgl/src/misc/lv_mem.c **** /**
+ 424:lvgl/src/misc/lv_mem.c ****  * Same as `memset` but optimized for 4 byte operation.
+ 425:lvgl/src/misc/lv_mem.c ****  * @param dst pointer to the destination buffer
+ 426:lvgl/src/misc/lv_mem.c ****  * @param v value to set [0..255]
+ 427:lvgl/src/misc/lv_mem.c ****  * @param len number of byte to set
+ 428:lvgl/src/misc/lv_mem.c ****  */
+ 429:lvgl/src/misc/lv_mem.c **** void LV_ATTRIBUTE_FAST_MEM lv_memset(void * dst, uint8_t v, size_t len)
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 9
+
+
+ 430:lvgl/src/misc/lv_mem.c **** {
+ 431:lvgl/src/misc/lv_mem.c **** 
+ 432:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = (uint8_t *)dst;
+ 433:lvgl/src/misc/lv_mem.c **** 
+ 434:lvgl/src/misc/lv_mem.c ****     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
+ 435:lvgl/src/misc/lv_mem.c **** 
+ 436:lvgl/src/misc/lv_mem.c ****     /*Make the address aligned*/
+ 437:lvgl/src/misc/lv_mem.c ****     if(d_align) {
+ 438:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 439:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 440:lvgl/src/misc/lv_mem.c ****             SET8(v);
+ 441:lvgl/src/misc/lv_mem.c ****             len--;
+ 442:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 443:lvgl/src/misc/lv_mem.c ****         }
+ 444:lvgl/src/misc/lv_mem.c ****     }
+ 445:lvgl/src/misc/lv_mem.c **** 
+ 446:lvgl/src/misc/lv_mem.c ****     uint32_t v32 = (uint32_t)v + ((uint32_t)v << 8) + ((uint32_t)v << 16) + ((uint32_t)v << 24);
+ 447:lvgl/src/misc/lv_mem.c **** 
+ 448:lvgl/src/misc/lv_mem.c ****     uint32_t * d32 = (uint32_t *)d8;
+ 449:lvgl/src/misc/lv_mem.c **** 
+ 450:lvgl/src/misc/lv_mem.c ****     while(len > 32) {
+ 451:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(v32));
+ 452:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 453:lvgl/src/misc/lv_mem.c ****     }
+ 454:lvgl/src/misc/lv_mem.c **** 
+ 455:lvgl/src/misc/lv_mem.c ****     while(len > 4) {
+ 456:lvgl/src/misc/lv_mem.c ****         SET32(v32);
+ 457:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 458:lvgl/src/misc/lv_mem.c ****     }
+ 459:lvgl/src/misc/lv_mem.c **** 
+ 460:lvgl/src/misc/lv_mem.c ****     d8 = (uint8_t *)d32;
+ 461:lvgl/src/misc/lv_mem.c ****     while(len) {
+ 462:lvgl/src/misc/lv_mem.c ****         SET8(v);
+ 463:lvgl/src/misc/lv_mem.c ****         len--;
+ 464:lvgl/src/misc/lv_mem.c ****     }
+ 465:lvgl/src/misc/lv_mem.c **** }
+ 466:lvgl/src/misc/lv_mem.c **** 
+ 467:lvgl/src/misc/lv_mem.c **** /**
+ 468:lvgl/src/misc/lv_mem.c ****  * Same as `memset(dst, 0x00, len)` but optimized for 4 byte operation.
+ 469:lvgl/src/misc/lv_mem.c ****  * @param dst pointer to the destination buffer
+ 470:lvgl/src/misc/lv_mem.c ****  * @param len number of byte to set
+ 471:lvgl/src/misc/lv_mem.c ****  */
+ 472:lvgl/src/misc/lv_mem.c **** void LV_ATTRIBUTE_FAST_MEM lv_memset_00(void * dst, size_t len)
+ 473:lvgl/src/misc/lv_mem.c **** {
+ 474:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = (uint8_t *)dst;
+ 475:lvgl/src/misc/lv_mem.c ****     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
+ 476:lvgl/src/misc/lv_mem.c **** 
+ 477:lvgl/src/misc/lv_mem.c ****     /*Make the address aligned*/
+ 478:lvgl/src/misc/lv_mem.c ****     if(d_align) {
+ 479:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 480:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 481:lvgl/src/misc/lv_mem.c ****             SET8(0);
+ 482:lvgl/src/misc/lv_mem.c ****             len--;
+ 483:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 484:lvgl/src/misc/lv_mem.c ****         }
+ 485:lvgl/src/misc/lv_mem.c ****     }
+ 486:lvgl/src/misc/lv_mem.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 10
+
+
+ 487:lvgl/src/misc/lv_mem.c ****     uint32_t * d32 = (uint32_t *)d8;
+ 488:lvgl/src/misc/lv_mem.c ****     while(len > 32) {
+ 489:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0));
+ 490:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 491:lvgl/src/misc/lv_mem.c ****     }
+ 492:lvgl/src/misc/lv_mem.c **** 
+ 493:lvgl/src/misc/lv_mem.c ****     while(len > 4) {
+ 494:lvgl/src/misc/lv_mem.c ****         SET32(0);
+ 495:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 496:lvgl/src/misc/lv_mem.c ****     }
+ 497:lvgl/src/misc/lv_mem.c **** 
+ 498:lvgl/src/misc/lv_mem.c ****     d8 = (uint8_t *)d32;
+ 499:lvgl/src/misc/lv_mem.c ****     while(len) {
+ 500:lvgl/src/misc/lv_mem.c ****         SET8(0);
+ 501:lvgl/src/misc/lv_mem.c ****         len--;
+ 502:lvgl/src/misc/lv_mem.c ****     }
+ 503:lvgl/src/misc/lv_mem.c **** }
+ 504:lvgl/src/misc/lv_mem.c **** 
+ 505:lvgl/src/misc/lv_mem.c **** /**
+ 506:lvgl/src/misc/lv_mem.c ****  * Same as `memset(dst, 0xFF, len)` but optimized for 4 byte operation.
+ 507:lvgl/src/misc/lv_mem.c ****  * @param dst pointer to the destination buffer
+ 508:lvgl/src/misc/lv_mem.c ****  * @param len number of byte to set
+ 509:lvgl/src/misc/lv_mem.c ****  */
+ 510:lvgl/src/misc/lv_mem.c **** void LV_ATTRIBUTE_FAST_MEM lv_memset_ff(void * dst, size_t len)
+ 511:lvgl/src/misc/lv_mem.c **** {
+ 512:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = (uint8_t *)dst;
+ 513:lvgl/src/misc/lv_mem.c ****     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
+ 514:lvgl/src/misc/lv_mem.c **** 
+ 515:lvgl/src/misc/lv_mem.c ****     /*Make the address aligned*/
+ 516:lvgl/src/misc/lv_mem.c ****     if(d_align) {
+ 517:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 518:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 519:lvgl/src/misc/lv_mem.c ****             SET8(0xFF);
+ 520:lvgl/src/misc/lv_mem.c ****             len--;
+ 521:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 522:lvgl/src/misc/lv_mem.c ****         }
+ 523:lvgl/src/misc/lv_mem.c ****     }
+ 524:lvgl/src/misc/lv_mem.c **** 
+ 525:lvgl/src/misc/lv_mem.c ****     uint32_t * d32 = (uint32_t *)d8;
+ 526:lvgl/src/misc/lv_mem.c ****     while(len > 32) {
+ 527:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0xFFFFFFFF));
+ 528:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 529:lvgl/src/misc/lv_mem.c ****     }
+ 530:lvgl/src/misc/lv_mem.c **** 
+ 531:lvgl/src/misc/lv_mem.c ****     while(len > 4) {
+ 532:lvgl/src/misc/lv_mem.c ****         SET32(0xFFFFFFFF);
+ 533:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 534:lvgl/src/misc/lv_mem.c ****     }
+ 535:lvgl/src/misc/lv_mem.c **** 
+ 536:lvgl/src/misc/lv_mem.c ****     d8 = (uint8_t *)d32;
+ 537:lvgl/src/misc/lv_mem.c ****     while(len) {
+ 538:lvgl/src/misc/lv_mem.c ****         SET8(0xFF);
+ 539:lvgl/src/misc/lv_mem.c ****         len--;
+ 540:lvgl/src/misc/lv_mem.c ****     }
+ 541:lvgl/src/misc/lv_mem.c **** }
+ 542:lvgl/src/misc/lv_mem.c **** 
+ 543:lvgl/src/misc/lv_mem.c **** #endif /*LV_MEMCPY_MEMSET_STD*/
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 11
+
+
+ 544:lvgl/src/misc/lv_mem.c **** 
+ 545:lvgl/src/misc/lv_mem.c **** /**********************
+ 546:lvgl/src/misc/lv_mem.c ****  *   STATIC FUNCTIONS
+ 547:lvgl/src/misc/lv_mem.c ****  **********************/
+ 548:lvgl/src/misc/lv_mem.c **** 
+ 549:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 550:lvgl/src/misc/lv_mem.c **** static void lv_mem_walker(void * ptr, size_t size, int used, void * user)
+ 551:lvgl/src/misc/lv_mem.c **** {
+  29              		.loc 1 551 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 552:lvgl/src/misc/lv_mem.c ****     LV_UNUSED(ptr);
+  34              		.loc 1 552 5 view .LVU1
+ 553:lvgl/src/misc/lv_mem.c **** 
+ 554:lvgl/src/misc/lv_mem.c ****     lv_mem_monitor_t * mon_p = user;
+  35              		.loc 1 554 5 view .LVU2
+ 555:lvgl/src/misc/lv_mem.c ****     if(used) {
+  36              		.loc 1 555 5 view .LVU3
+  37              		.loc 1 555 7 is_stmt 0 view .LVU4
+  38 0000 1AB1     		cbz	r2, .L2
+ 556:lvgl/src/misc/lv_mem.c ****         mon_p->used_cnt++;
+  39              		.loc 1 556 9 is_stmt 1 view .LVU5
+  40              		.loc 1 556 14 is_stmt 0 view .LVU6
+  41 0002 1A69     		ldr	r2, [r3, #16]
+  42              	.LVL1:
+  43              		.loc 1 556 24 view .LVU7
+  44 0004 0132     		adds	r2, r2, #1
+  45 0006 1A61     		str	r2, [r3, #16]
+  46 0008 7047     		bx	lr
+  47              	.LVL2:
+  48              	.L2:
+ 557:lvgl/src/misc/lv_mem.c ****     }
+ 558:lvgl/src/misc/lv_mem.c ****     else {
+ 559:lvgl/src/misc/lv_mem.c ****         mon_p->free_cnt++;
+  49              		.loc 1 559 9 is_stmt 1 view .LVU8
+  50              		.loc 1 559 14 is_stmt 0 view .LVU9
+  51 000a 5A68     		ldr	r2, [r3, #4]
+  52              	.LVL3:
+  53              		.loc 1 559 24 view .LVU10
+  54 000c 0132     		adds	r2, r2, #1
+  55 000e 5A60     		str	r2, [r3, #4]
+ 560:lvgl/src/misc/lv_mem.c ****         mon_p->free_size += size;
+  56              		.loc 1 560 9 is_stmt 1 view .LVU11
+  57              		.loc 1 560 14 is_stmt 0 view .LVU12
+  58 0010 9A68     		ldr	r2, [r3, #8]
+  59              		.loc 1 560 26 view .LVU13
+  60 0012 0A44     		add	r2, r2, r1
+  61 0014 9A60     		str	r2, [r3, #8]
+ 561:lvgl/src/misc/lv_mem.c ****         if(size > mon_p->free_biggest_size)
+  62              		.loc 1 561 9 is_stmt 1 view .LVU14
+  63              		.loc 1 561 24 is_stmt 0 view .LVU15
+  64 0016 DA68     		ldr	r2, [r3, #12]
+  65              		.loc 1 561 11 view .LVU16
+  66 0018 8A42     		cmp	r2, r1
+  67 001a 00D2     		bcs	.L1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 12
+
+
+ 562:lvgl/src/misc/lv_mem.c ****             mon_p->free_biggest_size = size;
+  68              		.loc 1 562 13 is_stmt 1 view .LVU17
+  69              		.loc 1 562 38 is_stmt 0 view .LVU18
+  70 001c D960     		str	r1, [r3, #12]
+  71              	.L1:
+ 563:lvgl/src/misc/lv_mem.c ****     }
+ 564:lvgl/src/misc/lv_mem.c **** }
+  72              		.loc 1 564 1 view .LVU19
+  73 001e 7047     		bx	lr
+  74              		.cfi_endproc
+  75              	.LFE38:
+  77              		.section	.text.lv_mem_init,"ax",%progbits
+  78              		.align	1
+  79              		.global	lv_mem_init
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  84              	lv_mem_init:
+  85              	.LFB24:
+  87:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+  86              		.loc 1 87 1 is_stmt 1 view -0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 0
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90 0000 08B5     		push	{r3, lr}
+  91              	.LCFI0:
+  92              		.cfi_def_cfa_offset 8
+  93              		.cfi_offset 3, -8
+  94              		.cfi_offset 14, -4
+  95:lvgl/src/misc/lv_mem.c ****     tlsf = lv_tlsf_create_with_pool((void *)work_mem_int, LV_MEM_SIZE);
+  95              		.loc 1 95 5 view .LVU21
+  96:lvgl/src/misc/lv_mem.c **** #endif
+  96              		.loc 1 96 5 view .LVU22
+  96:lvgl/src/misc/lv_mem.c **** #endif
+  97              		.loc 1 96 12 is_stmt 0 view .LVU23
+  98 0002 4FF44041 		mov	r1, #49152
+  99 0006 0348     		ldr	r0, .L6
+ 100 0008 FFF7FEFF 		bl	lv_tlsf_create_with_pool
+ 101              	.LVL4:
+  96:lvgl/src/misc/lv_mem.c **** #endif
+ 102              		.loc 1 96 10 view .LVU24
+ 103 000c 024B     		ldr	r3, .L6+4
+ 104 000e 1860     		str	r0, [r3]
+ 106:lvgl/src/misc/lv_mem.c **** 
+ 105              		.loc 1 106 1 view .LVU25
+ 106 0010 08BD     		pop	{r3, pc}
+ 107              	.L7:
+ 108 0012 00BF     		.align	2
+ 109              	.L6:
+ 110 0014 00000000 		.word	work_mem_int.0
+ 111 0018 00000000 		.word	tlsf
+ 112              		.cfi_endproc
+ 113              	.LFE24:
+ 115              		.section	.text.lv_mem_deinit,"ax",%progbits
+ 116              		.align	1
+ 117              		.global	lv_mem_deinit
+ 118              		.syntax unified
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 13
+
+
+ 119              		.thumb
+ 120              		.thumb_func
+ 122              	lv_mem_deinit:
+ 123              	.LFB25:
+ 113:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 124              		.loc 1 113 1 is_stmt 1 view -0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128 0000 08B5     		push	{r3, lr}
+ 129              	.LCFI1:
+ 130              		.cfi_def_cfa_offset 8
+ 131              		.cfi_offset 3, -8
+ 132              		.cfi_offset 14, -4
+ 115:lvgl/src/misc/lv_mem.c ****     lv_mem_init();
+ 133              		.loc 1 115 5 view .LVU27
+ 134 0002 034B     		ldr	r3, .L10
+ 135 0004 1868     		ldr	r0, [r3]
+ 136 0006 FFF7FEFF 		bl	lv_tlsf_destroy
+ 137              	.LVL5:
+ 116:lvgl/src/misc/lv_mem.c **** #endif
+ 138              		.loc 1 116 5 view .LVU28
+ 139 000a FFF7FEFF 		bl	lv_mem_init
+ 140              	.LVL6:
+ 118:lvgl/src/misc/lv_mem.c **** 
+ 141              		.loc 1 118 1 is_stmt 0 view .LVU29
+ 142 000e 08BD     		pop	{r3, pc}
+ 143              	.L11:
+ 144              		.align	2
+ 145              	.L10:
+ 146 0010 00000000 		.word	tlsf
+ 147              		.cfi_endproc
+ 148              	.LFE25:
+ 150              		.section	.text.lv_mem_alloc,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	lv_mem_alloc
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 157              	lv_mem_alloc:
+ 158              	.LVL7:
+ 159              	.LFB26:
+ 126:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("allocating %lu bytes", (unsigned long)size);
+ 160              		.loc 1 126 1 is_stmt 1 view -0
+ 161              		.cfi_startproc
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127:lvgl/src/misc/lv_mem.c ****     if(size == 0) {
+ 164              		.loc 1 127 59 view .LVU31
+ 128:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 165              		.loc 1 128 5 view .LVU32
+ 128:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 166              		.loc 1 128 7 is_stmt 0 view .LVU33
+ 167 0000 08B9     		cbnz	r0, .L19
+ 130:lvgl/src/misc/lv_mem.c ****     }
+ 168              		.loc 1 130 16 view .LVU34
+ 169 0002 0A48     		ldr	r0, .L20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 14
+
+
+ 170              	.LVL8:
+ 163:lvgl/src/misc/lv_mem.c **** 
+ 171              		.loc 1 163 1 view .LVU35
+ 172 0004 7047     		bx	lr
+ 173              	.LVL9:
+ 174              	.L19:
+ 126:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("allocating %lu bytes", (unsigned long)size);
+ 175              		.loc 1 126 1 view .LVU36
+ 176 0006 10B5     		push	{r4, lr}
+ 177              	.LCFI2:
+ 178              		.cfi_def_cfa_offset 8
+ 179              		.cfi_offset 4, -8
+ 180              		.cfi_offset 14, -4
+ 181 0008 0446     		mov	r4, r0
+ 134:lvgl/src/misc/lv_mem.c **** #else
+ 182              		.loc 1 134 5 is_stmt 1 view .LVU37
+ 134:lvgl/src/misc/lv_mem.c **** #else
+ 183              		.loc 1 134 20 is_stmt 0 view .LVU38
+ 184 000a 0146     		mov	r1, r0
+ 185 000c 084B     		ldr	r3, .L20+4
+ 186 000e 1868     		ldr	r0, [r3]
+ 187              	.LVL10:
+ 134:lvgl/src/misc/lv_mem.c **** #else
+ 188              		.loc 1 134 20 view .LVU39
+ 189 0010 FFF7FEFF 		bl	lv_tlsf_malloc
+ 190              	.LVL11:
+ 139:lvgl/src/misc/lv_mem.c ****         LV_LOG_INFO("couldn't allocate memory (%lu bytes)", (unsigned long)size);
+ 191              		.loc 1 139 5 is_stmt 1 view .LVU40
+ 140:lvgl/src/misc/lv_mem.c **** #if LV_LOG_LEVEL <= LV_LOG_LEVEL_INFO
+ 192              		.loc 1 140 9 view .LVU41
+ 140:lvgl/src/misc/lv_mem.c **** #if LV_LOG_LEVEL <= LV_LOG_LEVEL_INFO
+ 193              		.loc 1 140 9 view .LVU42
+ 140:lvgl/src/misc/lv_mem.c **** #if LV_LOG_LEVEL <= LV_LOG_LEVEL_INFO
+ 194              		.loc 1 140 9 view .LVU43
+ 155:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 195              		.loc 1 155 5 view .LVU44
+ 155:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 196              		.loc 1 155 7 is_stmt 0 view .LVU45
+ 197 0014 48B1     		cbz	r0, .L12
+ 157:lvgl/src/misc/lv_mem.c ****         max_used = LV_MAX(cur_used, max_used);
+ 198              		.loc 1 157 9 is_stmt 1 view .LVU46
+ 157:lvgl/src/misc/lv_mem.c ****         max_used = LV_MAX(cur_used, max_used);
+ 199              		.loc 1 157 18 is_stmt 0 view .LVU47
+ 200 0016 074B     		ldr	r3, .L20+8
+ 201 0018 1A68     		ldr	r2, [r3]
+ 202 001a 1444     		add	r4, r4, r2
+ 203              	.LVL12:
+ 157:lvgl/src/misc/lv_mem.c ****         max_used = LV_MAX(cur_used, max_used);
+ 204              		.loc 1 157 18 view .LVU48
+ 205 001c 1C60     		str	r4, [r3]
+ 158:lvgl/src/misc/lv_mem.c **** #endif
+ 206              		.loc 1 158 9 is_stmt 1 view .LVU49
+ 158:lvgl/src/misc/lv_mem.c **** #endif
+ 207              		.loc 1 158 20 is_stmt 0 view .LVU50
+ 208 001e 064B     		ldr	r3, .L20+12
+ 209 0020 1A68     		ldr	r2, [r3]
+ 210 0022 9442     		cmp	r4, r2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 15
+
+
+ 211 0024 38BF     		it	cc
+ 212 0026 1446     		movcc	r4, r2
+ 158:lvgl/src/misc/lv_mem.c **** #endif
+ 213              		.loc 1 158 18 view .LVU51
+ 214 0028 1C60     		str	r4, [r3]
+ 215              	.L12:
+ 163:lvgl/src/misc/lv_mem.c **** 
+ 216              		.loc 1 163 1 view .LVU52
+ 217 002a 10BD     		pop	{r4, pc}
+ 218              	.L21:
+ 219              		.align	2
+ 220              	.L20:
+ 221 002c 00000000 		.word	zero_mem
+ 222 0030 00000000 		.word	tlsf
+ 223 0034 00000000 		.word	cur_used
+ 224 0038 00000000 		.word	max_used
+ 225              		.cfi_endproc
+ 226              	.LFE26:
+ 228              		.section	.text.lv_mem_free,"ax",%progbits
+ 229              		.align	1
+ 230              		.global	lv_mem_free
+ 231              		.syntax unified
+ 232              		.thumb
+ 233              		.thumb_func
+ 235              	lv_mem_free:
+ 236              	.LVL13:
+ 237              	.LFB27:
+ 170:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("freeing %p", data);
+ 238              		.loc 1 170 1 is_stmt 1 view -0
+ 239              		.cfi_startproc
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 170:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("freeing %p", data);
+ 242              		.loc 1 170 1 is_stmt 0 view .LVU54
+ 243 0000 08B5     		push	{r3, lr}
+ 244              	.LCFI3:
+ 245              		.cfi_def_cfa_offset 8
+ 246              		.cfi_offset 3, -8
+ 247              		.cfi_offset 14, -4
+ 171:lvgl/src/misc/lv_mem.c ****     if(data == &zero_mem) return;
+ 248              		.loc 1 171 34 is_stmt 1 view .LVU55
+ 172:lvgl/src/misc/lv_mem.c ****     if(data == NULL) return;
+ 249              		.loc 1 172 5 view .LVU56
+ 172:lvgl/src/misc/lv_mem.c ****     if(data == NULL) return;
+ 250              		.loc 1 172 7 is_stmt 0 view .LVU57
+ 251 0002 0A4B     		ldr	r3, .L26
+ 252 0004 9842     		cmp	r0, r3
+ 253 0006 0CD0     		beq	.L22
+ 254 0008 0146     		mov	r1, r0
+ 173:lvgl/src/misc/lv_mem.c **** 
+ 255              		.loc 1 173 5 is_stmt 1 view .LVU58
+ 173:lvgl/src/misc/lv_mem.c **** 
+ 256              		.loc 1 173 7 is_stmt 0 view .LVU59
+ 257 000a 50B1     		cbz	r0, .L22
+ 179:lvgl/src/misc/lv_mem.c ****     if(cur_used > size) cur_used -= size;
+ 258              		.loc 1 179 5 is_stmt 1 view .LVU60
+ 179:lvgl/src/misc/lv_mem.c ****     if(cur_used > size) cur_used -= size;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 16
+
+
+ 259              		.loc 1 179 19 is_stmt 0 view .LVU61
+ 260 000c 084B     		ldr	r3, .L26+4
+ 261 000e 1868     		ldr	r0, [r3]
+ 262              	.LVL14:
+ 179:lvgl/src/misc/lv_mem.c ****     if(cur_used > size) cur_used -= size;
+ 263              		.loc 1 179 19 view .LVU62
+ 264 0010 FFF7FEFF 		bl	lv_tlsf_free
+ 265              	.LVL15:
+ 180:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 266              		.loc 1 180 5 is_stmt 1 view .LVU63
+ 180:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 267              		.loc 1 180 17 is_stmt 0 view .LVU64
+ 268 0014 074B     		ldr	r3, .L26+8
+ 269 0016 1B68     		ldr	r3, [r3]
+ 180:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 270              		.loc 1 180 7 view .LVU65
+ 271 0018 8342     		cmp	r3, r0
+ 272 001a 03D9     		bls	.L24
+ 180:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 273              		.loc 1 180 25 is_stmt 1 discriminator 1 view .LVU66
+ 180:lvgl/src/misc/lv_mem.c ****     else cur_used = 0;
+ 274              		.loc 1 180 34 is_stmt 0 discriminator 1 view .LVU67
+ 275 001c 1B1A     		subs	r3, r3, r0
+ 276 001e 054A     		ldr	r2, .L26+8
+ 277 0020 1360     		str	r3, [r2]
+ 278              	.LVL16:
+ 279              	.L22:
+ 185:lvgl/src/misc/lv_mem.c **** 
+ 280              		.loc 1 185 1 view .LVU68
+ 281 0022 08BD     		pop	{r3, pc}
+ 282              	.LVL17:
+ 283              	.L24:
+ 181:lvgl/src/misc/lv_mem.c **** #else
+ 284              		.loc 1 181 10 is_stmt 1 view .LVU69
+ 181:lvgl/src/misc/lv_mem.c **** #else
+ 285              		.loc 1 181 19 is_stmt 0 view .LVU70
+ 286 0024 034B     		ldr	r3, .L26+8
+ 287 0026 0022     		movs	r2, #0
+ 288 0028 1A60     		str	r2, [r3]
+ 289 002a FAE7     		b	.L22
+ 290              	.L27:
+ 291              		.align	2
+ 292              	.L26:
+ 293 002c 00000000 		.word	zero_mem
+ 294 0030 00000000 		.word	tlsf
+ 295 0034 00000000 		.word	cur_used
+ 296              		.cfi_endproc
+ 297              	.LFE27:
+ 299              		.section	.text.lv_mem_realloc,"ax",%progbits
+ 300              		.align	1
+ 301              		.global	lv_mem_realloc
+ 302              		.syntax unified
+ 303              		.thumb
+ 304              		.thumb_func
+ 306              	lv_mem_realloc:
+ 307              	.LVL18:
+ 308              	.LFB28:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 17
+
+
+ 195:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("reallocating %p with %lu size", data_p, (unsigned long)new_size);
+ 309              		.loc 1 195 1 is_stmt 1 view -0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("reallocating %p with %lu size", data_p, (unsigned long)new_size);
+ 313              		.loc 1 195 1 is_stmt 0 view .LVU72
+ 314 0000 08B5     		push	{r3, lr}
+ 315              	.LCFI4:
+ 316              		.cfi_def_cfa_offset 8
+ 317              		.cfi_offset 3, -8
+ 318              		.cfi_offset 14, -4
+ 196:lvgl/src/misc/lv_mem.c ****     if(new_size == 0) {
+ 319              		.loc 1 196 80 is_stmt 1 view .LVU73
+ 197:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 320              		.loc 1 197 5 view .LVU74
+ 197:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("using zero_mem");
+ 321              		.loc 1 197 7 is_stmt 0 view .LVU75
+ 322 0002 49B1     		cbz	r1, .L33
+ 323 0004 0A46     		mov	r2, r1
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 324              		.loc 1 203 5 is_stmt 1 view .LVU76
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 325              		.loc 1 203 7 is_stmt 0 view .LVU77
+ 326 0006 084B     		ldr	r3, .L35
+ 327 0008 9842     		cmp	r0, r3
+ 328 000a 09D0     		beq	.L34
+ 206:lvgl/src/misc/lv_mem.c **** #else
+ 329              		.loc 1 206 5 is_stmt 1 view .LVU78
+ 206:lvgl/src/misc/lv_mem.c **** #else
+ 330              		.loc 1 206 20 is_stmt 0 view .LVU79
+ 331 000c 0146     		mov	r1, r0
+ 332              	.LVL19:
+ 206:lvgl/src/misc/lv_mem.c **** #else
+ 333              		.loc 1 206 20 view .LVU80
+ 334 000e 074B     		ldr	r3, .L35+4
+ 335 0010 1868     		ldr	r0, [r3]
+ 336              	.LVL20:
+ 206:lvgl/src/misc/lv_mem.c **** #else
+ 337              		.loc 1 206 20 view .LVU81
+ 338 0012 FFF7FEFF 		bl	lv_tlsf_realloc
+ 339              	.LVL21:
+ 210:lvgl/src/misc/lv_mem.c ****         LV_LOG_ERROR("couldn't allocate memory");
+ 340              		.loc 1 210 5 is_stmt 1 view .LVU82
+ 341              	.L28:
+ 217:lvgl/src/misc/lv_mem.c **** 
+ 342              		.loc 1 217 1 is_stmt 0 view .LVU83
+ 343 0016 08BD     		pop	{r3, pc}
+ 344              	.LVL22:
+ 345              	.L33:
+ 198:lvgl/src/misc/lv_mem.c ****         lv_mem_free(data_p);
+ 346              		.loc 1 198 36 is_stmt 1 view .LVU84
+ 199:lvgl/src/misc/lv_mem.c ****         return &zero_mem;
+ 347              		.loc 1 199 9 view .LVU85
+ 348 0018 FFF7FEFF 		bl	lv_mem_free
+ 349              	.LVL23:
+ 200:lvgl/src/misc/lv_mem.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 18
+
+
+ 350              		.loc 1 200 9 view .LVU86
+ 200:lvgl/src/misc/lv_mem.c ****     }
+ 351              		.loc 1 200 16 is_stmt 0 view .LVU87
+ 352 001c 0248     		ldr	r0, .L35
+ 353 001e FAE7     		b	.L28
+ 354              	.LVL24:
+ 355              	.L34:
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 356              		.loc 1 203 29 is_stmt 1 discriminator 1 view .LVU88
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 357              		.loc 1 203 36 is_stmt 0 discriminator 1 view .LVU89
+ 358 0020 0846     		mov	r0, r1
+ 359              	.LVL25:
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 360              		.loc 1 203 36 discriminator 1 view .LVU90
+ 361 0022 FFF7FEFF 		bl	lv_mem_alloc
+ 362              	.LVL26:
+ 203:lvgl/src/misc/lv_mem.c **** 
+ 363              		.loc 1 203 36 discriminator 1 view .LVU91
+ 364 0026 F6E7     		b	.L28
+ 365              	.L36:
+ 366              		.align	2
+ 367              	.L35:
+ 368 0028 00000000 		.word	zero_mem
+ 369 002c 00000000 		.word	tlsf
+ 370              		.cfi_endproc
+ 371              	.LFE28:
+ 373              		.section	.text.lv_mem_test,"ax",%progbits
+ 374              		.align	1
+ 375              		.global	lv_mem_test
+ 376              		.syntax unified
+ 377              		.thumb
+ 378              		.thumb_func
+ 380              	lv_mem_test:
+ 381              	.LFB29:
+ 220:lvgl/src/misc/lv_mem.c ****     if(zero_mem != ZERO_MEM_SENTINEL) {
+ 382              		.loc 1 220 1 is_stmt 1 view -0
+ 383              		.cfi_startproc
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386 0000 08B5     		push	{r3, lr}
+ 387              	.LCFI5:
+ 388              		.cfi_def_cfa_offset 8
+ 389              		.cfi_offset 3, -8
+ 390              		.cfi_offset 14, -4
+ 221:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("zero_mem is written");
+ 391              		.loc 1 221 5 view .LVU93
+ 221:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("zero_mem is written");
+ 392              		.loc 1 221 17 is_stmt 0 view .LVU94
+ 393 0002 0C4B     		ldr	r3, .L45
+ 394 0004 1A68     		ldr	r2, [r3]
+ 221:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("zero_mem is written");
+ 395              		.loc 1 221 7 view .LVU95
+ 396 0006 0C4B     		ldr	r3, .L45+4
+ 397 0008 9A42     		cmp	r2, r3
+ 398 000a 01D0     		beq	.L43
+ 223:lvgl/src/misc/lv_mem.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 19
+
+
+ 399              		.loc 1 223 16 view .LVU96
+ 400 000c 0020     		movs	r0, #0
+ 401              	.L38:
+ 239:lvgl/src/misc/lv_mem.c **** 
+ 402              		.loc 1 239 1 view .LVU97
+ 403 000e 08BD     		pop	{r3, pc}
+ 404              	.L43:
+ 227:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("failed");
+ 405              		.loc 1 227 5 is_stmt 1 view .LVU98
+ 227:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("failed");
+ 406              		.loc 1 227 8 is_stmt 0 view .LVU99
+ 407 0010 0A4B     		ldr	r3, .L45+8
+ 408 0012 1868     		ldr	r0, [r3]
+ 409 0014 FFF7FEFF 		bl	lv_tlsf_check
+ 410              	.LVL27:
+ 227:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("failed");
+ 411              		.loc 1 227 7 view .LVU100
+ 412 0018 08B1     		cbz	r0, .L44
+ 229:lvgl/src/misc/lv_mem.c ****     }
+ 413              		.loc 1 229 16 view .LVU101
+ 414 001a 0020     		movs	r0, #0
+ 415 001c F7E7     		b	.L38
+ 416              	.L44:
+ 232:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("pool failed");
+ 417              		.loc 1 232 5 is_stmt 1 view .LVU102
+ 232:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("pool failed");
+ 418              		.loc 1 232 8 is_stmt 0 view .LVU103
+ 419 001e 074B     		ldr	r3, .L45+8
+ 420 0020 1868     		ldr	r0, [r3]
+ 421 0022 FFF7FEFF 		bl	lv_tlsf_get_pool
+ 422              	.LVL28:
+ 423 0026 FFF7FEFF 		bl	lv_tlsf_check_pool
+ 424              	.LVL29:
+ 232:lvgl/src/misc/lv_mem.c ****         LV_LOG_WARN("pool failed");
+ 425              		.loc 1 232 7 view .LVU104
+ 426 002a 08B9     		cbnz	r0, .L41
+ 238:lvgl/src/misc/lv_mem.c **** }
+ 427              		.loc 1 238 12 view .LVU105
+ 428 002c 0120     		movs	r0, #1
+ 429 002e EEE7     		b	.L38
+ 430              	.L41:
+ 234:lvgl/src/misc/lv_mem.c ****     }
+ 431              		.loc 1 234 16 view .LVU106
+ 432 0030 0020     		movs	r0, #0
+ 433 0032 ECE7     		b	.L38
+ 434              	.L46:
+ 435              		.align	2
+ 436              	.L45:
+ 437 0034 00000000 		.word	zero_mem
+ 438 0038 D4C3B2A1 		.word	-1582119980
+ 439 003c 00000000 		.word	tlsf
+ 440              		.cfi_endproc
+ 441              	.LFE29:
+ 443              		.section	.text.lv_mem_buf_get,"ax",%progbits
+ 444              		.align	1
+ 445              		.global	lv_mem_buf_get
+ 446              		.syntax unified
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 20
+
+
+ 447              		.thumb
+ 448              		.thumb_func
+ 450              	lv_mem_buf_get:
+ 451              	.LVL30:
+ 452              	.LFB31:
+ 276:lvgl/src/misc/lv_mem.c ****     if(size == 0) return NULL;
+ 453              		.loc 1 276 1 is_stmt 1 view -0
+ 454              		.cfi_startproc
+ 455              		@ args = 0, pretend = 0, frame = 0
+ 456              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277:lvgl/src/misc/lv_mem.c **** 
+ 457              		.loc 1 277 5 view .LVU108
+ 277:lvgl/src/misc/lv_mem.c **** 
+ 458              		.loc 1 277 7 is_stmt 0 view .LVU109
+ 459 0000 0028     		cmp	r0, #0
+ 460 0002 5BD0     		beq	.L60
+ 276:lvgl/src/misc/lv_mem.c ****     if(size == 0) return NULL;
+ 461              		.loc 1 276 1 view .LVU110
+ 462 0004 38B5     		push	{r3, r4, r5, lr}
+ 463              	.LCFI6:
+ 464              		.cfi_def_cfa_offset 16
+ 465              		.cfi_offset 3, -16
+ 466              		.cfi_offset 4, -12
+ 467              		.cfi_offset 5, -8
+ 468              		.cfi_offset 14, -4
+ 469 0006 0446     		mov	r4, r0
+ 470              	.LBB2:
+ 283:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0 && LV_GC_ROOT(lv_mem_buf[i]).size >= size) {
+ 471              		.loc 1 283 17 view .LVU111
+ 472 0008 0023     		movs	r3, #0
+ 473              	.LBE2:
+ 282:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 474              		.loc 1 282 12 view .LVU112
+ 475 000a 4FF0FF30 		mov	r0, #-1
+ 476              	.LVL31:
+ 282:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 477              		.loc 1 282 12 view .LVU113
+ 478 000e 0CE0     		b	.L49
+ 479              	.LVL32:
+ 480              	.L67:
+ 481              	.LBB3:
+ 286:lvgl/src/misc/lv_mem.c ****                 return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 482              		.loc 1 286 17 is_stmt 1 view .LVU114
+ 286:lvgl/src/misc/lv_mem.c ****                 return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 483              		.loc 1 286 48 is_stmt 0 view .LVU115
+ 484 0010 2B4A     		ldr	r2, .L71
+ 485 0012 02EBC300 		add	r0, r2, r3, lsl #3
+ 486              	.LVL33:
+ 286:lvgl/src/misc/lv_mem.c ****                 return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 487              		.loc 1 286 48 view .LVU116
+ 488 0016 8379     		ldrb	r3, [r0, #6]	@ zero_extendqisi2
+ 489              	.LVL34:
+ 286:lvgl/src/misc/lv_mem.c ****                 return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 490              		.loc 1 286 48 view .LVU117
+ 491 0018 43F00103 		orr	r3, r3, #1
+ 492 001c 8371     		strb	r3, [r0, #6]
+ 287:lvgl/src/misc/lv_mem.c ****             }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 21
+
+
+ 493              		.loc 1 287 17 is_stmt 1 view .LVU118
+ 287:lvgl/src/misc/lv_mem.c ****             }
+ 494              		.loc 1 287 49 is_stmt 0 view .LVU119
+ 495 001e 52F83100 		ldr	r0, [r2, r1, lsl #3]
+ 496 0022 36E0     		b	.L47
+ 497              	.LVL35:
+ 498              	.L68:
+ 290:lvgl/src/misc/lv_mem.c ****             }
+ 499              		.loc 1 290 17 is_stmt 1 view .LVU120
+ 290:lvgl/src/misc/lv_mem.c ****             }
+ 500              		.loc 1 290 25 is_stmt 0 view .LVU121
+ 501 0024 58B2     		sxtb	r0, r3
+ 502              	.LVL36:
+ 503              	.L50:
+ 283:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0 && LV_GC_ROOT(lv_mem_buf[i]).size >= size) {
+ 504              		.loc 1 283 49 is_stmt 1 discriminator 2 view .LVU122
+ 505 0026 0133     		adds	r3, r3, #1
+ 506              	.LVL37:
+ 283:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0 && LV_GC_ROOT(lv_mem_buf[i]).size >= size) {
+ 507              		.loc 1 283 49 is_stmt 0 discriminator 2 view .LVU123
+ 508 0028 DBB2     		uxtb	r3, r3
+ 509              	.LVL38:
+ 510              	.L49:
+ 283:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0 && LV_GC_ROOT(lv_mem_buf[i]).size >= size) {
+ 511              		.loc 1 283 26 is_stmt 1 discriminator 1 view .LVU124
+ 512 002a 0F2B     		cmp	r3, #15
+ 513 002c 18D8     		bhi	.L66
+ 284:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 514              		.loc 1 284 9 view .LVU125
+ 284:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 515              		.loc 1 284 37 is_stmt 0 view .LVU126
+ 516 002e 1946     		mov	r1, r3
+ 517 0030 234A     		ldr	r2, .L71
+ 518 0032 02EBC302 		add	r2, r2, r3, lsl #3
+ 519 0036 9279     		ldrb	r2, [r2, #6]	@ zero_extendqisi2
+ 284:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 520              		.loc 1 284 11 view .LVU127
+ 521 0038 12F0010F 		tst	r2, #1
+ 522 003c F3D1     		bne	.L50
+ 284:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 523              		.loc 1 284 76 discriminator 1 view .LVU128
+ 524 003e 204A     		ldr	r2, .L71
+ 525 0040 02EBC302 		add	r2, r2, r3, lsl #3
+ 526 0044 9288     		ldrh	r2, [r2, #4]
+ 284:lvgl/src/misc/lv_mem.c ****             if(LV_GC_ROOT(lv_mem_buf[i]).size == size) {
+ 527              		.loc 1 284 48 discriminator 1 view .LVU129
+ 528 0046 A242     		cmp	r2, r4
+ 529 0048 EDD3     		bcc	.L50
+ 285:lvgl/src/misc/lv_mem.c ****                 LV_GC_ROOT(lv_mem_buf[i]).used = 1;
+ 530              		.loc 1 285 13 is_stmt 1 view .LVU130
+ 285:lvgl/src/misc/lv_mem.c ****                 LV_GC_ROOT(lv_mem_buf[i]).used = 1;
+ 531              		.loc 1 285 15 is_stmt 0 view .LVU131
+ 532 004a E1D0     		beq	.L67
+ 289:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 533              		.loc 1 289 18 is_stmt 1 view .LVU132
+ 289:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 534              		.loc 1 289 20 is_stmt 0 view .LVU133
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 22
+
+
+ 535 004c 0028     		cmp	r0, #0
+ 536 004e E9DB     		blt	.L68
+ 293:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 537              		.loc 1 293 18 is_stmt 1 view .LVU134
+ 293:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 538              		.loc 1 293 85 is_stmt 0 view .LVU135
+ 539 0050 1B49     		ldr	r1, .L71
+ 540 0052 01EBC001 		add	r1, r1, r0, lsl #3
+ 541 0056 8988     		ldrh	r1, [r1, #4]
+ 293:lvgl/src/misc/lv_mem.c ****                 i_guess = i;
+ 542              		.loc 1 293 20 view .LVU136
+ 543 0058 8A42     		cmp	r2, r1
+ 544 005a E4D2     		bcs	.L50
+ 294:lvgl/src/misc/lv_mem.c ****             }
+ 545              		.loc 1 294 17 is_stmt 1 view .LVU137
+ 294:lvgl/src/misc/lv_mem.c ****             }
+ 546              		.loc 1 294 25 is_stmt 0 view .LVU138
+ 547 005c 58B2     		sxtb	r0, r3
+ 548              	.LVL39:
+ 294:lvgl/src/misc/lv_mem.c ****             }
+ 549              		.loc 1 294 25 view .LVU139
+ 550 005e E2E7     		b	.L50
+ 551              	.L66:
+ 294:lvgl/src/misc/lv_mem.c ****             }
+ 552              		.loc 1 294 25 view .LVU140
+ 553              	.LBE3:
+ 299:lvgl/src/misc/lv_mem.c ****         LV_GC_ROOT(lv_mem_buf[i_guess]).used = 1;
+ 554              		.loc 1 299 5 is_stmt 1 view .LVU141
+ 299:lvgl/src/misc/lv_mem.c ****         LV_GC_ROOT(lv_mem_buf[i_guess]).used = 1;
+ 555              		.loc 1 299 7 is_stmt 0 view .LVU142
+ 556 0060 0028     		cmp	r0, #0
+ 557 0062 0DDA     		bge	.L69
+ 558              	.LBB4:
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 559              		.loc 1 307 17 view .LVU143
+ 560 0064 0023     		movs	r3, #0
+ 561              	.LVL40:
+ 562              	.L54:
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 563              		.loc 1 307 26 is_stmt 1 discriminator 1 view .LVU144
+ 564 0066 0F2B     		cmp	r3, #15
+ 565 0068 27D8     		bhi	.L59
+ 308:lvgl/src/misc/lv_mem.c ****             /*if this fails you probably need to increase your LV_MEM_SIZE/heap size*/
+ 566              		.loc 1 308 9 view .LVU145
+ 308:lvgl/src/misc/lv_mem.c ****             /*if this fails you probably need to increase your LV_MEM_SIZE/heap size*/
+ 567              		.loc 1 308 37 is_stmt 0 view .LVU146
+ 568 006a 1D46     		mov	r5, r3
+ 569 006c 144A     		ldr	r2, .L71
+ 570 006e 02EBC302 		add	r2, r2, r3, lsl #3
+ 571 0072 9279     		ldrb	r2, [r2, #6]	@ zero_extendqisi2
+ 308:lvgl/src/misc/lv_mem.c ****             /*if this fails you probably need to increase your LV_MEM_SIZE/heap size*/
+ 572              		.loc 1 308 11 view .LVU147
+ 573 0074 12F0010F 		tst	r2, #1
+ 574 0078 0CD0     		beq	.L70
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 575              		.loc 1 307 49 is_stmt 1 discriminator 2 view .LVU148
+ 576 007a 0133     		adds	r3, r3, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 23
+
+
+ 577              	.LVL41:
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 578              		.loc 1 307 49 is_stmt 0 discriminator 2 view .LVU149
+ 579 007c DBB2     		uxtb	r3, r3
+ 580              	.LVL42:
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 581              		.loc 1 307 49 discriminator 2 view .LVU150
+ 582 007e F2E7     		b	.L54
+ 583              	.LVL43:
+ 584              	.L69:
+ 307:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).used == 0) {
+ 585              		.loc 1 307 49 discriminator 2 view .LVU151
+ 586              	.LBE4:
+ 300:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("returning already allocated buffer (buffer id: %d, address: %p)", i_guess,
+ 587              		.loc 1 300 9 is_stmt 1 view .LVU152
+ 300:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("returning already allocated buffer (buffer id: %d, address: %p)", i_guess,
+ 588              		.loc 1 300 46 is_stmt 0 view .LVU153
+ 589 0080 0F4A     		ldr	r2, .L71
+ 590 0082 02EBC001 		add	r1, r2, r0, lsl #3
+ 591 0086 8B79     		ldrb	r3, [r1, #6]	@ zero_extendqisi2
+ 592              	.LVL44:
+ 300:lvgl/src/misc/lv_mem.c ****         MEM_TRACE("returning already allocated buffer (buffer id: %d, address: %p)", i_guess,
+ 593              		.loc 1 300 46 view .LVU154
+ 594 0088 43F00103 		orr	r3, r3, #1
+ 595 008c 8B71     		strb	r3, [r1, #6]
+ 302:lvgl/src/misc/lv_mem.c ****         return LV_GC_ROOT(lv_mem_buf[i_guess]).p;
+ 596              		.loc 1 302 53 is_stmt 1 view .LVU155
+ 303:lvgl/src/misc/lv_mem.c ****     }
+ 597              		.loc 1 303 9 view .LVU156
+ 303:lvgl/src/misc/lv_mem.c ****     }
+ 598              		.loc 1 303 47 is_stmt 0 view .LVU157
+ 599 008e 52F83000 		ldr	r0, [r2, r0, lsl #3]
+ 600              	.LVL45:
+ 601              	.L47:
+ 325:lvgl/src/misc/lv_mem.c **** 
+ 602              		.loc 1 325 1 view .LVU158
+ 603 0092 38BD     		pop	{r3, r4, r5, pc}
+ 604              	.LVL46:
+ 605              	.L70:
+ 606              	.LBB6:
+ 607              	.LBB5:
+ 310:lvgl/src/misc/lv_mem.c ****             LV_ASSERT_MSG(buf != NULL, "Out of memory, can't allocate a new buffer (increase your L
+ 608              		.loc 1 310 13 is_stmt 1 view .LVU159
+ 310:lvgl/src/misc/lv_mem.c ****             LV_ASSERT_MSG(buf != NULL, "Out of memory, can't allocate a new buffer (increase your L
+ 609              		.loc 1 310 26 is_stmt 0 view .LVU160
+ 610 0094 2146     		mov	r1, r4
+ 611 0096 0A4A     		ldr	r2, .L71
+ 612 0098 52F83300 		ldr	r0, [r2, r3, lsl #3]
+ 613              	.LVL47:
+ 310:lvgl/src/misc/lv_mem.c ****             LV_ASSERT_MSG(buf != NULL, "Out of memory, can't allocate a new buffer (increase your L
+ 614              		.loc 1 310 26 view .LVU161
+ 615 009c FFF7FEFF 		bl	lv_mem_realloc
+ 616              	.LVL48:
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 617              		.loc 1 311 13 is_stmt 1 view .LVU162
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 618              		.loc 1 311 13 view .LVU163
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 24
+
+
+ 619 00a0 50B1     		cbz	r0, .L57
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 620              		.loc 1 311 13 view .LVU164
+ 312:lvgl/src/misc/lv_mem.c **** 
+ 621              		.loc 1 312 13 view .LVU165
+ 314:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = size;
+ 622              		.loc 1 314 13 view .LVU166
+ 314:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = size;
+ 623              		.loc 1 314 44 is_stmt 0 view .LVU167
+ 624 00a2 0749     		ldr	r1, .L71
+ 625 00a4 01EBC503 		add	r3, r1, r5, lsl #3
+ 626 00a8 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 627 00aa 42F00102 		orr	r2, r2, #1
+ 628 00ae 9A71     		strb	r2, [r3, #6]
+ 315:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).p    = buf;
+ 629              		.loc 1 315 13 is_stmt 1 view .LVU168
+ 315:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).p    = buf;
+ 630              		.loc 1 315 44 is_stmt 0 view .LVU169
+ 631 00b0 9C80     		strh	r4, [r3, #4]	@ movhi
+ 316:lvgl/src/misc/lv_mem.c ****             MEM_TRACE("allocated (buffer id: %d, address: %p)", i, LV_GC_ROOT(lv_mem_buf[i]).p);
+ 632              		.loc 1 316 13 is_stmt 1 view .LVU170
+ 316:lvgl/src/misc/lv_mem.c ****             MEM_TRACE("allocated (buffer id: %d, address: %p)", i, LV_GC_ROOT(lv_mem_buf[i]).p);
+ 633              		.loc 1 316 44 is_stmt 0 view .LVU171
+ 634 00b2 41F83500 		str	r0, [r1, r5, lsl #3]
+ 317:lvgl/src/misc/lv_mem.c ****             return LV_GC_ROOT(lv_mem_buf[i]).p;
+ 635              		.loc 1 317 96 is_stmt 1 view .LVU172
+ 318:lvgl/src/misc/lv_mem.c ****         }
+ 636              		.loc 1 318 13 view .LVU173
+ 318:lvgl/src/misc/lv_mem.c ****         }
+ 637              		.loc 1 318 45 is_stmt 0 view .LVU174
+ 638 00b6 ECE7     		b	.L47
+ 639              	.L57:
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 640              		.loc 1 311 13 is_stmt 1 discriminator 1 view .LVU175
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 641              		.loc 1 311 13 discriminator 1 view .LVU176
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 642              		.loc 1 311 13 discriminator 1 view .LVU177
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 643              		.loc 1 311 13 discriminator 1 view .LVU178
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 644              		.loc 1 311 13 discriminator 1 view .LVU179
+ 645 00b8 FEE7     		b	.L57
+ 646              	.LVL49:
+ 647              	.L59:
+ 311:lvgl/src/misc/lv_mem.c ****             if(buf == NULL) return NULL;
+ 648              		.loc 1 311 13 is_stmt 0 discriminator 1 view .LVU180
+ 649              	.LBE5:
+ 650              	.LBE6:
+ 323:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 651              		.loc 1 323 5 is_stmt 1 discriminator 2 view .LVU181
+ 323:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 652              		.loc 1 323 5 discriminator 2 view .LVU182
+ 323:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 653              		.loc 1 323 5 discriminator 2 view .LVU183
+ 323:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 654              		.loc 1 323 5 discriminator 2 view .LVU184
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 25
+
+
+ 323:lvgl/src/misc/lv_mem.c ****     return NULL;
+ 655              		.loc 1 323 5 discriminator 2 view .LVU185
+ 656 00ba FEE7     		b	.L59
+ 657              	.LVL50:
+ 658              	.L60:
+ 659              	.LCFI7:
+ 660              		.cfi_def_cfa_offset 0
+ 661              		.cfi_restore 3
+ 662              		.cfi_restore 4
+ 663              		.cfi_restore 5
+ 664              		.cfi_restore 14
+ 277:lvgl/src/misc/lv_mem.c **** 
+ 665              		.loc 1 277 26 is_stmt 0 view .LVU186
+ 666 00bc 0020     		movs	r0, #0
+ 667              	.LVL51:
+ 325:lvgl/src/misc/lv_mem.c **** 
+ 668              		.loc 1 325 1 view .LVU187
+ 669 00be 7047     		bx	lr
+ 670              	.L72:
+ 671              		.align	2
+ 672              	.L71:
+ 673 00c0 00000000 		.word	lv_mem_buf
+ 674              		.cfi_endproc
+ 675              	.LFE31:
+ 677              		.section	.text.lv_mem_buf_release,"ax",%progbits
+ 678              		.align	1
+ 679              		.global	lv_mem_buf_release
+ 680              		.syntax unified
+ 681              		.thumb
+ 682              		.thumb_func
+ 684              	lv_mem_buf_release:
+ 685              	.LVL52:
+ 686              	.LFB32:
+ 332:lvgl/src/misc/lv_mem.c ****     MEM_TRACE("begin (address: %p)", p);
+ 687              		.loc 1 332 1 is_stmt 1 view -0
+ 688              		.cfi_startproc
+ 689              		@ args = 0, pretend = 0, frame = 0
+ 690              		@ frame_needed = 0, uses_anonymous_args = 0
+ 691              		@ link register save eliminated.
+ 333:lvgl/src/misc/lv_mem.c **** 
+ 692              		.loc 1 333 40 view .LVU189
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 693              		.loc 1 335 5 view .LVU190
+ 694              	.LBB7:
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 695              		.loc 1 335 9 view .LVU191
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 696              		.loc 1 335 17 is_stmt 0 view .LVU192
+ 697 0000 0023     		movs	r3, #0
+ 698              	.LVL53:
+ 699              	.L74:
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 700              		.loc 1 335 26 is_stmt 1 discriminator 1 view .LVU193
+ 701 0002 0F2B     		cmp	r3, #15
+ 702 0004 0FD8     		bhi	.L78
+ 336:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 703              		.loc 1 336 9 view .LVU194
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 26
+
+
+ 336:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 704              		.loc 1 336 37 is_stmt 0 view .LVU195
+ 705 0006 084A     		ldr	r2, .L80
+ 706 0008 52F83320 		ldr	r2, [r2, r3, lsl #3]
+ 336:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 707              		.loc 1 336 11 view .LVU196
+ 708 000c 8242     		cmp	r2, r0
+ 709 000e 02D0     		beq	.L79
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 710              		.loc 1 335 49 is_stmt 1 discriminator 2 view .LVU197
+ 711 0010 0133     		adds	r3, r3, #1
+ 712              	.LVL54:
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 713              		.loc 1 335 49 is_stmt 0 discriminator 2 view .LVU198
+ 714 0012 DBB2     		uxtb	r3, r3
+ 715              	.LVL55:
+ 335:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p == p) {
+ 716              		.loc 1 335 49 discriminator 2 view .LVU199
+ 717 0014 F5E7     		b	.L74
+ 718              	.L79:
+ 337:lvgl/src/misc/lv_mem.c ****             return;
+ 719              		.loc 1 337 13 is_stmt 1 view .LVU200
+ 337:lvgl/src/misc/lv_mem.c ****             return;
+ 720              		.loc 1 337 44 is_stmt 0 view .LVU201
+ 721 0016 044A     		ldr	r2, .L80
+ 722 0018 02EBC303 		add	r3, r2, r3, lsl #3
+ 723              	.LVL56:
+ 337:lvgl/src/misc/lv_mem.c ****             return;
+ 724              		.loc 1 337 44 view .LVU202
+ 725 001c 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 726 001e 6FF30002 		bfc	r2, #0, #1
+ 727 0022 9A71     		strb	r2, [r3, #6]
+ 338:lvgl/src/misc/lv_mem.c ****         }
+ 728              		.loc 1 338 13 is_stmt 1 view .LVU203
+ 729 0024 7047     		bx	lr
+ 730              	.LVL57:
+ 731              	.L78:
+ 338:lvgl/src/misc/lv_mem.c ****         }
+ 732              		.loc 1 338 13 is_stmt 0 view .LVU204
+ 733              	.LBE7:
+ 343:lvgl/src/misc/lv_mem.c **** 
+ 734              		.loc 1 343 1 view .LVU205
+ 735 0026 7047     		bx	lr
+ 736              	.L81:
+ 737              		.align	2
+ 738              	.L80:
+ 739 0028 00000000 		.word	lv_mem_buf
+ 740              		.cfi_endproc
+ 741              	.LFE32:
+ 743              		.section	.text.lv_mem_buf_free_all,"ax",%progbits
+ 744              		.align	1
+ 745              		.global	lv_mem_buf_free_all
+ 746              		.syntax unified
+ 747              		.thumb
+ 748              		.thumb_func
+ 750              	lv_mem_buf_free_all:
+ 751              	.LFB33:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 27
+
+
+ 349:lvgl/src/misc/lv_mem.c ****     for(uint8_t i = 0; i < LV_MEM_BUF_MAX_NUM; i++) {
+ 752              		.loc 1 349 1 is_stmt 1 view -0
+ 753              		.cfi_startproc
+ 754              		@ args = 0, pretend = 0, frame = 0
+ 755              		@ frame_needed = 0, uses_anonymous_args = 0
+ 756 0000 10B5     		push	{r4, lr}
+ 757              	.LCFI8:
+ 758              		.cfi_def_cfa_offset 8
+ 759              		.cfi_offset 4, -8
+ 760              		.cfi_offset 14, -4
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 761              		.loc 1 350 5 view .LVU207
+ 762              	.LBB8:
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 763              		.loc 1 350 9 view .LVU208
+ 764              	.LVL58:
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 765              		.loc 1 350 17 is_stmt 0 view .LVU209
+ 766 0002 0024     		movs	r4, #0
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 767              		.loc 1 350 5 view .LVU210
+ 768 0004 01E0     		b	.L83
+ 769              	.LVL59:
+ 770              	.L84:
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 771              		.loc 1 350 49 is_stmt 1 discriminator 2 view .LVU211
+ 772 0006 0134     		adds	r4, r4, #1
+ 773              	.LVL60:
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 774              		.loc 1 350 49 is_stmt 0 discriminator 2 view .LVU212
+ 775 0008 E4B2     		uxtb	r4, r4
+ 776              	.LVL61:
+ 777              	.L83:
+ 350:lvgl/src/misc/lv_mem.c ****         if(LV_GC_ROOT(lv_mem_buf[i]).p) {
+ 778              		.loc 1 350 26 is_stmt 1 discriminator 1 view .LVU213
+ 779 000a 0F2C     		cmp	r4, #15
+ 780 000c 12D8     		bhi	.L87
+ 351:lvgl/src/misc/lv_mem.c ****             lv_mem_free(LV_GC_ROOT(lv_mem_buf[i]).p);
+ 781              		.loc 1 351 9 view .LVU214
+ 351:lvgl/src/misc/lv_mem.c ****             lv_mem_free(LV_GC_ROOT(lv_mem_buf[i]).p);
+ 782              		.loc 1 351 37 is_stmt 0 view .LVU215
+ 783 000e 0A4B     		ldr	r3, .L88
+ 784 0010 53F83400 		ldr	r0, [r3, r4, lsl #3]
+ 351:lvgl/src/misc/lv_mem.c ****             lv_mem_free(LV_GC_ROOT(lv_mem_buf[i]).p);
+ 785              		.loc 1 351 11 view .LVU216
+ 786 0014 0028     		cmp	r0, #0
+ 787 0016 F6D0     		beq	.L84
+ 352:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).p = NULL;
+ 788              		.loc 1 352 13 is_stmt 1 view .LVU217
+ 789 0018 FFF7FEFF 		bl	lv_mem_free
+ 790              	.LVL62:
+ 353:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 791              		.loc 1 353 13 view .LVU218
+ 353:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).used = 0;
+ 792              		.loc 1 353 41 is_stmt 0 view .LVU219
+ 793 001c 064B     		ldr	r3, .L88
+ 794 001e 0022     		movs	r2, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 28
+
+
+ 795 0020 43F83420 		str	r2, [r3, r4, lsl #3]
+ 354:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = 0;
+ 796              		.loc 1 354 13 is_stmt 1 view .LVU220
+ 354:lvgl/src/misc/lv_mem.c ****             LV_GC_ROOT(lv_mem_buf[i]).size = 0;
+ 797              		.loc 1 354 44 is_stmt 0 view .LVU221
+ 798 0024 03EBC403 		add	r3, r3, r4, lsl #3
+ 799 0028 9979     		ldrb	r1, [r3, #6]	@ zero_extendqisi2
+ 800 002a 62F30001 		bfi	r1, r2, #0, #1
+ 801 002e 9971     		strb	r1, [r3, #6]
+ 355:lvgl/src/misc/lv_mem.c ****         }
+ 802              		.loc 1 355 13 is_stmt 1 view .LVU222
+ 355:lvgl/src/misc/lv_mem.c ****         }
+ 803              		.loc 1 355 44 is_stmt 0 view .LVU223
+ 804 0030 9A80     		strh	r2, [r3, #4]	@ movhi
+ 805 0032 E8E7     		b	.L84
+ 806              	.L87:
+ 807              	.LBE8:
+ 358:lvgl/src/misc/lv_mem.c **** 
+ 808              		.loc 1 358 1 view .LVU224
+ 809 0034 10BD     		pop	{r4, pc}
+ 810              	.LVL63:
+ 811              	.L89:
+ 358:lvgl/src/misc/lv_mem.c **** 
+ 812              		.loc 1 358 1 view .LVU225
+ 813 0036 00BF     		.align	2
+ 814              	.L88:
+ 815 0038 00000000 		.word	lv_mem_buf
+ 816              		.cfi_endproc
+ 817              	.LFE33:
+ 819              		.section	.text.lv_memcpy,"ax",%progbits
+ 820              		.align	1
+ 821              		.global	lv_memcpy
+ 822              		.syntax unified
+ 823              		.thumb
+ 824              		.thumb_func
+ 826              	lv_memcpy:
+ 827              	.LVL64:
+ 828              	.LFB34:
+ 368:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = dst;
+ 829              		.loc 1 368 1 is_stmt 1 view -0
+ 830              		.cfi_startproc
+ 831              		@ args = 0, pretend = 0, frame = 0
+ 832              		@ frame_needed = 0, uses_anonymous_args = 0
+ 833              		@ link register save eliminated.
+ 368:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = dst;
+ 834              		.loc 1 368 1 is_stmt 0 view .LVU227
+ 835 0000 10B4     		push	{r4}
+ 836              	.LCFI9:
+ 837              		.cfi_def_cfa_offset 4
+ 838              		.cfi_offset 4, -4
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 839              		.loc 1 369 5 is_stmt 1 view .LVU228
+ 840              	.LVL65:
+ 370:lvgl/src/misc/lv_mem.c **** 
+ 841              		.loc 1 370 5 view .LVU229
+ 372:lvgl/src/misc/lv_mem.c ****     lv_uintptr_t s_align = (lv_uintptr_t)s8 & ALIGN_MASK;
+ 842              		.loc 1 372 5 view .LVU230
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 29
+
+
+ 372:lvgl/src/misc/lv_mem.c ****     lv_uintptr_t s_align = (lv_uintptr_t)s8 & ALIGN_MASK;
+ 843              		.loc 1 372 18 is_stmt 0 view .LVU231
+ 844 0002 00F00304 		and	r4, r0, #3
+ 845              	.LVL66:
+ 373:lvgl/src/misc/lv_mem.c **** 
+ 846              		.loc 1 373 5 is_stmt 1 view .LVU232
+ 373:lvgl/src/misc/lv_mem.c **** 
+ 847              		.loc 1 373 18 is_stmt 0 view .LVU233
+ 848 0006 01F00303 		and	r3, r1, #3
+ 849              	.LVL67:
+ 376:lvgl/src/misc/lv_mem.c ****         while(len > 32) {
+ 850              		.loc 1 376 5 is_stmt 1 view .LVU234
+ 376:lvgl/src/misc/lv_mem.c ****         while(len > 32) {
+ 851              		.loc 1 376 7 is_stmt 0 view .LVU235
+ 852 000a 9C42     		cmp	r4, r3
+ 853 000c 4BD1     		bne	.L106
+ 392:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 854              		.loc 1 392 5 is_stmt 1 view .LVU236
+ 392:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 855              		.loc 1 392 7 is_stmt 0 view .LVU237
+ 856 000e 002C     		cmp	r4, #0
+ 857 0010 75D0     		beq	.L107
+ 393:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 858              		.loc 1 393 9 is_stmt 1 view .LVU238
+ 393:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 859              		.loc 1 393 17 is_stmt 0 view .LVU239
+ 860 0012 C4F10404 		rsb	r4, r4, #4
+ 861              	.LVL68:
+ 394:lvgl/src/misc/lv_mem.c ****             COPY8;
+ 862              		.loc 1 394 9 is_stmt 1 view .LVU240
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 863              		.loc 1 369 15 is_stmt 0 view .LVU241
+ 864 0016 0346     		mov	r3, r0
+ 865              	.LVL69:
+ 394:lvgl/src/misc/lv_mem.c ****             COPY8;
+ 866              		.loc 1 394 14 view .LVU242
+ 867 0018 57E0     		b	.L98
+ 868              	.LVL70:
+ 869              	.L93:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 870              		.loc 1 378 13 is_stmt 1 view .LVU243
+ 871 001a 0C78     		ldrb	r4, [r1]	@ zero_extendqisi2
+ 872 001c 1C70     		strb	r4, [r3]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 873              		.loc 1 378 13 view .LVU244
+ 874              	.LVL71:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 875              		.loc 1 378 13 view .LVU245
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 876              		.loc 1 378 13 view .LVU246
+ 877 001e 4C78     		ldrb	r4, [r1, #1]	@ zero_extendqisi2
+ 878 0020 5C70     		strb	r4, [r3, #1]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 879              		.loc 1 378 13 view .LVU247
+ 880              	.LVL72:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 881              		.loc 1 378 13 view .LVU248
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 30
+
+
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 882              		.loc 1 378 13 view .LVU249
+ 883 0022 8C78     		ldrb	r4, [r1, #2]	@ zero_extendqisi2
+ 884 0024 9C70     		strb	r4, [r3, #2]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 885              		.loc 1 378 13 view .LVU250
+ 886              	.LVL73:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 887              		.loc 1 378 13 view .LVU251
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 888              		.loc 1 378 13 view .LVU252
+ 889 0026 CC78     		ldrb	r4, [r1, #3]	@ zero_extendqisi2
+ 890 0028 DC70     		strb	r4, [r3, #3]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 891              		.loc 1 378 13 view .LVU253
+ 892              	.LVL74:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 893              		.loc 1 378 13 view .LVU254
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 894              		.loc 1 378 13 view .LVU255
+ 895 002a 0C79     		ldrb	r4, [r1, #4]	@ zero_extendqisi2
+ 896 002c 1C71     		strb	r4, [r3, #4]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 897              		.loc 1 378 13 view .LVU256
+ 898              	.LVL75:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 899              		.loc 1 378 13 view .LVU257
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 900              		.loc 1 378 13 view .LVU258
+ 901 002e 4C79     		ldrb	r4, [r1, #5]	@ zero_extendqisi2
+ 902 0030 5C71     		strb	r4, [r3, #5]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 903              		.loc 1 378 13 view .LVU259
+ 904              	.LVL76:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 905              		.loc 1 378 13 view .LVU260
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 906              		.loc 1 378 13 view .LVU261
+ 907 0032 8C79     		ldrb	r4, [r1, #6]	@ zero_extendqisi2
+ 908 0034 9C71     		strb	r4, [r3, #6]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 909              		.loc 1 378 13 view .LVU262
+ 910              	.LVL77:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 911              		.loc 1 378 13 view .LVU263
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 912              		.loc 1 378 13 view .LVU264
+ 913 0036 CC79     		ldrb	r4, [r1, #7]	@ zero_extendqisi2
+ 914 0038 DC71     		strb	r4, [r3, #7]
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 915              		.loc 1 378 13 view .LVU265
+ 916              	.LVL78:
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 917              		.loc 1 378 13 view .LVU266
+ 378:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 918              		.loc 1 378 27 view .LVU267
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 31
+
+
+ 919              		.loc 1 379 13 view .LVU268
+ 920 003a 0C7A     		ldrb	r4, [r1, #8]	@ zero_extendqisi2
+ 921 003c 1C72     		strb	r4, [r3, #8]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 922              		.loc 1 379 13 view .LVU269
+ 923              	.LVL79:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 924              		.loc 1 379 13 view .LVU270
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 925              		.loc 1 379 13 view .LVU271
+ 926 003e 4C7A     		ldrb	r4, [r1, #9]	@ zero_extendqisi2
+ 927 0040 5C72     		strb	r4, [r3, #9]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 928              		.loc 1 379 13 view .LVU272
+ 929              	.LVL80:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 930              		.loc 1 379 13 view .LVU273
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 931              		.loc 1 379 13 view .LVU274
+ 932 0042 8C7A     		ldrb	r4, [r1, #10]	@ zero_extendqisi2
+ 933 0044 9C72     		strb	r4, [r3, #10]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 934              		.loc 1 379 13 view .LVU275
+ 935              	.LVL81:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 936              		.loc 1 379 13 view .LVU276
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 937              		.loc 1 379 13 view .LVU277
+ 938 0046 CC7A     		ldrb	r4, [r1, #11]	@ zero_extendqisi2
+ 939 0048 DC72     		strb	r4, [r3, #11]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 940              		.loc 1 379 13 view .LVU278
+ 941              	.LVL82:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 942              		.loc 1 379 13 view .LVU279
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 943              		.loc 1 379 13 view .LVU280
+ 944 004a 0C7B     		ldrb	r4, [r1, #12]	@ zero_extendqisi2
+ 945 004c 1C73     		strb	r4, [r3, #12]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 946              		.loc 1 379 13 view .LVU281
+ 947              	.LVL83:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 948              		.loc 1 379 13 view .LVU282
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 949              		.loc 1 379 13 view .LVU283
+ 950 004e 4C7B     		ldrb	r4, [r1, #13]	@ zero_extendqisi2
+ 951 0050 5C73     		strb	r4, [r3, #13]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 952              		.loc 1 379 13 view .LVU284
+ 953              	.LVL84:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 954              		.loc 1 379 13 view .LVU285
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 955              		.loc 1 379 13 view .LVU286
+ 956 0052 8C7B     		ldrb	r4, [r1, #14]	@ zero_extendqisi2
+ 957 0054 9C73     		strb	r4, [r3, #14]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 32
+
+
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 958              		.loc 1 379 13 view .LVU287
+ 959              	.LVL85:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 960              		.loc 1 379 13 view .LVU288
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 961              		.loc 1 379 13 view .LVU289
+ 962 0056 CC7B     		ldrb	r4, [r1, #15]	@ zero_extendqisi2
+ 963 0058 DC73     		strb	r4, [r3, #15]
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 964              		.loc 1 379 13 view .LVU290
+ 965              	.LVL86:
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 966              		.loc 1 379 13 view .LVU291
+ 379:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 967              		.loc 1 379 27 view .LVU292
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 968              		.loc 1 380 13 view .LVU293
+ 969 005a 0C7C     		ldrb	r4, [r1, #16]	@ zero_extendqisi2
+ 970 005c 1C74     		strb	r4, [r3, #16]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 971              		.loc 1 380 13 view .LVU294
+ 972              	.LVL87:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 973              		.loc 1 380 13 view .LVU295
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 974              		.loc 1 380 13 view .LVU296
+ 975 005e 4C7C     		ldrb	r4, [r1, #17]	@ zero_extendqisi2
+ 976 0060 5C74     		strb	r4, [r3, #17]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 977              		.loc 1 380 13 view .LVU297
+ 978              	.LVL88:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 979              		.loc 1 380 13 view .LVU298
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 980              		.loc 1 380 13 view .LVU299
+ 981 0062 8C7C     		ldrb	r4, [r1, #18]	@ zero_extendqisi2
+ 982 0064 9C74     		strb	r4, [r3, #18]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 983              		.loc 1 380 13 view .LVU300
+ 984              	.LVL89:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 985              		.loc 1 380 13 view .LVU301
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 986              		.loc 1 380 13 view .LVU302
+ 987 0066 CC7C     		ldrb	r4, [r1, #19]	@ zero_extendqisi2
+ 988 0068 DC74     		strb	r4, [r3, #19]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 989              		.loc 1 380 13 view .LVU303
+ 990              	.LVL90:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 991              		.loc 1 380 13 view .LVU304
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 992              		.loc 1 380 13 view .LVU305
+ 993 006a 0C7D     		ldrb	r4, [r1, #20]	@ zero_extendqisi2
+ 994 006c 1C75     		strb	r4, [r3, #20]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 33
+
+
+ 995              		.loc 1 380 13 view .LVU306
+ 996              	.LVL91:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 997              		.loc 1 380 13 view .LVU307
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 998              		.loc 1 380 13 view .LVU308
+ 999 006e 4C7D     		ldrb	r4, [r1, #21]	@ zero_extendqisi2
+ 1000 0070 5C75     		strb	r4, [r3, #21]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1001              		.loc 1 380 13 view .LVU309
+ 1002              	.LVL92:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1003              		.loc 1 380 13 view .LVU310
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1004              		.loc 1 380 13 view .LVU311
+ 1005 0072 8C7D     		ldrb	r4, [r1, #22]	@ zero_extendqisi2
+ 1006 0074 9C75     		strb	r4, [r3, #22]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1007              		.loc 1 380 13 view .LVU312
+ 1008              	.LVL93:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1009              		.loc 1 380 13 view .LVU313
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1010              		.loc 1 380 13 view .LVU314
+ 1011 0076 CC7D     		ldrb	r4, [r1, #23]	@ zero_extendqisi2
+ 1012 0078 DC75     		strb	r4, [r3, #23]
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1013              		.loc 1 380 13 view .LVU315
+ 1014              	.LVL94:
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1015              		.loc 1 380 13 view .LVU316
+ 380:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1016              		.loc 1 380 27 view .LVU317
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1017              		.loc 1 381 13 view .LVU318
+ 1018 007a 0C7E     		ldrb	r4, [r1, #24]	@ zero_extendqisi2
+ 1019 007c 1C76     		strb	r4, [r3, #24]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1020              		.loc 1 381 13 view .LVU319
+ 1021              	.LVL95:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1022              		.loc 1 381 13 view .LVU320
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1023              		.loc 1 381 13 view .LVU321
+ 1024 007e 4C7E     		ldrb	r4, [r1, #25]	@ zero_extendqisi2
+ 1025 0080 5C76     		strb	r4, [r3, #25]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1026              		.loc 1 381 13 view .LVU322
+ 1027              	.LVL96:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1028              		.loc 1 381 13 view .LVU323
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1029              		.loc 1 381 13 view .LVU324
+ 1030 0082 8C7E     		ldrb	r4, [r1, #26]	@ zero_extendqisi2
+ 1031 0084 9C76     		strb	r4, [r3, #26]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1032              		.loc 1 381 13 view .LVU325
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 34
+
+
+ 1033              	.LVL97:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1034              		.loc 1 381 13 view .LVU326
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1035              		.loc 1 381 13 view .LVU327
+ 1036 0086 CC7E     		ldrb	r4, [r1, #27]	@ zero_extendqisi2
+ 1037 0088 DC76     		strb	r4, [r3, #27]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1038              		.loc 1 381 13 view .LVU328
+ 1039              	.LVL98:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1040              		.loc 1 381 13 view .LVU329
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1041              		.loc 1 381 13 view .LVU330
+ 1042 008a 0C7F     		ldrb	r4, [r1, #28]	@ zero_extendqisi2
+ 1043 008c 1C77     		strb	r4, [r3, #28]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1044              		.loc 1 381 13 view .LVU331
+ 1045              	.LVL99:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1046              		.loc 1 381 13 view .LVU332
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1047              		.loc 1 381 13 view .LVU333
+ 1048 008e 4C7F     		ldrb	r4, [r1, #29]	@ zero_extendqisi2
+ 1049 0090 5C77     		strb	r4, [r3, #29]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1050              		.loc 1 381 13 view .LVU334
+ 1051              	.LVL100:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1052              		.loc 1 381 13 view .LVU335
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1053              		.loc 1 381 13 view .LVU336
+ 1054 0092 8C7F     		ldrb	r4, [r1, #30]	@ zero_extendqisi2
+ 1055 0094 9C77     		strb	r4, [r3, #30]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1056              		.loc 1 381 13 view .LVU337
+ 1057              	.LVL101:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1058              		.loc 1 381 13 view .LVU338
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1059              		.loc 1 381 13 view .LVU339
+ 1060 0096 CC7F     		ldrb	r4, [r1, #31]	@ zero_extendqisi2
+ 1061 0098 DC77     		strb	r4, [r3, #31]
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1062              		.loc 1 381 13 view .LVU340
+ 1063 009a 2033     		adds	r3, r3, #32
+ 1064              	.LVL102:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1065              		.loc 1 381 13 view .LVU341
+ 1066 009c 2031     		adds	r1, r1, #32
+ 1067              	.LVL103:
+ 381:lvgl/src/misc/lv_mem.c ****             len -= 32;
+ 1068              		.loc 1 381 27 view .LVU342
+ 382:lvgl/src/misc/lv_mem.c ****         }
+ 1069              		.loc 1 382 13 view .LVU343
+ 382:lvgl/src/misc/lv_mem.c ****         }
+ 1070              		.loc 1 382 17 is_stmt 0 view .LVU344
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 35
+
+
+ 1071 009e 203A     		subs	r2, r2, #32
+ 1072              	.LVL104:
+ 1073              	.L91:
+ 377:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1074              		.loc 1 377 19 is_stmt 1 view .LVU345
+ 1075 00a0 202A     		cmp	r2, #32
+ 1076 00a2 BAD8     		bhi	.L93
+ 377:lvgl/src/misc/lv_mem.c ****             REPEAT8(COPY8);
+ 1077              		.loc 1 377 19 is_stmt 0 view .LVU346
+ 1078 00a4 06E0     		b	.L94
+ 1079              	.LVL105:
+ 1080              	.L106:
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 1081              		.loc 1 369 15 view .LVU347
+ 1082 00a6 0346     		mov	r3, r0
+ 1083              	.LVL106:
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 1084              		.loc 1 369 15 view .LVU348
+ 1085 00a8 FAE7     		b	.L91
+ 1086              	.LVL107:
+ 1087              	.L95:
+ 385:lvgl/src/misc/lv_mem.c ****             len--;
+ 1088              		.loc 1 385 13 is_stmt 1 view .LVU349
+ 1089 00aa 11F8014B 		ldrb	r4, [r1], #1	@ zero_extendqisi2
+ 1090              	.LVL108:
+ 385:lvgl/src/misc/lv_mem.c ****             len--;
+ 1091              		.loc 1 385 13 is_stmt 0 view .LVU350
+ 1092 00ae 03F8014B 		strb	r4, [r3], #1
+ 1093              	.LVL109:
+ 385:lvgl/src/misc/lv_mem.c ****             len--;
+ 1094              		.loc 1 385 13 is_stmt 1 view .LVU351
+ 385:lvgl/src/misc/lv_mem.c ****             len--;
+ 1095              		.loc 1 385 13 view .LVU352
+ 386:lvgl/src/misc/lv_mem.c ****         }
+ 1096              		.loc 1 386 13 view .LVU353
+ 386:lvgl/src/misc/lv_mem.c ****         }
+ 1097              		.loc 1 386 16 is_stmt 0 view .LVU354
+ 1098 00b2 013A     		subs	r2, r2, #1
+ 1099              	.LVL110:
+ 1100              	.L94:
+ 384:lvgl/src/misc/lv_mem.c ****             COPY8
+ 1101              		.loc 1 384 15 is_stmt 1 view .LVU355
+ 1102 00b4 002A     		cmp	r2, #0
+ 1103 00b6 F8D1     		bne	.L95
+ 1104              	.LVL111:
+ 1105              	.L96:
+ 421:lvgl/src/misc/lv_mem.c **** 
+ 1106              		.loc 1 421 1 is_stmt 0 view .LVU356
+ 1107 00b8 5DF8044B 		ldr	r4, [sp], #4
+ 1108              	.LCFI10:
+ 1109              		.cfi_remember_state
+ 1110              		.cfi_restore 4
+ 1111              		.cfi_def_cfa_offset 0
+ 1112 00bc 7047     		bx	lr
+ 1113              	.LVL112:
+ 1114              	.L99:
+ 1115              	.LCFI11:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 36
+
+
+ 1116              		.cfi_restore_state
+ 395:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1117              		.loc 1 395 13 is_stmt 1 view .LVU357
+ 1118 00be 11F801CB 		ldrb	ip, [r1], #1	@ zero_extendqisi2
+ 1119              	.LVL113:
+ 395:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1120              		.loc 1 395 13 is_stmt 0 view .LVU358
+ 1121 00c2 03F801CB 		strb	ip, [r3], #1
+ 1122              	.LVL114:
+ 395:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1123              		.loc 1 395 13 is_stmt 1 view .LVU359
+ 395:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1124              		.loc 1 395 13 view .LVU360
+ 395:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1125              		.loc 1 395 18 view .LVU361
+ 396:lvgl/src/misc/lv_mem.c ****             len--;
+ 1126              		.loc 1 396 13 view .LVU362
+ 396:lvgl/src/misc/lv_mem.c ****             len--;
+ 1127              		.loc 1 396 20 is_stmt 0 view .LVU363
+ 1128 00c6 013C     		subs	r4, r4, #1
+ 1129              	.LVL115:
+ 397:lvgl/src/misc/lv_mem.c ****         }
+ 1130              		.loc 1 397 13 is_stmt 1 view .LVU364
+ 397:lvgl/src/misc/lv_mem.c ****         }
+ 1131              		.loc 1 397 16 is_stmt 0 view .LVU365
+ 1132 00c8 013A     		subs	r2, r2, #1
+ 1133              	.LVL116:
+ 1134              	.L98:
+ 394:lvgl/src/misc/lv_mem.c ****             COPY8;
+ 1135              		.loc 1 394 23 is_stmt 1 view .LVU366
+ 1136 00ca ACB1     		cbz	r4, .L100
+ 394:lvgl/src/misc/lv_mem.c ****             COPY8;
+ 1137              		.loc 1 394 23 is_stmt 0 discriminator 1 view .LVU367
+ 1138 00cc 002A     		cmp	r2, #0
+ 1139 00ce F6D1     		bne	.L99
+ 1140 00d0 12E0     		b	.L100
+ 1141              	.LVL117:
+ 1142              	.L101:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1143              		.loc 1 404 9 is_stmt 1 view .LVU368
+ 1144 00d2 0C68     		ldr	r4, [r1]
+ 1145 00d4 1C60     		str	r4, [r3]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1146              		.loc 1 404 9 view .LVU369
+ 1147              	.LVL118:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1148              		.loc 1 404 9 view .LVU370
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1149              		.loc 1 404 9 view .LVU371
+ 1150 00d6 4C68     		ldr	r4, [r1, #4]
+ 1151 00d8 5C60     		str	r4, [r3, #4]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1152              		.loc 1 404 9 view .LVU372
+ 1153              	.LVL119:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1154              		.loc 1 404 9 view .LVU373
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 37
+
+
+ 1155              		.loc 1 404 9 view .LVU374
+ 1156 00da 8C68     		ldr	r4, [r1, #8]
+ 1157 00dc 9C60     		str	r4, [r3, #8]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1158              		.loc 1 404 9 view .LVU375
+ 1159              	.LVL120:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1160              		.loc 1 404 9 view .LVU376
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1161              		.loc 1 404 9 view .LVU377
+ 1162 00de CC68     		ldr	r4, [r1, #12]
+ 1163 00e0 DC60     		str	r4, [r3, #12]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1164              		.loc 1 404 9 view .LVU378
+ 1165              	.LVL121:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1166              		.loc 1 404 9 view .LVU379
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1167              		.loc 1 404 9 view .LVU380
+ 1168 00e2 0C69     		ldr	r4, [r1, #16]
+ 1169 00e4 1C61     		str	r4, [r3, #16]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1170              		.loc 1 404 9 view .LVU381
+ 1171              	.LVL122:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1172              		.loc 1 404 9 view .LVU382
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1173              		.loc 1 404 9 view .LVU383
+ 1174 00e6 4C69     		ldr	r4, [r1, #20]
+ 1175 00e8 5C61     		str	r4, [r3, #20]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1176              		.loc 1 404 9 view .LVU384
+ 1177              	.LVL123:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1178              		.loc 1 404 9 view .LVU385
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1179              		.loc 1 404 9 view .LVU386
+ 1180 00ea 8C69     		ldr	r4, [r1, #24]
+ 1181 00ec 9C61     		str	r4, [r3, #24]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1182              		.loc 1 404 9 view .LVU387
+ 1183              	.LVL124:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1184              		.loc 1 404 9 view .LVU388
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1185              		.loc 1 404 9 view .LVU389
+ 1186 00ee CC69     		ldr	r4, [r1, #28]
+ 1187 00f0 DC61     		str	r4, [r3, #28]
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1188              		.loc 1 404 9 view .LVU390
+ 1189 00f2 2033     		adds	r3, r3, #32
+ 1190              	.LVL125:
+ 404:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1191              		.loc 1 404 9 view .LVU391
+ 1192 00f4 2031     		adds	r1, r1, #32
+ 1193              	.LVL126:
+ 405:lvgl/src/misc/lv_mem.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 38
+
+
+ 1194              		.loc 1 405 9 view .LVU392
+ 405:lvgl/src/misc/lv_mem.c ****     }
+ 1195              		.loc 1 405 13 is_stmt 0 view .LVU393
+ 1196 00f6 203A     		subs	r2, r2, #32
+ 1197              	.LVL127:
+ 1198              	.L100:
+ 403:lvgl/src/misc/lv_mem.c ****         REPEAT8(COPY32)
+ 1199              		.loc 1 403 15 is_stmt 1 view .LVU394
+ 1200 00f8 202A     		cmp	r2, #32
+ 1201 00fa EAD8     		bhi	.L101
+ 403:lvgl/src/misc/lv_mem.c ****         REPEAT8(COPY32)
+ 1202              		.loc 1 403 15 is_stmt 0 view .LVU395
+ 1203 00fc 06E0     		b	.L102
+ 1204              	.LVL128:
+ 1205              	.L107:
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 1206              		.loc 1 369 15 view .LVU396
+ 1207 00fe 0346     		mov	r3, r0
+ 1208              	.LVL129:
+ 369:lvgl/src/misc/lv_mem.c ****     const uint8_t * s8 = src;
+ 1209              		.loc 1 369 15 view .LVU397
+ 1210 0100 FAE7     		b	.L100
+ 1211              	.LVL130:
+ 1212              	.L103:
+ 409:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1213              		.loc 1 409 9 is_stmt 1 view .LVU398
+ 1214 0102 51F8044B 		ldr	r4, [r1], #4
+ 1215              	.LVL131:
+ 409:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1216              		.loc 1 409 9 is_stmt 0 view .LVU399
+ 1217 0106 43F8044B 		str	r4, [r3], #4
+ 1218              	.LVL132:
+ 409:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1219              		.loc 1 409 9 is_stmt 1 view .LVU400
+ 409:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1220              		.loc 1 409 9 view .LVU401
+ 409:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1221              		.loc 1 409 15 view .LVU402
+ 410:lvgl/src/misc/lv_mem.c ****     }
+ 1222              		.loc 1 410 9 view .LVU403
+ 410:lvgl/src/misc/lv_mem.c ****     }
+ 1223              		.loc 1 410 13 is_stmt 0 view .LVU404
+ 1224 010a 043A     		subs	r2, r2, #4
+ 1225              	.LVL133:
+ 1226              	.L102:
+ 408:lvgl/src/misc/lv_mem.c ****         COPY32;
+ 1227              		.loc 1 408 15 is_stmt 1 view .LVU405
+ 1228 010c 042A     		cmp	r2, #4
+ 1229 010e F8D8     		bhi	.L103
+ 1230              	.LVL134:
+ 1231              	.L104:
+ 415:lvgl/src/misc/lv_mem.c ****         COPY8
+ 1232              		.loc 1 415 11 view .LVU406
+ 1233 0110 002A     		cmp	r2, #0
+ 1234 0112 D1D0     		beq	.L96
+ 416:lvgl/src/misc/lv_mem.c ****         len--;
+ 1235              		.loc 1 416 9 view .LVU407
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 39
+
+
+ 1236 0114 11F8014B 		ldrb	r4, [r1], #1	@ zero_extendqisi2
+ 1237              	.LVL135:
+ 416:lvgl/src/misc/lv_mem.c ****         len--;
+ 1238              		.loc 1 416 9 is_stmt 0 view .LVU408
+ 1239 0118 03F8014B 		strb	r4, [r3], #1
+ 1240              	.LVL136:
+ 416:lvgl/src/misc/lv_mem.c ****         len--;
+ 1241              		.loc 1 416 9 is_stmt 1 view .LVU409
+ 416:lvgl/src/misc/lv_mem.c ****         len--;
+ 1242              		.loc 1 416 9 view .LVU410
+ 417:lvgl/src/misc/lv_mem.c ****     }
+ 1243              		.loc 1 417 9 view .LVU411
+ 417:lvgl/src/misc/lv_mem.c ****     }
+ 1244              		.loc 1 417 12 is_stmt 0 view .LVU412
+ 1245 011c 013A     		subs	r2, r2, #1
+ 1246              	.LVL137:
+ 417:lvgl/src/misc/lv_mem.c ****     }
+ 1247              		.loc 1 417 12 view .LVU413
+ 1248 011e F7E7     		b	.L104
+ 1249              		.cfi_endproc
+ 1250              	.LFE34:
+ 1252              		.section	.text.lv_memset,"ax",%progbits
+ 1253              		.align	1
+ 1254              		.global	lv_memset
+ 1255              		.syntax unified
+ 1256              		.thumb
+ 1257              		.thumb_func
+ 1259              	lv_memset:
+ 1260              	.LVL138:
+ 1261              	.LFB35:
+ 430:lvgl/src/misc/lv_mem.c **** 
+ 1262              		.loc 1 430 1 is_stmt 1 view -0
+ 1263              		.cfi_startproc
+ 1264              		@ args = 0, pretend = 0, frame = 0
+ 1265              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1266              		@ link register save eliminated.
+ 432:lvgl/src/misc/lv_mem.c **** 
+ 1267              		.loc 1 432 5 view .LVU415
+ 434:lvgl/src/misc/lv_mem.c **** 
+ 1268              		.loc 1 434 5 view .LVU416
+ 437:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1269              		.loc 1 437 5 view .LVU417
+ 437:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1270              		.loc 1 437 7 is_stmt 0 view .LVU418
+ 1271 0000 10F00303 		ands	r3, r0, #3
+ 1272              	.LVL139:
+ 437:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1273              		.loc 1 437 7 view .LVU419
+ 1274 0004 09D0     		beq	.L111
+ 438:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 1275              		.loc 1 438 9 is_stmt 1 view .LVU420
+ 438:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 1276              		.loc 1 438 17 is_stmt 0 view .LVU421
+ 1277 0006 C3F10403 		rsb	r3, r3, #4
+ 1278              	.LVL140:
+ 439:lvgl/src/misc/lv_mem.c ****             SET8(v);
+ 1279              		.loc 1 439 9 is_stmt 1 view .LVU422
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 40
+
+
+ 439:lvgl/src/misc/lv_mem.c ****             SET8(v);
+ 1280              		.loc 1 439 14 is_stmt 0 view .LVU423
+ 1281 000a 03E0     		b	.L112
+ 1282              	.LVL141:
+ 1283              	.L113:
+ 440:lvgl/src/misc/lv_mem.c ****             len--;
+ 1284              		.loc 1 440 13 is_stmt 1 view .LVU424
+ 1285 000c 00F8011B 		strb	r1, [r0], #1
+ 1286              	.LVL142:
+ 440:lvgl/src/misc/lv_mem.c ****             len--;
+ 1287              		.loc 1 440 13 view .LVU425
+ 440:lvgl/src/misc/lv_mem.c ****             len--;
+ 1288              		.loc 1 440 20 view .LVU426
+ 441:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1289              		.loc 1 441 13 view .LVU427
+ 441:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1290              		.loc 1 441 16 is_stmt 0 view .LVU428
+ 1291 0010 013A     		subs	r2, r2, #1
+ 1292              	.LVL143:
+ 442:lvgl/src/misc/lv_mem.c ****         }
+ 1293              		.loc 1 442 13 is_stmt 1 view .LVU429
+ 442:lvgl/src/misc/lv_mem.c ****         }
+ 1294              		.loc 1 442 20 is_stmt 0 view .LVU430
+ 1295 0012 013B     		subs	r3, r3, #1
+ 1296              	.LVL144:
+ 1297              	.L112:
+ 439:lvgl/src/misc/lv_mem.c ****             SET8(v);
+ 1298              		.loc 1 439 23 is_stmt 1 view .LVU431
+ 1299 0014 0BB1     		cbz	r3, .L111
+ 439:lvgl/src/misc/lv_mem.c ****             SET8(v);
+ 1300              		.loc 1 439 23 is_stmt 0 discriminator 1 view .LVU432
+ 1301 0016 002A     		cmp	r2, #0
+ 1302 0018 F8D1     		bne	.L113
+ 1303              	.L111:
+ 446:lvgl/src/misc/lv_mem.c **** 
+ 1304              		.loc 1 446 5 is_stmt 1 view .LVU433
+ 446:lvgl/src/misc/lv_mem.c **** 
+ 1305              		.loc 1 446 32 is_stmt 0 view .LVU434
+ 1306 001a 01EB0123 		add	r3, r1, r1, lsl #8
+ 1307              	.LVL145:
+ 446:lvgl/src/misc/lv_mem.c **** 
+ 1308              		.loc 1 446 53 view .LVU435
+ 1309 001e 03EB0143 		add	r3, r3, r1, lsl #16
+ 446:lvgl/src/misc/lv_mem.c **** 
+ 1310              		.loc 1 446 14 view .LVU436
+ 1311 0022 03EB0163 		add	r3, r3, r1, lsl #24
+ 1312              	.LVL146:
+ 448:lvgl/src/misc/lv_mem.c **** 
+ 1313              		.loc 1 448 5 is_stmt 1 view .LVU437
+ 450:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(v32));
+ 1314              		.loc 1 450 5 view .LVU438
+ 450:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(v32));
+ 1315              		.loc 1 450 10 is_stmt 0 view .LVU439
+ 1316 0026 09E0     		b	.L114
+ 1317              	.LVL147:
+ 1318              	.L115:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 41
+
+
+ 1319              		.loc 1 451 9 is_stmt 1 view .LVU440
+ 1320 0028 0360     		str	r3, [r0]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1321              		.loc 1 451 9 view .LVU441
+ 1322              	.LVL148:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1323              		.loc 1 451 9 view .LVU442
+ 1324 002a 4360     		str	r3, [r0, #4]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1325              		.loc 1 451 9 view .LVU443
+ 1326              	.LVL149:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1327              		.loc 1 451 9 view .LVU444
+ 1328 002c 8360     		str	r3, [r0, #8]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1329              		.loc 1 451 9 view .LVU445
+ 1330              	.LVL150:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1331              		.loc 1 451 9 view .LVU446
+ 1332 002e C360     		str	r3, [r0, #12]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1333              		.loc 1 451 9 view .LVU447
+ 1334              	.LVL151:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1335              		.loc 1 451 9 view .LVU448
+ 1336 0030 0361     		str	r3, [r0, #16]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1337              		.loc 1 451 9 view .LVU449
+ 1338              	.LVL152:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1339              		.loc 1 451 9 view .LVU450
+ 1340 0032 4361     		str	r3, [r0, #20]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1341              		.loc 1 451 9 view .LVU451
+ 1342              	.LVL153:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1343              		.loc 1 451 9 view .LVU452
+ 1344 0034 8361     		str	r3, [r0, #24]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1345              		.loc 1 451 9 view .LVU453
+ 1346              	.LVL154:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1347              		.loc 1 451 9 view .LVU454
+ 1348 0036 C361     		str	r3, [r0, #28]
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1349              		.loc 1 451 9 view .LVU455
+ 1350 0038 2030     		adds	r0, r0, #32
+ 1351              	.LVL155:
+ 451:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1352              		.loc 1 451 28 view .LVU456
+ 452:lvgl/src/misc/lv_mem.c ****     }
+ 1353              		.loc 1 452 9 view .LVU457
+ 452:lvgl/src/misc/lv_mem.c ****     }
+ 1354              		.loc 1 452 13 is_stmt 0 view .LVU458
+ 1355 003a 203A     		subs	r2, r2, #32
+ 1356              	.LVL156:
+ 1357              	.L114:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 42
+
+
+ 450:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(v32));
+ 1358              		.loc 1 450 15 is_stmt 1 view .LVU459
+ 1359 003c 202A     		cmp	r2, #32
+ 1360 003e F3D8     		bhi	.L115
+ 450:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(v32));
+ 1361              		.loc 1 450 15 is_stmt 0 view .LVU460
+ 1362 0040 02E0     		b	.L116
+ 1363              	.L117:
+ 456:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1364              		.loc 1 456 9 is_stmt 1 view .LVU461
+ 1365 0042 40F8043B 		str	r3, [r0], #4
+ 1366              	.LVL157:
+ 456:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1367              		.loc 1 456 9 view .LVU462
+ 456:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1368              		.loc 1 456 19 view .LVU463
+ 457:lvgl/src/misc/lv_mem.c ****     }
+ 1369              		.loc 1 457 9 view .LVU464
+ 457:lvgl/src/misc/lv_mem.c ****     }
+ 1370              		.loc 1 457 13 is_stmt 0 view .LVU465
+ 1371 0046 043A     		subs	r2, r2, #4
+ 1372              	.LVL158:
+ 1373              	.L116:
+ 455:lvgl/src/misc/lv_mem.c ****         SET32(v32);
+ 1374              		.loc 1 455 15 is_stmt 1 view .LVU466
+ 1375 0048 042A     		cmp	r2, #4
+ 1376 004a FAD8     		bhi	.L117
+ 1377              	.LVL159:
+ 1378              	.L118:
+ 461:lvgl/src/misc/lv_mem.c ****         SET8(v);
+ 1379              		.loc 1 461 11 view .LVU467
+ 1380 004c 1AB1     		cbz	r2, .L120
+ 462:lvgl/src/misc/lv_mem.c ****         len--;
+ 1381              		.loc 1 462 9 view .LVU468
+ 1382 004e 00F8011B 		strb	r1, [r0], #1
+ 1383              	.LVL160:
+ 462:lvgl/src/misc/lv_mem.c ****         len--;
+ 1384              		.loc 1 462 9 view .LVU469
+ 462:lvgl/src/misc/lv_mem.c ****         len--;
+ 1385              		.loc 1 462 16 view .LVU470
+ 463:lvgl/src/misc/lv_mem.c ****     }
+ 1386              		.loc 1 463 9 view .LVU471
+ 463:lvgl/src/misc/lv_mem.c ****     }
+ 1387              		.loc 1 463 12 is_stmt 0 view .LVU472
+ 1388 0052 013A     		subs	r2, r2, #1
+ 1389              	.LVL161:
+ 463:lvgl/src/misc/lv_mem.c ****     }
+ 1390              		.loc 1 463 12 view .LVU473
+ 1391 0054 FAE7     		b	.L118
+ 1392              	.L120:
+ 465:lvgl/src/misc/lv_mem.c **** 
+ 1393              		.loc 1 465 1 view .LVU474
+ 1394 0056 7047     		bx	lr
+ 1395              		.cfi_endproc
+ 1396              	.LFE35:
+ 1398              		.section	.text.lv_mem_monitor,"ax",%progbits
+ 1399              		.align	1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 43
+
+
+ 1400              		.global	lv_mem_monitor
+ 1401              		.syntax unified
+ 1402              		.thumb
+ 1403              		.thumb_func
+ 1405              	lv_mem_monitor:
+ 1406              	.LVL162:
+ 1407              	.LFB30:
+ 247:lvgl/src/misc/lv_mem.c ****     /*Init the data*/
+ 1408              		.loc 1 247 1 is_stmt 1 view -0
+ 1409              		.cfi_startproc
+ 1410              		@ args = 0, pretend = 0, frame = 0
+ 1411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247:lvgl/src/misc/lv_mem.c ****     /*Init the data*/
+ 1412              		.loc 1 247 1 is_stmt 0 view .LVU476
+ 1413 0000 10B5     		push	{r4, lr}
+ 1414              	.LCFI12:
+ 1415              		.cfi_def_cfa_offset 8
+ 1416              		.cfi_offset 4, -8
+ 1417              		.cfi_offset 14, -4
+ 1418 0002 0446     		mov	r4, r0
+ 249:lvgl/src/misc/lv_mem.c **** #if LV_MEM_CUSTOM == 0
+ 1419              		.loc 1 249 5 is_stmt 1 view .LVU477
+ 1420 0004 1C22     		movs	r2, #28
+ 1421 0006 0021     		movs	r1, #0
+ 1422 0008 FFF7FEFF 		bl	lv_memset
+ 1423              	.LVL163:
+ 251:lvgl/src/misc/lv_mem.c **** 
+ 1424              		.loc 1 251 23 view .LVU478
+ 253:lvgl/src/misc/lv_mem.c **** 
+ 1425              		.loc 1 253 5 view .LVU479
+ 1426 000c 134B     		ldr	r3, .L125
+ 1427 000e 1868     		ldr	r0, [r3]
+ 1428 0010 FFF7FEFF 		bl	lv_tlsf_get_pool
+ 1429              	.LVL164:
+ 1430 0014 2246     		mov	r2, r4
+ 1431 0016 1249     		ldr	r1, .L125+4
+ 1432 0018 FFF7FEFF 		bl	lv_tlsf_walk_pool
+ 1433              	.LVL165:
+ 255:lvgl/src/misc/lv_mem.c ****     mon_p->used_pct = 100 - (100U * mon_p->free_size) / mon_p->total_size;
+ 1434              		.loc 1 255 5 view .LVU480
+ 255:lvgl/src/misc/lv_mem.c ****     mon_p->used_pct = 100 - (100U * mon_p->free_size) / mon_p->total_size;
+ 1435              		.loc 1 255 23 is_stmt 0 view .LVU481
+ 1436 001c 4FF44043 		mov	r3, #49152
+ 1437 0020 2360     		str	r3, [r4]
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1438              		.loc 1 256 5 is_stmt 1 view .LVU482
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1439              		.loc 1 256 42 is_stmt 0 view .LVU483
+ 1440 0022 A268     		ldr	r2, [r4, #8]
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1441              		.loc 1 256 35 view .LVU484
+ 1442 0024 6423     		movs	r3, #100
+ 1443 0026 02FB03F3 		mul	r3, r2, r3
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1444              		.loc 1 256 55 view .LVU485
+ 1445 002a 0E49     		ldr	r1, .L125+8
+ 1446 002c A1FB0313 		umull	r1, r3, r1, r3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 44
+
+
+ 1447 0030 DB0B     		lsrs	r3, r3, #15
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1448              		.loc 1 256 27 view .LVU486
+ 1449 0032 C3F16403 		rsb	r3, r3, #100
+ 256:lvgl/src/misc/lv_mem.c ****     if(mon_p->free_size > 0) {
+ 1450              		.loc 1 256 21 view .LVU487
+ 1451 0036 2376     		strb	r3, [r4, #24]
+ 257:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = mon_p->free_biggest_size * 100U / mon_p->free_size;
+ 1452              		.loc 1 257 5 is_stmt 1 view .LVU488
+ 257:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = mon_p->free_biggest_size * 100U / mon_p->free_size;
+ 1453              		.loc 1 257 7 is_stmt 0 view .LVU489
+ 1454 0038 6AB1     		cbz	r2, .L122
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 1455              		.loc 1 258 9 is_stmt 1 view .LVU490
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 1456              		.loc 1 258 32 is_stmt 0 view .LVU491
+ 1457 003a E368     		ldr	r3, [r4, #12]
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 1458              		.loc 1 258 52 view .LVU492
+ 1459 003c 6421     		movs	r1, #100
+ 1460 003e 01FB03F3 		mul	r3, r1, r3
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 1461              		.loc 1 258 59 view .LVU493
+ 1462 0042 B3FBF2F3 		udiv	r3, r3, r2
+ 258:lvgl/src/misc/lv_mem.c ****         mon_p->frag_pct = 100 - mon_p->frag_pct;
+ 1463              		.loc 1 258 25 view .LVU494
+ 1464 0046 DBB2     		uxtb	r3, r3
+ 1465 0048 6376     		strb	r3, [r4, #25]
+ 259:lvgl/src/misc/lv_mem.c ****     }
+ 1466              		.loc 1 259 9 is_stmt 1 view .LVU495
+ 259:lvgl/src/misc/lv_mem.c ****     }
+ 1467              		.loc 1 259 31 is_stmt 0 view .LVU496
+ 1468 004a CB1A     		subs	r3, r1, r3
+ 259:lvgl/src/misc/lv_mem.c ****     }
+ 1469              		.loc 1 259 25 view .LVU497
+ 1470 004c 6376     		strb	r3, [r4, #25]
+ 1471              	.L123:
+ 265:lvgl/src/misc/lv_mem.c **** 
+ 1472              		.loc 1 265 5 is_stmt 1 view .LVU498
+ 265:lvgl/src/misc/lv_mem.c **** 
+ 1473              		.loc 1 265 21 is_stmt 0 view .LVU499
+ 1474 004e 064B     		ldr	r3, .L125+12
+ 1475 0050 1B68     		ldr	r3, [r3]
+ 1476 0052 6361     		str	r3, [r4, #20]
+ 267:lvgl/src/misc/lv_mem.c **** #endif
+ 1477              		.loc 1 267 26 is_stmt 1 view .LVU500
+ 269:lvgl/src/misc/lv_mem.c **** 
+ 1478              		.loc 1 269 1 is_stmt 0 view .LVU501
+ 1479 0054 10BD     		pop	{r4, pc}
+ 1480              	.LVL166:
+ 1481              	.L122:
+ 262:lvgl/src/misc/lv_mem.c ****     }
+ 1482              		.loc 1 262 9 is_stmt 1 view .LVU502
+ 262:lvgl/src/misc/lv_mem.c ****     }
+ 1483              		.loc 1 262 25 is_stmt 0 view .LVU503
+ 1484 0056 0023     		movs	r3, #0
+ 1485 0058 6376     		strb	r3, [r4, #25]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 45
+
+
+ 1486 005a F8E7     		b	.L123
+ 1487              	.L126:
+ 1488              		.align	2
+ 1489              	.L125:
+ 1490 005c 00000000 		.word	tlsf
+ 1491 0060 00000000 		.word	lv_mem_walker
+ 1492 0064 ABAAAAAA 		.word	-1431655765
+ 1493 0068 00000000 		.word	max_used
+ 1494              		.cfi_endproc
+ 1495              	.LFE30:
+ 1497              		.section	.text.lv_memset_00,"ax",%progbits
+ 1498              		.align	1
+ 1499              		.global	lv_memset_00
+ 1500              		.syntax unified
+ 1501              		.thumb
+ 1502              		.thumb_func
+ 1504              	lv_memset_00:
+ 1505              	.LVL167:
+ 1506              	.LFB36:
+ 473:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = (uint8_t *)dst;
+ 1507              		.loc 1 473 1 is_stmt 1 view -0
+ 1508              		.cfi_startproc
+ 1509              		@ args = 0, pretend = 0, frame = 0
+ 1510              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1511              		@ link register save eliminated.
+ 474:lvgl/src/misc/lv_mem.c ****     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
+ 1512              		.loc 1 474 5 view .LVU505
+ 475:lvgl/src/misc/lv_mem.c **** 
+ 1513              		.loc 1 475 5 view .LVU506
+ 478:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1514              		.loc 1 478 5 view .LVU507
+ 478:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1515              		.loc 1 478 7 is_stmt 0 view .LVU508
+ 1516 0000 10F00303 		ands	r3, r0, #3
+ 1517              	.LVL168:
+ 478:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1518              		.loc 1 478 7 view .LVU509
+ 1519 0004 16D0     		beq	.L131
+ 479:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 1520              		.loc 1 479 9 is_stmt 1 view .LVU510
+ 479:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 1521              		.loc 1 479 17 is_stmt 0 view .LVU511
+ 1522 0006 C3F10403 		rsb	r3, r3, #4
+ 1523              	.LVL169:
+ 480:lvgl/src/misc/lv_mem.c ****             SET8(0);
+ 1524              		.loc 1 480 9 is_stmt 1 view .LVU512
+ 480:lvgl/src/misc/lv_mem.c ****             SET8(0);
+ 1525              		.loc 1 480 14 is_stmt 0 view .LVU513
+ 1526 000a 04E0     		b	.L129
+ 1527              	.LVL170:
+ 1528              	.L130:
+ 481:lvgl/src/misc/lv_mem.c ****             len--;
+ 1529              		.loc 1 481 13 is_stmt 1 view .LVU514
+ 1530 000c 0022     		movs	r2, #0
+ 1531 000e 00F8012B 		strb	r2, [r0], #1
+ 1532              	.LVL171:
+ 481:lvgl/src/misc/lv_mem.c ****             len--;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 46
+
+
+ 1533              		.loc 1 481 13 view .LVU515
+ 481:lvgl/src/misc/lv_mem.c ****             len--;
+ 1534              		.loc 1 481 20 view .LVU516
+ 482:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1535              		.loc 1 482 13 view .LVU517
+ 482:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1536              		.loc 1 482 16 is_stmt 0 view .LVU518
+ 1537 0012 0139     		subs	r1, r1, #1
+ 1538              	.LVL172:
+ 483:lvgl/src/misc/lv_mem.c ****         }
+ 1539              		.loc 1 483 13 is_stmt 1 view .LVU519
+ 483:lvgl/src/misc/lv_mem.c ****         }
+ 1540              		.loc 1 483 20 is_stmt 0 view .LVU520
+ 1541 0014 013B     		subs	r3, r3, #1
+ 1542              	.LVL173:
+ 1543              	.L129:
+ 480:lvgl/src/misc/lv_mem.c ****             SET8(0);
+ 1544              		.loc 1 480 23 is_stmt 1 view .LVU521
+ 1545 0016 6BB1     		cbz	r3, .L131
+ 480:lvgl/src/misc/lv_mem.c ****             SET8(0);
+ 1546              		.loc 1 480 23 is_stmt 0 discriminator 1 view .LVU522
+ 1547 0018 0029     		cmp	r1, #0
+ 1548 001a F7D1     		bne	.L130
+ 1549 001c 0AE0     		b	.L131
+ 1550              	.LVL174:
+ 1551              	.L132:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1552              		.loc 1 489 9 is_stmt 1 view .LVU523
+ 1553 001e 0023     		movs	r3, #0
+ 1554 0020 0360     		str	r3, [r0]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1555              		.loc 1 489 9 view .LVU524
+ 1556              	.LVL175:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1557              		.loc 1 489 9 view .LVU525
+ 1558 0022 4360     		str	r3, [r0, #4]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1559              		.loc 1 489 9 view .LVU526
+ 1560              	.LVL176:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1561              		.loc 1 489 9 view .LVU527
+ 1562 0024 8360     		str	r3, [r0, #8]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1563              		.loc 1 489 9 view .LVU528
+ 1564              	.LVL177:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1565              		.loc 1 489 9 view .LVU529
+ 1566 0026 C360     		str	r3, [r0, #12]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1567              		.loc 1 489 9 view .LVU530
+ 1568              	.LVL178:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1569              		.loc 1 489 9 view .LVU531
+ 1570 0028 0361     		str	r3, [r0, #16]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1571              		.loc 1 489 9 view .LVU532
+ 1572              	.LVL179:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 47
+
+
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1573              		.loc 1 489 9 view .LVU533
+ 1574 002a 4361     		str	r3, [r0, #20]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1575              		.loc 1 489 9 view .LVU534
+ 1576              	.LVL180:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1577              		.loc 1 489 9 view .LVU535
+ 1578 002c 8361     		str	r3, [r0, #24]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1579              		.loc 1 489 9 view .LVU536
+ 1580              	.LVL181:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1581              		.loc 1 489 9 view .LVU537
+ 1582 002e C361     		str	r3, [r0, #28]
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1583              		.loc 1 489 9 view .LVU538
+ 1584 0030 2030     		adds	r0, r0, #32
+ 1585              	.LVL182:
+ 489:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1586              		.loc 1 489 26 view .LVU539
+ 490:lvgl/src/misc/lv_mem.c ****     }
+ 1587              		.loc 1 490 9 view .LVU540
+ 490:lvgl/src/misc/lv_mem.c ****     }
+ 1588              		.loc 1 490 13 is_stmt 0 view .LVU541
+ 1589 0032 2039     		subs	r1, r1, #32
+ 1590              	.LVL183:
+ 1591              	.L131:
+ 488:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0));
+ 1592              		.loc 1 488 15 is_stmt 1 view .LVU542
+ 1593 0034 2029     		cmp	r1, #32
+ 1594 0036 F2D8     		bhi	.L132
+ 488:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0));
+ 1595              		.loc 1 488 15 is_stmt 0 view .LVU543
+ 1596 0038 03E0     		b	.L133
+ 1597              	.L134:
+ 494:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1598              		.loc 1 494 9 is_stmt 1 view .LVU544
+ 1599 003a 0023     		movs	r3, #0
+ 1600 003c 40F8043B 		str	r3, [r0], #4
+ 1601              	.LVL184:
+ 494:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1602              		.loc 1 494 9 view .LVU545
+ 494:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1603              		.loc 1 494 17 view .LVU546
+ 495:lvgl/src/misc/lv_mem.c ****     }
+ 1604              		.loc 1 495 9 view .LVU547
+ 495:lvgl/src/misc/lv_mem.c ****     }
+ 1605              		.loc 1 495 13 is_stmt 0 view .LVU548
+ 1606 0040 0439     		subs	r1, r1, #4
+ 1607              	.LVL185:
+ 1608              	.L133:
+ 493:lvgl/src/misc/lv_mem.c ****         SET32(0);
+ 1609              		.loc 1 493 15 is_stmt 1 view .LVU549
+ 1610 0042 0429     		cmp	r1, #4
+ 1611 0044 F9D8     		bhi	.L134
+ 1612              	.LVL186:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 48
+
+
+ 1613              	.L135:
+ 499:lvgl/src/misc/lv_mem.c ****         SET8(0);
+ 1614              		.loc 1 499 11 view .LVU550
+ 1615 0046 21B1     		cbz	r1, .L137
+ 500:lvgl/src/misc/lv_mem.c ****         len--;
+ 1616              		.loc 1 500 9 view .LVU551
+ 1617 0048 0023     		movs	r3, #0
+ 1618 004a 00F8013B 		strb	r3, [r0], #1
+ 1619              	.LVL187:
+ 500:lvgl/src/misc/lv_mem.c ****         len--;
+ 1620              		.loc 1 500 9 view .LVU552
+ 500:lvgl/src/misc/lv_mem.c ****         len--;
+ 1621              		.loc 1 500 16 view .LVU553
+ 501:lvgl/src/misc/lv_mem.c ****     }
+ 1622              		.loc 1 501 9 view .LVU554
+ 501:lvgl/src/misc/lv_mem.c ****     }
+ 1623              		.loc 1 501 12 is_stmt 0 view .LVU555
+ 1624 004e 0139     		subs	r1, r1, #1
+ 1625              	.LVL188:
+ 501:lvgl/src/misc/lv_mem.c ****     }
+ 1626              		.loc 1 501 12 view .LVU556
+ 1627 0050 F9E7     		b	.L135
+ 1628              	.L137:
+ 503:lvgl/src/misc/lv_mem.c **** 
+ 1629              		.loc 1 503 1 view .LVU557
+ 1630 0052 7047     		bx	lr
+ 1631              		.cfi_endproc
+ 1632              	.LFE36:
+ 1634              		.section	.text.lv_memset_ff,"ax",%progbits
+ 1635              		.align	1
+ 1636              		.global	lv_memset_ff
+ 1637              		.syntax unified
+ 1638              		.thumb
+ 1639              		.thumb_func
+ 1641              	lv_memset_ff:
+ 1642              	.LVL189:
+ 1643              	.LFB37:
+ 511:lvgl/src/misc/lv_mem.c ****     uint8_t * d8 = (uint8_t *)dst;
+ 1644              		.loc 1 511 1 is_stmt 1 view -0
+ 1645              		.cfi_startproc
+ 1646              		@ args = 0, pretend = 0, frame = 0
+ 1647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1648              		@ link register save eliminated.
+ 512:lvgl/src/misc/lv_mem.c ****     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
+ 1649              		.loc 1 512 5 view .LVU559
+ 513:lvgl/src/misc/lv_mem.c **** 
+ 1650              		.loc 1 513 5 view .LVU560
+ 516:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1651              		.loc 1 516 5 view .LVU561
+ 516:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1652              		.loc 1 516 7 is_stmt 0 view .LVU562
+ 1653 0000 10F00303 		ands	r3, r0, #3
+ 1654              	.LVL190:
+ 516:lvgl/src/misc/lv_mem.c ****         d_align = ALIGN_MASK + 1 - d_align;
+ 1655              		.loc 1 516 7 view .LVU563
+ 1656 0004 17D0     		beq	.L142
+ 517:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 49
+
+
+ 1657              		.loc 1 517 9 is_stmt 1 view .LVU564
+ 517:lvgl/src/misc/lv_mem.c ****         while(d_align && len) {
+ 1658              		.loc 1 517 17 is_stmt 0 view .LVU565
+ 1659 0006 C3F10403 		rsb	r3, r3, #4
+ 1660              	.LVL191:
+ 518:lvgl/src/misc/lv_mem.c ****             SET8(0xFF);
+ 1661              		.loc 1 518 9 is_stmt 1 view .LVU566
+ 518:lvgl/src/misc/lv_mem.c ****             SET8(0xFF);
+ 1662              		.loc 1 518 14 is_stmt 0 view .LVU567
+ 1663 000a 04E0     		b	.L140
+ 1664              	.LVL192:
+ 1665              	.L141:
+ 519:lvgl/src/misc/lv_mem.c ****             len--;
+ 1666              		.loc 1 519 13 is_stmt 1 view .LVU568
+ 1667 000c FF22     		movs	r2, #255
+ 1668 000e 00F8012B 		strb	r2, [r0], #1
+ 1669              	.LVL193:
+ 519:lvgl/src/misc/lv_mem.c ****             len--;
+ 1670              		.loc 1 519 13 view .LVU569
+ 519:lvgl/src/misc/lv_mem.c ****             len--;
+ 1671              		.loc 1 519 23 view .LVU570
+ 520:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1672              		.loc 1 520 13 view .LVU571
+ 520:lvgl/src/misc/lv_mem.c ****             d_align--;
+ 1673              		.loc 1 520 16 is_stmt 0 view .LVU572
+ 1674 0012 0139     		subs	r1, r1, #1
+ 1675              	.LVL194:
+ 521:lvgl/src/misc/lv_mem.c ****         }
+ 1676              		.loc 1 521 13 is_stmt 1 view .LVU573
+ 521:lvgl/src/misc/lv_mem.c ****         }
+ 1677              		.loc 1 521 20 is_stmt 0 view .LVU574
+ 1678 0014 013B     		subs	r3, r3, #1
+ 1679              	.LVL195:
+ 1680              	.L140:
+ 518:lvgl/src/misc/lv_mem.c ****             SET8(0xFF);
+ 1681              		.loc 1 518 23 is_stmt 1 view .LVU575
+ 1682 0016 73B1     		cbz	r3, .L142
+ 518:lvgl/src/misc/lv_mem.c ****             SET8(0xFF);
+ 1683              		.loc 1 518 23 is_stmt 0 discriminator 1 view .LVU576
+ 1684 0018 0029     		cmp	r1, #0
+ 1685 001a F7D1     		bne	.L141
+ 1686 001c 0BE0     		b	.L142
+ 1687              	.LVL196:
+ 1688              	.L143:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1689              		.loc 1 527 9 is_stmt 1 view .LVU577
+ 1690 001e 4FF0FF33 		mov	r3, #-1
+ 1691 0022 0360     		str	r3, [r0]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1692              		.loc 1 527 9 view .LVU578
+ 1693              	.LVL197:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1694              		.loc 1 527 9 view .LVU579
+ 1695 0024 4360     		str	r3, [r0, #4]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1696              		.loc 1 527 9 view .LVU580
+ 1697              	.LVL198:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 50
+
+
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1698              		.loc 1 527 9 view .LVU581
+ 1699 0026 8360     		str	r3, [r0, #8]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1700              		.loc 1 527 9 view .LVU582
+ 1701              	.LVL199:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1702              		.loc 1 527 9 view .LVU583
+ 1703 0028 C360     		str	r3, [r0, #12]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1704              		.loc 1 527 9 view .LVU584
+ 1705              	.LVL200:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1706              		.loc 1 527 9 view .LVU585
+ 1707 002a 0361     		str	r3, [r0, #16]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1708              		.loc 1 527 9 view .LVU586
+ 1709              	.LVL201:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1710              		.loc 1 527 9 view .LVU587
+ 1711 002c 4361     		str	r3, [r0, #20]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1712              		.loc 1 527 9 view .LVU588
+ 1713              	.LVL202:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1714              		.loc 1 527 9 view .LVU589
+ 1715 002e 8361     		str	r3, [r0, #24]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1716              		.loc 1 527 9 view .LVU590
+ 1717              	.LVL203:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1718              		.loc 1 527 9 view .LVU591
+ 1719 0030 C361     		str	r3, [r0, #28]
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1720              		.loc 1 527 9 view .LVU592
+ 1721 0032 2030     		adds	r0, r0, #32
+ 1722              	.LVL204:
+ 527:lvgl/src/misc/lv_mem.c ****         len -= 32;
+ 1723              		.loc 1 527 35 view .LVU593
+ 528:lvgl/src/misc/lv_mem.c ****     }
+ 1724              		.loc 1 528 9 view .LVU594
+ 528:lvgl/src/misc/lv_mem.c ****     }
+ 1725              		.loc 1 528 13 is_stmt 0 view .LVU595
+ 1726 0034 2039     		subs	r1, r1, #32
+ 1727              	.LVL205:
+ 1728              	.L142:
+ 526:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0xFFFFFFFF));
+ 1729              		.loc 1 526 15 is_stmt 1 view .LVU596
+ 1730 0036 2029     		cmp	r1, #32
+ 1731 0038 F1D8     		bhi	.L143
+ 526:lvgl/src/misc/lv_mem.c ****         REPEAT8(SET32(0xFFFFFFFF));
+ 1732              		.loc 1 526 15 is_stmt 0 view .LVU597
+ 1733 003a 04E0     		b	.L144
+ 1734              	.L145:
+ 532:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1735              		.loc 1 532 9 is_stmt 1 view .LVU598
+ 1736 003c 4FF0FF33 		mov	r3, #-1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 51
+
+
+ 1737 0040 40F8043B 		str	r3, [r0], #4
+ 1738              	.LVL206:
+ 532:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1739              		.loc 1 532 9 view .LVU599
+ 532:lvgl/src/misc/lv_mem.c ****         len -= 4;
+ 1740              		.loc 1 532 26 view .LVU600
+ 533:lvgl/src/misc/lv_mem.c ****     }
+ 1741              		.loc 1 533 9 view .LVU601
+ 533:lvgl/src/misc/lv_mem.c ****     }
+ 1742              		.loc 1 533 13 is_stmt 0 view .LVU602
+ 1743 0044 0439     		subs	r1, r1, #4
+ 1744              	.LVL207:
+ 1745              	.L144:
+ 531:lvgl/src/misc/lv_mem.c ****         SET32(0xFFFFFFFF);
+ 1746              		.loc 1 531 15 is_stmt 1 view .LVU603
+ 1747 0046 0429     		cmp	r1, #4
+ 1748 0048 F8D8     		bhi	.L145
+ 1749              	.LVL208:
+ 1750              	.L146:
+ 537:lvgl/src/misc/lv_mem.c ****         SET8(0xFF);
+ 1751              		.loc 1 537 11 view .LVU604
+ 1752 004a 21B1     		cbz	r1, .L148
+ 538:lvgl/src/misc/lv_mem.c ****         len--;
+ 1753              		.loc 1 538 9 view .LVU605
+ 1754 004c FF23     		movs	r3, #255
+ 1755 004e 00F8013B 		strb	r3, [r0], #1
+ 1756              	.LVL209:
+ 538:lvgl/src/misc/lv_mem.c ****         len--;
+ 1757              		.loc 1 538 9 view .LVU606
+ 538:lvgl/src/misc/lv_mem.c ****         len--;
+ 1758              		.loc 1 538 19 view .LVU607
+ 539:lvgl/src/misc/lv_mem.c ****     }
+ 1759              		.loc 1 539 9 view .LVU608
+ 539:lvgl/src/misc/lv_mem.c ****     }
+ 1760              		.loc 1 539 12 is_stmt 0 view .LVU609
+ 1761 0052 0139     		subs	r1, r1, #1
+ 1762              	.LVL210:
+ 539:lvgl/src/misc/lv_mem.c ****     }
+ 1763              		.loc 1 539 12 view .LVU610
+ 1764 0054 F9E7     		b	.L146
+ 1765              	.L148:
+ 541:lvgl/src/misc/lv_mem.c **** 
+ 1766              		.loc 1 541 1 view .LVU611
+ 1767 0056 7047     		bx	lr
+ 1768              		.cfi_endproc
+ 1769              	.LFE37:
+ 1771              		.section	.bss.work_mem_int.0,"aw",%nobits
+ 1772              		.align	2
+ 1775              	work_mem_int.0:
+ 1776 0000 00000000 		.space	49152
+ 1776      00000000 
+ 1776      00000000 
+ 1776      00000000 
+ 1776      00000000 
+ 1777              		.section	.data.zero_mem,"aw"
+ 1778              		.align	2
+ 1781              	zero_mem:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 52
+
+
+ 1782 0000 D4C3B2A1 		.word	-1582119980
+ 1783              		.section	.bss.max_used,"aw",%nobits
+ 1784              		.align	2
+ 1787              	max_used:
+ 1788 0000 00000000 		.space	4
+ 1789              		.section	.bss.cur_used,"aw",%nobits
+ 1790              		.align	2
+ 1793              	cur_used:
+ 1794 0000 00000000 		.space	4
+ 1795              		.section	.bss.tlsf,"aw",%nobits
+ 1796              		.align	2
+ 1799              	tlsf:
+ 1800 0000 00000000 		.space	4
+ 1801              		.text
+ 1802              	.Letext0:
+ 1803              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 1804              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 1805              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 1806              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 1807              		.file 6 "/usr/local/include/arm/_types.h"
+ 1808              		.file 7 "/usr/local/include/sys/_types/_uintptr_t.h"
+ 1809              		.file 8 "/usr/local/include/sys/_types/_size_t.h"
+ 1810              		.file 9 "lvgl/src/misc/lv_types.h"
+ 1811              		.file 10 "lvgl/src/misc/lv_mem.h"
+ 1812              		.file 11 "lvgl/src/misc/lv_tlsf.h"
+ 1813              		.file 12 "lvgl/src/misc/lv_gc.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 53
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lv_mem.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:21     .text.lv_mem_walker:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:26     .text.lv_mem_walker:00000000 lv_mem_walker
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:78     .text.lv_mem_init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:84     .text.lv_mem_init:00000000 lv_mem_init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:110    .text.lv_mem_init:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1775   .bss.work_mem_int.0:00000000 work_mem_int.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1799   .bss.tlsf:00000000 tlsf
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:116    .text.lv_mem_deinit:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:122    .text.lv_mem_deinit:00000000 lv_mem_deinit
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:146    .text.lv_mem_deinit:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:151    .text.lv_mem_alloc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:157    .text.lv_mem_alloc:00000000 lv_mem_alloc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:221    .text.lv_mem_alloc:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1781   .data.zero_mem:00000000 zero_mem
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1793   .bss.cur_used:00000000 cur_used
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1787   .bss.max_used:00000000 max_used
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:229    .text.lv_mem_free:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:235    .text.lv_mem_free:00000000 lv_mem_free
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:293    .text.lv_mem_free:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:300    .text.lv_mem_realloc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:306    .text.lv_mem_realloc:00000000 lv_mem_realloc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:368    .text.lv_mem_realloc:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:374    .text.lv_mem_test:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:380    .text.lv_mem_test:00000000 lv_mem_test
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:437    .text.lv_mem_test:00000034 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:444    .text.lv_mem_buf_get:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:450    .text.lv_mem_buf_get:00000000 lv_mem_buf_get
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:673    .text.lv_mem_buf_get:000000c0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:678    .text.lv_mem_buf_release:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:684    .text.lv_mem_buf_release:00000000 lv_mem_buf_release
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:739    .text.lv_mem_buf_release:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:744    .text.lv_mem_buf_free_all:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:750    .text.lv_mem_buf_free_all:00000000 lv_mem_buf_free_all
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:815    .text.lv_mem_buf_free_all:00000038 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:820    .text.lv_memcpy:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:826    .text.lv_memcpy:00000000 lv_memcpy
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1253   .text.lv_memset:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1259   .text.lv_memset:00000000 lv_memset
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1399   .text.lv_mem_monitor:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1405   .text.lv_mem_monitor:00000000 lv_mem_monitor
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1490   .text.lv_mem_monitor:0000005c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1498   .text.lv_memset_00:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1504   .text.lv_memset_00:00000000 lv_memset_00
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1635   .text.lv_memset_ff:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1641   .text.lv_memset_ff:00000000 lv_memset_ff
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1772   .bss.work_mem_int.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1778   .data.zero_mem:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1784   .bss.max_used:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1790   .bss.cur_used:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s:1796   .bss.tlsf:00000000 $d
+
+UNDEFINED SYMBOLS
+lv_tlsf_create_with_pool
+lv_tlsf_destroy
+lv_tlsf_malloc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc16Zh8T.s 			page 54
+
+
+lv_tlsf_free
+lv_tlsf_realloc
+lv_tlsf_check
+lv_tlsf_get_pool
+lv_tlsf_check_pool
+lv_mem_buf
+lv_tlsf_walk_pool

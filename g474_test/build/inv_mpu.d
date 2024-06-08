@@ -41,8 +41,9 @@ build/inv_mpu.o: DMP/driver/eMPL/inv_mpu.c DMP/driver/eMPL/inv_mpu.h \
  DMP/mpl/fusion_9axis.h DMP/mpl/gyro_tc.h DMP/mpl/heading_from_gyro.h \
  DMP/mpl/mag_disturb.h DMP/mpl/motion_no_motion.h \
  DMP/mpl/no_gyro_fusion.h DMP/mpl/quaternion_supervisor.h \
- DMP/mllite/mpl.h user/Inc/mpu.h DMP/driver/stm32L/packet.h \
- user/Inc/mpu9250.h Core/Inc/usart.h Core/Inc/main.h
+ DMP/mllite/mpl.h user/Inc/mpu.h DMP/driver/eMPL/inv_mpu.h \
+ DMP/driver/stm32L/packet.h user/Inc/mpu9250.h Core/Inc/usart.h \
+ Core/Inc/main.h
 DMP/driver/eMPL/inv_mpu.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
@@ -106,6 +107,7 @@ DMP/mpl/no_gyro_fusion.h:
 DMP/mpl/quaternion_supervisor.h:
 DMP/mllite/mpl.h:
 user/Inc/mpu.h:
+DMP/driver/eMPL/inv_mpu.h:
 DMP/driver/stm32L/packet.h:
 user/Inc/mpu9250.h:
 Core/Inc/usart.h:
