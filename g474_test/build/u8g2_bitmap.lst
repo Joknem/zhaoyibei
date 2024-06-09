@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
   27:user/drivers/u8g2/u8g2_bitmap.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   28:user/drivers/u8g2/u8g2_bitmap.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   29:user/drivers/u8g2/u8g2_bitmap.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 2
 
 
   30:user/drivers/u8g2/u8g2_bitmap.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
   64              		.cfi_offset 7, -24
   65              		.cfi_offset 8, -20
   66              		.cfi_offset 9, -16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 3
 
 
   67              		.cfi_offset 10, -12
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  107              		.loc 1 65 7 is_stmt 1 view .LVU16
  108              		.loc 1 65 24 is_stmt 0 view .LVU17
  109 0032 87F892A0 		strb	r10, [r7, #146]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 4
 
 
   66:user/drivers/u8g2/u8g2_bitmap.c ****       u8g2_DrawHVLine(u8g2, x, y, 1, 0);
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  149 0056 A4B2     		uxth	r4, r4
  150              	.LVL16:
  151              	.L4:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 5
 
 
   62:user/drivers/u8g2/u8g2_bitmap.c ****   {
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  194              		.section	.text.u8g2_DrawBitmap,"ax",%progbits
  195              		.align	1
  196              		.global	u8g2_DrawBitmap
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 6
 
 
  197              		.syntax unified
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  242              		.loc 1 92 8 view .LVU55
  243 0022 9BB2     		uxth	r3, r3
  244 0024 0093     		str	r3, [sp]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 7
 
 
  245 0026 1FFA8CF3 		uxth	r3, ip
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  287              	.LCFI5:
  288              		.cfi_def_cfa_offset 32
  289              		@ sp needed
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 8
 
 
  290 0050 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  336              		.loc 1 113 3 view .LVU75
  337              		.loc 1 113 8 is_stmt 0 view .LVU76
  338 0016 CB18     		adds	r3, r1, r3
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 9
 
 
  339              	.LVL34:
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  379              		.loc 1 127 5 is_stmt 1 view .LVU87
  380              		.loc 1 127 10 is_stmt 0 view .LVU88
  381 004a 6400     		lsls	r4, r4, #1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 10
 
 
  382              	.LVL42:
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  421              		.loc 1 123 7 is_stmt 1 view .LVU106
  123:user/drivers/u8g2/u8g2_bitmap.c ****       u8g2_DrawHVLine(u8g2, x, y, 1, 0);
  422              		.loc 1 123 24 is_stmt 0 view .LVU107
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 11
 
 
  423 006e 87F892B0 		strb	fp, [r7, #146]
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  471              		.cfi_offset 8, -16
  472              		.cfi_offset 9, -12
  473              		.cfi_offset 10, -8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 12
 
 
  474              		.cfi_offset 14, -4
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  516 003a 5046     		mov	r0, r10
  517 003c FFF7FEFF 		bl	u8g2_DrawHXBM
  518              	.LVL58:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 13
 
 
  153:user/drivers/u8g2/u8g2_bitmap.c ****     bitmap += blen;
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  164:user/drivers/u8g2/u8g2_bitmap.c **** void u8g2_DrawHXBMP(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, const uint8_t *b)
  165:user/drivers/u8g2/u8g2_bitmap.c **** {
  563              		.loc 1 165 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 14
 
 
  564              		.cfi_startproc
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  172:user/drivers/u8g2/u8g2_bitmap.c **** #endif /* U8G2_WITH_INTERSECTION */
  173:user/drivers/u8g2/u8g2_bitmap.c ****   
  174:user/drivers/u8g2/u8g2_bitmap.c ****   mask = 1;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 15
 
 
  612              		.loc 1 174 8 view .LVU148
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  650              		.loc 1 190 8 is_stmt 0 view .LVU162
  651 0052 08F10108 		add	r8, r8, #1
  652              	.LVL78:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 16
 
 
  189:user/drivers/u8g2/u8g2_bitmap.c ****       b++;
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  692              		.loc 1 194 3 view .LVU177
  693              		.loc 1 194 20 is_stmt 0 view .LVU178
  694 0082 87F892A0 		strb	r10, [r7, #146]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 17
 
 
  695              	.LVL83:
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  744              	.LVL85:
  202:user/drivers/u8g2/u8g2_bitmap.c ****   blen += 7;
  745              		.loc 1 202 3 view .LVU185
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 18
 
 
  746              		.loc 1 202 8 is_stmt 0 view .LVU186
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  788              		.loc 1 214 5 is_stmt 1 view .LVU199
  789              		.loc 1 214 6 is_stmt 0 view .LVU200
  790 0046 013D     		subs	r5, r5, #1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 19
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 19
 
 
  791              	.LVL95:
@@ -1111,25 +1111,25 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 1
  816              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  817              		.file 6 "user/drivers/u8g2/u8x8.h"
  818              		.file 7 "user/drivers/u8g2/u8g2.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s 			page 20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s 			page 20
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8g2_bitmap.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:21     .text.u8g2_SetBitmapMode:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:27     .text.u8g2_SetBitmapMode:00000000 u8g2_SetBitmapMode
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:44     .text.u8g2_DrawHorizontalBitmap:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:50     .text.u8g2_DrawHorizontalBitmap:00000000 u8g2_DrawHorizontalBitmap
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:195    .text.u8g2_DrawBitmap:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:201    .text.u8g2_DrawBitmap:00000000 u8g2_DrawBitmap
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:296    .text.u8g2_DrawHXBM:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:302    .text.u8g2_DrawHXBM:00000000 u8g2_DrawHXBM
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:450    .text.u8g2_DrawXBM:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:456    .text.u8g2_DrawXBM:00000000 u8g2_DrawXBM
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:554    .text.u8g2_DrawHXBMP:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:560    .text.u8g2_DrawHXBMP:00000000 u8g2_DrawHXBMP
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:708    .text.u8g2_DrawXBMP:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxxCP8L.s:714    .text.u8g2_DrawXBMP:00000000 u8g2_DrawXBMP
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:21     .text.u8g2_SetBitmapMode:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:27     .text.u8g2_SetBitmapMode:00000000 u8g2_SetBitmapMode
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:44     .text.u8g2_DrawHorizontalBitmap:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:50     .text.u8g2_DrawHorizontalBitmap:00000000 u8g2_DrawHorizontalBitmap
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:195    .text.u8g2_DrawBitmap:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:201    .text.u8g2_DrawBitmap:00000000 u8g2_DrawBitmap
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:296    .text.u8g2_DrawHXBM:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:302    .text.u8g2_DrawHXBM:00000000 u8g2_DrawHXBM
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:450    .text.u8g2_DrawXBM:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:456    .text.u8g2_DrawXBM:00000000 u8g2_DrawXBM
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:554    .text.u8g2_DrawHXBMP:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:560    .text.u8g2_DrawHXBMP:00000000 u8g2_DrawHXBMP
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:708    .text.u8g2_DrawXBMP:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWkWIpF.s:714    .text.u8g2_DrawXBMP:00000000 u8g2_DrawXBMP
 
 UNDEFINED SYMBOLS
 u8g2_IsIntersection

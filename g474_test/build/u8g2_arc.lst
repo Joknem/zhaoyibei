@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
   28:user/drivers/u8g2/u8g2_arc.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   29:user/drivers/u8g2/u8g2_arc.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
   30:user/drivers/u8g2/u8g2_arc.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 2
 
 
   31:user/drivers/u8g2/u8g2_arc.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
   69              	.LVL3:
   45:user/drivers/u8g2/u8g2_arc.c ****   uint8_t a_end = inverted ? start : end;
   70              		.loc 1 45 3 is_stmt 1 discriminator 4 view .LVU7
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 3
 
 
   71              		.loc 1 45 11 is_stmt 0 discriminator 4 view .LVU8
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
   57:user/drivers/u8g2/u8g2_arc.c ****     ratio = x * 255 / y; // x/y [0..255]
   58:user/drivers/u8g2/u8g2_arc.c ****     ratio = ratio * (770195 - (ratio - 255) * (ratio + 941)) / 6137491; // arctan(x/y) [0..32]
   59:user/drivers/u8g2/u8g2_arc.c **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 4
 
 
   60:user/drivers/u8g2/u8g2_arc.c ****     // Fill the pixels of the 8 sections of the circle, but only on the arc defined by the angles (
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  161 0088 92B2     		uxth	r2, r2
  162 008a 89B2     		uxth	r1, r1
  163 008c 0198     		ldr	r0, [sp, #4]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 5
 
 
  164 008e FFF7FEFF 		bl	u8g2_DrawPixel
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  215              		.loc 1 64 50 discriminator 3 view .LVU51
  216 00d2 029B     		ldr	r3, [sp, #8]
  217 00d4 2344     		add	r3, r3, r4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 6
 
 
  218              		.loc 1 64 40 discriminator 3 view .LVU52
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  269              	.L18:
  270              		.loc 1 65 13 discriminator 8 view .LVU66
  271 0118 9945     		cmp	r9, r3
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 7
 
 
  272 011a 08D0     		beq	.L19
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  323              		.loc 1 67 5 view .LVU79
  324              		.loc 1 67 7 is_stmt 0 view .LVU80
  325 0162 4745     		cmp	r7, r8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 8
 
 
  326 0164 0ED0     		beq	.L23
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  378              		.loc 1 68 40 view .LVU95
  379 01aa 0023     		movs	r3, #0
  380 01ac 02E0     		b	.L27
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 9
 
 
  381              	.LVL19:
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  428 01e4 0135     		adds	r5, r5, #1
  429              	.LVL24:
  430              		.loc 1 74 9 view .LVU110
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 10
 
 
  431 01e6 2DB2     		sxth	r5, r5
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  470 021e A342     		cmp	r3, r4
  471 0220 3FF611AF 		bhi	.L35
   61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 11
 
 
  472              		.loc 1 61 35 discriminator 3 view .LVU126
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  519              	.LVL34:
  520              	.L31:
   80:user/drivers/u8g2/u8g2_arc.c ****     }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 12
 
 
   81:user/drivers/u8g2/u8g2_arc.c ****     else
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  568              		.section	.text.u8g2_DrawArc,"ax",%progbits
  569              		.align	1
  570              		.global	u8g2_DrawArc
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 13
 
 
  571              		.syntax unified
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  619 0022 9BB2     		uxth	r3, r3
  620 0024 92B2     		uxth	r2, r2
  621 0026 89B2     		uxth	r1, r1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 14
 
 
  622 0028 FFF7FEFF 		bl	u8g2_IsIntersection
@@ -829,16 +829,16 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
  659              		.file 6 "/usr/local/include/_types/_uint32_t.h"
  660              		.file 7 "user/drivers/u8g2/u8x8.h"
  661              		.file 8 "user/drivers/u8g2/u8g2.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8g2_arc.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:21     .text.u8g2_draw_arc:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:26     .text.u8g2_draw_arc:00000000 u8g2_draw_arc
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:564    .text.u8g2_draw_arc:0000027c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:569    .text.u8g2_DrawArc:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:575    .text.u8g2_DrawArc:00000000 u8g2_DrawArc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s:21     .text.u8g2_draw_arc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s:26     .text.u8g2_draw_arc:00000000 u8g2_draw_arc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s:564    .text.u8g2_draw_arc:0000027c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s:569    .text.u8g2_DrawArc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccaANXHC.s:575    .text.u8g2_DrawArc:00000000 u8g2_DrawArc
 
 UNDEFINED SYMBOLS
 u8g2_DrawPixel

@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
   13:user/drivers/DMP/mllite/mpl.c ****  *       @file  mpl.c
   14:user/drivers/DMP/mllite/mpl.c ****  *       @brief MPL start point.
   15:user/drivers/DMP/mllite/mpl.c ****  */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 2
 
 
   16:user/drivers/DMP/mllite/mpl.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
   41:user/drivers/DMP/mllite/mpl.c ****     return INV_SUCCESS;
   42:user/drivers/DMP/mllite/mpl.c **** }
   65              		.loc 1 42 1 is_stmt 0 view .LVU7
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 3
 
 
   66 001a 05B0     		add	sp, sp, #20
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
   37:user/drivers/DMP/driver/include/log.h **** #ifndef _LIBS_CUTILS_MPL_LOG_H
   38:user/drivers/DMP/driver/include/log.h **** #define _LIBS_CUTILS_MPL_LOG_H
   39:user/drivers/DMP/driver/include/log.h **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 4
 
 
   40:user/drivers/DMP/driver/include/log.h **** #include <stdlib.h>
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
   94:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_VERBOSE		(2)
   95:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_DEBUG		(3)
   96:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_INFO		(4)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 5
 
 
   97:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_WARN		(5)
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  151:user/drivers/DMP/driver/include/log.h **** 	do { if (0) MPL_LOG(fmt, ##__VA_ARGS__); } while (0)
  152:user/drivers/DMP/driver/include/log.h **** #else
  153:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV_IF(cond, fmt, ...) \
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 6
 
 
  154:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))						\
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  208:user/drivers/DMP/driver/include/log.h **** #endif
  209:user/drivers/DMP/driver/include/log.h **** 
  210:user/drivers/DMP/driver/include/log.h **** /*
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 7
 
 
  211:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send an error log message using the current MPL_LOG_TAG.
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  265:user/drivers/DMP/driver/include/log.h **** #endif
  266:user/drivers/DMP/driver/include/log.h **** 
  267:user/drivers/DMP/driver/include/log.h **** /*
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 8
 
 
  268:user/drivers/DMP/driver/include/log.h ****  * Assertion that generates a log message when the assertion fails.
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  322:user/drivers/DMP/driver/include/log.h **** #endif
  323:user/drivers/DMP/driver/include/log.h **** 
  324:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 9
 
 
  325:user/drivers/DMP/driver/include/log.h **** 
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  339:user/drivers/DMP/driver/include/log.h **** 					   const char *file,
  113              		.loc 2 339 20 discriminator 1 view .LVU18
  114              	.LBB13:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 10
 
 
  115              		.loc 2 343 2 discriminator 1 view .LVU19
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  163              		.loc 1 39 5 is_stmt 1 discriminator 1 view .LVU30
   39:user/drivers/DMP/mllite/mpl.c **** 
  164              		.loc 1 39 5 discriminator 1 view .LVU31
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 11
 
 
  165 007a FFF7FEFF 		bl	inv_enable_results_holder
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  206 0008 00000000 		.word	ml_ver
  207              		.cfi_endproc
  208              	.LFE11:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 12
 
 
  210              		.section	.text.inv_start_mpl,"ax",%progbits
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  251              		.loc 2 339 20 discriminator 1 view .LVU44
  252              	.LBB17:
  253              		.loc 2 343 2 discriminator 1 view .LVU45
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 13
 
 
  254 0014 0290     		str	r0, [sp, #8]
@@ -778,34 +778,34 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 1
  303              		.text
  304              	.Letext0:
  305              		.file 3 "user/drivers/DMP/mllite/start_manager.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 14
 
 
  306              		.file 4 "user/drivers/DMP/mllite/results_holder.h"
  307              		.file 5 "user/drivers/DMP/mllite/data_builder.h"
  308              		.file 6 "user/drivers/DMP/driver/include/mltypes.h"
  309              		.file 7 "user/drivers/DMP/mllite/storage_manager.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 mpl.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:21     .rodata.inv_init_mpl.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:28     .text.inv_init_mpl:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:34     .text.inv_init_mpl:00000000 inv_init_mpl
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:171    .text.inv_init_mpl:00000080 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:294    .rodata.__func__.1:00000000 __func__.1
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:178    .text.inv_get_version:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:184    .text.inv_get_version:00000000 inv_get_version
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:206    .text.inv_get_version:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:301    .rodata.ml_ver:00000000 ml_ver
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:211    .text.inv_start_mpl:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:217    .text.inv_start_mpl:00000000 inv_start_mpl
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:278    .text.inv_start_mpl:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:288    .rodata.__func__.0:00000000 __func__.0
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:285    .rodata.__func__.0:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:291    .rodata.__func__.1:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRr7A2R.s:298    .rodata.ml_ver:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:21     .rodata.inv_init_mpl.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:28     .text.inv_init_mpl:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:34     .text.inv_init_mpl:00000000 inv_init_mpl
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:171    .text.inv_init_mpl:00000080 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:294    .rodata.__func__.1:00000000 __func__.1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:178    .text.inv_get_version:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:184    .text.inv_get_version:00000000 inv_get_version
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:206    .text.inv_get_version:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:301    .rodata.ml_ver:00000000 ml_ver
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:211    .text.inv_start_mpl:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:217    .text.inv_start_mpl:00000000 inv_start_mpl
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:278    .text.inv_start_mpl:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:288    .rodata.__func__.0:00000000 __func__.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:285    .rodata.__func__.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:291    .rodata.__func__.1:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJQxu2o.s:298    .rodata.ml_ver:00000000 $d
 
 UNDEFINED SYMBOLS
 inv_init_storage_manager

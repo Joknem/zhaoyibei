@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
   28:user/drivers/DMP/mllite/hal_outputs.c **** struct hal_output_t {
   29:user/drivers/DMP/mllite/hal_outputs.c ****     int accuracy_mag;    /**< Compass accuracy */
   30:user/drivers/DMP/mllite/hal_outputs.c **** //    int accuracy_gyro;   /**< Gyro Accuracy */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 2
 
 
   31:user/drivers/DMP/mllite/hal_outputs.c **** //    int accuracy_accel;  /**< Accel Accuracy */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
   85:user/drivers/DMP/mllite/hal_outputs.c ****         inv_time_t * timestamp)
   86:user/drivers/DMP/mllite/hal_outputs.c **** {
   87:user/drivers/DMP/mllite/hal_outputs.c ****     long gravity[3], accel[3];
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 3
 
 
   88:user/drivers/DMP/mllite/hal_outputs.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  142:user/drivers/DMP/mllite/hal_outputs.c ****     values[1] = gyro[1] * GYRO_CONVERSION;
  143:user/drivers/DMP/mllite/hal_outputs.c ****     values[2] = gyro[2] * GYRO_CONVERSION;
  144:user/drivers/DMP/mllite/hal_outputs.c ****     if (hal_out.gyro_status & INV_NEW_DATA)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 4
 
 
  145:user/drivers/DMP/mllite/hal_outputs.c ****         status = 1;
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  199:user/drivers/DMP/mllite/hal_outputs.c **** int inv_get_sensor_type_rotation_vector(float *values, int8_t *accuracy,
  200:user/drivers/DMP/mllite/hal_outputs.c ****         inv_time_t * timestamp)
  201:user/drivers/DMP/mllite/hal_outputs.c **** {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 5
 
 
  202:user/drivers/DMP/mllite/hal_outputs.c ****     *accuracy = (int8_t) hal_out.accuracy_quat;
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
   32              		@ frame_needed = 0, uses_anonymous_args = 0
   33              		.loc 1 252 1 is_stmt 0 view .LVU1
   34 0000 10B5     		push	{r4, lr}
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 6
 
 
   35              	.LCFI0:
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
   81 004e 84ED037A 		vstr.32	s14, [r4, #12]
  261:user/drivers/DMP/mllite/hal_outputs.c ****     r[1][1] = rot[4]*conv;
   82              		.loc 1 261 5 is_stmt 1 view .LVU18
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 7
 
 
   83              		.loc 1 261 21 is_stmt 0 view .LVU19
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  133              		.section	.text.google_orientation,"ax",%progbits
  134              		.align	1
  135              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 8
 
 
  136              		.thumb
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  276:user/drivers/DMP/mllite/hal_outputs.c ****     g[1] = atan2f(-R[2][1], R[2][2]) * rad2deg;
  182              		.loc 1 276 5 is_stmt 1 view .LVU45
  183              		.loc 1 276 12 is_stmt 0 view .LVU46
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 9
 
 
  184 002c DDED090A 		vldr.32	s1, [sp, #36]
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  232              		.align	2
  233              	.L11:
  234 0074 E12E6542 		.word	1113927393
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 10
 
 
  235 0078 0000B443 		.word	1135869952
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  250              		.cfi_startproc
  251              		@ args = 0, pretend = 0, frame = 16
  252              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 11
 
 
  253              		.loc 1 321 1 is_stmt 0 view .LVU60
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  295              		.loc 1 333 28 view .LVU77
  296 0020 6262     		str	r2, [r4, #36]
  334:user/drivers/DMP/mllite/hal_outputs.c **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 12
 
 
  335:user/drivers/DMP/mllite/hal_outputs.c ****     // Find the highest sample rate and tie generating 9-axis to that one.
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  337              		.loc 1 348 26 is_stmt 0 view .LVU95
  338 004a D5F82001 		ldr	r0, [r5, #288]
  339              		.loc 1 348 8 view .LVU96
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 13
 
 
  340 004e 10F4807C 		ands	ip, r0, #256
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  376              	.LVL23:
  377              	.L33:
  341:user/drivers/DMP/mllite/hal_outputs.c ****         use_sensor = 1;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 14
 
 
  378              		.loc 1 341 12 view .LVU106
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  390:user/drivers/DMP/mllite/hal_outputs.c **** 
  391:user/drivers/DMP/mllite/hal_outputs.c ****     inv_get_compass_set(compass, &accuracy, &(hal_out.mag_timestamp) );
  403              		.loc 1 391 5 view .LVU115
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 15
 
 
  404 0098 404C     		ldr	r4, .L41+8
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  372:user/drivers/DMP/mllite/hal_outputs.c ****         break;
  444              		.loc 1 372 50 is_stmt 0 view .LVU133
  445 00c8 EB6F     		ldr	r3, [r5, #124]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 16
 
 
  372:user/drivers/DMP/mllite/hal_outputs.c ****         break;
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  480              		.loc 1 398 13 view .LVU150
  481              		.loc 1 398 83 is_stmt 0 view .LVU151
  482 00ee 04AB     		add	r3, sp, #16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 17
 
 
  483 00f0 03EB8403 		add	r3, r3, r4, lsl #2
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  526 0148 21DC     		bgt	.L38
  395:user/drivers/DMP/mllite/hal_outputs.c ****                                                              INV_NEW_DATA )  {
  527              		.loc 1 395 9 view .LVU160
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 18
 
 
  395:user/drivers/DMP/mllite/hal_outputs.c ****                                                              INV_NEW_DATA )  {
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  567 018e 0020     		movs	r0, #0
  568 0190 05B0     		add	sp, sp, #20
  569              	.LCFI11:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 19
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 19
 
 
  570              		.cfi_def_cfa_offset 20
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  606 0002 0722     		movs	r2, #7
  607 0004 4FF46171 		mov	r1, #900
  608 0008 0148     		ldr	r0, .L45
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 20
 
 
  609 000a FFF7FEFF 		bl	inv_register_data_cb
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
   66:user/drivers/DMP/mllite/hal_outputs.c ****     values[1] = accel[1] * ACCEL_CONVERSION;
  654              		.loc 1 66 26 is_stmt 0 view .LVU191
  655 000c DDED017A 		vldr.32	s15, [sp, #4]	@ int
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 21
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 21
 
 
  656 0010 F8EEE77A 		vcvt.f32.s32	s15, s15
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  696              		.align	2
  697              	.L50:
  698 0050 0AE81C39 		.word	958195722
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 22
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 22
 
 
  699 0054 00000000 		.word	hal_out
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  745              		.loc 1 92 14 is_stmt 0 view .LVU215
  746 001c 019A     		ldr	r2, [sp, #4]
  747 001e 049B     		ldr	r3, [sp, #16]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 23
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 23
 
 
  748 0020 A2EBA332 		sub	r2, r2, r3, asr #14
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  788              		.loc 1 99 1 view .LVU229
  789 006a 00BF     		.align	2
  790              	.L54:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 24
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 24
 
 
  791 006c 0AE81C39 		.word	958195722
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  836              	.LVL48:
  116:user/drivers/DMP/mllite/hal_outputs.c ****     values[1] = (gravity[1] >> 14) * ACCEL_CONVERSION;
  837              		.loc 1 116 5 view .LVU241
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 25
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 25
 
 
  116:user/drivers/DMP/mllite/hal_outputs.c ****     values[1] = (gravity[1] >> 14) * ACCEL_CONVERSION;
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  876              		.cfi_def_cfa_offset 8
  877              		@ sp needed
  878 005c 10BD     		pop	{r4, pc}
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 26
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 26
 
 
  879              	.LVL49:
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  926 0018 67EE877A 		vmul.f32	s15, s15, s14
  141:user/drivers/DMP/mllite/hal_outputs.c ****     values[1] = gyro[1] * GYRO_CONVERSION;
  927              		.loc 1 141 15 view .LVU267
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 27
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 27
 
 
  928 001c C4ED007A 		vstr.32	s15, [r4]
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  969              	.LFE37:
  971              		.section	.text.inv_get_sensor_type_gyroscope_raw,"ax",%progbits
  972              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 28
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 28
 
 
  973              		.global	inv_get_sensor_type_gyroscope_raw
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1016              		.loc 1 166 15 view .LVU292
  1017 002c C4ED017A 		vstr.32	s15, [r4, #4]
  167:user/drivers/DMP/mllite/hal_outputs.c ****     if (hal_out.gyro_status & INV_NEW_DATA)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 29
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 29
 
 
  1018              		.loc 1 167 5 is_stmt 1 view .LVU293
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1064              		.cfi_startproc
  1065              		@ args = 0, pretend = 0, frame = 0
  1066              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 30
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 30
 
 
  201:user/drivers/DMP/mllite/hal_outputs.c ****     *accuracy = (int8_t) hal_out.accuracy_quat;
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  207:user/drivers/DMP/mllite/hal_outputs.c ****         values[2] = hal_out.nav_quat[3] * INV_TWO_POWER_NEG_30;
  1105              		.loc 1 207 41 is_stmt 0 view .LVU320
  1106 002c D3ED077A 		vldr.32	s15, [r3, #28]	@ int
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 31
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 31
 
 
  1107 0030 F8EEE77A 		vcvt.f32.s32	s15, s15
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1145              		.loc 1 211 38 view .LVU336
  1146 006c 9369     		ldr	r3, [r2, #24]
  211:user/drivers/DMP/mllite/hal_outputs.c ****         values[1] = -hal_out.nav_quat[2] * INV_TWO_POWER_NEG_30;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 32
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 32
 
 
  1147              		.loc 1 211 21 view .LVU337
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1185 00b4 F8EEE77A 		vcvt.f32.s32	s15, s15
  1186 00b8 67EE877A 		vmul.f32	s15, s15, s14
  214:user/drivers/DMP/mllite/hal_outputs.c ****     }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 33
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 33
 
 
  1187              		.loc 1 214 19 view .LVU354
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1232              	.LVL68:
  240:user/drivers/DMP/mllite/hal_outputs.c ****         values[i] = hal_out.compass_float[i];
  1233              		.loc 1 240 11 is_stmt 0 view .LVU366
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 34
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 34
 
 
  1234 000e 0023     		movs	r3, #0
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1274 003a DA62     		str	r2, [r3, #44]
  248:user/drivers/DMP/mllite/hal_outputs.c **** }
  1275              		.loc 1 248 5 is_stmt 1 view .LVU381
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 35
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 35
 
 
  249:user/drivers/DMP/mllite/hal_outputs.c **** 
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1321              		.loc 1 310 5 is_stmt 1 view .LVU392
  1322 000e FFF7FEFF 		bl	google_orientation
  1323              	.LVL75:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 36
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 36
 
 
  312:user/drivers/DMP/mllite/hal_outputs.c **** }
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1373              		.thumb
  1374              		.thumb_func
  1376              	inv_init_hal_outputs:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 37
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 37
 
 
  1377              	.LFB47:
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  451:user/drivers/DMP/mllite/hal_outputs.c ****     for (i=0; i<3; i++)  {
  1415              		.loc 1 451 16 discriminator 1 view .LVU409
  1416 0026 022C     		cmp	r4, #2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 38
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 38
 
 
  1417 0028 F2DD     		ble	.L93
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1456 0006 0248     		ldr	r0, .L99
  1457 0008 FFF7FEFF 		bl	inv_register_mpl_start_notification
  1458              	.LVL83:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 39
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 39
 
 
  470:user/drivers/DMP/mllite/hal_outputs.c ****     return result;
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1502 0010 00000000 		.word	inv_start_hal_outputs
  1503              		.cfi_endproc
  1504              	.LFE49:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 40
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 40
 
 
  1506              		.global	compass_low_pass_filter_coeff
@@ -2368,67 +2368,67 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 1
  1530              		.file 7 "user/drivers/DMP/mllite/results_holder.h"
  1531              		.file 8 "/usr/local/include/math.h"
  1532              		.file 9 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 41
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 41
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 hal_outputs.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:21     .text.inv_get_rotation:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:26     .text.inv_get_rotation:00000000 inv_get_rotation
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:128    .text.inv_get_rotation:000000a8 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1521   .bss.hal_out:00000000 hal_out
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:134    .text.google_orientation:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:139    .text.google_orientation:00000000 google_orientation
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:234    .text.google_orientation:00000074 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:240    .text.inv_generate_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:246    .text.inv_generate_hal_outputs:00000000 inv_generate_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:366    .text.inv_generate_hal_outputs:00000076 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:371    .text.inv_generate_hal_outputs:0000007a $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:578    .text.inv_generate_hal_outputs:00000194 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:586    .text.inv_start_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:592    .text.inv_start_hal_outputs:00000000 inv_start_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:617    .text.inv_start_hal_outputs:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:622    .text.inv_get_sensor_type_accelerometer:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:628    .text.inv_get_sensor_type_accelerometer:00000000 inv_get_sensor_type_accelerometer
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:698    .text.inv_get_sensor_type_accelerometer:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:704    .text.inv_get_sensor_type_linear_acceleration:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:710    .text.inv_get_sensor_type_linear_acceleration:00000000 inv_get_sensor_type_linear_acceleration
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:791    .text.inv_get_sensor_type_linear_acceleration:0000006c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:796    .text.inv_get_sensor_type_gravity:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:802    .text.inv_get_sensor_type_gravity:00000000 inv_get_sensor_type_gravity
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:884    .text.inv_get_sensor_type_gravity:00000060 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:890    .text.inv_get_sensor_type_gyroscope:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:896    .text.inv_get_sensor_type_gyroscope:00000000 inv_get_sensor_type_gyroscope
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:966    .text.inv_get_sensor_type_gyroscope:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:972    .text.inv_get_sensor_type_gyroscope_raw:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:978    .text.inv_get_sensor_type_gyroscope_raw:00000000 inv_get_sensor_type_gyroscope_raw
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1048   .text.inv_get_sensor_type_gyroscope_raw:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1054   .text.inv_get_sensor_type_rotation_vector:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1060   .text.inv_get_sensor_type_rotation_vector:00000000 inv_get_sensor_type_rotation_vector
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1193   .text.inv_get_sensor_type_rotation_vector:000000c4 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1199   .text.inv_get_sensor_type_magnetic_field:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1205   .text.inv_get_sensor_type_magnetic_field:00000000 inv_get_sensor_type_magnetic_field
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1285   .text.inv_get_sensor_type_magnetic_field:00000044 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1290   .text.inv_get_sensor_type_orientation:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1296   .text.inv_get_sensor_type_orientation:00000000 inv_get_sensor_type_orientation
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1331   .text.inv_get_sensor_type_orientation:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1336   .text.inv_stop_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1342   .text.inv_stop_hal_outputs:00000000 inv_stop_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1365   .text.inv_stop_hal_outputs:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1370   .text.inv_init_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1376   .text.inv_init_hal_outputs:00000000 inv_init_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1427   .text.inv_init_hal_outputs:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1511   .data.compass_low_pass_filter_coeff:00000000 compass_low_pass_filter_coeff
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1433   .text.inv_enable_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1439   .text.inv_enable_hal_outputs:00000000 inv_enable_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1465   .text.inv_enable_hal_outputs:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1470   .text.inv_disable_hal_outputs:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1476   .text.inv_disable_hal_outputs:00000000 inv_disable_hal_outputs
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1502   .text.inv_disable_hal_outputs:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1508   .data.compass_low_pass_filter_coeff:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s:1518   .bss.hal_out:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:21     .text.inv_get_rotation:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:26     .text.inv_get_rotation:00000000 inv_get_rotation
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:128    .text.inv_get_rotation:000000a8 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1521   .bss.hal_out:00000000 hal_out
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:134    .text.google_orientation:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:139    .text.google_orientation:00000000 google_orientation
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:234    .text.google_orientation:00000074 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:240    .text.inv_generate_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:246    .text.inv_generate_hal_outputs:00000000 inv_generate_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:366    .text.inv_generate_hal_outputs:00000076 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:371    .text.inv_generate_hal_outputs:0000007a $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:578    .text.inv_generate_hal_outputs:00000194 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:586    .text.inv_start_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:592    .text.inv_start_hal_outputs:00000000 inv_start_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:617    .text.inv_start_hal_outputs:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:622    .text.inv_get_sensor_type_accelerometer:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:628    .text.inv_get_sensor_type_accelerometer:00000000 inv_get_sensor_type_accelerometer
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:698    .text.inv_get_sensor_type_accelerometer:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:704    .text.inv_get_sensor_type_linear_acceleration:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:710    .text.inv_get_sensor_type_linear_acceleration:00000000 inv_get_sensor_type_linear_acceleration
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:791    .text.inv_get_sensor_type_linear_acceleration:0000006c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:796    .text.inv_get_sensor_type_gravity:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:802    .text.inv_get_sensor_type_gravity:00000000 inv_get_sensor_type_gravity
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:884    .text.inv_get_sensor_type_gravity:00000060 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:890    .text.inv_get_sensor_type_gyroscope:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:896    .text.inv_get_sensor_type_gyroscope:00000000 inv_get_sensor_type_gyroscope
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:966    .text.inv_get_sensor_type_gyroscope:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:972    .text.inv_get_sensor_type_gyroscope_raw:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:978    .text.inv_get_sensor_type_gyroscope_raw:00000000 inv_get_sensor_type_gyroscope_raw
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1048   .text.inv_get_sensor_type_gyroscope_raw:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1054   .text.inv_get_sensor_type_rotation_vector:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1060   .text.inv_get_sensor_type_rotation_vector:00000000 inv_get_sensor_type_rotation_vector
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1193   .text.inv_get_sensor_type_rotation_vector:000000c4 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1199   .text.inv_get_sensor_type_magnetic_field:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1205   .text.inv_get_sensor_type_magnetic_field:00000000 inv_get_sensor_type_magnetic_field
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1285   .text.inv_get_sensor_type_magnetic_field:00000044 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1290   .text.inv_get_sensor_type_orientation:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1296   .text.inv_get_sensor_type_orientation:00000000 inv_get_sensor_type_orientation
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1331   .text.inv_get_sensor_type_orientation:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1336   .text.inv_stop_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1342   .text.inv_stop_hal_outputs:00000000 inv_stop_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1365   .text.inv_stop_hal_outputs:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1370   .text.inv_init_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1376   .text.inv_init_hal_outputs:00000000 inv_init_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1427   .text.inv_init_hal_outputs:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1511   .data.compass_low_pass_filter_coeff:00000000 compass_low_pass_filter_coeff
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1433   .text.inv_enable_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1439   .text.inv_enable_hal_outputs:00000000 inv_enable_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1465   .text.inv_enable_hal_outputs:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1470   .text.inv_disable_hal_outputs:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1476   .text.inv_disable_hal_outputs:00000000 inv_disable_hal_outputs
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1502   .text.inv_disable_hal_outputs:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1508   .data.compass_low_pass_filter_coeff:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s:1518   .bss.hal_out:00000000 $d
 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccH25TWN.s 			page 42
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccV89CWC.s 			page 42
 
 
 UNDEFINED SYMBOLS

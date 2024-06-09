@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
   28:user/drivers/DMP/mllite/start_manager.c **** typedef inv_error_t (*inv_start_cb_func)();
   29:user/drivers/DMP/mllite/start_manager.c **** struct inv_start_cb_t {
   30:user/drivers/DMP/mllite/start_manager.c ****     int num_cb;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 2
 
 
   31:user/drivers/DMP/mllite/start_manager.c ****     inv_start_cb_func start_cb[INV_MAX_START_CB];
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
   65              		.loc 1 50 1 is_stmt 1 view -0
   66              		.cfi_startproc
   67              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 3
 
 
   68              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
  111 002c 9942     		cmp	r1, r3
  112 002e 0EDD     		ble	.L12
   54:user/drivers/DMP/mllite/start_manager.c ****         if (inv_start_cb.start_cb[kk] == start_cb) {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 4
 
 
  113              		.loc 1 54 9 is_stmt 1 view .LVU17
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
  153              	.LFE11:
  155              		.section	.text.inv_register_mpl_start_notification,"ax",%progbits
  156              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 5
 
 
  157              		.global	inv_register_mpl_start_notification
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
   81:user/drivers/DMP/mllite/start_manager.c **** }
  197              		.loc 1 81 1 view .LVU42
  198 001a 7047     		bx	lr
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 6
 
 
  199              	.L20:
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
  241              	.LVL17:
  242              	.L22:
  243              		.loc 1 94 21 discriminator 1 view .LVU52
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 7
 
 
  244              		.loc 1 94 35 is_stmt 0 discriminator 1 view .LVU53
@@ -418,30 +418,30 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 1
  290      00000000 
  291              		.text
  292              	.Letext0:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 8
 
 
  293              		.file 2 "user/drivers/DMP/driver/include/mltypes.h"
  294              		.file 3 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 start_manager.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:21     .text.inv_init_start_manager:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:27     .text.inv_init_start_manager:00000000 inv_init_start_manager
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:51     .text.inv_init_start_manager:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:289    .bss.inv_start_cb:00000000 inv_start_cb
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:56     .text.inv_unregister_mpl_start_notification:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:62     .text.inv_unregister_mpl_start_notification:00000000 inv_unregister_mpl_start_notification
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:151    .text.inv_unregister_mpl_start_notification:00000054 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:156    .text.inv_register_mpl_start_notification:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:162    .text.inv_register_mpl_start_notification:00000000 inv_register_mpl_start_notification
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:202    .text.inv_register_mpl_start_notification:0000001c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:207    .text.inv_execute_mpl_start_notification:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:213    .text.inv_execute_mpl_start_notification:00000000 inv_execute_mpl_start_notification
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:281    .text.inv_execute_mpl_start_notification:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFNCupA.s:286    .bss.inv_start_cb:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:21     .text.inv_init_start_manager:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:27     .text.inv_init_start_manager:00000000 inv_init_start_manager
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:51     .text.inv_init_start_manager:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:289    .bss.inv_start_cb:00000000 inv_start_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:56     .text.inv_unregister_mpl_start_notification:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:62     .text.inv_unregister_mpl_start_notification:00000000 inv_unregister_mpl_start_notification
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:151    .text.inv_unregister_mpl_start_notification:00000054 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:156    .text.inv_register_mpl_start_notification:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:162    .text.inv_register_mpl_start_notification:00000000 inv_register_mpl_start_notification
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:202    .text.inv_register_mpl_start_notification:0000001c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:207    .text.inv_execute_mpl_start_notification:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:213    .text.inv_execute_mpl_start_notification:00000000 inv_execute_mpl_start_notification
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:281    .text.inv_execute_mpl_start_notification:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc9tKGSF.s:286    .bss.inv_start_cb:00000000 $d
 
 UNDEFINED SYMBOLS
 memset

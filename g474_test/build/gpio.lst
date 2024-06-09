@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
   28:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
   29:Core/Src/gpio.c **** /* Configure GPIO                                                             */
   30:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 2
 
 
   31:Core/Src/gpio.c **** /* USER CODE BEGIN 1 */
@@ -106,7 +106,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
   53              	.LBB2:
   54              		.loc 1 48 3 view .LVU4
   55              		.loc 1 48 3 view .LVU5
-  56 0010 2D4B     		ldr	r3, .L3
+  56 0010 314B     		ldr	r3, .L3
   57 0012 DA6C     		ldr	r2, [r3, #76]
   58 0014 42F00402 		orr	r2, r2, #4
   59 0018 DA64     		str	r2, [r3, #76]
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
   65 0022 019A     		ldr	r2, [sp, #4]
   66              	.LBE2:
   67              		.loc 1 48 3 view .LVU8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 3
 
 
   49:Core/Src/gpio.c ****   __HAL_RCC_GPIOF_CLK_ENABLE();
@@ -171,14 +171,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
  112              		.loc 1 51 3 view .LVU26
   52:Core/Src/gpio.c **** 
   53:Core/Src/gpio.c ****   /*Configure GPIO pin Output Level */
-  54:Core/Src/gpio.c ****   HAL_GPIO_WritePin(GPIOC, AD0_Pin|user_button_Pin, GPIO_PIN_RESET);
+  54:Core/Src/gpio.c ****   HAL_GPIO_WritePin(AD0_GPIO_Port, AD0_Pin, GPIO_PIN_RESET);
  113              		.loc 1 54 3 view .LVU27
- 114 005a 1C4E     		ldr	r6, .L3+4
+ 114 005a 204E     		ldr	r6, .L3+4
  115 005c 2246     		mov	r2, r4
- 116 005e 42F20201 		movw	r1, #8194
+ 116 005e 4FF40051 		mov	r1, #8192
  117 0062 3046     		mov	r0, r6
  118 0064 FFF7FEFF 		bl	HAL_GPIO_WritePin
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 4
 
 
  119              	.LVL0:
@@ -224,109 +224,123 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 1
  146              		.loc 1 67 3 view .LVU38
  147              		.loc 1 67 23 is_stmt 0 view .LVU39
  148 008c 0597     		str	r7, [sp, #20]
-  68:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  68:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
  149              		.loc 1 68 3 is_stmt 1 view .LVU40
  150              		.loc 1 68 24 is_stmt 0 view .LVU41
- 151 008e 0695     		str	r5, [sp, #24]
+ 151 008e 4FF48813 		mov	r3, #1114112
+ 152 0092 0693     		str	r3, [sp, #24]
   69:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
- 152              		.loc 1 69 3 is_stmt 1 view .LVU42
- 153              		.loc 1 69 24 is_stmt 0 view .LVU43
- 154 0090 0794     		str	r4, [sp, #28]
-  70:Core/Src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 155              		.loc 1 70 3 is_stmt 1 view .LVU44
- 156              		.loc 1 70 25 is_stmt 0 view .LVU45
- 157 0092 0894     		str	r4, [sp, #32]
-  71:Core/Src/gpio.c ****   HAL_GPIO_Init(user_button_GPIO_Port, &GPIO_InitStruct);
- 158              		.loc 1 71 3 is_stmt 1 view .LVU46
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 5
+ 153              		.loc 1 69 3 is_stmt 1 view .LVU42
+ 154              		.loc 1 69 24 is_stmt 0 view .LVU43
+ 155 0094 0794     		str	r4, [sp, #28]
+  70:Core/Src/gpio.c ****   HAL_GPIO_Init(user_button_GPIO_Port, &GPIO_InitStruct);
+ 156              		.loc 1 70 3 is_stmt 1 view .LVU44
+ 157 0096 05A9     		add	r1, sp, #20
+ 158 0098 3046     		mov	r0, r6
+ 159 009a FFF7FEFF 		bl	HAL_GPIO_Init
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 5
 
 
- 159 0094 05A9     		add	r1, sp, #20
- 160 0096 3046     		mov	r0, r6
- 161 0098 FFF7FEFF 		bl	HAL_GPIO_Init
- 162              	.LVL3:
-  72:Core/Src/gpio.c **** 
-  73:Core/Src/gpio.c ****   /*Configure GPIO pin : PtPin */
-  74:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = AD1_Pin;
- 163              		.loc 1 74 3 view .LVU47
- 164              		.loc 1 74 23 is_stmt 0 view .LVU48
- 165 009c 0595     		str	r5, [sp, #20]
-  75:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
- 166              		.loc 1 75 3 is_stmt 1 view .LVU49
- 167              		.loc 1 75 24 is_stmt 0 view .LVU50
- 168 009e 0695     		str	r5, [sp, #24]
-  76:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
- 169              		.loc 1 76 3 is_stmt 1 view .LVU51
- 170              		.loc 1 76 24 is_stmt 0 view .LVU52
- 171 00a0 0794     		str	r4, [sp, #28]
-  77:Core/Src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 172              		.loc 1 77 3 is_stmt 1 view .LVU53
- 173              		.loc 1 77 25 is_stmt 0 view .LVU54
- 174 00a2 0894     		str	r4, [sp, #32]
-  78:Core/Src/gpio.c ****   HAL_GPIO_Init(AD1_GPIO_Port, &GPIO_InitStruct);
- 175              		.loc 1 78 3 is_stmt 1 view .LVU55
- 176 00a4 05A9     		add	r1, sp, #20
- 177 00a6 4FF09040 		mov	r0, #1207959552
- 178 00aa FFF7FEFF 		bl	HAL_GPIO_Init
- 179              	.LVL4:
-  79:Core/Src/gpio.c **** 
-  80:Core/Src/gpio.c ****   /*Configure GPIO pin : PtPin */
-  81:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = LED_Pin;
- 180              		.loc 1 81 3 view .LVU56
- 181              		.loc 1 81 23 is_stmt 0 view .LVU57
- 182 00ae 2023     		movs	r3, #32
- 183 00b0 0593     		str	r3, [sp, #20]
-  82:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
- 184              		.loc 1 82 3 is_stmt 1 view .LVU58
- 185              		.loc 1 82 24 is_stmt 0 view .LVU59
- 186 00b2 0695     		str	r5, [sp, #24]
-  83:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_PULLUP;
- 187              		.loc 1 83 3 is_stmt 1 view .LVU60
- 188              		.loc 1 83 24 is_stmt 0 view .LVU61
- 189 00b4 0795     		str	r5, [sp, #28]
-  84:Core/Src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 190              		.loc 1 84 3 is_stmt 1 view .LVU62
- 191              		.loc 1 84 25 is_stmt 0 view .LVU63
- 192 00b6 0894     		str	r4, [sp, #32]
-  85:Core/Src/gpio.c ****   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
- 193              		.loc 1 85 3 is_stmt 1 view .LVU64
- 194 00b8 05A9     		add	r1, sp, #20
- 195 00ba 4FF09040 		mov	r0, #1207959552
- 196 00be FFF7FEFF 		bl	HAL_GPIO_Init
- 197              	.LVL5:
-  86:Core/Src/gpio.c **** 
-  87:Core/Src/gpio.c **** }
- 198              		.loc 1 87 1 is_stmt 0 view .LVU65
- 199 00c2 0BB0     		add	sp, sp, #44
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 6
+ 160              	.LVL3:
+  71:Core/Src/gpio.c **** 
+  72:Core/Src/gpio.c ****   /*Configure GPIO pin : PtPin */
+  73:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = AD1_Pin;
+ 161              		.loc 1 73 3 view .LVU45
+ 162              		.loc 1 73 23 is_stmt 0 view .LVU46
+ 163 009e 0595     		str	r5, [sp, #20]
+  74:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 164              		.loc 1 74 3 is_stmt 1 view .LVU47
+ 165              		.loc 1 74 24 is_stmt 0 view .LVU48
+ 166 00a0 0695     		str	r5, [sp, #24]
+  75:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 167              		.loc 1 75 3 is_stmt 1 view .LVU49
+ 168              		.loc 1 75 24 is_stmt 0 view .LVU50
+ 169 00a2 0794     		str	r4, [sp, #28]
+  76:Core/Src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 170              		.loc 1 76 3 is_stmt 1 view .LVU51
+ 171              		.loc 1 76 25 is_stmt 0 view .LVU52
+ 172 00a4 0894     		str	r4, [sp, #32]
+  77:Core/Src/gpio.c ****   HAL_GPIO_Init(AD1_GPIO_Port, &GPIO_InitStruct);
+ 173              		.loc 1 77 3 is_stmt 1 view .LVU53
+ 174 00a6 05A9     		add	r1, sp, #20
+ 175 00a8 4FF09040 		mov	r0, #1207959552
+ 176 00ac FFF7FEFF 		bl	HAL_GPIO_Init
+ 177              	.LVL4:
+  78:Core/Src/gpio.c **** 
+  79:Core/Src/gpio.c ****   /*Configure GPIO pin : PtPin */
+  80:Core/Src/gpio.c ****   GPIO_InitStruct.Pin = LED_Pin;
+ 178              		.loc 1 80 3 view .LVU54
+ 179              		.loc 1 80 23 is_stmt 0 view .LVU55
+ 180 00b0 2023     		movs	r3, #32
+ 181 00b2 0593     		str	r3, [sp, #20]
+  81:Core/Src/gpio.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 182              		.loc 1 81 3 is_stmt 1 view .LVU56
+ 183              		.loc 1 81 24 is_stmt 0 view .LVU57
+ 184 00b4 0695     		str	r5, [sp, #24]
+  82:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_PULLUP;
+ 185              		.loc 1 82 3 is_stmt 1 view .LVU58
+ 186              		.loc 1 82 24 is_stmt 0 view .LVU59
+ 187 00b6 0795     		str	r5, [sp, #28]
+  83:Core/Src/gpio.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 188              		.loc 1 83 3 is_stmt 1 view .LVU60
+ 189              		.loc 1 83 25 is_stmt 0 view .LVU61
+ 190 00b8 0894     		str	r4, [sp, #32]
+  84:Core/Src/gpio.c ****   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
+ 191              		.loc 1 84 3 is_stmt 1 view .LVU62
+ 192 00ba 05A9     		add	r1, sp, #20
+ 193 00bc 4FF09040 		mov	r0, #1207959552
+ 194 00c0 FFF7FEFF 		bl	HAL_GPIO_Init
+ 195              	.LVL5:
+  85:Core/Src/gpio.c **** 
+  86:Core/Src/gpio.c ****   /* EXTI interrupt init*/
+  87:Core/Src/gpio.c ****   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+ 196              		.loc 1 87 3 view .LVU63
+ 197 00c4 2246     		mov	r2, r4
+ 198 00c6 2146     		mov	r1, r4
+ 199 00c8 0720     		movs	r0, #7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 6
 
 
- 200              	.LCFI2:
- 201              		.cfi_def_cfa_offset 20
- 202              		@ sp needed
- 203 00c4 F0BD     		pop	{r4, r5, r6, r7, pc}
- 204              	.L4:
- 205 00c6 00BF     		.align	2
- 206              	.L3:
- 207 00c8 00100240 		.word	1073876992
- 208 00cc 00080048 		.word	1207961600
- 209              		.cfi_endproc
- 210              	.LFE132:
- 212              		.text
- 213              	.Letext0:
- 214              		.file 2 "/usr/local/include/_types/_uint16_t.h"
- 215              		.file 3 "/usr/local/include/_types/_uint32_t.h"
- 216              		.file 4 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
- 217              		.file 5 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_gpio.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s 			page 7
+ 200 00ca FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 201              	.LVL6:
+  88:Core/Src/gpio.c ****   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+ 202              		.loc 1 88 3 view .LVU64
+ 203 00ce 0720     		movs	r0, #7
+ 204 00d0 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 205              	.LVL7:
+  89:Core/Src/gpio.c **** 
+  90:Core/Src/gpio.c **** }
+ 206              		.loc 1 90 1 is_stmt 0 view .LVU65
+ 207 00d4 0BB0     		add	sp, sp, #44
+ 208              	.LCFI2:
+ 209              		.cfi_def_cfa_offset 20
+ 210              		@ sp needed
+ 211 00d6 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 212              	.L4:
+ 213              		.align	2
+ 214              	.L3:
+ 215 00d8 00100240 		.word	1073876992
+ 216 00dc 00080048 		.word	1207961600
+ 217              		.cfi_endproc
+ 218              	.LFE132:
+ 220              		.text
+ 221              	.Letext0:
+ 222              		.file 2 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 223              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 224              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 225              		.file 5 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_gpio.h"
+ 226              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_cortex.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 gpio.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s:21     .text.MX_GPIO_Init:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccereeli.s:207    .text.MX_GPIO_Init:000000c8 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:21     .text.MX_GPIO_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:215    .text.MX_GPIO_Init:000000d8 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
 HAL_GPIO_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ

@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
   29:user/drivers/DMP/mllite/data_builder.c **** 
   30:user/drivers/DMP/mllite/data_builder.c **** #include "log.h"
   31:user/drivers/DMP/mllite/data_builder.c **** #undef MPL_LOG_TAG
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 2
 
 
   32:user/drivers/DMP/mllite/data_builder.c **** #define MPL_LOG_TAG "MPL"
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
   86:user/drivers/DMP/mllite/data_builder.c **** * @param[in] file File to write to, must be open.
   87:user/drivers/DMP/mllite/data_builder.c **** */
   88:user/drivers/DMP/mllite/data_builder.c **** void inv_turn_on_data_logging(FILE *file)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 3
 
 
   89:user/drivers/DMP/mllite/data_builder.c **** {
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  143:user/drivers/DMP/mllite/data_builder.c **** 
  144:user/drivers/DMP/mllite/data_builder.c **** /** Gyro sensitivity.
  145:user/drivers/DMP/mllite/data_builder.c **** * @return A scale factor to convert device units to degrees per second scaled by 2^16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 4
 
 
  146:user/drivers/DMP/mllite/data_builder.c **** * such that degrees_per_second  = device_units * sensitivity / 2^30. Typically
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  200:user/drivers/DMP/mllite/data_builder.c ****         int type = PLAYBACK_DBG_TYPE_G_ORIENT;
  201:user/drivers/DMP/mllite/data_builder.c ****         fwrite(&type, sizeof(type), 1, inv_data_builder.file);
  202:user/drivers/DMP/mllite/data_builder.c ****         fwrite(&orientation, sizeof(orientation), 1, inv_data_builder.file);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 5
 
 
  203:user/drivers/DMP/mllite/data_builder.c ****         fwrite(&sensitivity, sizeof(sensitivity), 1, inv_data_builder.file);
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  257:user/drivers/DMP/mllite/data_builder.c ****         fwrite(&sample_rate_us, sizeof(sample_rate_us), 1, inv_data_builder.file);
  258:user/drivers/DMP/mllite/data_builder.c ****     }
  259:user/drivers/DMP/mllite/data_builder.c **** #endif
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 6
 
 
  260:user/drivers/DMP/mllite/data_builder.c ****     sensors.compass.sample_rate_us = sample_rate_us;
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  314:user/drivers/DMP/mllite/data_builder.c **** /** Set Compass Bandwidth in Hz
  315:user/drivers/DMP/mllite/data_builder.c **** * @param[in]  bandwidth_hz Gyro bandwidth in Hz
  316:user/drivers/DMP/mllite/data_builder.c **** */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 7
 
 
  317:user/drivers/DMP/mllite/data_builder.c **** void inv_set_compass_bandwidth(int bandwidth_hz)
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  371:user/drivers/DMP/mllite/data_builder.c **** }
  372:user/drivers/DMP/mllite/data_builder.c **** 
  373:user/drivers/DMP/mllite/data_builder.c **** /** Sets the orientation and sensitivity of the gyro data.
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 8
 
 
  374:user/drivers/DMP/mllite/data_builder.c **** * @param[in] orientation A scalar defining the transformation from chip mounting
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  428:user/drivers/DMP/mllite/data_builder.c **** * @param[in] bias bias in the mounting frame, in hardware units scaled by
  429:user/drivers/DMP/mllite/data_builder.c **** *                 2^16. Length 3.
  430:user/drivers/DMP/mllite/data_builder.c **** */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 9
 
 
  431:user/drivers/DMP/mllite/data_builder.c **** void inv_apply_calibration(struct inv_single_sensor_t *sensor, const long *bias)
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  485:user/drivers/DMP/mllite/data_builder.c **** * @param[in] bias Accel bias, length 3. In HW units scaled by 2^16 in body frame
  486:user/drivers/DMP/mllite/data_builder.c **** * @param[in] accuracy Accuracy rating from 0 to 3, with 3 being most accurate.
  487:user/drivers/DMP/mllite/data_builder.c **** */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 10
 
 
  488:user/drivers/DMP/mllite/data_builder.c **** void inv_set_accel_bias(const long *bias, int accuracy)
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  542:user/drivers/DMP/mllite/data_builder.c **** void inv_set_gyro_bias(const long *bias, int accuracy)
  543:user/drivers/DMP/mllite/data_builder.c **** {
  544:user/drivers/DMP/mllite/data_builder.c ****     if (bias != NULL) {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 11
 
 
  545:user/drivers/DMP/mllite/data_builder.c ****         if (memcmp(inv_data_builder.save.gyro_bias, bias, sizeof(inv_data_builder.save.gyro_bias)))
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  599:user/drivers/DMP/mllite/data_builder.c ****     if (temp != NULL)
  600:user/drivers/DMP/mllite/data_builder.c ****         temp[0] = inv_data_builder.save.gyro_temp;
  601:user/drivers/DMP/mllite/data_builder.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 12
 
 
  602:user/drivers/DMP/mllite/data_builder.c **** 
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  656:user/drivers/DMP/mllite/data_builder.c ****     }
  657:user/drivers/DMP/mllite/data_builder.c ****     sensors.accel.status |= INV_NEW_DATA | INV_SENSOR_ON;
  658:user/drivers/DMP/mllite/data_builder.c ****     sensors.accel.timestamp_prev = sensors.accel.timestamp;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 13
 
 
  659:user/drivers/DMP/mllite/data_builder.c ****     sensors.accel.timestamp = timestamp;
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  713:user/drivers/DMP/mllite/data_builder.c **** 
  714:user/drivers/DMP/mllite/data_builder.c ****     if ((status & INV_CALIBRATED) == 0) {
  715:user/drivers/DMP/mllite/data_builder.c ****         long data[3];
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 14
 
 
  716:user/drivers/DMP/mllite/data_builder.c ****         inv_set_compass_soft_iron_input_data(compass);
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  770:user/drivers/DMP/mllite/data_builder.c **** * @return Returns INV_SUCCESS if successful or an error code if not.
  771:user/drivers/DMP/mllite/data_builder.c **** */
  772:user/drivers/DMP/mllite/data_builder.c **** inv_error_t inv_build_quat(const long *quat, int status, inv_time_t timestamp)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 15
 
 
  773:user/drivers/DMP/mllite/data_builder.c **** {
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  827:user/drivers/DMP/mllite/data_builder.c **** {
  828:user/drivers/DMP/mllite/data_builder.c ****     sensors.temp.status = 0;
  829:user/drivers/DMP/mllite/data_builder.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 16
 
 
  830:user/drivers/DMP/mllite/data_builder.c **** 
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  884:user/drivers/DMP/mllite/data_builder.c **** 
  885:user/drivers/DMP/mllite/data_builder.c ****     return result;
  886:user/drivers/DMP/mllite/data_builder.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 17
 
 
  887:user/drivers/DMP/mllite/data_builder.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  941:user/drivers/DMP/mllite/data_builder.c ****     if (sensors.accel.status & INV_NEW_DATA)
  942:user/drivers/DMP/mllite/data_builder.c ****         mode |= INV_ACCEL_NEW;
  943:user/drivers/DMP/mllite/data_builder.c ****     if (sensors.compass.status & INV_NEW_DATA)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 18
 
 
  944:user/drivers/DMP/mllite/data_builder.c ****         mode |= INV_MAG_NEW;
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  976:user/drivers/DMP/mllite/data_builder.c ****     if (sensors.accel.status & INV_NEW_DATA) {
   50              		.loc 1 976 5 view .LVU8
   51              		.loc 1 976 22 is_stmt 0 view .LVU9
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 19
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 19
 
 
   52 0012 234B     		ldr	r3, .L7
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
   94 0050 134B     		ldr	r3, .L7
   95 0052 D3F82031 		ldr	r3, [r3, #288]
   96              		.loc 1 988 8 view .LVU28
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 20
 
 
   97 0056 13F0400F 		tst	r3, #64
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  127 0084 D3F8FC20 		ldr	r2, [r3, #252]
  128              		.loc 1 1012 25 view .LVU43
  129 0088 22F04002 		bic	r2, r2, #64
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 21
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 21
 
 
  130 008c C3F8FC20 		str	r2, [r3, #252]
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  179              	.LFE35:
  181              		.section	.text.inv_db_load_func,"ax",%progbits
  182              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 22
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 22
 
 
  183              		.syntax unified
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  115:user/drivers/DMP/mllite/data_builder.c ****         inv_set_compass_bias_found(1);
  225              		.loc 1 115 5 is_stmt 1 view .LVU66
  115:user/drivers/DMP/mllite/data_builder.c ****         inv_set_compass_bias_found(1);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 23
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 23
 
 
  226              		.loc 1 115 8 is_stmt 0 view .LVU67
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  277              		.syntax unified
  278              		.thumb
  279              		.thumb_func
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 24
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 24
 
 
  281              	inv_get_accel_sensitivity:
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  333              	set_sensor_orientation_and_scale:
  334              	.LVL8:
  335              	.LFB40:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 25
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 25
 
 
  182:user/drivers/DMP/mllite/data_builder.c ****     sensor->sensitivity = sensitivity;
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  381              	.LVL12:
  208:user/drivers/DMP/mllite/data_builder.c **** 
  382              		.loc 1 208 1 view .LVU91
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 26
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 26
 
 
  383 000c 08BD     		pop	{r3, pc}
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  427              		.loc 1 225 32 view .LVU103
  428 001c 014A     		ldr	r2, .L35
  429 001e 1364     		str	r3, [r2, #64]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 27
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 27
 
 
  430              	.L33:
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  244:user/drivers/DMP/mllite/data_builder.c ****     }
  475              		.loc 1 244 50 is_stmt 0 view .LVU115
  476 0018 054B     		ldr	r3, .L39+8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 28
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 28
 
 
  477 001a 93FBF0F3 		sdiv	r3, r3, r0
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  262:user/drivers/DMP/mllite/data_builder.c ****         sensors.compass.bandwidth = (int)(1000000L / sample_rate_us);
  523              		.loc 1 262 8 view .LVU126
  524 001a 2BB9     		cbnz	r3, .L41
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 29
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 29
 
 
  263:user/drivers/DMP/mllite/data_builder.c ****     }
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  572              	.LFE45:
  574              		.section	.text.inv_get_accel_sample_rate_ms,"ax",%progbits
  575              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 30
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 30
 
 
  576              		.global	inv_get_accel_sample_rate_ms
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  624 0006 0360     		str	r3, [r0]
  280:user/drivers/DMP/mllite/data_builder.c **** 
  625              		.loc 1 280 1 view .LVU145
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 31
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 31
 
 
  626 0008 7047     		bx	lr
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  675              		.global	inv_set_gyro_bandwidth
  676              		.syntax unified
  677              		.thumb
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 32
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 32
 
 
  678              		.thumb_func
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  727              	.LFE50:
  729              		.section	.text.inv_set_compass_bandwidth,"ax",%progbits
  730              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 33
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 33
 
 
  731              		.global	inv_set_compass_bandwidth
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  780              	.L67:
  781 000c 00000000 		.word	sensors
  782              		.cfi_endproc
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 34
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 34
 
 
  783              	.LFE52:
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  833 0008 7047     		bx	lr
  834              	.L74:
  835 000a 00BF     		.align	2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 35
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 35
 
 
  836              	.L73:
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  880 001a 9B6B     		ldr	r3, [r3, #56]
  357:user/drivers/DMP/mllite/data_builder.c ****             timestamp = sensors.gyro.timestamp;
  881              		.loc 1 357 12 view .LVU190
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 36
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 36
 
 
  882 001c 8342     		cmp	r3, r0
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  921 0050 1846     		mov	r0, r3
  922              	.LVL28:
  370:user/drivers/DMP/mllite/data_builder.c **** }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 37
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 37
 
 
  923              		.loc 1 370 5 is_stmt 1 view .LVU206
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  971              	.L89:
  972 000e 00BF     		.align	2
  973              	.L88:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 38
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 38
 
 
  974 0010 44000000 		.word	sensors+68
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1026              	.LFB58:
  419:user/drivers/DMP/mllite/data_builder.c ****     y[0] = inv_q30_mult(A[0], x[0]) + inv_q30_mult(A[1], x[1]) + inv_q30_mult(A[2], x[2]);
  1027              		.loc 1 419 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 39
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 39
 
 
  1028              		.cfi_startproc
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1071 0026 3E60     		str	r6, [r7]
  421:user/drivers/DMP/mllite/data_builder.c ****     y[2] = inv_q30_mult(A[6], x[0]) + inv_q30_mult(A[7], x[1]) + inv_q30_mult(A[8], x[2]);
  1072              		.loc 1 421 5 is_stmt 1 view .LVU233
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 40
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 40
 
 
  421:user/drivers/DMP/mllite/data_builder.c ****     y[2] = inv_q30_mult(A[6], x[0]) + inv_q30_mult(A[7], x[1]) + inv_q30_mult(A[8], x[2]);
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1115 0064 0644     		add	r6, r6, r0
  422:user/drivers/DMP/mllite/data_builder.c **** }
  1116              		.loc 1 422 10 view .LVU246
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 41
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 41
 
 
  1117 0066 BE60     		str	r6, [r7, #8]
@@ -2458,7 +2458,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1161              		.loc 1 437 37 view .LVU258
  1162 0014 DB03     		lsls	r3, r3, #15
  437:user/drivers/DMP/mllite/data_builder.c ****     raw32[2] = (long)sensor->raw[2] << 15;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 42
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 42
 
 
  1163              		.loc 1 437 14 view .LVU259
@@ -2518,7 +2518,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1201 0044 AA68     		ldr	r2, [r5, #8]
  444:user/drivers/DMP/mllite/data_builder.c **** 
  1202              		.loc 1 444 14 view .LVU276
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 43
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 43
 
 
  1203 0046 039B     		ldr	r3, [sp, #12]
@@ -2578,7 +2578,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1248              		.loc 1 457 8 is_stmt 0 view .LVU287
  1249 0000 8446     		mov	ip, r0
  1250 0002 38B1     		cbz	r0, .L98
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 44
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 44
 
 
  458:user/drivers/DMP/mllite/data_builder.c ****     }
@@ -2638,7 +2638,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1299 000a 0D48     		ldr	r0, .L106
  1300              	.LVL59:
  464:user/drivers/DMP/mllite/data_builder.c ****         memcpy(inv_data_builder.save.compass_bias, bias, sizeof(inv_data_builder.save.compass_bias)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 45
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 45
 
 
  1301              		.loc 1 464 9 view .LVU296
@@ -2698,7 +2698,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1346              	.LFE61:
  1348              		.section	.text.inv_set_compass_disturbance,"ax",%progbits
  1349              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 46
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 46
 
 
  1350              		.global	inv_set_compass_disturbance
@@ -2758,7 +2758,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1400              	.LFE63:
  1402              		.section	.text.inv_set_accel_bias,"ax",%progbits
  1403              		.align	1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 47
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 47
 
 
  1404              		.global	inv_set_accel_bias
@@ -2818,7 +2818,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  497:user/drivers/DMP/mllite/data_builder.c ****     inv_set_message(INV_MSG_NEW_AB_EVENT, INV_MSG_NEW_AB_EVENT, 0);
  1448              		.loc 1 497 5 is_stmt 1 view .LVU324
  497:user/drivers/DMP/mllite/data_builder.c ****     inv_set_message(INV_MSG_NEW_AB_EVENT, INV_MSG_NEW_AB_EVENT, 0);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 48
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 48
 
 
  1449              		.loc 1 497 42 is_stmt 0 view .LVU325
@@ -2878,7 +2878,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1499              		.loc 1 505 1 is_stmt 0 view .LVU331
  1500 0000 08B5     		push	{r3, lr}
  1501              	.LCFI11:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 49
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 49
 
 
  1502              		.cfi_def_cfa_offset 8
@@ -2938,7 +2938,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1549              		.cfi_offset 4, -8
  1550              		.cfi_offset 14, -4
  1551 0002 0C46     		mov	r4, r1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 50
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 50
 
 
  518:user/drivers/DMP/mllite/data_builder.c ****         if (mask & 1){
@@ -2998,7 +2998,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  526:user/drivers/DMP/mllite/data_builder.c ****         }
  1589              		.loc 1 526 49 view .LVU358
  1590 002c 084B     		ldr	r3, .L130
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 51
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 51
 
 
  1591              	.LVL80:
@@ -3058,7 +3058,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1638              	.LFB67:
  543:user/drivers/DMP/mllite/data_builder.c ****     if (bias != NULL) {
  1639              		.loc 1 543 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 52
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 52
 
 
  1640              		.cfi_startproc
@@ -3118,7 +3118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1680              		.loc 1 554 32 is_stmt 0 view .LVU382
  1681 001e D3F8E430 		ldr	r3, [r3, #228]
  554:user/drivers/DMP/mllite/data_builder.c ****         inv_data_builder.save.gyro_temp = sensors.temp.calibrated[0];
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 53
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 53
 
 
  1682              		.loc 1 554 8 view .LVU383
@@ -3178,7 +3178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1726              	.L138:
  1727 0060 00010000 		.word	inv_data_builder+256
  1728 0064 00000000 		.word	sensors
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 54
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 54
 
 
  1729 0068 00000000 		.word	inv_data_builder
@@ -3238,7 +3238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1779              	inv_get_gyro_bias:
  1780              	.LVL95:
  1781              	.LFB69:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 55
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 55
 
 
  595:user/drivers/DMP/mllite/data_builder.c ****     if (bias != NULL)
@@ -3298,7 +3298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1823              	.L147:
  599:user/drivers/DMP/mllite/data_builder.c ****         temp[0] = inv_data_builder.save.gyro_temp;
  1824              		.loc 1 599 5 is_stmt 1 view .LVU415
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 56
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 56
 
 
  599:user/drivers/DMP/mllite/data_builder.c ****         temp[0] = inv_data_builder.save.gyro_temp;
@@ -3358,7 +3358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  610:user/drivers/DMP/mllite/data_builder.c ****                sizeof(inv_data_builder.save.accel_bias));
  1871              		.loc 1 610 9 is_stmt 1 view .LVU426
  1872 0008 0B4C     		ldr	r4, .L163
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 57
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 57
 
 
  1873 000a 07CC     		ldmia	r4!, {r0, r1, r2}
@@ -3418,7 +3418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  1914 003c 00000000 		.word	inv_data_builder
  1915              		.cfi_endproc
  1916              	.LFE70:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 58
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 58
 
 
  1918              		.section	.text.inv_build_accel,"ax",%progbits
@@ -3478,7 +3478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  653:user/drivers/DMP/mllite/data_builder.c ****         sensors.accel.accuracy = status & 3;
  1960              		.loc 1 653 9 is_stmt 1 view .LVU453
  653:user/drivers/DMP/mllite/data_builder.c ****         sensors.accel.accuracy = status & 3;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 59
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 59
 
 
  1961              		.loc 1 653 22 is_stmt 0 view .LVU454
@@ -3538,7 +3538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  644:user/drivers/DMP/mllite/data_builder.c ****         sensors.accel.raw[1] = (short)accel[1];
  1999              		.loc 1 644 9 is_stmt 1 view .LVU471
  644:user/drivers/DMP/mllite/data_builder.c ****         sensors.accel.raw[1] = (short)accel[1];
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 60
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 60
 
 
  2000              		.loc 1 644 32 is_stmt 0 view .LVU472
@@ -3598,7 +3598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2042              		.align	1
  2043              		.global	inv_build_gyro
  2044              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 61
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 61
 
 
  2045              		.thumb
@@ -3658,7 +3658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  686:user/drivers/DMP/mllite/data_builder.c **** 
  2087              		.loc 1 686 5 is_stmt 1 view .LVU499
  2088 001e 0349     		ldr	r1, .L174+4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 62
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 62
 
 
  2089              	.LVL113:
@@ -3718,7 +3718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2133              		.loc 1 756 33 view .LVU511
  2134 0016 C3F80821 		str	r2, [r3, #264]
  757:user/drivers/DMP/mllite/data_builder.c ****     /* TODO: Apply scale, remove offset. */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 63
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 63
 
 
  2135              		.loc 1 757 5 is_stmt 1 view .LVU512
@@ -3778,7 +3778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  783:user/drivers/DMP/mllite/data_builder.c ****     sensors.quat.timestamp = timestamp;
  2183              		.loc 1 783 5 view .LVU521
  2184 0010 9A68     		ldr	r2, [r3, #8]	@ unaligned
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 64
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 64
 
 
  2185              	.LVL120:
@@ -3838,7 +3838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2228              	.LFB76:
  795:user/drivers/DMP/mllite/data_builder.c ****     sensors.accel.status = 0;
  2229              		.loc 1 795 1 is_stmt 1 view -0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 65
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 65
 
 
  2230              		.cfi_startproc
@@ -3898,7 +3898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2280              		.thumb
  2281              		.thumb_func
  2283              	inv_quaternion_sensor_was_turned_off:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 66
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 66
 
 
  2284              	.LFB78:
@@ -3958,7 +3958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2333              		.align	1
  2334              		.global	inv_temperature_was_turned_off
  2335              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 67
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 67
 
 
  2336              		.thumb
@@ -4018,7 +4018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2380              		@ args = 0, pretend = 0, frame = 0
  2381              		@ frame_needed = 0, uses_anonymous_args = 0
  845:user/drivers/DMP/mllite/data_builder.c ****     inv_error_t result = INV_SUCCESS;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 68
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 68
 
 
  2382              		.loc 1 845 1 is_stmt 0 view .LVU556
@@ -4078,7 +4078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2424 0026 45D0     		beq	.L209
  853:user/drivers/DMP/mllite/data_builder.c ****             return INV_ERROR_INVALID_PARAMETER;    //fixme give a warning
  2425              		.loc 1 853 46 discriminator 1 view .LVU569
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 69
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 69
 
 
  2426 0028 03EB430C 		add	ip, r3, r3, lsl #1
@@ -4138,7 +4138,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2464              		.loc 1 879 9 is_stmt 1 view .LVU585
  879:user/drivers/DMP/mllite/data_builder.c ****     } else {
  2465              		.loc 1 879 32 is_stmt 0 view .LVU586
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 70
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 70
 
 
  2466 0052 0134     		adds	r4, r4, #1
@@ -4198,7 +4198,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2507              	.LVL135:
  870:user/drivers/DMP/mllite/data_builder.c ****                         inv_data_builder.process[nn - 1];
  2508              		.loc 1 870 50 discriminator 3 view .LVU600
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 71
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 71
 
 
  2509 0086 02EB8303 		add	r3, r2, r3, lsl #2
@@ -4258,7 +4258,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2552              		.loc 1 886 1 view .LVU611
  2553              		.align	2
  2554              	.L216:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 72
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 72
 
 
  2555 00b8 00000000 		.word	inv_data_builder
@@ -4318,7 +4318,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2602 0024 8CE80700 		stm	ip, {r0, r1, r2}
  907:user/drivers/DMP/mllite/data_builder.c ****                 inv_data_builder.process[nn - 1] =
  2603              		.loc 1 907 61 is_stmt 1 discriminator 3 view .LVU621
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 73
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 73
 
 
  2604 0028 0133     		adds	r3, r3, #1
@@ -4378,7 +4378,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2646 004a 044A     		ldr	r2, .L226
  2647 004c 02EB8102 		add	r2, r2, r1, lsl #2
  2648 0050 5268     		ldr	r2, [r2, #4]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 74
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 74
 
 
  905:user/drivers/DMP/mllite/data_builder.c ****             // Delete this callback
@@ -4438,7 +4438,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  939:user/drivers/DMP/mllite/data_builder.c ****         mode |= INV_GYRO_NEW;
  2694              		.loc 1 939 8 view .LVU645
  2695 0006 15F04005 		ands	r5, r5, #64
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 75
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 75
 
 
  2696 000a 00D0     		beq	.L229
@@ -4498,7 +4498,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2734 0038 45F00805 		orr	r5, r5, #8
  2735              	.LVL158:
  2736              	.L232:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 76
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 76
 
 
  947:user/drivers/DMP/mllite/data_builder.c ****         mode |= INV_QUAT_NEW;
@@ -4558,7 +4558,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2775 0066 DB68     		ldr	r3, [r3, #12]
  953:user/drivers/DMP/mllite/data_builder.c ****             result = inv_data_builder.process[kk].func(&sensors);
  2776              		.loc 1 953 12 view .LVU678
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 77
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 77
 
 
  2777 0068 2B42     		tst	r3, r5
@@ -4618,7 +4618,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2820              		.align	1
  2821              		.global	inv_get_accel_set
  2822              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 78
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 78
 
 
  2823              		.thumb
@@ -4678,7 +4678,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2865              	.L245:
 1028:user/drivers/DMP/mllite/data_builder.c ****     }
 1029:user/drivers/DMP/mllite/data_builder.c ****     if (accuracy != NULL) {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 79
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 79
 
 
  2866              		.loc 1 1029 5 is_stmt 1 view .LVU702
@@ -4738,7 +4738,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2911              		.cfi_def_cfa_offset 12
  2912              		.cfi_offset 4, -12
  2913              		.cfi_offset 5, -8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 80
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 80
 
 
  2914              		.cfi_offset 6, -4
@@ -4798,7 +4798,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  2960              	.L254:
  2961 0028 18000000 		.word	sensors+24
  2962 002c 00000000 		.word	sensors
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 81
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 81
 
 
  2963              		.cfi_endproc
@@ -4858,7 +4858,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3008              	.L257:
 1060:user/drivers/DMP/mllite/data_builder.c ****     }
 1061:user/drivers/DMP/mllite/data_builder.c ****     if (accuracy != NULL) {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 82
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 82
 
 
  3009              		.loc 1 1061 5 is_stmt 1 view .LVU735
@@ -4918,7 +4918,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3056              	.LCFI32:
  3057              		.cfi_def_cfa_offset 4
  3058              		.cfi_offset 4, -4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 83
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 83
 
 
  3059 0002 0346     		mov	r3, r0
@@ -4978,7 +4978,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3105 0006 1646     		mov	r6, r2
 1081:user/drivers/DMP/mllite/data_builder.c ****     memcpy(data, sensors.compass.calibrated, sizeof(sensors.compass.calibrated));
  3106              		.loc 1 1081 5 is_stmt 1 view .LVU750
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 84
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 84
 
 
  3107 0008 0C4C     		ldr	r4, .L271
@@ -5038,7 +5038,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3151              	.LVL185:
  3152              	.L269:
  3153              	.LCFI36:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 85
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 85
 
 
  3154              		.cfi_restore_state
@@ -5098,7 +5098,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
 1102:user/drivers/DMP/mllite/data_builder.c ****         *timestamp = sensors.temp.timestamp;
  3197              		.loc 1 1102 9 is_stmt 1 view .LVU777
  3198              		.loc 1 1102 34 is_stmt 0 view .LVU778
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 86
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 86
 
 
  3199 000c 044A     		ldr	r2, .L276
@@ -5158,7 +5158,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3244 0002 586B     		ldr	r0, [r3, #52]
  3245 0004 7047     		bx	lr
  3246              	.L280:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 87
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 87
 
 
  3247 0006 00BF     		.align	2
@@ -5218,7 +5218,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3293              		.global	inv_get_accel_accuracy
  3294              		.syntax unified
  3295              		.thumb
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 88
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 88
 
 
  3296              		.thumb_func
@@ -5278,7 +5278,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3339              		.loc 1 1137 1 is_stmt 0 view .LVU807
  3340 0006 0020     		movs	r0, #0
  3341              	.LVL190:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 89
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 89
 
 
  3342              		.loc 1 1137 1 view .LVU808
@@ -5338,7 +5338,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3394              	.LFB96:
 1144:user/drivers/DMP/mllite/data_builder.c **** 
 1145:user/drivers/DMP/mllite/data_builder.c **** /*======================================================================*/
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 90
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 90
 
 
 1146:user/drivers/DMP/mllite/data_builder.c **** /*   compass soft iron module                                           */
@@ -5398,7 +5398,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3436              		.thumb_func
  3438              	inv_set_compass_soft_iron_matrix_d:
  3439              	.LVL196:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 91
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 91
 
 
  3440              	.LFB97:
@@ -5458,7 +5458,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
   18:user/drivers/DMP/mllite/ml_math_func.h **** #define SIGNM(k)((int)(k)&1?-1:1)
   19:user/drivers/DMP/mllite/ml_math_func.h **** #define SIGNSET(x) ((x) ? -1 : +1)
   20:user/drivers/DMP/mllite/ml_math_func.h **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 92
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 92
 
 
   21:user/drivers/DMP/mllite/ml_math_func.h **** #define INV_TWO_POWER_NEG_30 9.313225746154785e-010f
@@ -5518,7 +5518,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3501              		.align	1
  3502              		.global	inv_get_compass_soft_iron_matrix_f
  3503              		.syntax unified
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 93
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 93
 
 
  3504              		.thumb
@@ -5578,7 +5578,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3549              		.section	.text.inv_set_compass_soft_iron_matrix_f,"ax",%progbits
  3550              		.align	1
  3551              		.global	inv_set_compass_soft_iron_matrix_f
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 94
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 94
 
 
  3552              		.syntax unified
@@ -5638,7 +5638,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3595 002e 0133     		adds	r3, r3, #1
  3596              	.LVL206:
 1185:user/drivers/DMP/mllite/data_builder.c ****         // set the floating point matrix
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 95
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 95
 
 
  3597              		.loc 1 1185 16 discriminator 3 view .LVU870
@@ -5698,7 +5698,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3643 000a 02EB8102 		add	r2, r2, r1, lsl #2
  3644 000e 5268     		ldr	r2, [r2, #4]
  3645              		.loc 1 1199 17 discriminator 3 view .LVU880
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 96
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 96
 
 
  3646 0010 40F82320 		str	r2, [r0, r3, lsl #2]
@@ -5758,7 +5758,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3691              		.loc 1 1208 17 discriminator 3 view .LVU891
  3692 000e 40F82320 		str	r2, [r0, r3, lsl #2]
 1207:user/drivers/DMP/mllite/data_builder.c ****     for (i=0; i<3; i++)  {
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 97
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 97
 
 
  3693              		.loc 1 1207 21 is_stmt 1 discriminator 3 view .LVU892
@@ -5818,7 +5818,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3739              		.loc 1 1217 34 is_stmt 0 discriminator 3 view .LVU902
  3740 0006 03F14C01 		add	r1, r3, #76
  3741 000a 114A     		ldr	r2, .L338
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 98
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 98
 
 
  3742 000c 50F82340 		ldr	r4, [r0, r3, lsl #2]
@@ -5878,7 +5878,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3784              		.loc 1 1222 25 is_stmt 1 discriminator 3 view .LVU916
  3785 0046 0133     		adds	r3, r3, #1
  3786              	.LVL221:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 99
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 99
 
 
  3787              	.L332:
@@ -5938,7 +5938,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3833              		.loc 1 724 48 is_stmt 0 view .LVU924
  3834 000c 0268     		ldr	r2, [r0]
  3835              	.LVL224:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 100
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 100
 
 
  724:user/drivers/DMP/mllite/data_builder.c ****         sensors.compass.calibrated[1] = compass[1];
@@ -5998,7 +5998,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3872 0040 C3F8C420 		str	r2, [r3, #196]
  732:user/drivers/DMP/mllite/data_builder.c ****     sensors.compass.status |= INV_NEW_DATA | INV_SENSOR_ON;
  3873              		.loc 1 732 5 is_stmt 1 view .LVU943
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 101
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 101
 
 
  732:user/drivers/DMP/mllite/data_builder.c ****     sensors.compass.status |= INV_NEW_DATA | INV_SENSOR_ON;
@@ -6058,7 +6058,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3913              		.loc 1 719 32 view .LVU958
  3914 0072 A5F88E30 		strh	r3, [r5, #142]	@ movhi
  720:user/drivers/DMP/mllite/data_builder.c ****         inv_apply_calibration(&sensors.compass, inv_data_builder.save.compass_bias);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 102
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 102
 
 
  3915              		.loc 1 720 9 is_stmt 1 view .LVU959
@@ -6118,7 +6118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
 1241:user/drivers/DMP/mllite/data_builder.c ****         sensors.soft_iron.matrix_f[i*4] = 1.0;
 1242:user/drivers/DMP/mllite/data_builder.c ****         // set the fixed point matrix
 1243:user/drivers/DMP/mllite/data_builder.c ****         sensors.soft_iron.matrix_d[i*4] = ROT_MATRIX_SCALE_LONG;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 103
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 103
 
 
 1244:user/drivers/DMP/mllite/data_builder.c ****     }
@@ -6178,7 +6178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  3991              	.L352:
  3992 000a 00BF     		.align	2
  3993              	.L351:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 104
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 104
 
 
  3994 000c 00000000 		.word	sensors
@@ -6238,7 +6238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  4040 001a 2422     		movs	r2, #36
  4041 001c 0021     		movs	r1, #0
  4042 001e 0E48     		ldr	r0, .L359+4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 105
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 105
 
 
  4043 0020 FFF7FEFF 		bl	memset
@@ -6298,7 +6298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  4086              		.section	.text.inv_init_data_builder,"ax",%progbits
  4087              		.align	1
  4088              		.global	inv_init_data_builder
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 106
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 106
 
 
  4089              		.syntax unified
@@ -6358,7 +6358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  4137              	.LFE36:
  4139              		.section	.bss.sensors,"aw",%nobits
  4140              		.align	2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 107
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 107
 
 
  4143              	sensors:
@@ -6388,238 +6388,238 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 1
  4161              		.file 11 "user/drivers/DMP/mllite/results_holder.h"
  4162              		.file 12 "user/drivers/DMP/mllite/storage_manager.h"
  4163              		.file 13 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 108
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 108
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 data_builder.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:21     .text.inv_set_contiguous:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:26     .text.inv_set_contiguous:00000000 inv_set_contiguous
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:142    .text.inv_set_contiguous:000000a0 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4143   .bss.sensors:00000000 sensors
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:147    .text.inv_db_save_func:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:152    .text.inv_db_save_func:00000000 inv_db_save_func
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:177    .text.inv_db_save_func:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4149   .bss.inv_data_builder:00000000 inv_data_builder
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:182    .text.inv_db_load_func:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:187    .text.inv_db_load_func:00000000 inv_db_load_func
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:243    .text.inv_db_load_func:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:249    .text.inv_get_gyro_sensitivity:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:255    .text.inv_get_gyro_sensitivity:00000000 inv_get_gyro_sensitivity
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:270    .text.inv_get_gyro_sensitivity:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:275    .text.inv_get_accel_sensitivity:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:281    .text.inv_get_accel_sensitivity:00000000 inv_get_accel_sensitivity
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:296    .text.inv_get_accel_sensitivity:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:301    .text.inv_get_compass_sensitivity:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:307    .text.inv_get_compass_sensitivity:00000000 inv_get_compass_sensitivity
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:322    .text.inv_get_compass_sensitivity:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:327    .text.set_sensor_orientation_and_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:333    .text.set_sensor_orientation_and_scale:00000000 set_sensor_orientation_and_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:353    .text.inv_set_gyro_orientation_and_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:359    .text.inv_set_gyro_orientation_and_scale:00000000 inv_set_gyro_orientation_and_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:387    .text.inv_set_gyro_orientation_and_scale:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:392    .text.inv_set_gyro_sample_rate:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:398    .text.inv_set_gyro_sample_rate:00000000 inv_set_gyro_sample_rate
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:436    .text.inv_set_gyro_sample_rate:00000024 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:443    .text.inv_set_accel_sample_rate:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:449    .text.inv_set_accel_sample_rate:00000000 inv_set_accel_sample_rate
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:487    .text.inv_set_accel_sample_rate:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:494    .text.inv_set_compass_sample_rate:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:500    .text.inv_set_compass_sample_rate:00000000 inv_set_compass_sample_rate
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:538    .text.inv_set_compass_sample_rate:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:545    .text.inv_get_gyro_sample_rate_ms:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:551    .text.inv_get_gyro_sample_rate_ms:00000000 inv_get_gyro_sample_rate_ms
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:570    .text.inv_get_gyro_sample_rate_ms:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:575    .text.inv_get_accel_sample_rate_ms:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:581    .text.inv_get_accel_sample_rate_ms:00000000 inv_get_accel_sample_rate_ms
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:600    .text.inv_get_accel_sample_rate_ms:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:605    .text.inv_get_compass_sample_rate_ms:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:611    .text.inv_get_compass_sample_rate_ms:00000000 inv_get_compass_sample_rate_ms
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:630    .text.inv_get_compass_sample_rate_ms:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:635    .text.inv_set_quat_sample_rate:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:641    .text.inv_set_quat_sample_rate:00000000 inv_set_quat_sample_rate
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:668    .text.inv_set_quat_sample_rate:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:674    .text.inv_set_gyro_bandwidth:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:680    .text.inv_set_gyro_bandwidth:00000000 inv_set_gyro_bandwidth
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:697    .text.inv_set_gyro_bandwidth:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:702    .text.inv_set_accel_bandwidth:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:708    .text.inv_set_accel_bandwidth:00000000 inv_set_accel_bandwidth
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:725    .text.inv_set_accel_bandwidth:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:730    .text.inv_set_compass_bandwidth:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:736    .text.inv_set_compass_bandwidth:00000000 inv_set_compass_bandwidth
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:753    .text.inv_set_compass_bandwidth:00000008 $d
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 109
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:21     .text.inv_set_contiguous:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:26     .text.inv_set_contiguous:00000000 inv_set_contiguous
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:142    .text.inv_set_contiguous:000000a0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4143   .bss.sensors:00000000 sensors
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:147    .text.inv_db_save_func:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:152    .text.inv_db_save_func:00000000 inv_db_save_func
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:177    .text.inv_db_save_func:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4149   .bss.inv_data_builder:00000000 inv_data_builder
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:182    .text.inv_db_load_func:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:187    .text.inv_db_load_func:00000000 inv_db_load_func
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:243    .text.inv_db_load_func:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:249    .text.inv_get_gyro_sensitivity:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:255    .text.inv_get_gyro_sensitivity:00000000 inv_get_gyro_sensitivity
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:270    .text.inv_get_gyro_sensitivity:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:275    .text.inv_get_accel_sensitivity:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:281    .text.inv_get_accel_sensitivity:00000000 inv_get_accel_sensitivity
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:296    .text.inv_get_accel_sensitivity:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:301    .text.inv_get_compass_sensitivity:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:307    .text.inv_get_compass_sensitivity:00000000 inv_get_compass_sensitivity
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:322    .text.inv_get_compass_sensitivity:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:327    .text.set_sensor_orientation_and_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:333    .text.set_sensor_orientation_and_scale:00000000 set_sensor_orientation_and_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:353    .text.inv_set_gyro_orientation_and_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:359    .text.inv_set_gyro_orientation_and_scale:00000000 inv_set_gyro_orientation_and_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:387    .text.inv_set_gyro_orientation_and_scale:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:392    .text.inv_set_gyro_sample_rate:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:398    .text.inv_set_gyro_sample_rate:00000000 inv_set_gyro_sample_rate
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:436    .text.inv_set_gyro_sample_rate:00000024 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:443    .text.inv_set_accel_sample_rate:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:449    .text.inv_set_accel_sample_rate:00000000 inv_set_accel_sample_rate
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:487    .text.inv_set_accel_sample_rate:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:494    .text.inv_set_compass_sample_rate:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:500    .text.inv_set_compass_sample_rate:00000000 inv_set_compass_sample_rate
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:538    .text.inv_set_compass_sample_rate:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:545    .text.inv_get_gyro_sample_rate_ms:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:551    .text.inv_get_gyro_sample_rate_ms:00000000 inv_get_gyro_sample_rate_ms
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:570    .text.inv_get_gyro_sample_rate_ms:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:575    .text.inv_get_accel_sample_rate_ms:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:581    .text.inv_get_accel_sample_rate_ms:00000000 inv_get_accel_sample_rate_ms
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:600    .text.inv_get_accel_sample_rate_ms:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:605    .text.inv_get_compass_sample_rate_ms:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:611    .text.inv_get_compass_sample_rate_ms:00000000 inv_get_compass_sample_rate_ms
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:630    .text.inv_get_compass_sample_rate_ms:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:635    .text.inv_set_quat_sample_rate:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:641    .text.inv_set_quat_sample_rate:00000000 inv_set_quat_sample_rate
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:668    .text.inv_set_quat_sample_rate:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:674    .text.inv_set_gyro_bandwidth:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:680    .text.inv_set_gyro_bandwidth:00000000 inv_set_gyro_bandwidth
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:697    .text.inv_set_gyro_bandwidth:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:702    .text.inv_set_accel_bandwidth:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:708    .text.inv_set_accel_bandwidth:00000000 inv_set_accel_bandwidth
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:725    .text.inv_set_accel_bandwidth:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:730    .text.inv_set_compass_bandwidth:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:736    .text.inv_set_compass_bandwidth:00000000 inv_set_compass_bandwidth
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:753    .text.inv_set_compass_bandwidth:00000008 $d
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 109
 
 
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:758    .text.inv_get_compass_on:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:764    .text.inv_get_compass_on:00000000 inv_get_compass_on
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:781    .text.inv_get_compass_on:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:786    .text.inv_get_gyro_on:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:792    .text.inv_get_gyro_on:00000000 inv_get_gyro_on
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:809    .text.inv_get_gyro_on:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:814    .text.inv_get_accel_on:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:820    .text.inv_get_accel_on:00000000 inv_get_accel_on
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:837    .text.inv_get_accel_on:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:842    .text.inv_get_last_timestamp:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:848    .text.inv_get_last_timestamp:00000000 inv_get_last_timestamp
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:935    .text.inv_get_last_timestamp:00000058 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:940    .text.inv_set_accel_orientation_and_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:946    .text.inv_set_accel_orientation_and_scale:00000000 inv_set_accel_orientation_and_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:974    .text.inv_set_accel_orientation_and_scale:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:979    .text.inv_set_compass_orientation_and_scale:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:985    .text.inv_set_compass_orientation_and_scale:00000000 inv_set_compass_orientation_and_scale
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1013   .text.inv_set_compass_orientation_and_scale:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1018   .text.inv_matrix_vector_mult:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1024   .text.inv_matrix_vector_mult:00000000 inv_matrix_vector_mult
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1125   .text.inv_apply_calibration:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1131   .text.inv_apply_calibration:00000000 inv_apply_calibration
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1233   .text.inv_get_compass_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1239   .text.inv_get_compass_bias:00000000 inv_get_compass_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1265   .text.inv_get_compass_bias:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1270   .text.inv_set_compass_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1276   .text.inv_set_compass_bias:00000000 inv_set_compass_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1341   .text.inv_set_compass_bias:00000040 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1349   .text.inv_set_compass_disturbance:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1355   .text.inv_set_compass_disturbance:00000000 inv_set_compass_disturbance
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1372   .text.inv_set_compass_disturbance:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1377   .text.inv_get_compass_disturbance:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1383   .text.inv_get_compass_disturbance:00000000 inv_get_compass_disturbance
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1398   .text.inv_get_compass_disturbance:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1403   .text.inv_set_accel_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1409   .text.inv_set_accel_bias:00000000 inv_set_accel_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1478   .text.inv_set_accel_bias:00000040 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1486   .text.inv_set_accel_accuracy:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1492   .text.inv_set_accel_accuracy:00000000 inv_set_accel_accuracy
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1526   .text.inv_set_accel_accuracy:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1532   .text.inv_set_accel_bias_mask:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1538   .text.inv_set_accel_bias_mask:00000000 inv_set_accel_bias_mask
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1622   .text.inv_set_accel_bias_mask:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1630   .text.inv_set_gyro_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1636   .text.inv_set_gyro_bias:00000000 inv_set_gyro_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1727   .text.inv_set_gyro_bias:00000060 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1734   .text.inv_get_gyro_bias_tc_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1740   .text.inv_get_gyro_bias_tc_set:00000000 inv_get_gyro_bias_tc_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1768   .text.inv_get_gyro_bias_tc_set:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1773   .text.inv_get_gyro_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1779   .text.inv_get_gyro_bias:00000000 inv_get_gyro_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1840   .text.inv_get_gyro_bias:00000038 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1846   .text.inv_get_accel_bias:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1852   .text.inv_get_accel_bias:00000000 inv_get_accel_bias
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1913   .text.inv_get_accel_bias:00000038 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1919   .text.inv_build_accel:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:1925   .text.inv_build_accel:00000000 inv_build_accel
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 110
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:758    .text.inv_get_compass_on:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:764    .text.inv_get_compass_on:00000000 inv_get_compass_on
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:781    .text.inv_get_compass_on:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:786    .text.inv_get_gyro_on:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:792    .text.inv_get_gyro_on:00000000 inv_get_gyro_on
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:809    .text.inv_get_gyro_on:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:814    .text.inv_get_accel_on:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:820    .text.inv_get_accel_on:00000000 inv_get_accel_on
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:837    .text.inv_get_accel_on:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:842    .text.inv_get_last_timestamp:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:848    .text.inv_get_last_timestamp:00000000 inv_get_last_timestamp
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:935    .text.inv_get_last_timestamp:00000058 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:940    .text.inv_set_accel_orientation_and_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:946    .text.inv_set_accel_orientation_and_scale:00000000 inv_set_accel_orientation_and_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:974    .text.inv_set_accel_orientation_and_scale:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:979    .text.inv_set_compass_orientation_and_scale:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:985    .text.inv_set_compass_orientation_and_scale:00000000 inv_set_compass_orientation_and_scale
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1013   .text.inv_set_compass_orientation_and_scale:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1018   .text.inv_matrix_vector_mult:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1024   .text.inv_matrix_vector_mult:00000000 inv_matrix_vector_mult
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1125   .text.inv_apply_calibration:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1131   .text.inv_apply_calibration:00000000 inv_apply_calibration
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1233   .text.inv_get_compass_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1239   .text.inv_get_compass_bias:00000000 inv_get_compass_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1265   .text.inv_get_compass_bias:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1270   .text.inv_set_compass_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1276   .text.inv_set_compass_bias:00000000 inv_set_compass_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1341   .text.inv_set_compass_bias:00000040 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1349   .text.inv_set_compass_disturbance:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1355   .text.inv_set_compass_disturbance:00000000 inv_set_compass_disturbance
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1372   .text.inv_set_compass_disturbance:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1377   .text.inv_get_compass_disturbance:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1383   .text.inv_get_compass_disturbance:00000000 inv_get_compass_disturbance
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1398   .text.inv_get_compass_disturbance:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1403   .text.inv_set_accel_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1409   .text.inv_set_accel_bias:00000000 inv_set_accel_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1478   .text.inv_set_accel_bias:00000040 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1486   .text.inv_set_accel_accuracy:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1492   .text.inv_set_accel_accuracy:00000000 inv_set_accel_accuracy
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1526   .text.inv_set_accel_accuracy:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1532   .text.inv_set_accel_bias_mask:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1538   .text.inv_set_accel_bias_mask:00000000 inv_set_accel_bias_mask
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1622   .text.inv_set_accel_bias_mask:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1630   .text.inv_set_gyro_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1636   .text.inv_set_gyro_bias:00000000 inv_set_gyro_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1727   .text.inv_set_gyro_bias:00000060 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1734   .text.inv_get_gyro_bias_tc_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1740   .text.inv_get_gyro_bias_tc_set:00000000 inv_get_gyro_bias_tc_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1768   .text.inv_get_gyro_bias_tc_set:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1773   .text.inv_get_gyro_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1779   .text.inv_get_gyro_bias:00000000 inv_get_gyro_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1840   .text.inv_get_gyro_bias:00000038 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1846   .text.inv_get_accel_bias:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1852   .text.inv_get_accel_bias:00000000 inv_get_accel_bias
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1913   .text.inv_get_accel_bias:00000038 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1919   .text.inv_build_accel:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:1925   .text.inv_build_accel:00000000 inv_build_accel
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 110
 
 
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2035   .text.inv_build_accel:00000070 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2042   .text.inv_build_gyro:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2048   .text.inv_build_gyro:00000000 inv_build_gyro
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2100   .text.inv_build_gyro:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2106   .text.inv_build_temp:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2112   .text.inv_build_temp:00000000 inv_build_temp
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2147   .text.inv_build_temp:00000024 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2152   .text.inv_build_quat:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2158   .text.inv_build_quat:00000000 inv_build_quat
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2216   .text.inv_build_quat:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2221   .text.inv_accel_was_turned_off:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2227   .text.inv_accel_was_turned_off:00000000 inv_accel_was_turned_off
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2244   .text.inv_accel_was_turned_off:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2249   .text.inv_compass_was_turned_off:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2255   .text.inv_compass_was_turned_off:00000000 inv_compass_was_turned_off
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2272   .text.inv_compass_was_turned_off:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2277   .text.inv_quaternion_sensor_was_turned_off:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2283   .text.inv_quaternion_sensor_was_turned_off:00000000 inv_quaternion_sensor_was_turned_off
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2300   .text.inv_quaternion_sensor_was_turned_off:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2305   .text.inv_gyro_was_turned_off:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2311   .text.inv_gyro_was_turned_off:00000000 inv_gyro_was_turned_off
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2328   .text.inv_gyro_was_turned_off:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2333   .text.inv_temperature_was_turned_off:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2339   .text.inv_temperature_was_turned_off:00000000 inv_temperature_was_turned_off
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2356   .text.inv_temperature_was_turned_off:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2361   .rodata.inv_register_data_cb.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2369   .text.inv_register_data_cb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2375   .text.inv_register_data_cb:00000000 inv_register_data_cb
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2555   .text.inv_register_data_cb:000000b8 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2562   .text.inv_unregister_data_cb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2568   .text.inv_unregister_data_cb:00000000 inv_unregister_data_cb
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2661   .text.inv_unregister_data_cb:0000005c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2666   .text.inv_execute_on_data:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2672   .text.inv_execute_on_data:00000000 inv_execute_on_data
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2814   .text.inv_execute_on_data:0000008c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2820   .text.inv_get_accel_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2826   .text.inv_get_accel_set:00000000 inv_get_accel_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2888   .text.inv_get_accel_set:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2894   .text.inv_get_gyro_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2900   .text.inv_get_gyro_set:00000000 inv_get_gyro_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2961   .text.inv_get_gyro_set:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2967   .text.inv_get_gyro_set_raw:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:2973   .text.inv_get_gyro_set_raw:00000000 inv_get_gyro_set_raw
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3034   .text.inv_get_gyro_set_raw:00000028 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3040   .text.inv_get_gyro:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3046   .text.inv_get_gyro:00000000 inv_get_gyro
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3077   .text.inv_get_gyro:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3082   .text.inv_get_compass_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3088   .text.inv_get_compass_set:00000000 inv_get_compass_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3166   .text.inv_get_compass_set:0000003c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3173   .text.inv_get_temp_set:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3179   .text.inv_get_temp_set:00000000 inv_get_temp_set
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3223   .text.inv_get_temp_set:00000020 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3228   .text.inv_get_gyro_accuracy:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3234   .text.inv_get_gyro_accuracy:00000000 inv_get_gyro_accuracy
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3249   .text.inv_get_gyro_accuracy:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3254   .text.inv_get_mag_accuracy:00000000 $t
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 111
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2035   .text.inv_build_accel:00000070 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2042   .text.inv_build_gyro:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2048   .text.inv_build_gyro:00000000 inv_build_gyro
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2100   .text.inv_build_gyro:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2106   .text.inv_build_temp:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2112   .text.inv_build_temp:00000000 inv_build_temp
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2147   .text.inv_build_temp:00000024 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2152   .text.inv_build_quat:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2158   .text.inv_build_quat:00000000 inv_build_quat
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2216   .text.inv_build_quat:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2221   .text.inv_accel_was_turned_off:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2227   .text.inv_accel_was_turned_off:00000000 inv_accel_was_turned_off
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2244   .text.inv_accel_was_turned_off:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2249   .text.inv_compass_was_turned_off:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2255   .text.inv_compass_was_turned_off:00000000 inv_compass_was_turned_off
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2272   .text.inv_compass_was_turned_off:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2277   .text.inv_quaternion_sensor_was_turned_off:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2283   .text.inv_quaternion_sensor_was_turned_off:00000000 inv_quaternion_sensor_was_turned_off
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2300   .text.inv_quaternion_sensor_was_turned_off:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2305   .text.inv_gyro_was_turned_off:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2311   .text.inv_gyro_was_turned_off:00000000 inv_gyro_was_turned_off
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2328   .text.inv_gyro_was_turned_off:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2333   .text.inv_temperature_was_turned_off:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2339   .text.inv_temperature_was_turned_off:00000000 inv_temperature_was_turned_off
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2356   .text.inv_temperature_was_turned_off:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2361   .rodata.inv_register_data_cb.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2369   .text.inv_register_data_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2375   .text.inv_register_data_cb:00000000 inv_register_data_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2555   .text.inv_register_data_cb:000000b8 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2562   .text.inv_unregister_data_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2568   .text.inv_unregister_data_cb:00000000 inv_unregister_data_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2661   .text.inv_unregister_data_cb:0000005c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2666   .text.inv_execute_on_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2672   .text.inv_execute_on_data:00000000 inv_execute_on_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2814   .text.inv_execute_on_data:0000008c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2820   .text.inv_get_accel_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2826   .text.inv_get_accel_set:00000000 inv_get_accel_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2888   .text.inv_get_accel_set:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2894   .text.inv_get_gyro_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2900   .text.inv_get_gyro_set:00000000 inv_get_gyro_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2961   .text.inv_get_gyro_set:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2967   .text.inv_get_gyro_set_raw:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:2973   .text.inv_get_gyro_set_raw:00000000 inv_get_gyro_set_raw
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3034   .text.inv_get_gyro_set_raw:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3040   .text.inv_get_gyro:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3046   .text.inv_get_gyro:00000000 inv_get_gyro
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3077   .text.inv_get_gyro:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3082   .text.inv_get_compass_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3088   .text.inv_get_compass_set:00000000 inv_get_compass_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3166   .text.inv_get_compass_set:0000003c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3173   .text.inv_get_temp_set:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3179   .text.inv_get_temp_set:00000000 inv_get_temp_set
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3223   .text.inv_get_temp_set:00000020 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3228   .text.inv_get_gyro_accuracy:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3234   .text.inv_get_gyro_accuracy:00000000 inv_get_gyro_accuracy
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3249   .text.inv_get_gyro_accuracy:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3254   .text.inv_get_mag_accuracy:00000000 $t
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 111
 
 
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3260   .text.inv_get_mag_accuracy:00000000 inv_get_mag_accuracy
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3286   .text.inv_get_mag_accuracy:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3292   .text.inv_get_accel_accuracy:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3298   .text.inv_get_accel_accuracy:00000000 inv_get_accel_accuracy
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3313   .text.inv_get_accel_accuracy:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3318   .text.inv_get_gyro_orient:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3324   .text.inv_get_gyro_orient:00000000 inv_get_gyro_orient
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3347   .text.inv_get_gyro_orient:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3352   .text.inv_get_accel_orient:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3358   .text.inv_get_accel_orient:00000000 inv_get_accel_orient
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3381   .text.inv_get_accel_orient:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3386   .text.inv_get_compass_soft_iron_matrix_d:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3392   .text.inv_get_compass_soft_iron_matrix_d:00000000 inv_get_compass_soft_iron_matrix_d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3427   .text.inv_get_compass_soft_iron_matrix_d:0000001c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3432   .text.inv_set_compass_soft_iron_matrix_d:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3438   .text.inv_set_compass_soft_iron_matrix_d:00000000 inv_set_compass_soft_iron_matrix_d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3495   .text.inv_set_compass_soft_iron_matrix_d:00000038 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3501   .text.inv_get_compass_soft_iron_matrix_f:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3507   .text.inv_get_compass_soft_iron_matrix_f:00000000 inv_get_compass_soft_iron_matrix_f
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3545   .text.inv_get_compass_soft_iron_matrix_f:00000020 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3550   .text.inv_set_compass_soft_iron_matrix_f:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3556   .text.inv_set_compass_soft_iron_matrix_f:00000000 inv_set_compass_soft_iron_matrix_f
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3612   .text.inv_set_compass_soft_iron_matrix_f:0000003c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3617   .text.inv_get_compass_soft_iron_output_data:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3623   .text.inv_get_compass_soft_iron_output_data:00000000 inv_get_compass_soft_iron_output_data
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3659   .text.inv_get_compass_soft_iron_output_data:0000001c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3664   .text.inv_get_compass_soft_iron_input_data:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3670   .text.inv_get_compass_soft_iron_input_data:00000000 inv_get_compass_soft_iron_input_data
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3705   .text.inv_get_compass_soft_iron_input_data:0000001c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3710   .text.inv_set_compass_soft_iron_input_data:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3716   .text.inv_set_compass_soft_iron_input_data:00000000 inv_set_compass_soft_iron_input_data
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3798   .text.inv_set_compass_soft_iron_input_data:00000050 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3804   .text.inv_build_compass:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3810   .text.inv_build_compass:00000000 inv_build_compass
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3936   .text.inv_build_compass:00000098 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3943   .text.inv_enable_compass_soft_iron_matrix:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3949   .text.inv_enable_compass_soft_iron_matrix:00000000 inv_enable_compass_soft_iron_matrix
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3966   .text.inv_enable_compass_soft_iron_matrix:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3971   .text.inv_disable_compass_soft_iron_matrix:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3977   .text.inv_disable_compass_soft_iron_matrix:00000000 inv_disable_compass_soft_iron_matrix
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3994   .text.inv_disable_compass_soft_iron_matrix:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:3999   .text.inv_reset_compass_soft_iron_matrix:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4005   .text.inv_reset_compass_soft_iron_matrix:00000000 inv_reset_compass_soft_iron_matrix
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4081   .text.inv_reset_compass_soft_iron_matrix:00000054 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4087   .text.inv_init_data_builder:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4093   .text.inv_init_data_builder:00000000 inv_init_data_builder
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4132   .text.inv_init_data_builder:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4140   .bss.sensors:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s:4146   .bss.inv_data_builder:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3260   .text.inv_get_mag_accuracy:00000000 inv_get_mag_accuracy
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3286   .text.inv_get_mag_accuracy:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3292   .text.inv_get_accel_accuracy:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3298   .text.inv_get_accel_accuracy:00000000 inv_get_accel_accuracy
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3313   .text.inv_get_accel_accuracy:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3318   .text.inv_get_gyro_orient:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3324   .text.inv_get_gyro_orient:00000000 inv_get_gyro_orient
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3347   .text.inv_get_gyro_orient:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3352   .text.inv_get_accel_orient:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3358   .text.inv_get_accel_orient:00000000 inv_get_accel_orient
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3381   .text.inv_get_accel_orient:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3386   .text.inv_get_compass_soft_iron_matrix_d:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3392   .text.inv_get_compass_soft_iron_matrix_d:00000000 inv_get_compass_soft_iron_matrix_d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3427   .text.inv_get_compass_soft_iron_matrix_d:0000001c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3432   .text.inv_set_compass_soft_iron_matrix_d:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3438   .text.inv_set_compass_soft_iron_matrix_d:00000000 inv_set_compass_soft_iron_matrix_d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3495   .text.inv_set_compass_soft_iron_matrix_d:00000038 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3501   .text.inv_get_compass_soft_iron_matrix_f:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3507   .text.inv_get_compass_soft_iron_matrix_f:00000000 inv_get_compass_soft_iron_matrix_f
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3545   .text.inv_get_compass_soft_iron_matrix_f:00000020 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3550   .text.inv_set_compass_soft_iron_matrix_f:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3556   .text.inv_set_compass_soft_iron_matrix_f:00000000 inv_set_compass_soft_iron_matrix_f
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3612   .text.inv_set_compass_soft_iron_matrix_f:0000003c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3617   .text.inv_get_compass_soft_iron_output_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3623   .text.inv_get_compass_soft_iron_output_data:00000000 inv_get_compass_soft_iron_output_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3659   .text.inv_get_compass_soft_iron_output_data:0000001c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3664   .text.inv_get_compass_soft_iron_input_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3670   .text.inv_get_compass_soft_iron_input_data:00000000 inv_get_compass_soft_iron_input_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3705   .text.inv_get_compass_soft_iron_input_data:0000001c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3710   .text.inv_set_compass_soft_iron_input_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3716   .text.inv_set_compass_soft_iron_input_data:00000000 inv_set_compass_soft_iron_input_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3798   .text.inv_set_compass_soft_iron_input_data:00000050 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3804   .text.inv_build_compass:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3810   .text.inv_build_compass:00000000 inv_build_compass
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3936   .text.inv_build_compass:00000098 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3943   .text.inv_enable_compass_soft_iron_matrix:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3949   .text.inv_enable_compass_soft_iron_matrix:00000000 inv_enable_compass_soft_iron_matrix
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3966   .text.inv_enable_compass_soft_iron_matrix:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3971   .text.inv_disable_compass_soft_iron_matrix:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3977   .text.inv_disable_compass_soft_iron_matrix:00000000 inv_disable_compass_soft_iron_matrix
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3994   .text.inv_disable_compass_soft_iron_matrix:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:3999   .text.inv_reset_compass_soft_iron_matrix:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4005   .text.inv_reset_compass_soft_iron_matrix:00000000 inv_reset_compass_soft_iron_matrix
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4081   .text.inv_reset_compass_soft_iron_matrix:00000054 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4087   .text.inv_init_data_builder:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4093   .text.inv_init_data_builder:00000000 inv_init_data_builder
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4132   .text.inv_init_data_builder:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4140   .bss.sensors:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s:4146   .bss.inv_data_builder:00000000 $d
 
 UNDEFINED SYMBOLS
 memcpy
@@ -6628,7 +6628,7 @@ inv_q30_mult
 inv_convert_to_body_with_scale
 memcmp
 inv_set_message
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccl8ybUf.s 			page 112
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1eSzvt.s 			page 112
 
 
 _MLPrintLog

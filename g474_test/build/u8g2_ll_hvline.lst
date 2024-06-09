@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
   27:user/drivers/u8g2/u8g2_ll_hvline.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
   28:user/drivers/u8g2/u8g2_ll_hvline.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
   29:user/drivers/u8g2/u8g2_ll_hvline.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 2
 
 
   30:user/drivers/u8g2/u8g2_ll_hvline.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
   40              		.cfi_offset 6, -8
   41              		.cfi_offset 14, -4
   42 0002 9DF81050 		ldrb	r5, [sp, #16]	@ zero_extendqisi2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 3
 
 
   74:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint16_t offset;
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
   72              		.loc 1 97 3 is_stmt 1 view .LVU18
   73              		.loc 1 97 6 is_stmt 0 view .LVU19
   74 0020 012E     		cmp	r6, #1
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 4
 
 
   75 0022 1AD0     		beq	.L14
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  114:user/drivers/u8g2/u8g2_ll_hvline.c **** #endif
  115:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= or_mask;
  113              		.loc 1 115 2 discriminator 1 view .LVU37
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 5
 
 
  114 003c 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  147:user/drivers/u8g2/u8g2_ll_hvline.c **** 	or_mask <<= 1;
  148:user/drivers/u8g2/u8g2_ll_hvline.c **** 	xor_mask <<= 1;
  149:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 6
 
 
  150:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  176 0070 002B     		cmp	r3, #0
  177 0072 EFD0     		beq	.L1
  178              	.LVL27:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 7
 
 
  179              	.L4:
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  215              		.loc 1 140 11 is_stmt 0 view .LVU76
  216 0094 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
  140:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  or_mask  = 1;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 8
 
 
  217              		.loc 1 140 5 view .LVU77
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  178:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
  179:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset &= ~7;
  180:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 9
 
 
  181:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr = u8g2->tile_buf_ptr;
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  235:user/drivers/u8g2/u8g2_ll_hvline.c ****   x,y		Upper left position of the line within the local buffer (not the display!)
  236:user/drivers/u8g2/u8g2_ll_hvline.c ****   len		length of the line in pixel, len must not be 0
  237:user/drivers/u8g2/u8g2_ll_hvline.c ****   dir		0: horizontal line (left to right)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 10
 
 
  238:user/drivers/u8g2/u8g2_ll_hvline.c **** 		1: vertical line (top to bottom)
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  278              		.loc 1 257 3 is_stmt 1 view .LVU97
  258:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset *= tile_width;
  279              		.loc 1 258 3 view .LVU98
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 11
 
 
  280              		.loc 1 258 10 is_stmt 0 view .LVU99
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  314 003a 0131     		adds	r1, r1, #1
  315              	.LVL45:
  277:user/drivers/u8g2/u8g2_ll_hvline.c ****         ptr++;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 12
 
 
  316              		.loc 1 277 7 view .LVU114
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  353              		.loc 1 275 10 is_stmt 0 view .LVU130
  354 005e 5FEA5C0C 		lsrs	ip, ip, #1
  355              	.LVL50:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 13
 
 
  275:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  391              		.loc 1 289 10 view .LVU146
  392 0082 012A     		cmp	r2, #1
  393 0084 EFD8     		bhi	.L23
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 14
 
 
  290:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color != 1 )
@@ -805,14 +805,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
  412              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  413              		.file 6 "user/drivers/u8g2/u8x8.h"
  414              		.file 7 "user/drivers/u8g2/u8g2.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8g2_ll_hvline.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:21     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:27     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 u8g2_ll_hvline_vertical_top_lsb
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:235    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:241    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 u8g2_ll_hvline_horizontal_right_lsb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s:21     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s:27     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 u8g2_ll_hvline_vertical_top_lsb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s:235    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxaLLy3.s:241    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 u8g2_ll_hvline_horizontal_right_lsb
 
 NO UNDEFINED SYMBOLS

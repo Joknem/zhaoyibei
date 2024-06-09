@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
   28:user/drivers/u8g2/u8log.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   29:user/drivers/u8g2/u8log.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   30:user/drivers/u8g2/u8log.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 2
 
 
   31:user/drivers/u8g2/u8log.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
   53 000c 0870     		strb	r0, [r1]
   54 000e 0131     		adds	r1, r1, #1
   55              	.LVL4:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 3
 
 
   61:user/drivers/u8g2/u8log.c ****     cnt--;
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  100              		.loc 1 72 23 is_stmt 0 view .LVU24
  101 000a 4279     		ldrb	r2, [r0, #5]	@ zero_extendqisi2
  102              	.LVL10:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 4
 
 
   73:user/drivers/u8g2/u8log.c ****   cnt--;
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  146              	.LVL19:
   84:user/drivers/u8g2/u8log.c ****     cnt--;
  147              		.loc 1 84 5 is_stmt 1 discriminator 1 view .LVU43
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 5
 
 
  148              		.loc 1 84 8 is_stmt 0 discriminator 1 view .LVU44
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  189              		.loc 1 97 1 is_stmt 1 view -0
  190              		.cfi_startproc
  191              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 6
 
 
  192              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  234 0024 E27C     		ldrb	r2, [r4, #19]	@ zero_extendqisi2
  104:user/drivers/u8g2/u8log.c ****   {
  235              		.loc 1 104 35 view .LVU73
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 7
 
 
  236 0026 6379     		ldrb	r3, [r4, #5]	@ zero_extendqisi2
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  281              		.loc 1 117 55 view .LVU85
  282 0012 00FB0133 		mla	r3, r0, r1, r3
  283              		.loc 1 117 74 view .LVU86
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 8
 
 
  284 0016 D554     		strb	r5, [r2, r3]
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  136:user/drivers/u8g2/u8log.c **** 				is_redraw_line_for_each_char flag.
  137:user/drivers/u8g2/u8log.c **** */
  138:user/drivers/u8g2/u8log.c **** void u8log_write_char(u8log_t *u8log, uint8_t c)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 9
 
 
  139:user/drivers/u8g2/u8log.c **** {
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  367 0026 0022     		movs	r2, #0
  368 0028 E275     		strb	r2, [r4, #23]
  148:user/drivers/u8g2/u8log.c ****       u8log->cursor_y++;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 10
 
 
  369              		.loc 1 148 7 is_stmt 1 view .LVU115
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  395 003c 8374     		strb	r3, [r0, #18]
  155:user/drivers/u8g2/u8log.c ****     case '\t':	// 9
  396              		.loc 1 155 7 is_stmt 1 view .LVU128
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 11
 
 
  397 003e F7E7     		b	.L17
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  435              		.cfi_endproc
  436              	.LFE4:
  438              		.section	.text.u8log_Init,"ax",%progbits
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 12
 
 
  439              		.align	1
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  486              		.syntax unified
  487              		.thumb
  488              		.thumb_func
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 13
 
 
  490              	u8log_SetCallback:
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  536              		.thumb
  537              		.thumb_func
  539              	u8log_SetLineHeightOffset:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 14
 
 
  540              	.LVL38:
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  583 000e 23F0FF03 		bic	r3, r3, #255
  584              		.loc 1 202 6 view .LVU176
  585 0012 33B1     		cbz	r3, .L32
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 15
 
 
  203:user/drivers/u8g2/u8log.c ****   {
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  620              		.cfi_startproc
  621              		@ args = 0, pretend = 0, frame = 0
  622              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 16
 
 
  623              		.loc 1 224 1 is_stmt 0 view .LVU188
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  670              		.cfi_startproc
  671              		@ args = 0, pretend = 0, frame = 0
  672              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 17
 
 
  214:user/drivers/u8g2/u8log.c ****   while( *s != '\0' )
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  718              	.LFB12:
  231:user/drivers/u8g2/u8log.c **** 
  232:user/drivers/u8g2/u8log.c **** void u8log_WriteHex8(u8log_t *u8log, uint8_t b)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 18
 
 
  233:user/drivers/u8g2/u8log.c **** {
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  768              		.cfi_offset 3, -16
  769              		.cfi_offset 4, -12
  770              		.cfi_offset 5, -8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 19
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 19
 
 
  771              		.cfi_offset 14, -4
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  820              	.LVL63:
  247:user/drivers/u8g2/u8log.c ****   u8log_WriteHex16(u8log, v);
  821              		.loc 1 247 3 is_stmt 1 view .LVU229
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 20
 
 
  822 000c A1B2     		uxth	r1, r4
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  872              		.section	.text.u8log_WriteDec16,"ax",%progbits
  873              		.align	1
  874              		.global	u8log_WriteDec16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 21
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 21
 
 
  875              		.syntax unified
@@ -1249,48 +1249,48 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 1
  916              		.file 4 "/usr/local/include/_types/_uint16_t.h"
  917              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  918              		.file 6 "user/drivers/u8g2/u8x8.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s 			page 22
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8log.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:21     .text.u8log_clear_screen:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:26     .text.u8log_clear_screen:00000000 u8log_clear_screen
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:72     .text.u8log_scroll_up:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:77     .text.u8log_scroll_up:00000000 u8log_scroll_up
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:181    .text.u8log_cursor_on_screen:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:186    .text.u8log_cursor_on_screen:00000000 u8log_cursor_on_screen
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:247    .text.u8log_write_to_screen:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:252    .text.u8log_write_to_screen:00000000 u8log_write_to_screen
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:313    .text.u8log_write_char:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:319    .text.u8log_write_char:00000000 u8log_write_char
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:339    .text.u8log_write_char:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:439    .text.u8log_Init:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:445    .text.u8log_Init:00000000 u8log_Init
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:484    .text.u8log_SetCallback:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:490    .text.u8log_SetCallback:00000000 u8log_SetCallback
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:510    .text.u8log_SetRedrawMode:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:516    .text.u8log_SetRedrawMode:00000000 u8log_SetRedrawMode
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:533    .text.u8log_SetLineHeightOffset:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:539    .text.u8log_SetLineHeightOffset:00000000 u8log_SetLineHeightOffset
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:556    .text.u8log_WriteChar:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:562    .text.u8log_WriteChar:00000000 u8log_WriteChar
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:611    .text.u8log_WriteHexHalfByte:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:616    .text.u8log_WriteHexHalfByte:00000000 u8log_WriteHexHalfByte
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:660    .text.u8log_WriteString:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:666    .text.u8log_WriteString:00000000 u8log_WriteString
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:710    .text.u8log_WriteHex8:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:716    .text.u8log_WriteHex8:00000000 u8log_WriteHex8
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:751    .text.u8log_WriteHex16:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:757    .text.u8log_WriteHex16:00000000 u8log_WriteHex16
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:792    .text.u8log_WriteHex32:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:798    .text.u8log_WriteHex32:00000000 u8log_WriteHex32
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:833    .text.u8log_WriteDec8:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:839    .text.u8log_WriteDec8:00000000 u8log_WriteDec8
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:873    .text.u8log_WriteDec16:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:879    .text.u8log_WriteDec16:00000000 u8log_WriteDec16
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:344    .text.u8log_write_char:00000015 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc5U6eBq.s:344    .text.u8log_write_char:00000016 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:21     .text.u8log_clear_screen:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:26     .text.u8log_clear_screen:00000000 u8log_clear_screen
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:72     .text.u8log_scroll_up:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:77     .text.u8log_scroll_up:00000000 u8log_scroll_up
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:181    .text.u8log_cursor_on_screen:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:186    .text.u8log_cursor_on_screen:00000000 u8log_cursor_on_screen
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:247    .text.u8log_write_to_screen:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:252    .text.u8log_write_to_screen:00000000 u8log_write_to_screen
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:313    .text.u8log_write_char:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:319    .text.u8log_write_char:00000000 u8log_write_char
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:339    .text.u8log_write_char:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:439    .text.u8log_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:445    .text.u8log_Init:00000000 u8log_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:484    .text.u8log_SetCallback:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:490    .text.u8log_SetCallback:00000000 u8log_SetCallback
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:510    .text.u8log_SetRedrawMode:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:516    .text.u8log_SetRedrawMode:00000000 u8log_SetRedrawMode
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:533    .text.u8log_SetLineHeightOffset:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:539    .text.u8log_SetLineHeightOffset:00000000 u8log_SetLineHeightOffset
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:556    .text.u8log_WriteChar:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:562    .text.u8log_WriteChar:00000000 u8log_WriteChar
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:611    .text.u8log_WriteHexHalfByte:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:616    .text.u8log_WriteHexHalfByte:00000000 u8log_WriteHexHalfByte
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:660    .text.u8log_WriteString:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:666    .text.u8log_WriteString:00000000 u8log_WriteString
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:710    .text.u8log_WriteHex8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:716    .text.u8log_WriteHex8:00000000 u8log_WriteHex8
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:751    .text.u8log_WriteHex16:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:757    .text.u8log_WriteHex16:00000000 u8log_WriteHex16
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:792    .text.u8log_WriteHex32:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:798    .text.u8log_WriteHex32:00000000 u8log_WriteHex32
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:833    .text.u8log_WriteDec8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:839    .text.u8log_WriteDec8:00000000 u8log_WriteDec8
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:873    .text.u8log_WriteDec16:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:879    .text.u8log_WriteDec16:00000000 u8log_WriteDec16
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:344    .text.u8log_write_char:00000015 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwiMDaM.s:344    .text.u8log_write_char:00000016 $t
 
 UNDEFINED SYMBOLS
 u8x8_u8toa

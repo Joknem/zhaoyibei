@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRFgsCG.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s 			page 1
   27:user/drivers/u8g2/u8x8_gpio.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   28:user/drivers/u8g2/u8x8_gpio.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   29:user/drivers/u8g2/u8x8_gpio.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRFgsCG.s 			page 2
 
 
   30:user/drivers/u8g2/u8x8_gpio.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
@@ -102,12 +102,12 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s 			page 1
   55              		.file 3 "/usr/local/include/_types/_uint16_t.h"
   56              		.file 4 "/usr/local/include/_types/_uint32_t.h"
   57              		.file 5 "user/drivers/u8g2/u8x8.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRFgsCG.s 			page 3
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8x8_gpio.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s:21     .text.u8x8_gpio_call:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJgysyv.s:27     .text.u8x8_gpio_call:00000000 u8x8_gpio_call
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRFgsCG.s:21     .text.u8x8_gpio_call:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccRFgsCG.s:27     .text.u8x8_gpio_call:00000000 u8x8_gpio_call
 
 NO UNDEFINED SYMBOLS

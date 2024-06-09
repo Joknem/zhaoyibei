@@ -209,6 +209,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+uint8_t state = 0;
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
+  if(GPIO_PIN == user_button_Pin){
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    state = (state + 1) % 3;
+  }
+}
 
 /* USER CODE END 4 */
 
