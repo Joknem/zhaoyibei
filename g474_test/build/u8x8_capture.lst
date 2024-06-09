@@ -1,0 +1,926 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_capture.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_capture.c"
+  20              		.section	.text.u8x8_capture_get_pixel_1,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8x8_capture_get_pixel_1
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8x8_capture_get_pixel_1:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8x8_capture.c **** /*
+   2:user/drivers/u8g2/u8x8_capture.c **** 
+   3:user/drivers/u8g2/u8x8_capture.c ****   u8x8_capture.c
+   4:user/drivers/u8g2/u8x8_capture.c ****   
+   5:user/drivers/u8g2/u8x8_capture.c ****   Screen capture funcion
+   6:user/drivers/u8g2/u8x8_capture.c ****   
+   7:user/drivers/u8g2/u8x8_capture.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:user/drivers/u8g2/u8x8_capture.c **** 
+   9:user/drivers/u8g2/u8x8_capture.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:user/drivers/u8g2/u8x8_capture.c ****   All rights reserved.
+  11:user/drivers/u8g2/u8x8_capture.c **** 
+  12:user/drivers/u8g2/u8x8_capture.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:user/drivers/u8g2/u8x8_capture.c ****   are permitted provided that the following conditions are met:
+  14:user/drivers/u8g2/u8x8_capture.c **** 
+  15:user/drivers/u8g2/u8x8_capture.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:user/drivers/u8g2/u8x8_capture.c ****     of conditions and the following disclaimer.
+  17:user/drivers/u8g2/u8x8_capture.c ****     
+  18:user/drivers/u8g2/u8x8_capture.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:user/drivers/u8g2/u8x8_capture.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:user/drivers/u8g2/u8x8_capture.c ****     materials provided with the distribution.
+  21:user/drivers/u8g2/u8x8_capture.c **** 
+  22:user/drivers/u8g2/u8x8_capture.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:user/drivers/u8g2/u8x8_capture.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:user/drivers/u8g2/u8x8_capture.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:user/drivers/u8g2/u8x8_capture.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:user/drivers/u8g2/u8x8_capture.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:user/drivers/u8g2/u8x8_capture.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:user/drivers/u8g2/u8x8_capture.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:user/drivers/u8g2/u8x8_capture.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 2
+
+
+  30:user/drivers/u8g2/u8x8_capture.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  31:user/drivers/u8g2/u8x8_capture.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:user/drivers/u8g2/u8x8_capture.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:user/drivers/u8g2/u8x8_capture.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:user/drivers/u8g2/u8x8_capture.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  35:user/drivers/u8g2/u8x8_capture.c **** 
+  36:user/drivers/u8g2/u8x8_capture.c **** 
+  37:user/drivers/u8g2/u8x8_capture.c **** */
+  38:user/drivers/u8g2/u8x8_capture.c **** 
+  39:user/drivers/u8g2/u8x8_capture.c **** #include "u8x8.h"
+  40:user/drivers/u8g2/u8x8_capture.c **** 
+  41:user/drivers/u8g2/u8x8_capture.c **** /*========================================================*/
+  42:user/drivers/u8g2/u8x8_capture.c **** 
+  43:user/drivers/u8g2/u8x8_capture.c **** 
+  44:user/drivers/u8g2/u8x8_capture.c **** /* vertical top lsb memory architecture */
+  45:user/drivers/u8g2/u8x8_capture.c **** uint8_t u8x8_capture_get_pixel_1(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width)
+  46:user/drivers/u8g2/u8x8_capture.c **** {
+  30              		.loc 1 46 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  47:user/drivers/u8g2/u8x8_capture.c ****   //uint8_t *dest_ptr = capture->buffer;
+  48:user/drivers/u8g2/u8x8_capture.c ****   //if ( dest_ptr == NULL )
+  49:user/drivers/u8g2/u8x8_capture.c ****     //return 0;
+  50:user/drivers/u8g2/u8x8_capture.c ****   //dest_ptr += (y/8)*capture->tile_width*8;
+  51:user/drivers/u8g2/u8x8_capture.c ****   dest_ptr += (y/8)*tile_width*8;
+  35              		.loc 1 51 3 view .LVU1
+  36              		.loc 1 51 17 is_stmt 0 view .LVU2
+  37 0000 4FEAD10C 		lsr	ip, r1, #3
+  38              		.loc 1 51 20 view .LVU3
+  39 0004 0CFB03F3 		mul	r3, ip, r3
+  40              	.LVL1:
+  52:user/drivers/u8g2/u8x8_capture.c ****   y &= 7;
+  41              		.loc 1 52 3 is_stmt 1 view .LVU4
+  42              		.loc 1 52 5 is_stmt 0 view .LVU5
+  43 0008 01F00701 		and	r1, r1, #7
+  44              	.LVL2:
+  53:user/drivers/u8g2/u8x8_capture.c ****   dest_ptr += x;
+  45              		.loc 1 53 3 is_stmt 1 view .LVU6
+  46              		.loc 1 53 12 is_stmt 0 view .LVU7
+  47 000c 00EBC300 		add	r0, r0, r3, lsl #3
+  48              	.LVL3:
+  54:user/drivers/u8g2/u8x8_capture.c ****   if ( (*dest_ptr & (1<<y)) == 0 )
+  49              		.loc 1 54 3 is_stmt 1 view .LVU8
+  50              		.loc 1 54 9 is_stmt 0 view .LVU9
+  51 0010 135C     		ldrb	r3, [r2, r0]	@ zero_extendqisi2
+  52              		.loc 1 54 29 view .LVU10
+  53 0012 0B41     		asrs	r3, r3, r1
+  54              		.loc 1 54 6 view .LVU11
+  55 0014 13F0010F 		tst	r3, #1
+  56 0018 01D0     		beq	.L3
+  55:user/drivers/u8g2/u8x8_capture.c ****     return 0;
+  56:user/drivers/u8g2/u8x8_capture.c ****   return 1;
+  57              		.loc 1 56 10 view .LVU12
+  58 001a 0120     		movs	r0, #1
+  59              	.LVL4:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 3
+
+
+  60              		.loc 1 56 10 view .LVU13
+  61 001c 7047     		bx	lr
+  62              	.LVL5:
+  63              	.L3:
+  55:user/drivers/u8g2/u8x8_capture.c ****     return 0;
+  64              		.loc 1 55 12 view .LVU14
+  65 001e 0020     		movs	r0, #0
+  66              	.LVL6:
+  57:user/drivers/u8g2/u8x8_capture.c **** }
+  67              		.loc 1 57 1 view .LVU15
+  68 0020 7047     		bx	lr
+  69              		.cfi_endproc
+  70              	.LFE0:
+  72              		.section	.text.u8x8_capture_get_pixel_2,"ax",%progbits
+  73              		.align	1
+  74              		.global	u8x8_capture_get_pixel_2
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  79              	u8x8_capture_get_pixel_2:
+  80              	.LVL7:
+  81              	.LFB1:
+  58:user/drivers/u8g2/u8x8_capture.c **** 
+  59:user/drivers/u8g2/u8x8_capture.c **** /* horizontal right lsb memory architecture */
+  60:user/drivers/u8g2/u8x8_capture.c **** /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
+  61:user/drivers/u8g2/u8x8_capture.c **** uint8_t u8x8_capture_get_pixel_2(uint16_t x, uint16_t y, uint8_t *dest_ptr, uint8_t tile_width)
+  62:user/drivers/u8g2/u8x8_capture.c **** {
+  82              		.loc 1 62 1 is_stmt 1 view -0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  63:user/drivers/u8g2/u8x8_capture.c ****   //uint8_t *dest_ptr = capture->buffer;
+  64:user/drivers/u8g2/u8x8_capture.c ****   //if ( dest_ptr == NULL )
+  65:user/drivers/u8g2/u8x8_capture.c ****   //  return 0;
+  66:user/drivers/u8g2/u8x8_capture.c ****   //dest_ptr += y*capture->tile_width;
+  67:user/drivers/u8g2/u8x8_capture.c ****   y *= tile_width;
+  87              		.loc 1 67 3 view .LVU17
+  88              		.loc 1 67 5 is_stmt 0 view .LVU18
+  89 0000 13FB01F3 		smulbb	r3, r3, r1
+  90              	.LVL8:
+  68:user/drivers/u8g2/u8x8_capture.c ****   dest_ptr += y;
+  91              		.loc 1 68 3 is_stmt 1 view .LVU19
+  69:user/drivers/u8g2/u8x8_capture.c ****   dest_ptr += x>>3;
+  92              		.loc 1 69 3 view .LVU20
+  93              		.loc 1 69 16 is_stmt 0 view .LVU21
+  94 0004 C108     		lsrs	r1, r0, #3
+  95              		.loc 1 69 12 view .LVU22
+  96 0006 11FA83F3 		uxtah	r3, r1, r3
+  97              	.LVL9:
+  70:user/drivers/u8g2/u8x8_capture.c ****   if ( (*dest_ptr & (128>>(x&7))) == 0 )
+  98              		.loc 1 70 3 is_stmt 1 view .LVU23
+  99              		.loc 1 70 9 is_stmt 0 view .LVU24
+ 100 000a D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 101              	.LVL10:
+ 102              		.loc 1 70 29 view .LVU25
+ 103 000c 00F00700 		and	r0, r0, #7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 4
+
+
+ 104              	.LVL11:
+ 105              		.loc 1 70 25 view .LVU26
+ 106 0010 8023     		movs	r3, #128
+ 107              	.LVL12:
+ 108              		.loc 1 70 25 view .LVU27
+ 109 0012 0341     		asrs	r3, r3, r0
+ 110              		.loc 1 70 6 view .LVU28
+ 111 0014 1A42     		tst	r2, r3
+ 112 0016 01D0     		beq	.L6
+  71:user/drivers/u8g2/u8x8_capture.c ****     return 0;
+  72:user/drivers/u8g2/u8x8_capture.c ****   return 1;
+ 113              		.loc 1 72 10 view .LVU29
+ 114 0018 0120     		movs	r0, #1
+ 115 001a 7047     		bx	lr
+ 116              	.L6:
+  71:user/drivers/u8g2/u8x8_capture.c ****     return 0;
+ 117              		.loc 1 71 12 view .LVU30
+ 118 001c 0020     		movs	r0, #0
+  73:user/drivers/u8g2/u8x8_capture.c **** }
+ 119              		.loc 1 73 1 view .LVU31
+ 120 001e 7047     		bx	lr
+ 121              		.cfi_endproc
+ 122              	.LFE1:
+ 124              		.section	.rodata.u8x8_capture_write_pbm_pre.str1.4,"aMS",%progbits,1
+ 125              		.align	2
+ 126              	.LC0:
+ 127 0000 50310A00 		.ascii	"P1\012\000"
+ 128              		.align	2
+ 129              	.LC1:
+ 130 0004 0A00     		.ascii	"\012\000"
+ 131              		.section	.text.u8x8_capture_write_pbm_pre,"ax",%progbits
+ 132              		.align	1
+ 133              		.global	u8x8_capture_write_pbm_pre
+ 134              		.syntax unified
+ 135              		.thumb
+ 136              		.thumb_func
+ 138              	u8x8_capture_write_pbm_pre:
+ 139              	.LVL13:
+ 140              	.LFB2:
+  74:user/drivers/u8g2/u8x8_capture.c **** 
+  75:user/drivers/u8g2/u8x8_capture.c **** void u8x8_capture_write_pbm_pre(uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s)
+  76:user/drivers/u8g2/u8x8_capture.c **** {
+ 141              		.loc 1 76 1 is_stmt 1 view -0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		.loc 1 76 1 is_stmt 0 view .LVU33
+ 146 0000 70B5     		push	{r4, r5, r6, lr}
+ 147              	.LCFI0:
+ 148              		.cfi_def_cfa_offset 16
+ 149              		.cfi_offset 4, -16
+ 150              		.cfi_offset 5, -12
+ 151              		.cfi_offset 6, -8
+ 152              		.cfi_offset 14, -4
+ 153 0002 0646     		mov	r6, r0
+ 154 0004 0D46     		mov	r5, r1
+ 155 0006 1446     		mov	r4, r2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 5
+
+
+  77:user/drivers/u8g2/u8x8_capture.c ****   out("P1\n");
+ 156              		.loc 1 77 3 is_stmt 1 view .LVU34
+ 157 0008 0748     		ldr	r0, .L9
+ 158              	.LVL14:
+ 159              		.loc 1 77 3 is_stmt 0 view .LVU35
+ 160 000a 9047     		blx	r2
+ 161              	.LVL15:
+  78:user/drivers/u8g2/u8x8_capture.c ****   out(u8x8_utoa((uint16_t)tile_width*8));
+ 162              		.loc 1 78 3 is_stmt 1 view .LVU36
+ 163 000c F000     		lsls	r0, r6, #3
+ 164 000e FFF7FEFF 		bl	u8x8_utoa
+ 165              	.LVL16:
+ 166 0012 A047     		blx	r4
+ 167              	.LVL17:
+  79:user/drivers/u8g2/u8x8_capture.c ****   out("\n");
+ 168              		.loc 1 79 3 view .LVU37
+ 169 0014 054E     		ldr	r6, .L9+4
+ 170 0016 3046     		mov	r0, r6
+ 171 0018 A047     		blx	r4
+ 172              	.LVL18:
+  80:user/drivers/u8g2/u8x8_capture.c ****   out(u8x8_utoa((uint16_t)tile_height*8));
+ 173              		.loc 1 80 3 view .LVU38
+ 174 001a E800     		lsls	r0, r5, #3
+ 175 001c FFF7FEFF 		bl	u8x8_utoa
+ 176              	.LVL19:
+ 177 0020 A047     		blx	r4
+ 178              	.LVL20:
+  81:user/drivers/u8g2/u8x8_capture.c ****   out("\n");
+ 179              		.loc 1 81 3 view .LVU39
+ 180 0022 3046     		mov	r0, r6
+ 181 0024 A047     		blx	r4
+ 182              	.LVL21:
+  82:user/drivers/u8g2/u8x8_capture.c **** }
+ 183              		.loc 1 82 1 is_stmt 0 view .LVU40
+ 184 0026 70BD     		pop	{r4, r5, r6, pc}
+ 185              	.LVL22:
+ 186              	.L10:
+ 187              		.loc 1 82 1 view .LVU41
+ 188              		.align	2
+ 189              	.L9:
+ 190 0028 00000000 		.word	.LC0
+ 191 002c 04000000 		.word	.LC1
+ 192              		.cfi_endproc
+ 193              	.LFE2:
+ 195              		.section	.rodata.u8x8_capture_write_pbm_buffer.str1.4,"aMS",%progbits,1
+ 196              		.align	2
+ 197              	.LC2:
+ 198 0000 3100     		.ascii	"1\000"
+ 199 0002 0000     		.align	2
+ 200              	.LC3:
+ 201 0004 3000     		.ascii	"0\000"
+ 202              		.section	.text.u8x8_capture_write_pbm_buffer,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	u8x8_capture_write_pbm_buffer
+ 205              		.syntax unified
+ 206              		.thumb
+ 207              		.thumb_func
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 6
+
+
+ 209              	u8x8_capture_write_pbm_buffer:
+ 210              	.LVL23:
+ 211              	.LFB3:
+  83:user/drivers/u8g2/u8x8_capture.c **** 
+  84:user/drivers/u8g2/u8x8_capture.c **** 
+  85:user/drivers/u8g2/u8x8_capture.c **** void u8x8_capture_write_pbm_buffer(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, uint8_
+  86:user/drivers/u8g2/u8x8_capture.c **** {
+ 212              		.loc 1 86 1 is_stmt 1 view -0
+ 213              		.cfi_startproc
+ 214              		@ args = 4, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		.loc 1 86 1 is_stmt 0 view .LVU43
+ 217 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 218              	.LCFI1:
+ 219              		.cfi_def_cfa_offset 40
+ 220              		.cfi_offset 3, -40
+ 221              		.cfi_offset 4, -36
+ 222              		.cfi_offset 5, -32
+ 223              		.cfi_offset 6, -28
+ 224              		.cfi_offset 7, -24
+ 225              		.cfi_offset 8, -20
+ 226              		.cfi_offset 9, -16
+ 227              		.cfi_offset 10, -12
+ 228              		.cfi_offset 11, -8
+ 229              		.cfi_offset 14, -4
+ 230 0004 8246     		mov	r10, r0
+ 231 0006 8846     		mov	r8, r1
+ 232 0008 9946     		mov	r9, r3
+ 233 000a 0A9F     		ldr	r7, [sp, #40]
+  87:user/drivers/u8g2/u8x8_capture.c ****   uint16_t x, y;
+ 234              		.loc 1 87 3 is_stmt 1 view .LVU44
+  88:user/drivers/u8g2/u8x8_capture.c ****   uint16_t w, h;
+ 235              		.loc 1 88 3 view .LVU45
+  89:user/drivers/u8g2/u8x8_capture.c **** 
+  90:user/drivers/u8g2/u8x8_capture.c ****   w = tile_width;
+ 236              		.loc 1 90 3 view .LVU46
+ 237              	.LVL24:
+  91:user/drivers/u8g2/u8x8_capture.c ****   w *= 8;
+ 238              		.loc 1 91 3 view .LVU47
+ 239              		.loc 1 91 5 is_stmt 0 view .LVU48
+ 240 000c CE00     		lsls	r6, r1, #3
+ 241              	.LVL25:
+  92:user/drivers/u8g2/u8x8_capture.c ****   h = tile_height;
+ 242              		.loc 1 92 3 is_stmt 1 view .LVU49
+  93:user/drivers/u8g2/u8x8_capture.c ****   h *= 8;
+ 243              		.loc 1 93 3 view .LVU50
+ 244              		.loc 1 93 5 is_stmt 0 view .LVU51
+ 245 000e 4FEAC20B 		lsl	fp, r2, #3
+ 246              	.LVL26:
+  94:user/drivers/u8g2/u8x8_capture.c ****     
+  95:user/drivers/u8g2/u8x8_capture.c ****   for( y = 0; y < h; y++)
+ 247              		.loc 1 95 3 is_stmt 1 view .LVU52
+ 248              		.loc 1 95 10 is_stmt 0 view .LVU53
+ 249 0012 0025     		movs	r5, #0
+ 250              		.loc 1 95 3 view .LVU54
+ 251 0014 13E0     		b	.L12
+ 252              	.LVL27:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 7
+
+
+ 253              	.L13:
+  96:user/drivers/u8g2/u8x8_capture.c ****   {
+  97:user/drivers/u8g2/u8x8_capture.c ****     for( x = 0; x < w; x++)
+  98:user/drivers/u8g2/u8x8_capture.c ****     {
+  99:user/drivers/u8g2/u8x8_capture.c ****       if ( get_pixel(x, y, buffer, tile_width) )
+ 100:user/drivers/u8g2/u8x8_capture.c **** 	out("1");
+ 101:user/drivers/u8g2/u8x8_capture.c ****       else
+ 102:user/drivers/u8g2/u8x8_capture.c **** 	out("0"); 	  
+ 254              		.loc 1 102 2 is_stmt 1 view .LVU55
+ 255 0016 0D48     		ldr	r0, .L21
+ 256 0018 B847     		blx	r7
+ 257              	.LVL28:
+ 258              	.L14:
+  97:user/drivers/u8g2/u8x8_capture.c ****     {
+ 259              		.loc 1 97 25 discriminator 2 view .LVU56
+ 260 001a 0134     		adds	r4, r4, #1
+ 261              	.LVL29:
+  97:user/drivers/u8g2/u8x8_capture.c ****     {
+ 262              		.loc 1 97 25 is_stmt 0 discriminator 2 view .LVU57
+ 263 001c A4B2     		uxth	r4, r4
+ 264              	.LVL30:
+ 265              	.L16:
+  97:user/drivers/u8g2/u8x8_capture.c ****     {
+ 266              		.loc 1 97 19 is_stmt 1 discriminator 1 view .LVU58
+ 267 001e B442     		cmp	r4, r6
+ 268 0020 09D2     		bcs	.L19
+  99:user/drivers/u8g2/u8x8_capture.c **** 	out("1");
+ 269              		.loc 1 99 7 view .LVU59
+  99:user/drivers/u8g2/u8x8_capture.c **** 	out("1");
+ 270              		.loc 1 99 12 is_stmt 0 view .LVU60
+ 271 0022 4346     		mov	r3, r8
+ 272 0024 5246     		mov	r2, r10
+ 273 0026 2946     		mov	r1, r5
+ 274 0028 2046     		mov	r0, r4
+ 275 002a C847     		blx	r9
+ 276              	.LVL31:
+  99:user/drivers/u8g2/u8x8_capture.c **** 	out("1");
+ 277              		.loc 1 99 10 view .LVU61
+ 278 002c 0028     		cmp	r0, #0
+ 279 002e F2D0     		beq	.L13
+ 100:user/drivers/u8g2/u8x8_capture.c ****       else
+ 280              		.loc 1 100 2 is_stmt 1 view .LVU62
+ 281 0030 0748     		ldr	r0, .L21+4
+ 282 0032 B847     		blx	r7
+ 283              	.LVL32:
+ 284 0034 F1E7     		b	.L14
+ 285              	.L19:
+ 103:user/drivers/u8g2/u8x8_capture.c ****     }
+ 104:user/drivers/u8g2/u8x8_capture.c ****     out("\n");
+ 286              		.loc 1 104 5 discriminator 2 view .LVU63
+ 287 0036 0748     		ldr	r0, .L21+8
+ 288 0038 B847     		blx	r7
+ 289              	.LVL33:
+  95:user/drivers/u8g2/u8x8_capture.c ****   {
+ 290              		.loc 1 95 23 discriminator 2 view .LVU64
+ 291 003a 0135     		adds	r5, r5, #1
+ 292              	.LVL34:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 8
+
+
+  95:user/drivers/u8g2/u8x8_capture.c ****   {
+ 293              		.loc 1 95 23 is_stmt 0 discriminator 2 view .LVU65
+ 294 003c ADB2     		uxth	r5, r5
+ 295              	.LVL35:
+ 296              	.L12:
+  95:user/drivers/u8g2/u8x8_capture.c ****   {
+ 297              		.loc 1 95 17 is_stmt 1 discriminator 1 view .LVU66
+ 298 003e 5D45     		cmp	r5, fp
+ 299 0040 01D2     		bcs	.L20
+  97:user/drivers/u8g2/u8x8_capture.c ****     {
+ 300              		.loc 1 97 12 is_stmt 0 view .LVU67
+ 301 0042 0024     		movs	r4, #0
+ 302 0044 EBE7     		b	.L16
+ 303              	.L20:
+ 105:user/drivers/u8g2/u8x8_capture.c ****   }
+ 106:user/drivers/u8g2/u8x8_capture.c **** }
+ 304              		.loc 1 106 1 view .LVU68
+ 305 0046 BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 306              	.LVL36:
+ 307              	.L22:
+ 308              		.loc 1 106 1 view .LVU69
+ 309 004a 00BF     		.align	2
+ 310              	.L21:
+ 311 004c 04000000 		.word	.LC3
+ 312 0050 00000000 		.word	.LC2
+ 313 0054 04000000 		.word	.LC1
+ 314              		.cfi_endproc
+ 315              	.LFE3:
+ 317              		.section	.rodata.u8x8_capture_write_xbm_pre.str1.4,"aMS",%progbits,1
+ 318              		.align	2
+ 319              	.LC4:
+ 320 0000 23646566 		.ascii	"#define xbm_width \000"
+ 320      696E6520 
+ 320      78626D5F 
+ 320      77696474 
+ 320      682000
+ 321 0013 00       		.align	2
+ 322              	.LC5:
+ 323 0014 23646566 		.ascii	"#define xbm_height \000"
+ 323      696E6520 
+ 323      78626D5F 
+ 323      68656967 
+ 323      68742000 
+ 324              		.align	2
+ 325              	.LC6:
+ 326 0028 73746174 		.ascii	"static unsigned char xbm_bits[] = {\012\000"
+ 326      69632075 
+ 326      6E736967 
+ 326      6E656420 
+ 326      63686172 
+ 327              		.section	.text.u8x8_capture_write_xbm_pre,"ax",%progbits
+ 328              		.align	1
+ 329              		.global	u8x8_capture_write_xbm_pre
+ 330              		.syntax unified
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	u8x8_capture_write_xbm_pre:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 9
+
+
+ 335              	.LVL37:
+ 336              	.LFB4:
+ 107:user/drivers/u8g2/u8x8_capture.c **** 
+ 108:user/drivers/u8g2/u8x8_capture.c **** 
+ 109:user/drivers/u8g2/u8x8_capture.c **** 
+ 110:user/drivers/u8g2/u8x8_capture.c **** 
+ 111:user/drivers/u8g2/u8x8_capture.c **** void u8x8_capture_write_xbm_pre(uint8_t tile_width, uint8_t tile_height, void (*out)(const char *s)
+ 112:user/drivers/u8g2/u8x8_capture.c **** {
+ 337              		.loc 1 112 1 is_stmt 1 view -0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 0
+ 340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 341              		.loc 1 112 1 is_stmt 0 view .LVU71
+ 342 0000 70B5     		push	{r4, r5, r6, lr}
+ 343              	.LCFI2:
+ 344              		.cfi_def_cfa_offset 16
+ 345              		.cfi_offset 4, -16
+ 346              		.cfi_offset 5, -12
+ 347              		.cfi_offset 6, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 0646     		mov	r6, r0
+ 350 0004 0D46     		mov	r5, r1
+ 351 0006 1446     		mov	r4, r2
+ 113:user/drivers/u8g2/u8x8_capture.c ****   out("#define xbm_width ");
+ 352              		.loc 1 113 3 is_stmt 1 view .LVU72
+ 353 0008 0948     		ldr	r0, .L25
+ 354              	.LVL38:
+ 355              		.loc 1 113 3 is_stmt 0 view .LVU73
+ 356 000a 9047     		blx	r2
+ 357              	.LVL39:
+ 114:user/drivers/u8g2/u8x8_capture.c ****   out(u8x8_utoa((uint16_t)tile_width*8));
+ 358              		.loc 1 114 3 is_stmt 1 view .LVU74
+ 359 000c F000     		lsls	r0, r6, #3
+ 360 000e FFF7FEFF 		bl	u8x8_utoa
+ 361              	.LVL40:
+ 362 0012 A047     		blx	r4
+ 363              	.LVL41:
+ 115:user/drivers/u8g2/u8x8_capture.c ****   out("\n");
+ 364              		.loc 1 115 3 view .LVU75
+ 365 0014 074E     		ldr	r6, .L25+4
+ 366 0016 3046     		mov	r0, r6
+ 367 0018 A047     		blx	r4
+ 368              	.LVL42:
+ 116:user/drivers/u8g2/u8x8_capture.c ****   out("#define xbm_height ");
+ 369              		.loc 1 116 3 view .LVU76
+ 370 001a 0748     		ldr	r0, .L25+8
+ 371 001c A047     		blx	r4
+ 372              	.LVL43:
+ 117:user/drivers/u8g2/u8x8_capture.c ****   out(u8x8_utoa((uint16_t)tile_height*8));
+ 373              		.loc 1 117 3 view .LVU77
+ 374 001e E800     		lsls	r0, r5, #3
+ 375 0020 FFF7FEFF 		bl	u8x8_utoa
+ 376              	.LVL44:
+ 377 0024 A047     		blx	r4
+ 378              	.LVL45:
+ 118:user/drivers/u8g2/u8x8_capture.c ****   out("\n");  
+ 379              		.loc 1 118 3 view .LVU78
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 10
+
+
+ 380 0026 3046     		mov	r0, r6
+ 381 0028 A047     		blx	r4
+ 382              	.LVL46:
+ 119:user/drivers/u8g2/u8x8_capture.c ****   out("static unsigned char xbm_bits[] = {\n");  
+ 383              		.loc 1 119 3 view .LVU79
+ 384 002a 0448     		ldr	r0, .L25+12
+ 385 002c A047     		blx	r4
+ 386              	.LVL47:
+ 120:user/drivers/u8g2/u8x8_capture.c **** }
+ 387              		.loc 1 120 1 is_stmt 0 view .LVU80
+ 388 002e 70BD     		pop	{r4, r5, r6, pc}
+ 389              	.LVL48:
+ 390              	.L26:
+ 391              		.loc 1 120 1 view .LVU81
+ 392              		.align	2
+ 393              	.L25:
+ 394 0030 00000000 		.word	.LC4
+ 395 0034 04000000 		.word	.LC1
+ 396 0038 14000000 		.word	.LC5
+ 397 003c 28000000 		.word	.LC6
+ 398              		.cfi_endproc
+ 399              	.LFE4:
+ 401              		.section	.rodata.u8x8_capture_write_xbm_buffer.str1.4,"aMS",%progbits,1
+ 402              		.align	2
+ 403              	.LC7:
+ 404 0000 307800   		.ascii	"0x\000"
+ 405 0003 00       		.align	2
+ 406              	.LC8:
+ 407 0004 2C00     		.ascii	",\000"
+ 408 0006 0000     		.align	2
+ 409              	.LC9:
+ 410 0008 7D3B0A00 		.ascii	"};\012\000"
+ 411              		.section	.text.u8x8_capture_write_xbm_buffer,"ax",%progbits
+ 412              		.align	1
+ 413              		.global	u8x8_capture_write_xbm_buffer
+ 414              		.syntax unified
+ 415              		.thumb
+ 416              		.thumb_func
+ 418              	u8x8_capture_write_xbm_buffer:
+ 419              	.LVL49:
+ 420              	.LFB5:
+ 121:user/drivers/u8g2/u8x8_capture.c **** 
+ 122:user/drivers/u8g2/u8x8_capture.c **** void u8x8_capture_write_xbm_buffer(uint8_t *buffer, uint8_t tile_width, uint8_t tile_height, uint8_
+ 123:user/drivers/u8g2/u8x8_capture.c **** {
+ 421              		.loc 1 123 1 is_stmt 1 view -0
+ 422              		.cfi_startproc
+ 423              		@ args = 4, pretend = 0, frame = 16
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425              		.loc 1 123 1 is_stmt 0 view .LVU83
+ 426 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 427              	.LCFI3:
+ 428              		.cfi_def_cfa_offset 36
+ 429              		.cfi_offset 4, -36
+ 430              		.cfi_offset 5, -32
+ 431              		.cfi_offset 6, -28
+ 432              		.cfi_offset 7, -24
+ 433              		.cfi_offset 8, -20
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 11
+
+
+ 434              		.cfi_offset 9, -16
+ 435              		.cfi_offset 10, -12
+ 436              		.cfi_offset 11, -8
+ 437              		.cfi_offset 14, -4
+ 438 0004 85B0     		sub	sp, sp, #20
+ 439              	.LCFI4:
+ 440              		.cfi_def_cfa_offset 56
+ 441 0006 8246     		mov	r10, r0
+ 442 0008 8846     		mov	r8, r1
+ 443 000a 1C46     		mov	r4, r3
+ 444 000c DDF838B0 		ldr	fp, [sp, #56]
+ 124:user/drivers/u8g2/u8x8_capture.c ****   uint16_t x, y;
+ 445              		.loc 1 124 3 is_stmt 1 view .LVU84
+ 125:user/drivers/u8g2/u8x8_capture.c ****   uint16_t w, h;
+ 446              		.loc 1 125 3 view .LVU85
+ 126:user/drivers/u8g2/u8x8_capture.c ****   uint8_t v, b;
+ 447              		.loc 1 126 3 view .LVU86
+ 127:user/drivers/u8g2/u8x8_capture.c ****   char s[2];
+ 448              		.loc 1 127 3 view .LVU87
+ 128:user/drivers/u8g2/u8x8_capture.c ****   s[1] = '\0';
+ 449              		.loc 1 128 3 view .LVU88
+ 450              		.loc 1 128 8 is_stmt 0 view .LVU89
+ 451 0010 0027     		movs	r7, #0
+ 452 0012 8DF80D70 		strb	r7, [sp, #13]
+ 129:user/drivers/u8g2/u8x8_capture.c **** 
+ 130:user/drivers/u8g2/u8x8_capture.c ****   w = tile_width;
+ 453              		.loc 1 130 3 is_stmt 1 view .LVU90
+ 454              	.LVL50:
+ 131:user/drivers/u8g2/u8x8_capture.c ****   w *= 8;
+ 455              		.loc 1 131 3 view .LVU91
+ 456              		.loc 1 131 5 is_stmt 0 view .LVU92
+ 457 0016 CB00     		lsls	r3, r1, #3
+ 458              	.LVL51:
+ 459              		.loc 1 131 5 view .LVU93
+ 460 0018 0093     		str	r3, [sp]
+ 461              	.LVL52:
+ 132:user/drivers/u8g2/u8x8_capture.c ****   h = tile_height;
+ 462              		.loc 1 132 3 is_stmt 1 view .LVU94
+ 133:user/drivers/u8g2/u8x8_capture.c ****   h *= 8;
+ 463              		.loc 1 133 3 view .LVU95
+ 464              		.loc 1 133 5 is_stmt 0 view .LVU96
+ 465 001a 4FEAC209 		lsl	r9, r2, #3
+ 466              	.LVL53:
+ 134:user/drivers/u8g2/u8x8_capture.c **** 
+ 135:user/drivers/u8g2/u8x8_capture.c ****   y = 0;
+ 467              		.loc 1 135 3 is_stmt 1 view .LVU97
+ 468              		.loc 1 135 5 is_stmt 0 view .LVU98
+ 469 001e CDF80490 		str	r9, [sp, #4]
+ 470 0022 47E0     		b	.L38
+ 471              	.LVL54:
+ 472              	.L29:
+ 136:user/drivers/u8g2/u8x8_capture.c ****   for(;;)
+ 137:user/drivers/u8g2/u8x8_capture.c ****   {
+ 138:user/drivers/u8g2/u8x8_capture.c ****     x = 0;
+ 139:user/drivers/u8g2/u8x8_capture.c ****     for(;;)
+ 140:user/drivers/u8g2/u8x8_capture.c ****     {
+ 141:user/drivers/u8g2/u8x8_capture.c ****       v = 0;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 12
+
+
+ 142:user/drivers/u8g2/u8x8_capture.c ****       for( b = 0; b < 8; b++ )
+ 473              		.loc 1 142 27 is_stmt 1 discriminator 2 view .LVU99
+ 474 0024 0135     		adds	r5, r5, #1
+ 475              	.LVL55:
+ 476              		.loc 1 142 27 is_stmt 0 discriminator 2 view .LVU100
+ 477 0026 EDB2     		uxtb	r5, r5
+ 478              	.LVL56:
+ 479              	.L28:
+ 480              		.loc 1 142 21 is_stmt 1 discriminator 1 view .LVU101
+ 481 0028 072D     		cmp	r5, #7
+ 482 002a 0FD8     		bhi	.L40
+ 143:user/drivers/u8g2/u8x8_capture.c ****       {
+ 144:user/drivers/u8g2/u8x8_capture.c **** 	v <<= 1;
+ 483              		.loc 1 144 2 view .LVU102
+ 484              		.loc 1 144 4 is_stmt 0 view .LVU103
+ 485 002c 7600     		lsls	r6, r6, #1
+ 486              	.LVL57:
+ 487              		.loc 1 144 4 view .LVU104
+ 488 002e F6B2     		uxtb	r6, r6
+ 489              	.LVL58:
+ 145:user/drivers/u8g2/u8x8_capture.c **** 	if ( get_pixel(x+7-b, y, buffer, tile_width) )
+ 490              		.loc 1 145 2 is_stmt 1 view .LVU105
+ 491              		.loc 1 145 20 is_stmt 0 view .LVU106
+ 492 0030 A9EB0500 		sub	r0, r9, r5
+ 493 0034 80B2     		uxth	r0, r0
+ 494              		.loc 1 145 7 view .LVU107
+ 495 0036 0730     		adds	r0, r0, #7
+ 496 0038 4346     		mov	r3, r8
+ 497 003a 5246     		mov	r2, r10
+ 498 003c 3946     		mov	r1, r7
+ 499 003e 80B2     		uxth	r0, r0
+ 500 0040 A047     		blx	r4
+ 501              	.LVL59:
+ 502              		.loc 1 145 5 view .LVU108
+ 503 0042 0028     		cmp	r0, #0
+ 504 0044 EED0     		beq	.L29
+ 146:user/drivers/u8g2/u8x8_capture.c **** 	  v |= 1;
+ 505              		.loc 1 146 4 is_stmt 1 view .LVU109
+ 506              		.loc 1 146 6 is_stmt 0 view .LVU110
+ 507 0046 46F00106 		orr	r6, r6, #1
+ 508              	.LVL60:
+ 509              		.loc 1 146 6 view .LVU111
+ 510 004a EBE7     		b	.L29
+ 511              	.L40:
+ 147:user/drivers/u8g2/u8x8_capture.c ****       }
+ 148:user/drivers/u8g2/u8x8_capture.c ****       out("0x");
+ 512              		.loc 1 148 7 is_stmt 1 view .LVU112
+ 513 004c 1D48     		ldr	r0, .L41
+ 514 004e D847     		blx	fp
+ 515              	.LVL61:
+ 149:user/drivers/u8g2/u8x8_capture.c ****       s[0] = (v>>4);
+ 516              		.loc 1 149 7 view .LVU113
+ 517              		.loc 1 149 12 is_stmt 0 view .LVU114
+ 518 0050 3309     		lsrs	r3, r6, #4
+ 519 0052 8DF80C30 		strb	r3, [sp, #12]
+ 150:user/drivers/u8g2/u8x8_capture.c ****       if ( s[0] <= 9 )
+ 520              		.loc 1 150 7 is_stmt 1 view .LVU115
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 13
+
+
+ 521              		.loc 1 150 10 is_stmt 0 view .LVU116
+ 522 0056 092B     		cmp	r3, #9
+ 523 0058 1BD8     		bhi	.L31
+ 151:user/drivers/u8g2/u8x8_capture.c **** 	s[0] += '0';
+ 524              		.loc 1 151 2 is_stmt 1 view .LVU117
+ 525              		.loc 1 151 7 is_stmt 0 view .LVU118
+ 526 005a 3033     		adds	r3, r3, #48
+ 527 005c 8DF80C30 		strb	r3, [sp, #12]
+ 528              	.L32:
+ 152:user/drivers/u8g2/u8x8_capture.c ****       else
+ 153:user/drivers/u8g2/u8x8_capture.c **** 	s[0] += 'a'-10;
+ 154:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 529              		.loc 1 154 7 is_stmt 1 view .LVU119
+ 530 0060 03A8     		add	r0, sp, #12
+ 531 0062 D847     		blx	fp
+ 532              	.LVL62:
+ 155:user/drivers/u8g2/u8x8_capture.c ****       s[0] = (v&15);
+ 533              		.loc 1 155 7 view .LVU120
+ 534              		.loc 1 155 16 is_stmt 0 view .LVU121
+ 535 0064 06F00F06 		and	r6, r6, #15
+ 536              	.LVL63:
+ 537              		.loc 1 155 12 view .LVU122
+ 538 0068 8DF80C60 		strb	r6, [sp, #12]
+ 156:user/drivers/u8g2/u8x8_capture.c ****       if ( s[0] <= 9 )
+ 539              		.loc 1 156 7 is_stmt 1 view .LVU123
+ 540              		.loc 1 156 10 is_stmt 0 view .LVU124
+ 541 006c 092E     		cmp	r6, #9
+ 542 006e 14D8     		bhi	.L33
+ 157:user/drivers/u8g2/u8x8_capture.c **** 	s[0] += '0';
+ 543              		.loc 1 157 2 is_stmt 1 view .LVU125
+ 544              		.loc 1 157 7 is_stmt 0 view .LVU126
+ 545 0070 3036     		adds	r6, r6, #48
+ 546 0072 8DF80C60 		strb	r6, [sp, #12]
+ 547              	.L34:
+ 158:user/drivers/u8g2/u8x8_capture.c ****       else
+ 159:user/drivers/u8g2/u8x8_capture.c **** 	s[0] += 'a'-10;
+ 160:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 548              		.loc 1 160 7 is_stmt 1 view .LVU127
+ 549 0076 03A8     		add	r0, sp, #12
+ 550 0078 D847     		blx	fp
+ 551              	.LVL64:
+ 161:user/drivers/u8g2/u8x8_capture.c ****       x += 8;
+ 552              		.loc 1 161 7 view .LVU128
+ 553              		.loc 1 161 9 is_stmt 0 view .LVU129
+ 554 007a 09F10809 		add	r9, r9, #8
+ 555              	.LVL65:
+ 556              		.loc 1 161 9 view .LVU130
+ 557 007e 1FFA89F9 		uxth	r9, r9
+ 558              	.LVL66:
+ 162:user/drivers/u8g2/u8x8_capture.c ****       if ( x >= w )
+ 559              		.loc 1 162 7 is_stmt 1 view .LVU131
+ 560              		.loc 1 162 10 is_stmt 0 view .LVU132
+ 561 0082 009B     		ldr	r3, [sp]
+ 562 0084 4B45     		cmp	r3, r9
+ 563 0086 0CD9     		bls	.L35
+ 163:user/drivers/u8g2/u8x8_capture.c **** 	break;
+ 164:user/drivers/u8g2/u8x8_capture.c ****       out(",");
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 14
+
+
+ 564              		.loc 1 164 7 is_stmt 1 view .LVU133
+ 565 0088 0F48     		ldr	r0, .L41+4
+ 566 008a D847     		blx	fp
+ 567              	.LVL67:
+ 139:user/drivers/u8g2/u8x8_capture.c ****     {
+ 568              		.loc 1 139 5 view .LVU134
+ 569              	.L36:
+ 139:user/drivers/u8g2/u8x8_capture.c ****     {
+ 570              		.loc 1 139 5 view .LVU135
+ 141:user/drivers/u8g2/u8x8_capture.c ****       for( b = 0; b < 8; b++ )
+ 571              		.loc 1 141 7 view .LVU136
+ 142:user/drivers/u8g2/u8x8_capture.c ****       {
+ 572              		.loc 1 142 7 view .LVU137
+ 142:user/drivers/u8g2/u8x8_capture.c ****       {
+ 573              		.loc 1 142 14 is_stmt 0 view .LVU138
+ 574 008c 0025     		movs	r5, #0
+ 141:user/drivers/u8g2/u8x8_capture.c ****       for( b = 0; b < 8; b++ )
+ 575              		.loc 1 141 9 view .LVU139
+ 576 008e 2E46     		mov	r6, r5
+ 142:user/drivers/u8g2/u8x8_capture.c ****       {
+ 577              		.loc 1 142 7 view .LVU140
+ 578 0090 CAE7     		b	.L28
+ 579              	.LVL68:
+ 580              	.L31:
+ 153:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 581              		.loc 1 153 2 is_stmt 1 view .LVU141
+ 153:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 582              		.loc 1 153 7 is_stmt 0 view .LVU142
+ 583 0092 5733     		adds	r3, r3, #87
+ 584 0094 8DF80C30 		strb	r3, [sp, #12]
+ 585 0098 E2E7     		b	.L32
+ 586              	.LVL69:
+ 587              	.L33:
+ 159:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 588              		.loc 1 159 2 is_stmt 1 view .LVU143
+ 159:user/drivers/u8g2/u8x8_capture.c ****       out(s);
+ 589              		.loc 1 159 7 is_stmt 0 view .LVU144
+ 590 009a 5736     		adds	r6, r6, #87
+ 591 009c 8DF80C60 		strb	r6, [sp, #12]
+ 592 00a0 E9E7     		b	.L34
+ 593              	.L35:
+ 165:user/drivers/u8g2/u8x8_capture.c ****     }
+ 166:user/drivers/u8g2/u8x8_capture.c ****     y++;
+ 594              		.loc 1 166 5 is_stmt 1 view .LVU145
+ 595              		.loc 1 166 6 is_stmt 0 view .LVU146
+ 596 00a2 0137     		adds	r7, r7, #1
+ 597              	.LVL70:
+ 598              		.loc 1 166 6 view .LVU147
+ 599 00a4 BFB2     		uxth	r7, r7
+ 600              	.LVL71:
+ 167:user/drivers/u8g2/u8x8_capture.c ****     if ( y >= h )
+ 601              		.loc 1 167 5 is_stmt 1 view .LVU148
+ 602              		.loc 1 167 8 is_stmt 0 view .LVU149
+ 603 00a6 019B     		ldr	r3, [sp, #4]
+ 604 00a8 BB42     		cmp	r3, r7
+ 605 00aa 06D9     		bls	.L37
+ 168:user/drivers/u8g2/u8x8_capture.c ****       break;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 15
+
+
+ 169:user/drivers/u8g2/u8x8_capture.c ****     out(",");
+ 606              		.loc 1 169 5 is_stmt 1 view .LVU150
+ 607 00ac 0648     		ldr	r0, .L41+4
+ 608 00ae D847     		blx	fp
+ 609              	.LVL72:
+ 170:user/drivers/u8g2/u8x8_capture.c ****     out("\n");
+ 610              		.loc 1 170 5 view .LVU151
+ 611 00b0 0648     		ldr	r0, .L41+8
+ 612 00b2 D847     		blx	fp
+ 613              	.LVL73:
+ 136:user/drivers/u8g2/u8x8_capture.c ****   {
+ 614              		.loc 1 136 3 view .LVU152
+ 615              	.L38:
+ 136:user/drivers/u8g2/u8x8_capture.c ****   {
+ 616              		.loc 1 136 3 view .LVU153
+ 138:user/drivers/u8g2/u8x8_capture.c ****     for(;;)
+ 617              		.loc 1 138 5 view .LVU154
+ 138:user/drivers/u8g2/u8x8_capture.c ****     for(;;)
+ 618              		.loc 1 138 7 is_stmt 0 view .LVU155
+ 619 00b4 4FF00009 		mov	r9, #0
+ 620 00b8 E8E7     		b	.L36
+ 621              	.LVL74:
+ 622              	.L37:
+ 171:user/drivers/u8g2/u8x8_capture.c ****   }
+ 172:user/drivers/u8g2/u8x8_capture.c ****   out("};\n");
+ 623              		.loc 1 172 3 is_stmt 1 view .LVU156
+ 624 00ba 0548     		ldr	r0, .L41+12
+ 625 00bc D847     		blx	fp
+ 626              	.LVL75:
+ 173:user/drivers/u8g2/u8x8_capture.c ****   
+ 174:user/drivers/u8g2/u8x8_capture.c **** }
+ 627              		.loc 1 174 1 is_stmt 0 view .LVU157
+ 628 00be 05B0     		add	sp, sp, #20
+ 629              	.LCFI5:
+ 630              		.cfi_def_cfa_offset 36
+ 631              	.LVL76:
+ 632              		.loc 1 174 1 view .LVU158
+ 633              		@ sp needed
+ 634 00c0 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 635              	.LVL77:
+ 636              	.L42:
+ 637              		.loc 1 174 1 view .LVU159
+ 638              		.align	2
+ 639              	.L41:
+ 640 00c4 00000000 		.word	.LC7
+ 641 00c8 04000000 		.word	.LC8
+ 642 00cc 04000000 		.word	.LC1
+ 643 00d0 08000000 		.word	.LC9
+ 644              		.cfi_endproc
+ 645              	.LFE5:
+ 647              		.text
+ 648              	.Letext0:
+ 649              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 650              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 651              		.file 4 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_capture.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:21     .text.u8x8_capture_get_pixel_1:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:27     .text.u8x8_capture_get_pixel_1:00000000 u8x8_capture_get_pixel_1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:73     .text.u8x8_capture_get_pixel_2:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:79     .text.u8x8_capture_get_pixel_2:00000000 u8x8_capture_get_pixel_2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:125    .rodata.u8x8_capture_write_pbm_pre.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:132    .text.u8x8_capture_write_pbm_pre:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:138    .text.u8x8_capture_write_pbm_pre:00000000 u8x8_capture_write_pbm_pre
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:190    .text.u8x8_capture_write_pbm_pre:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:196    .rodata.u8x8_capture_write_pbm_buffer.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:203    .text.u8x8_capture_write_pbm_buffer:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:209    .text.u8x8_capture_write_pbm_buffer:00000000 u8x8_capture_write_pbm_buffer
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:311    .text.u8x8_capture_write_pbm_buffer:0000004c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:318    .rodata.u8x8_capture_write_xbm_pre.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:328    .text.u8x8_capture_write_xbm_pre:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:334    .text.u8x8_capture_write_xbm_pre:00000000 u8x8_capture_write_xbm_pre
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:394    .text.u8x8_capture_write_xbm_pre:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:402    .rodata.u8x8_capture_write_xbm_buffer.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:412    .text.u8x8_capture_write_xbm_buffer:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:418    .text.u8x8_capture_write_xbm_buffer:00000000 u8x8_capture_write_xbm_buffer
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczujt27.s:640    .text.u8x8_capture_write_xbm_buffer:000000c4 $d
+
+UNDEFINED SYMBOLS
+u8x8_utoa

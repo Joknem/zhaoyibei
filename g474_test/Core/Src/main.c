@@ -42,7 +42,6 @@
 #include "ws2812.h"
 #include "mpu.h"
 
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -70,6 +69,7 @@ extern uint8_t MPU_readbuf[128];
 extern SSD1306_t SSD1306;
 
 float angle = 0.0;
+u8g2_t u8g2;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -129,17 +129,9 @@ int main(void)
   HAL_UART_Receive_IT(&huart1, (uint8_t *)chcmd, 1);
   HAL_GPIO_WritePin(AD0_GPIO_Port, AD0_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(AD1_GPIO_Port, AD1_Pin, GPIO_PIN_RESET);
-  if (ssd1306_init() != 0) {
-    while (1) {
-      HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-      HAL_Delay(500);
-    }
-  }
   float pitch, roll, yaw;
   int ret;
   while (ret = mpu_dmp_init()) {
-    ssd1306_printf(Font_7x10, "error");
-    ssd1306_SetCursor(0, 0);
     HAL_Delay(1000);
     HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   }
@@ -160,16 +152,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // if (mpu_dmp_get_data(&pitch, &roll, &yaw) == 0) {
-    //   uart_printf("pitch:%4.1f\n", -pitch);
-    //   ssd1306_printf(Font_11x18, "ang:%3.1f", -pitch);
-    //   ssd1306_SetCursor(0, 0);
-    //   HAL_Delay(50);
-    // }
-    float angle = Angle_Get();
-    ssd1306_printf(Font_11x18, "ang:%3.1f", angle);
-    ssd1306_SetCursor(0, 0);
-    HAL_Delay(30);
+
+    // float angle = Angle_Get();
+    // ssd1306_printf(Font_11x18, "ang:%3.1f", angle);
+    // ssd1306_SetCursor(0, 0);
+    // HAL_Delay(30);
     // WS_WriteAll_RGB(0xff, 0xff, 0xff);
     // breathing();
   }

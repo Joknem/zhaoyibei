@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 import os
 import sys
 
-dir1 = 'lvgl'
-dir2 = 'src'
+dir1 = 'user'
+dir2 = 'drivers'
+dir3 = 'u8g2'
 
 def find_srcs(src_dir):
     src_list = []
@@ -14,10 +16,10 @@ def find_srcs(src_dir):
     pass
     truncted_file_list = []
     for src_file in src_list:
-        truncted_file = src_file.split('lvgl', 1)[-1]
+        truncted_file = src_file.split('g474_test/', 1)[-1]
         truncted_file_list.append(truncted_file)
-        print("lvgl" + truncted_file + ' \\')
+        print(truncted_file + ' \\')
 
 if __name__ == '__main__':
-    src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..',  dir1, dir2))
+    src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..',  dir1, dir2, dir3))
     find_srcs(src_dir)

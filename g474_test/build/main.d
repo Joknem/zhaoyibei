@@ -42,7 +42,8 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Core/Inc/dma.h Core/Inc/main.h Core/Inc/i2c.h Core/Inc/tim.h \
  Core/Inc/usart.h Core/Inc/gpio.h Core/Inc/stm32g4xx_it.h \
  user/drivers/DMP/driver/eMPL/inv_mpu.h user/Inc/oled.h user/Inc/fonts.h \
- user/Inc/ws2812.h user/Inc/mpu.h
+ user/drivers/u8g2/u8g2.h user/drivers/u8g2/u8x8.h user/Inc/ws2812.h \
+ user/Inc/mpu.h
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 Core/Inc/stm32g4xx_hal_conf.h:
@@ -96,5 +97,7 @@ Core/Inc/stm32g4xx_it.h:
 user/drivers/DMP/driver/eMPL/inv_mpu.h:
 user/Inc/oled.h:
 user/Inc/fonts.h:
+user/drivers/u8g2/u8g2.h:
+user/drivers/u8g2/u8x8.h:
 user/Inc/ws2812.h:
 user/Inc/mpu.h:

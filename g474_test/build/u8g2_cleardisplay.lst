@@ -1,0 +1,143 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_cleardisplay.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_cleardisplay.c"
+  20              		.section	.text.u8g2_ClearDisplay,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_ClearDisplay
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_ClearDisplay:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8g2_cleardisplay.c **** /*
+   2:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+   3:user/drivers/u8g2/u8g2_cleardisplay.c ****   u8g2_cleardisplay.c
+   4:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+   5:user/drivers/u8g2/u8g2_cleardisplay.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+   7:user/drivers/u8g2/u8g2_cleardisplay.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_cleardisplay.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+  10:user/drivers/u8g2/u8g2_cleardisplay.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_cleardisplay.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+  13:user/drivers/u8g2/u8g2_cleardisplay.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_cleardisplay.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_cleardisplay.c ****     
+  16:user/drivers/u8g2/u8g2_cleardisplay.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_cleardisplay.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_cleardisplay.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+  20:user/drivers/u8g2/u8g2_cleardisplay.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_cleardisplay.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_cleardisplay.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_cleardisplay.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_cleardisplay.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_cleardisplay.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_cleardisplay.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_cleardisplay.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_cleardisplay.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_cleardisplay.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s 			page 2
+
+
+  30:user/drivers/u8g2/u8g2_cleardisplay.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8g2_cleardisplay.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_cleardisplay.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+  34:user/drivers/u8g2/u8g2_cleardisplay.c **** */
+  35:user/drivers/u8g2/u8g2_cleardisplay.c **** #include "u8g2.h"
+  36:user/drivers/u8g2/u8g2_cleardisplay.c **** 
+  37:user/drivers/u8g2/u8g2_cleardisplay.c **** /* Clear screen buffer & display reliable for all u8g2 displays. */
+  38:user/drivers/u8g2/u8g2_cleardisplay.c **** /* This is done with u8g2 picture loop, because we can not use the u8x8 function in all cases */
+  39:user/drivers/u8g2/u8g2_cleardisplay.c **** void u8g2_ClearDisplay(u8g2_t *u8g2)
+  40:user/drivers/u8g2/u8g2_cleardisplay.c **** {
+  30              		.loc 1 40 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 40 1 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0446     		mov	r4, r0
+  41:user/drivers/u8g2/u8g2_cleardisplay.c ****   u8g2_FirstPage(u8g2);
+  41              		.loc 1 41 3 is_stmt 1 view .LVU2
+  42 0004 FFF7FEFF 		bl	u8g2_FirstPage
+  43              	.LVL1:
+  44              	.L2:
+  42:user/drivers/u8g2/u8g2_cleardisplay.c ****   do {
+  45              		.loc 1 42 3 discriminator 1 view .LVU3
+  43:user/drivers/u8g2/u8g2_cleardisplay.c ****   } while ( u8g2_NextPage(u8g2) );
+  46              		.loc 1 43 3 discriminator 1 view .LVU4
+  47              		.loc 1 43 13 discriminator 1 view .LVU5
+  48 0008 2046     		mov	r0, r4
+  49 000a FFF7FEFF 		bl	u8g2_NextPage
+  50              	.LVL2:
+  51 000e 0028     		cmp	r0, #0
+  52 0010 FAD1     		bne	.L2
+  44:user/drivers/u8g2/u8g2_cleardisplay.c ****   /* 
+  45:user/drivers/u8g2/u8g2_cleardisplay.c ****     This function is usually called during startup (u8g2.begin()).
+  46:user/drivers/u8g2/u8g2_cleardisplay.c ****     However the user might want to use full buffer mode with clear and 
+  47:user/drivers/u8g2/u8g2_cleardisplay.c ****     send commands.
+  48:user/drivers/u8g2/u8g2_cleardisplay.c ****     This will not work because the current tile row is modified by the picture 
+  49:user/drivers/u8g2/u8g2_cleardisplay.c ****     loop above. To fix this, reset the tile row to 0, issue #370
+  50:user/drivers/u8g2/u8g2_cleardisplay.c ****     A workaround would be, that the user sets the current tile row to 0 manually.
+  51:user/drivers/u8g2/u8g2_cleardisplay.c ****   */
+  52:user/drivers/u8g2/u8g2_cleardisplay.c ****   u8g2_SetBufferCurrTileRow(u8g2, 0);  
+  53              		.loc 1 52 3 view .LVU6
+  54 0012 0021     		movs	r1, #0
+  55 0014 2046     		mov	r0, r4
+  56 0016 FFF7FEFF 		bl	u8g2_SetBufferCurrTileRow
+  57              	.LVL3:
+  53:user/drivers/u8g2/u8g2_cleardisplay.c **** }
+  58              		.loc 1 53 1 is_stmt 0 view .LVU7
+  59 001a 10BD     		pop	{r4, pc}
+  60              		.loc 1 53 1 view .LVU8
+  61              		.cfi_endproc
+  62              	.LFE0:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s 			page 3
+
+
+  64              		.text
+  65              	.Letext0:
+  66              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+  67              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+  68              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+  69              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+  70              		.file 6 "user/drivers/u8g2/u8x8.h"
+  71              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_cleardisplay.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s:21     .text.u8g2_ClearDisplay:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccECqX0d.s:27     .text.u8g2_ClearDisplay:00000000 u8g2_ClearDisplay
+
+UNDEFINED SYMBOLS
+u8g2_FirstPage
+u8g2_NextPage
+u8g2_SetBufferCurrTileRow

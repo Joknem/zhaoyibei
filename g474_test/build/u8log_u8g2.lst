@@ -1,0 +1,367 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8log_u8g2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8log_u8g2.c"
+  20              		.section	.text.u8g2_DrawLog,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_DrawLog
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_DrawLog:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8log_u8g2.c **** /*
+   2:user/drivers/u8g2/u8log_u8g2.c **** 
+   3:user/drivers/u8g2/u8log_u8g2.c ****   u8log_u8g2.c
+   4:user/drivers/u8g2/u8log_u8g2.c ****   
+   5:user/drivers/u8g2/u8log_u8g2.c **** 
+   6:user/drivers/u8g2/u8log_u8g2.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   7:user/drivers/u8g2/u8log_u8g2.c **** 
+   8:user/drivers/u8g2/u8log_u8g2.c ****   Copyright (c) 2018, olikraus@gmail.com
+   9:user/drivers/u8g2/u8log_u8g2.c ****   All rights reserved.
+  10:user/drivers/u8g2/u8log_u8g2.c **** 
+  11:user/drivers/u8g2/u8log_u8g2.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  12:user/drivers/u8g2/u8log_u8g2.c ****   are permitted provided that the following conditions are met:
+  13:user/drivers/u8g2/u8log_u8g2.c **** 
+  14:user/drivers/u8g2/u8log_u8g2.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  15:user/drivers/u8g2/u8log_u8g2.c ****     of conditions and the following disclaimer.
+  16:user/drivers/u8g2/u8log_u8g2.c ****     
+  17:user/drivers/u8g2/u8log_u8g2.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  18:user/drivers/u8g2/u8log_u8g2.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  19:user/drivers/u8g2/u8log_u8g2.c ****     materials provided with the distribution.
+  20:user/drivers/u8g2/u8log_u8g2.c **** 
+  21:user/drivers/u8g2/u8log_u8g2.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  22:user/drivers/u8g2/u8log_u8g2.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  23:user/drivers/u8g2/u8log_u8g2.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  24:user/drivers/u8g2/u8log_u8g2.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  25:user/drivers/u8g2/u8log_u8g2.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  26:user/drivers/u8g2/u8log_u8g2.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  27:user/drivers/u8g2/u8log_u8g2.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  28:user/drivers/u8g2/u8log_u8g2.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  29:user/drivers/u8g2/u8log_u8g2.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 2
+
+
+  30:user/drivers/u8g2/u8log_u8g2.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  31:user/drivers/u8g2/u8log_u8g2.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  32:user/drivers/u8g2/u8log_u8g2.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  33:user/drivers/u8g2/u8log_u8g2.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  34:user/drivers/u8g2/u8log_u8g2.c **** 
+  35:user/drivers/u8g2/u8log_u8g2.c **** */
+  36:user/drivers/u8g2/u8log_u8g2.c **** 
+  37:user/drivers/u8g2/u8log_u8g2.c **** #include "u8g2.h"
+  38:user/drivers/u8g2/u8log_u8g2.c **** /*
+  39:user/drivers/u8g2/u8log_u8g2.c ****   Draw the u8log text at the specified x/y position.
+  40:user/drivers/u8g2/u8log_u8g2.c ****   x/y position is the reference position of the first char of the first line.
+  41:user/drivers/u8g2/u8log_u8g2.c ****   the line height is 
+  42:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + line_height_offset;
+  43:user/drivers/u8g2/u8log_u8g2.c ****   line_height_offset can be set with u8log_SetLineHeightOffset()
+  44:user/drivers/u8g2/u8log_u8g2.c ****   Use
+  45:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightText(u8g2_t *u8g2);
+  46:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightExtendedText(u8g2_t *u8g2);
+  47:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
+  48:user/drivers/u8g2/u8log_u8g2.c ****   to change the return values for u8g2_GetAscent and u8g2_GetDescent
+  49:user/drivers/u8g2/u8log_u8g2.c **** 
+  50:user/drivers/u8g2/u8log_u8g2.c **** */
+  51:user/drivers/u8g2/u8log_u8g2.c **** void u8g2_DrawLog(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log)
+  52:user/drivers/u8g2/u8log_u8g2.c **** {
+  30              		.loc 1 52 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 52 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 32
+  38              		.cfi_offset 4, -32
+  39              		.cfi_offset 5, -28
+  40              		.cfi_offset 6, -24
+  41              		.cfi_offset 7, -20
+  42              		.cfi_offset 8, -16
+  43              		.cfi_offset 9, -12
+  44              		.cfi_offset 10, -8
+  45              		.cfi_offset 14, -4
+  46 0004 8146     		mov	r9, r0
+  47 0006 8A46     		mov	r10, r1
+  48 0008 9046     		mov	r8, r2
+  49 000a 1E46     		mov	r6, r3
+  53:user/drivers/u8g2/u8log_u8g2.c ****   u8g2_uint_t disp_x, disp_y;
+  50              		.loc 1 53 3 is_stmt 1 view .LVU2
+  54:user/drivers/u8g2/u8log_u8g2.c ****   uint8_t buf_x, buf_y;
+  51              		.loc 1 54 3 view .LVU3
+  55:user/drivers/u8g2/u8log_u8g2.c ****   uint8_t c;
+  52              		.loc 1 55 3 view .LVU4
+  56:user/drivers/u8g2/u8log_u8g2.c ****   
+  57:user/drivers/u8g2/u8log_u8g2.c ****   disp_y = y;  
+  53              		.loc 1 57 3 view .LVU5
+  54              	.LVL1:
+  58:user/drivers/u8g2/u8log_u8g2.c ****   u8g2_SetFontDirection(u8g2, 0);
+  55              		.loc 1 58 3 view .LVU6
+  56 000c 0021     		movs	r1, #0
+  57              	.LVL2:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 3
+
+
+  58              		.loc 1 58 3 is_stmt 0 view .LVU7
+  59 000e FFF7FEFF 		bl	u8g2_SetFontDirection
+  60              	.LVL3:
+  59:user/drivers/u8g2/u8log_u8g2.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+  61              		.loc 1 59 3 is_stmt 1 view .LVU8
+  62              		.loc 1 59 14 is_stmt 0 view .LVU9
+  63 0012 0027     		movs	r7, #0
+  64              		.loc 1 59 3 view .LVU10
+  65 0014 21E0     		b	.L2
+  66              	.LVL4:
+  67              	.L3:
+  60:user/drivers/u8g2/u8log_u8g2.c ****   {
+  61:user/drivers/u8g2/u8log_u8g2.c ****     disp_x = x;
+  62:user/drivers/u8g2/u8log_u8g2.c ****     for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+  63:user/drivers/u8g2/u8log_u8g2.c ****     {
+  64:user/drivers/u8g2/u8log_u8g2.c ****       c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
+  68              		.loc 1 64 7 is_stmt 1 discriminator 3 view .LVU11
+  69              		.loc 1 64 16 is_stmt 0 discriminator 3 view .LVU12
+  70 0016 F368     		ldr	r3, [r6, #12]
+  71              		.loc 1 64 53 discriminator 3 view .LVU13
+  72 0018 0CFB074C 		mla	ip, ip, r7, r4
+  73              	.LVL5:
+  65:user/drivers/u8g2/u8log_u8g2.c ****       disp_x += u8g2_DrawGlyph(u8g2, disp_x, disp_y, c);
+  74              		.loc 1 65 7 is_stmt 1 discriminator 3 view .LVU14
+  75              		.loc 1 65 17 is_stmt 0 discriminator 3 view .LVU15
+  76 001c 13F80C30 		ldrb	r3, [r3, ip]	@ zero_extendqisi2
+  77              	.LVL6:
+  78              		.loc 1 65 17 discriminator 3 view .LVU16
+  79 0020 4246     		mov	r2, r8
+  80 0022 2946     		mov	r1, r5
+  81 0024 4846     		mov	r0, r9
+  82 0026 FFF7FEFF 		bl	u8g2_DrawGlyph
+  83              	.LVL7:
+  84              		.loc 1 65 14 discriminator 3 view .LVU17
+  85 002a 2844     		add	r0, r0, r5
+  86 002c 85B2     		uxth	r5, r0
+  87              	.LVL8:
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+  88              		.loc 1 62 48 is_stmt 1 discriminator 3 view .LVU18
+  89 002e 0134     		adds	r4, r4, #1
+  90              	.LVL9:
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+  91              		.loc 1 62 48 is_stmt 0 discriminator 3 view .LVU19
+  92 0030 E4B2     		uxtb	r4, r4
+  93              	.LVL10:
+  94              	.L4:
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+  95              		.loc 1 62 27 is_stmt 1 discriminator 1 view .LVU20
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+  96              		.loc 1 62 34 is_stmt 0 discriminator 1 view .LVU21
+  97 0032 96F804C0 		ldrb	ip, [r6, #4]	@ zero_extendqisi2
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+  98              		.loc 1 62 27 discriminator 1 view .LVU22
+  99 0036 A445     		cmp	ip, r4
+ 100 0038 EDD8     		bhi	.L3
+  66:user/drivers/u8g2/u8log_u8g2.c ****     }
+  67:user/drivers/u8g2/u8log_u8g2.c ****     disp_y += u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 4
+
+
+ 101              		.loc 1 67 5 is_stmt 1 discriminator 2 view .LVU23
+ 102              		.loc 1 67 15 is_stmt 0 discriminator 2 view .LVU24
+ 103 003a 99F98E30 		ldrsb	r3, [r9, #142]
+ 104              		.loc 1 67 38 discriminator 2 view .LVU25
+ 105 003e 99F98F20 		ldrsb	r2, [r9, #143]
+ 106              		.loc 1 67 36 discriminator 2 view .LVU26
+ 107 0042 9B1A     		subs	r3, r3, r2
+ 108              		.loc 1 67 12 discriminator 2 view .LVU27
+ 109 0044 18FA83F3 		uxtah	r3, r8, r3
+ 110              	.LVL11:
+  68:user/drivers/u8g2/u8log_u8g2.c ****     disp_y += u8log->line_height_offset;
+ 111              		.loc 1 68 5 is_stmt 1 discriminator 2 view .LVU28
+ 112              		.loc 1 68 20 is_stmt 0 discriminator 2 view .LVU29
+ 113 0048 96F91120 		ldrsb	r2, [r6, #17]
+ 114 004c 92B2     		uxth	r2, r2
+ 115              		.loc 1 68 12 discriminator 2 view .LVU30
+ 116 004e 12FA83F3 		uxtah	r3, r2, r3
+ 117              	.LVL12:
+ 118              		.loc 1 68 12 discriminator 2 view .LVU31
+ 119 0052 1FFA83F8 		uxth	r8, r3
+ 120              	.LVL13:
+  59:user/drivers/u8g2/u8log_u8g2.c ****   {
+ 121              		.loc 1 59 47 is_stmt 1 discriminator 2 view .LVU32
+ 122 0056 0137     		adds	r7, r7, #1
+ 123              	.LVL14:
+  59:user/drivers/u8g2/u8log_u8g2.c ****   {
+ 124              		.loc 1 59 47 is_stmt 0 discriminator 2 view .LVU33
+ 125 0058 FFB2     		uxtb	r7, r7
+ 126              	.LVL15:
+ 127              	.L2:
+  59:user/drivers/u8g2/u8log_u8g2.c ****   {
+ 128              		.loc 1 59 25 is_stmt 1 discriminator 1 view .LVU34
+  59:user/drivers/u8g2/u8log_u8g2.c ****   {
+ 129              		.loc 1 59 32 is_stmt 0 discriminator 1 view .LVU35
+ 130 005a 7379     		ldrb	r3, [r6, #5]	@ zero_extendqisi2
+  59:user/drivers/u8g2/u8log_u8g2.c ****   {
+ 131              		.loc 1 59 25 discriminator 1 view .LVU36
+ 132 005c BB42     		cmp	r3, r7
+ 133 005e 02D9     		bls	.L7
+  61:user/drivers/u8g2/u8log_u8g2.c ****     for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+ 134              		.loc 1 61 12 view .LVU37
+ 135 0060 5546     		mov	r5, r10
+  62:user/drivers/u8g2/u8log_u8g2.c ****     {
+ 136              		.loc 1 62 16 view .LVU38
+ 137 0062 0024     		movs	r4, #0
+ 138 0064 E5E7     		b	.L4
+ 139              	.L7:
+  69:user/drivers/u8g2/u8log_u8g2.c ****   }
+  70:user/drivers/u8g2/u8log_u8g2.c **** }
+ 140              		.loc 1 70 1 view .LVU39
+ 141 0066 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 142              		.loc 1 70 1 view .LVU40
+ 143              		.cfi_endproc
+ 144              	.LFE0:
+ 146              		.section	.text.u8log_u8g2_cb,"ax",%progbits
+ 147              		.align	1
+ 148              		.global	u8log_u8g2_cb
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 5
+
+
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	u8log_u8g2_cb:
+ 154              	.LVL16:
+ 155              	.LFB1:
+  71:user/drivers/u8g2/u8log_u8g2.c **** 
+  72:user/drivers/u8g2/u8log_u8g2.c **** /*
+  73:user/drivers/u8g2/u8log_u8g2.c ****   u8lib callback for u8g2
+  74:user/drivers/u8g2/u8log_u8g2.c ****   
+  75:user/drivers/u8g2/u8log_u8g2.c ****   Only font direction 0 is supported: u8g2_SetFontDirection(u8g2, 0)
+  76:user/drivers/u8g2/u8log_u8g2.c ****   Use
+  77:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightText(u8g2_t *u8g2);
+  78:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightExtendedText(u8g2_t *u8g2);
+  79:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
+  80:user/drivers/u8g2/u8log_u8g2.c ****   to change the top offset and the line height and
+  81:user/drivers/u8g2/u8log_u8g2.c ****     u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset)
+  82:user/drivers/u8g2/u8log_u8g2.c ****   to change the line height.
+  83:user/drivers/u8g2/u8log_u8g2.c ****   
+  84:user/drivers/u8g2/u8log_u8g2.c **** */
+  85:user/drivers/u8g2/u8log_u8g2.c **** void u8log_u8g2_cb(u8log_t * u8log)
+  86:user/drivers/u8g2/u8log_u8g2.c **** {
+ 156              		.loc 1 86 1 is_stmt 1 view -0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160              		.loc 1 86 1 is_stmt 0 view .LVU42
+ 161 0000 38B5     		push	{r3, r4, r5, lr}
+ 162              	.LCFI1:
+ 163              		.cfi_def_cfa_offset 16
+ 164              		.cfi_offset 3, -16
+ 165              		.cfi_offset 4, -12
+ 166              		.cfi_offset 5, -8
+ 167              		.cfi_offset 14, -4
+  87:user/drivers/u8g2/u8log_u8g2.c ****   u8g2_t *u8g2 = (u8g2_t *)(u8log->aux_data);
+ 168              		.loc 1 87 3 is_stmt 1 view .LVU43
+ 169              		.loc 1 87 11 is_stmt 0 view .LVU44
+ 170 0002 0468     		ldr	r4, [r0]
+ 171              	.LVL17:
+  88:user/drivers/u8g2/u8log_u8g2.c ****   if ( u8log->is_redraw_line || u8log->is_redraw_all )
+ 172              		.loc 1 88 3 is_stmt 1 view .LVU45
+ 173              		.loc 1 88 30 is_stmt 0 view .LVU46
+ 174 0004 4369     		ldr	r3, [r0, #20]
+ 175 0006 23F07F43 		bic	r3, r3, #-16777216
+ 176 000a 23F0FF03 		bic	r3, r3, #255
+ 177              		.loc 1 88 6 view .LVU47
+ 178 000e 03B9     		cbnz	r3, .L12
+ 179              	.LVL18:
+ 180              	.L8:
+  89:user/drivers/u8g2/u8log_u8g2.c ****   {
+  90:user/drivers/u8g2/u8log_u8g2.c ****     u8g2_FirstPage(u8g2);
+  91:user/drivers/u8g2/u8log_u8g2.c ****     do
+  92:user/drivers/u8g2/u8log_u8g2.c ****     {
+  93:user/drivers/u8g2/u8log_u8g2.c ****       u8g2_DrawLog( u8g2, 0, u8g2_GetAscent(u8g2), u8log);
+  94:user/drivers/u8g2/u8log_u8g2.c ****     }
+  95:user/drivers/u8g2/u8log_u8g2.c ****     while( u8g2_NextPage(u8g2) );
+  96:user/drivers/u8g2/u8log_u8g2.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 6
+
+
+  97:user/drivers/u8g2/u8log_u8g2.c **** }
+ 181              		.loc 1 97 1 view .LVU48
+ 182 0010 38BD     		pop	{r3, r4, r5, pc}
+ 183              	.LVL19:
+ 184              	.L12:
+ 185              		.loc 1 97 1 view .LVU49
+ 186 0012 0546     		mov	r5, r0
+  90:user/drivers/u8g2/u8log_u8g2.c ****     do
+ 187              		.loc 1 90 5 is_stmt 1 view .LVU50
+ 188 0014 2046     		mov	r0, r4
+ 189              	.LVL20:
+  90:user/drivers/u8g2/u8log_u8g2.c ****     do
+ 190              		.loc 1 90 5 is_stmt 0 view .LVU51
+ 191 0016 FFF7FEFF 		bl	u8g2_FirstPage
+ 192              	.LVL21:
+ 193              	.L10:
+  91:user/drivers/u8g2/u8log_u8g2.c ****     {
+ 194              		.loc 1 91 5 is_stmt 1 discriminator 1 view .LVU52
+  93:user/drivers/u8g2/u8log_u8g2.c ****     }
+ 195              		.loc 1 93 7 discriminator 1 view .LVU53
+  93:user/drivers/u8g2/u8log_u8g2.c ****     }
+ 196              		.loc 1 93 30 is_stmt 0 discriminator 1 view .LVU54
+ 197 001a 94F98E20 		ldrsb	r2, [r4, #142]
+  93:user/drivers/u8g2/u8log_u8g2.c ****     }
+ 198              		.loc 1 93 7 discriminator 1 view .LVU55
+ 199 001e 2B46     		mov	r3, r5
+ 200 0020 92B2     		uxth	r2, r2
+ 201 0022 0021     		movs	r1, #0
+ 202 0024 2046     		mov	r0, r4
+ 203 0026 FFF7FEFF 		bl	u8g2_DrawLog
+ 204              	.LVL22:
+  95:user/drivers/u8g2/u8log_u8g2.c ****   }
+ 205              		.loc 1 95 12 is_stmt 1 discriminator 1 view .LVU56
+ 206 002a 2046     		mov	r0, r4
+ 207 002c FFF7FEFF 		bl	u8g2_NextPage
+ 208              	.LVL23:
+ 209 0030 0028     		cmp	r0, #0
+ 210 0032 F2D1     		bne	.L10
+ 211 0034 ECE7     		b	.L8
+ 212              		.cfi_endproc
+ 213              	.LFE1:
+ 215              		.text
+ 216              	.Letext0:
+ 217              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 218              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 219              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 220              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 221              		.file 6 "user/drivers/u8g2/u8x8.h"
+ 222              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8log_u8g2.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s:21     .text.u8g2_DrawLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s:27     .text.u8g2_DrawLog:00000000 u8g2_DrawLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s:147    .text.u8log_u8g2_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOR3V8C.s:153    .text.u8log_u8g2_cb:00000000 u8log_u8g2_cb
+
+UNDEFINED SYMBOLS
+u8g2_SetFontDirection
+u8g2_DrawGlyph
+u8g2_FirstPage
+u8g2_NextPage

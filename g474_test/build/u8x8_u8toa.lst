@@ -1,0 +1,293 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_u8toa.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_u8toa.c"
+  20              		.section	.text.u8x8_u8toap,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8x8_u8toap
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8x8_u8toap:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8x8_u8toa.c **** /*
+   2:user/drivers/u8g2/u8x8_u8toa.c **** 
+   3:user/drivers/u8g2/u8x8_u8toa.c ****   u8x8_u8toa.c
+   4:user/drivers/u8g2/u8x8_u8toa.c **** 
+   5:user/drivers/u8g2/u8x8_u8toa.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8x8_u8toa.c **** 
+   7:user/drivers/u8g2/u8x8_u8toa.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8x8_u8toa.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8x8_u8toa.c **** 
+  10:user/drivers/u8g2/u8x8_u8toa.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8x8_u8toa.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8x8_u8toa.c **** 
+  13:user/drivers/u8g2/u8x8_u8toa.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8x8_u8toa.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8x8_u8toa.c ****     
+  16:user/drivers/u8g2/u8x8_u8toa.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8x8_u8toa.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8x8_u8toa.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8x8_u8toa.c **** 
+  20:user/drivers/u8g2/u8x8_u8toa.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8x8_u8toa.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8x8_u8toa.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8x8_u8toa.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8x8_u8toa.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8x8_u8toa.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8x8_u8toa.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8x8_u8toa.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8x8_u8toa.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8x8_u8toa.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 2
+
+
+  30:user/drivers/u8g2/u8x8_u8toa.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8x8_u8toa.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8x8_u8toa.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8x8_u8toa.c ****   
+  34:user/drivers/u8g2/u8x8_u8toa.c **** */
+  35:user/drivers/u8g2/u8x8_u8toa.c **** 
+  36:user/drivers/u8g2/u8x8_u8toa.c **** 
+  37:user/drivers/u8g2/u8x8_u8toa.c **** #include "u8x8.h"
+  38:user/drivers/u8g2/u8x8_u8toa.c **** 
+  39:user/drivers/u8g2/u8x8_u8toa.c **** static const unsigned char u8x8_u8toa_tab[3]  = { 100, 10, 1 } ;
+  40:user/drivers/u8g2/u8x8_u8toa.c **** const char *u8x8_u8toap(char * dest, uint8_t v)
+  41:user/drivers/u8g2/u8x8_u8toa.c **** {
+  30              		.loc 1 41 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  42:user/drivers/u8g2/u8x8_u8toa.c ****   uint8_t pos;
+  34              		.loc 1 42 3 view .LVU1
+  43:user/drivers/u8g2/u8x8_u8toa.c ****   uint8_t d;
+  35              		.loc 1 43 3 view .LVU2
+  44:user/drivers/u8g2/u8x8_u8toa.c ****   uint8_t c;
+  36              		.loc 1 44 3 view .LVU3
+  45:user/drivers/u8g2/u8x8_u8toa.c ****   for( pos = 0; pos < 3; pos++ )
+  37              		.loc 1 45 3 view .LVU4
+  38              		.loc 1 45 12 is_stmt 0 view .LVU5
+  39 0000 4FF0000C 		mov	ip, #0
+  40              	.LVL1:
+  41              		.loc 1 45 21 is_stmt 1 view .LVU6
+  42 0004 BCF1020F 		cmp	ip, #2
+  43 0008 1AD8     		bhi	.L10
+  41:user/drivers/u8g2/u8x8_u8toa.c ****   uint8_t pos;
+  44              		.loc 1 41 1 is_stmt 0 view .LVU7
+  45 000a 00B5     		push	{lr}
+  46              	.LCFI0:
+  47              		.cfi_def_cfa_offset 4
+  48              		.cfi_offset 14, -4
+  49 000c 0EE0     		b	.L5
+  50              	.LVL2:
+  51              	.L4:
+  46:user/drivers/u8g2/u8x8_u8toa.c ****   {
+  47:user/drivers/u8g2/u8x8_u8toa.c ****       d = '0';
+  48:user/drivers/u8g2/u8x8_u8toa.c ****       c = *(u8x8_u8toa_tab+pos);
+  49:user/drivers/u8g2/u8x8_u8toa.c ****       while( v >= c )
+  50:user/drivers/u8g2/u8x8_u8toa.c ****       {
+  51:user/drivers/u8g2/u8x8_u8toa.c **** 	v -= c;
+  52              		.loc 1 51 2 is_stmt 1 view .LVU8
+  53              		.loc 1 51 4 is_stmt 0 view .LVU9
+  54 000e 891A     		subs	r1, r1, r2
+  55              	.LVL3:
+  56              		.loc 1 51 4 view .LVU10
+  57 0010 C9B2     		uxtb	r1, r1
+  58              	.LVL4:
+  52:user/drivers/u8g2/u8x8_u8toa.c **** 	d++;
+  59              		.loc 1 52 2 is_stmt 1 view .LVU11
+  60              		.loc 1 52 3 is_stmt 0 view .LVU12
+  61 0012 0133     		adds	r3, r3, #1
+  62              	.LVL5:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 3
+
+
+  63              		.loc 1 52 3 view .LVU13
+  64 0014 DBB2     		uxtb	r3, r3
+  65              	.LVL6:
+  66              	.L3:
+  49:user/drivers/u8g2/u8x8_u8toa.c ****       {
+  67              		.loc 1 49 16 is_stmt 1 view .LVU14
+  68 0016 9142     		cmp	r1, r2
+  69 0018 F9D2     		bcs	.L4
+  53:user/drivers/u8g2/u8x8_u8toa.c ****       }
+  54:user/drivers/u8g2/u8x8_u8toa.c ****       dest[pos] = d;
+  70              		.loc 1 54 7 discriminator 2 view .LVU15
+  71              		.loc 1 54 17 is_stmt 0 discriminator 2 view .LVU16
+  72 001a 00F80E30 		strb	r3, [r0, lr]
+  45:user/drivers/u8g2/u8x8_u8toa.c ****   {
+  73              		.loc 1 45 29 is_stmt 1 discriminator 2 view .LVU17
+  74 001e 0CF1010C 		add	ip, ip, #1
+  75              	.LVL7:
+  45:user/drivers/u8g2/u8x8_u8toa.c ****   {
+  76              		.loc 1 45 29 is_stmt 0 discriminator 2 view .LVU18
+  77 0022 5FFA8CFC 		uxtb	ip, ip
+  78              	.LVL8:
+  45:user/drivers/u8g2/u8x8_u8toa.c ****   {
+  79              		.loc 1 45 21 is_stmt 1 discriminator 2 view .LVU19
+  80 0026 BCF1020F 		cmp	ip, #2
+  81 002a 05D8     		bhi	.L11
+  82              	.LVL9:
+  83              	.L5:
+  47:user/drivers/u8g2/u8x8_u8toa.c ****       c = *(u8x8_u8toa_tab+pos);
+  84              		.loc 1 47 7 view .LVU20
+  48:user/drivers/u8g2/u8x8_u8toa.c ****       while( v >= c )
+  85              		.loc 1 48 7 view .LVU21
+  48:user/drivers/u8g2/u8x8_u8toa.c ****       while( v >= c )
+  86              		.loc 1 48 27 is_stmt 0 view .LVU22
+  87 002c E646     		mov	lr, ip
+  88 002e 064B     		ldr	r3, .L12
+  48:user/drivers/u8g2/u8x8_u8toa.c ****       while( v >= c )
+  89              		.loc 1 48 9 view .LVU23
+  90 0030 13F80C20 		ldrb	r2, [r3, ip]	@ zero_extendqisi2
+  91              	.LVL10:
+  49:user/drivers/u8g2/u8x8_u8toa.c ****       {
+  92              		.loc 1 49 7 is_stmt 1 view .LVU24
+  47:user/drivers/u8g2/u8x8_u8toa.c ****       c = *(u8x8_u8toa_tab+pos);
+  93              		.loc 1 47 9 is_stmt 0 view .LVU25
+  94 0034 3023     		movs	r3, #48
+  49:user/drivers/u8g2/u8x8_u8toa.c ****       {
+  95              		.loc 1 49 12 view .LVU26
+  96 0036 EEE7     		b	.L3
+  97              	.LVL11:
+  98              	.L11:
+  55:user/drivers/u8g2/u8x8_u8toa.c ****   }  
+  56:user/drivers/u8g2/u8x8_u8toa.c ****   dest[3] = '\0';
+  99              		.loc 1 56 3 is_stmt 1 view .LVU27
+ 100              		.loc 1 56 11 is_stmt 0 view .LVU28
+ 101 0038 0023     		movs	r3, #0
+ 102              	.LVL12:
+ 103              		.loc 1 56 11 view .LVU29
+ 104 003a C370     		strb	r3, [r0, #3]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 4
+
+
+ 105              	.LVL13:
+  57:user/drivers/u8g2/u8x8_u8toa.c ****   return dest;
+ 106              		.loc 1 57 3 is_stmt 1 view .LVU30
+  58:user/drivers/u8g2/u8x8_u8toa.c **** }
+ 107              		.loc 1 58 1 is_stmt 0 view .LVU31
+ 108 003c 5DF804FB 		ldr	pc, [sp], #4
+ 109              	.LVL14:
+ 110              	.L10:
+ 111              	.LCFI1:
+ 112              		.cfi_def_cfa_offset 0
+ 113              		.cfi_restore 14
+  56:user/drivers/u8g2/u8x8_u8toa.c ****   return dest;
+ 114              		.loc 1 56 3 is_stmt 1 view .LVU32
+  56:user/drivers/u8g2/u8x8_u8toa.c ****   return dest;
+ 115              		.loc 1 56 11 is_stmt 0 view .LVU33
+ 116 0040 0023     		movs	r3, #0
+ 117 0042 C370     		strb	r3, [r0, #3]
+  57:user/drivers/u8g2/u8x8_u8toa.c ****   return dest;
+ 118              		.loc 1 57 3 is_stmt 1 view .LVU34
+ 119              		.loc 1 58 1 is_stmt 0 view .LVU35
+ 120 0044 7047     		bx	lr
+ 121              	.L13:
+ 122 0046 00BF     		.align	2
+ 123              	.L12:
+ 124 0048 00000000 		.word	u8x8_u8toa_tab
+ 125              		.cfi_endproc
+ 126              	.LFE0:
+ 128              		.section	.text.u8x8_u8toa,"ax",%progbits
+ 129              		.align	1
+ 130              		.global	u8x8_u8toa
+ 131              		.syntax unified
+ 132              		.thumb
+ 133              		.thumb_func
+ 135              	u8x8_u8toa:
+ 136              	.LVL15:
+ 137              	.LFB1:
+  59:user/drivers/u8g2/u8x8_u8toa.c **** 
+  60:user/drivers/u8g2/u8x8_u8toa.c **** /* v = value, d = number of digits */
+  61:user/drivers/u8g2/u8x8_u8toa.c **** const char *u8x8_u8toa(uint8_t v, uint8_t d)
+  62:user/drivers/u8g2/u8x8_u8toa.c **** {
+ 138              		.loc 1 62 1 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		.loc 1 62 1 is_stmt 0 view .LVU37
+ 143 0000 10B5     		push	{r4, lr}
+ 144              	.LCFI2:
+ 145              		.cfi_def_cfa_offset 8
+ 146              		.cfi_offset 4, -8
+ 147              		.cfi_offset 14, -4
+  63:user/drivers/u8g2/u8x8_u8toa.c ****   static char buf[4];
+ 148              		.loc 1 63 3 is_stmt 1 view .LVU38
+  64:user/drivers/u8g2/u8x8_u8toa.c ****   d = 3-d;
+ 149              		.loc 1 64 3 view .LVU39
+ 150              		.loc 1 64 5 is_stmt 0 view .LVU40
+ 151 0002 C1F10304 		rsb	r4, r1, #3
+ 152 0006 E4B2     		uxtb	r4, r4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 5
+
+
+ 153              	.LVL16:
+  65:user/drivers/u8g2/u8x8_u8toa.c ****   return u8x8_u8toap(buf, v) + d;
+ 154              		.loc 1 65 3 is_stmt 1 view .LVU41
+ 155              		.loc 1 65 10 is_stmt 0 view .LVU42
+ 156 0008 0146     		mov	r1, r0
+ 157 000a 0248     		ldr	r0, .L16
+ 158              	.LVL17:
+ 159              		.loc 1 65 10 view .LVU43
+ 160 000c FFF7FEFF 		bl	u8x8_u8toap
+ 161              	.LVL18:
+  66:user/drivers/u8g2/u8x8_u8toa.c **** }
+ 162              		.loc 1 66 1 view .LVU44
+ 163 0010 2044     		add	r0, r0, r4
+ 164 0012 10BD     		pop	{r4, pc}
+ 165              	.LVL19:
+ 166              	.L17:
+ 167              		.loc 1 66 1 view .LVU45
+ 168              		.align	2
+ 169              	.L16:
+ 170 0014 00000000 		.word	buf.0
+ 171              		.cfi_endproc
+ 172              	.LFE1:
+ 174              		.section	.bss.buf.0,"aw",%nobits
+ 175              		.align	2
+ 178              	buf.0:
+ 179 0000 00000000 		.space	4
+ 180              		.section	.rodata.u8x8_u8toa_tab,"a"
+ 181              		.align	2
+ 184              	u8x8_u8toa_tab:
+ 185 0000 640A01   		.ascii	"d\012\001"
+ 186              		.text
+ 187              	.Letext0:
+ 188              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_u8toa.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:21     .text.u8x8_u8toap:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:27     .text.u8x8_u8toap:00000000 u8x8_u8toap
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:124    .text.u8x8_u8toap:00000048 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:184    .rodata.u8x8_u8toa_tab:00000000 u8x8_u8toa_tab
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:129    .text.u8x8_u8toa:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:135    .text.u8x8_u8toa:00000000 u8x8_u8toa
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:170    .text.u8x8_u8toa:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:178    .bss.buf.0:00000000 buf.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:175    .bss.buf.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIkJAmj.s:181    .rodata.u8x8_u8toa_tab:00000000 $d
+
+NO UNDEFINED SYMBOLS

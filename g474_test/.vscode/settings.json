@@ -16,6 +16,7 @@
         "usart.h": "c",
         "cmsis_os.h": "c",
         "dma.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "u8g2.h": "c"
     }
 }

@@ -1,6 +1,7 @@
 #include "oled.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include "cmsis_os2.h"
 
 extern void uart_printf(char *fmt, ...);
 
@@ -12,17 +13,9 @@ void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c){
 };
 
 static uint8_t ssd1306_write(uint8_t command) {
-  // return HAL_I2C_Mem_Write_DMA(&hi2c2, SSD1306_ADDRESS, 0x00, 1, &command, 1);
+  // return HAL_I2C_Mem_Write_DMA(&hi2c2, SSD1306_ADDRESS, 0x00, 1, &command,
+  // 1);
   HAL_I2C_Mem_Write(&hi2c2, SSD1306_ADDRESS, 0x00, 1, &command, 1, 10);
-}
-
-void ssd1306_Fill(uint8_t color) {
-  // Fill screenbuffer with a constant value (color)
-  uint32_t i;
-
-  for (i = 0; i < sizeof(SSD1306_BUFFER); i++) {
-    SSD1306_BUFFER[i] = color;
-  }
 }
 
 void ssd1306_UpdateScreen() {
@@ -167,4 +160,55 @@ void ssd1306_printf(FontDef Font, char *fmt, ...) {
 void ssd1306_SetCursor(uint8_t x, uint8_t y) {
   SSD1306.CurrentX = x;
   SSD1306.CurrentY = y;
+}
+
+uint8_t STM32_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
+                             void *arg_ptr) {
+  switch (msg) {
+    case U8X8_MSG_GPIO_AND_DELAY_INIT:
+      break;
+   case U8X8_MSG_DELAY_MILLI: // delay arg_int * 1 milli second
+      osDelay(1);
+      break;
+    default:
+      return 0;
+  }
+  return 1;
+}
+
+uint8_t STM32_byte_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) {
+  static uint8_t buffer[128]; 
+  static uint8_t buf_idx;
+  uint8_t *data;
+  switch (msg) {
+  case U8X8_MSG_BYTE_SEND:
+    data = (uint8_t *)arg_ptr;
+    while (arg_int > 0) {
+      buffer[buf_idx++] = *data;
+      data++;
+      arg_int--;
+    }
+    break;
+  case U8X8_MSG_BYTE_START_TRANSFER:
+    buf_idx = 0;
+    break;
+  case U8X8_MSG_BYTE_END_TRANSFER:
+    HAL_I2C_Master_Transmit(&hi2c2, SSD1306_ADDRESS, buffer, buf_idx, 1000);
+    break;
+  default:
+    return 0;
+  }
+  return 1;
+}
+
+void u8g2_printf(u8g2_t *u8g2, uint8_t x, uint8_t y, const char *fmt, ...){
+  va_list args;
+  int ret;
+  static char str[64];
+  va_start(args, fmt);
+  ret = vsprintf(str, fmt, args);
+  va_end(args);
+  if (ret > 0) {
+    u8g2_DrawStr(u8g2, x, y, str);
+  }
 }

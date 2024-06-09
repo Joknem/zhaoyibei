@@ -1,0 +1,788 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_button.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_button.c"
+  20              		.section	.text.u8g2_DrawButtonFrame,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_DrawButtonFrame
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_DrawButtonFrame:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8g2_button.c **** /*
+   2:user/drivers/u8g2/u8g2_button.c **** 
+   3:user/drivers/u8g2/u8g2_button.c ****   u8g2_button.c
+   4:user/drivers/u8g2/u8g2_button.c **** 
+   5:user/drivers/u8g2/u8g2_button.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_button.c **** 
+   7:user/drivers/u8g2/u8g2_button.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_button.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_button.c **** 
+  10:user/drivers/u8g2/u8g2_button.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_button.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_button.c **** 
+  13:user/drivers/u8g2/u8g2_button.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_button.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_button.c ****     
+  16:user/drivers/u8g2/u8g2_button.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_button.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_button.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_button.c **** 
+  20:user/drivers/u8g2/u8g2_button.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_button.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_button.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_button.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_button.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_button.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_button.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_button.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_button.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_button.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 2
+
+
+  30:user/drivers/u8g2/u8g2_button.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8g2_button.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_button.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_button.c **** 
+  34:user/drivers/u8g2/u8g2_button.c **** */
+  35:user/drivers/u8g2/u8g2_button.c **** 
+  36:user/drivers/u8g2/u8g2_button.c **** #include "u8g2.h"
+  37:user/drivers/u8g2/u8g2_button.c **** 
+  38:user/drivers/u8g2/u8g2_button.c **** 
+  39:user/drivers/u8g2/u8g2_button.c **** /*
+  40:user/drivers/u8g2/u8g2_button.c **** 
+  41:user/drivers/u8g2/u8g2_button.c ****   Description: 
+  42:user/drivers/u8g2/u8g2_button.c ****     Draws normal or inverted text with optional frame around text.
+  43:user/drivers/u8g2/u8g2_button.c ****     The text (and the frame) can be horizontally centered around the provided reference position.
+  44:user/drivers/u8g2/u8g2_button.c ****     This procedure will use the current draw color and current font. The height of the frame
+  45:user/drivers/u8g2/u8g2_button.c ****     depends on the setting of setFontRefHeightText(), setFontRefHeightExtendedText() or setFontRefH
+  46:user/drivers/u8g2/u8g2_button.c **** 
+  47:user/drivers/u8g2/u8g2_button.c **** 
+  48:user/drivers/u8g2/u8g2_button.c ****   Note 1: drawColor 2 (XOR) is not supported. Result will be broken with draw color 2.
+  49:user/drivers/u8g2/u8g2_button.c ****   Note 2: This procedure will enforce font mode 1 (transparent mode)
+  50:user/drivers/u8g2/u8g2_button.c ****   Note 3: Some fonts may add an extra gap on the right side. This is a font problem and can not be 
+  51:user/drivers/u8g2/u8g2_button.c ****   
+  52:user/drivers/u8g2/u8g2_button.c **** 
+  53:user/drivers/u8g2/u8g2_button.c ****   The height of the button is defined by the current font and
+  54:user/drivers/u8g2/u8g2_button.c ****     setFontRefHeightText,
+  55:user/drivers/u8g2/u8g2_button.c ****     setFontRefHeightExtendedText
+  56:user/drivers/u8g2/u8g2_button.c ****     setFontRefHeightAll
+  57:user/drivers/u8g2/u8g2_button.c ****   Right padding might be influenced by the font.
+  58:user/drivers/u8g2/u8g2_button.c ****   For example u8g2_font_inb16 may add an extra pixel gap (increase padding by one) 
+  59:user/drivers/u8g2/u8g2_button.c ****   on the right side.
+  60:user/drivers/u8g2/u8g2_button.c ****   The current draw color is considered, but only draw color 0 and 1 are supported
+  61:user/drivers/u8g2/u8g2_button.c ****   
+  62:user/drivers/u8g2/u8g2_button.c ****   This function requires transparent font mode: setFontMode(1)
+  63:user/drivers/u8g2/u8g2_button.c ****   
+  64:user/drivers/u8g2/u8g2_button.c ****   Side effect: Font transparent mode is enabled setFontMode(1)
+  65:user/drivers/u8g2/u8g2_button.c **** 
+  66:user/drivers/u8g2/u8g2_button.c **** */
+  67:user/drivers/u8g2/u8g2_button.c **** 
+  68:user/drivers/u8g2/u8g2_button.c **** 
+  69:user/drivers/u8g2/u8g2_button.c **** 
+  70:user/drivers/u8g2/u8g2_button.c **** /*
+  71:user/drivers/u8g2/u8g2_button.c **** 
+  72:user/drivers/u8g2/u8g2_button.c ****   flags:
+  73:user/drivers/u8g2/u8g2_button.c **** 
+  74:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_BW1 0x01
+  75:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_BW2 0x02
+  76:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_BW3 0x03
+  77:user/drivers/u8g2/u8g2_button.c **** 
+  78:user/drivers/u8g2/u8g2_button.c **** 
+  79:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_SHADOW0 0x08
+  80:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_SHADOW1 0x10
+  81:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_SHADOW2 0x18
+  82:user/drivers/u8g2/u8g2_button.c **** 
+  83:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_INV 0x20
+  84:user/drivers/u8g2/u8g2_button.c **** 
+  85:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_HCENTER 0x40
+  86:user/drivers/u8g2/u8g2_button.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 3
+
+
+  87:user/drivers/u8g2/u8g2_button.c ****     U8G2_BTN_XFRAME 0x80
+  88:user/drivers/u8g2/u8g2_button.c **** 
+  89:user/drivers/u8g2/u8g2_button.c ****   Total size without shadow: width+2*padding_h+2*border
+  90:user/drivers/u8g2/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW0: width+2*padding_h+3*border
+  91:user/drivers/u8g2/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW1: width+2*padding_h+3*border+1
+  92:user/drivers/u8g2/u8g2_button.c ****   Total size with U8G2_BTN_SHADOW2: width+2*padding_h+3*border+2
+  93:user/drivers/u8g2/u8g2_button.c ****   
+  94:user/drivers/u8g2/u8g2_button.c ****   U8G2_BTN_XFRAME:
+  95:user/drivers/u8g2/u8g2_button.c ****     draw another one pixel frame with one pixel gap, will not look good with shadow
+  96:user/drivers/u8g2/u8g2_button.c **** */
+  97:user/drivers/u8g2/u8g2_button.c **** 
+  98:user/drivers/u8g2/u8g2_button.c **** void u8g2_DrawButtonFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_
+  99:user/drivers/u8g2/u8g2_button.c **** {
+  30              		.loc 1 99 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 12, pretend = 0, frame = 56
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 99 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 91B0     		sub	sp, sp, #68
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 104
+  50 0006 0746     		mov	r7, r0
+  51 0008 0791     		str	r1, [sp, #28]
+  52 000a 0892     		str	r2, [sp, #32]
+  53 000c BDF86820 		ldrh	r2, [sp, #104]
+  54              	.LVL1:
+  55              		.loc 1 99 1 view .LVU2
+  56 0010 0992     		str	r2, [sp, #36]
+  57 0012 BDF86C20 		ldrh	r2, [sp, #108]
+  58 0016 0A92     		str	r2, [sp, #40]
+  59 0018 BDF87020 		ldrh	r2, [sp, #112]
+  60 001c 0B92     		str	r2, [sp, #44]
+ 100:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t w = text_width;
+  61              		.loc 1 100 3 is_stmt 1 view .LVU3
+  62              	.LVL2:
+ 101:user/drivers/u8g2/u8g2_button.c ****   
+ 102:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t xx, yy, ww, hh;
+  63              		.loc 1 102 3 view .LVU4
+ 103:user/drivers/u8g2/u8g2_button.c ****   
+ 104:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t gap_frame = U8G2_BTN_BW_MASK+1;
+  64              		.loc 1 104 3 view .LVU5
+ 105:user/drivers/u8g2/u8g2_button.c ****     
+ 106:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t border_width = flags & U8G2_BTN_BW_MASK;
+  65              		.loc 1 106 3 view .LVU6
+  66              		.loc 1 106 15 is_stmt 0 view .LVU7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 4
+
+
+  67 001e 03F0070C 		and	ip, r3, #7
+  68              	.LVL3:
+ 107:user/drivers/u8g2/u8g2_button.c **** 
+ 108:user/drivers/u8g2/u8g2_button.c ****   int8_t a = u8g2_GetAscent(u8g2);
+  69              		.loc 1 108 3 is_stmt 1 view .LVU8
+  70              		.loc 1 108 10 is_stmt 0 view .LVU9
+  71 0022 90F98EA0 		ldrsb	r10, [r0, #142]
+  72              	.LVL4:
+ 109:user/drivers/u8g2/u8g2_button.c ****   int8_t d = u8g2_GetDescent(u8g2);
+  73              		.loc 1 109 3 is_stmt 1 view .LVU10
+  74              		.loc 1 109 10 is_stmt 0 view .LVU11
+  75 0026 90F98F20 		ldrsb	r2, [r0, #143]
+  76 002a 0692     		str	r2, [sp, #24]
+  77              	.LVL5:
+ 110:user/drivers/u8g2/u8g2_button.c ****   
+ 111:user/drivers/u8g2/u8g2_button.c ****   uint8_t color_backup = u8g2->draw_color;
+  78              		.loc 1 111 3 is_stmt 1 view .LVU12
+  79              		.loc 1 111 11 is_stmt 0 view .LVU13
+  80 002c 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+  81 0030 0592     		str	r2, [sp, #20]
+  82              	.LVL6:
+ 112:user/drivers/u8g2/u8g2_button.c ****   
+ 113:user/drivers/u8g2/u8g2_button.c ****   
+ 114:user/drivers/u8g2/u8g2_button.c ****   if ( flags & U8G2_BTN_XFRAME )
+  83              		.loc 1 114 3 is_stmt 1 view .LVU14
+  84              		.loc 1 114 6 is_stmt 0 view .LVU15
+  85 0032 13F0800F 		tst	r3, #128
+  86 0036 0AD0     		beq	.L10
+ 115:user/drivers/u8g2/u8g2_button.c ****   {
+ 116:user/drivers/u8g2/u8g2_button.c ****     border_width++;
+  87              		.loc 1 116 5 is_stmt 1 view .LVU16
+  88              		.loc 1 116 17 is_stmt 0 view .LVU17
+  89 0038 0CF10102 		add	r2, ip, #1
+  90 003c 0D92     		str	r2, [sp, #52]
+  91              	.LVL7:
+ 117:user/drivers/u8g2/u8g2_button.c ****     gap_frame = border_width;
+  92              		.loc 1 117 5 is_stmt 1 view .LVU18
+ 118:user/drivers/u8g2/u8g2_button.c ****     border_width++;
+  93              		.loc 1 118 5 view .LVU19
+  94              		.loc 1 118 17 is_stmt 0 view .LVU20
+  95 003e 0CF10205 		add	r5, ip, #2
+  96              	.LVL8:
+  97              		.loc 1 118 17 view .LVU21
+  98 0042 CDF838C0 		str	ip, [sp, #56]
+  99 0046 CDF830A0 		str	r10, [sp, #48]
+ 100 004a 0493     		str	r3, [sp, #16]
+ 101 004c 36E0     		b	.L8
+ 102              	.LVL9:
+ 103              	.L10:
+ 106:user/drivers/u8g2/u8g2_button.c **** 
+ 104              		.loc 1 106 15 view .LVU22
+ 105 004e 6546     		mov	r5, ip
+ 104:user/drivers/u8g2/u8g2_button.c ****     
+ 106              		.loc 1 104 15 view .LVU23
+ 107 0050 0822     		movs	r2, #8
+ 108 0052 0D92     		str	r2, [sp, #52]
+ 109 0054 CDF838C0 		str	ip, [sp, #56]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 5
+
+
+ 110 0058 CDF830A0 		str	r10, [sp, #48]
+ 111 005c 0493     		str	r3, [sp, #16]
+ 112 005e 2DE0     		b	.L8
+ 113              	.LVL10:
+ 114              	.L12:
+ 119:user/drivers/u8g2/u8g2_button.c ****   }
+ 120:user/drivers/u8g2/u8g2_button.c ****   
+ 121:user/drivers/u8g2/u8g2_button.c **** 
+ 122:user/drivers/u8g2/u8g2_button.c ****   
+ 123:user/drivers/u8g2/u8g2_button.c ****   for(;;)
+ 124:user/drivers/u8g2/u8g2_button.c ****   {
+ 125:user/drivers/u8g2/u8g2_button.c **** 
+ 126:user/drivers/u8g2/u8g2_button.c ****     xx = x;
+ 127:user/drivers/u8g2/u8g2_button.c ****     xx -= padding_h;
+ 128:user/drivers/u8g2/u8g2_button.c ****     xx -= border_width;
+ 129:user/drivers/u8g2/u8g2_button.c ****     ww = w+2*padding_h+2*border_width;
+ 130:user/drivers/u8g2/u8g2_button.c ****     
+ 131:user/drivers/u8g2/u8g2_button.c ****     yy = y;
+ 132:user/drivers/u8g2/u8g2_button.c ****     yy += u8g2->font_calc_vref(u8g2);
+ 133:user/drivers/u8g2/u8g2_button.c ****     yy -= a;
+ 134:user/drivers/u8g2/u8g2_button.c ****     yy -= padding_v;
+ 135:user/drivers/u8g2/u8g2_button.c ****     yy -= border_width;
+ 136:user/drivers/u8g2/u8g2_button.c ****     hh = a-d+2*padding_v+2*border_width;
+ 137:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == 0 )
+ 138:user/drivers/u8g2/u8g2_button.c ****       break;
+ 139:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == gap_frame )
+ 140:user/drivers/u8g2/u8g2_button.c ****     {
+ 141:user/drivers/u8g2/u8g2_button.c ****       u8g2_SetDrawColor(u8g2, color_backup == 0 ? 1 : 0);
+ 115              		.loc 1 141 7 is_stmt 1 view .LVU24
+ 116 0060 059B     		ldr	r3, [sp, #20]
+ 117 0062 B3FA83F1 		clz	r1, r3
+ 118 0066 4909     		lsrs	r1, r1, #5
+ 119 0068 3846     		mov	r0, r7
+ 120 006a FFF7FEFF 		bl	u8g2_SetDrawColor
+ 121              	.LVL11:
+ 122 006e 54E0     		b	.L4
+ 123              	.LVL12:
+ 124              	.L7:
+ 125              	.LBB2:
+ 142:user/drivers/u8g2/u8g2_button.c ****     }
+ 143:user/drivers/u8g2/u8g2_button.c ****     u8g2_DrawFrame(u8g2, xx, yy, ww, hh);
+ 144:user/drivers/u8g2/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 145:user/drivers/u8g2/u8g2_button.c ****     
+ 146:user/drivers/u8g2/u8g2_button.c ****     if ( flags & U8G2_BTN_SHADOW_MASK )
+ 147:user/drivers/u8g2/u8g2_button.c ****     {
+ 148:user/drivers/u8g2/u8g2_button.c ****       if ( border_width == (flags & U8G2_BTN_BW_MASK) )
+ 149:user/drivers/u8g2/u8g2_button.c ****       {
+ 150:user/drivers/u8g2/u8g2_button.c ****         u8g2_uint_t i;
+ 151:user/drivers/u8g2/u8g2_button.c ****         u8g2_uint_t shadow_gap = (flags & U8G2_BTN_SHADOW_MASK) >> U8G2_BTN_SHADOW_POS;
+ 152:user/drivers/u8g2/u8g2_button.c ****         shadow_gap--;
+ 153:user/drivers/u8g2/u8g2_button.c ****         for( i = 0; i < border_width; i++ )
+ 154:user/drivers/u8g2/u8g2_button.c ****         {
+ 155:user/drivers/u8g2/u8g2_button.c ****           u8g2_DrawHLine(u8g2, xx+border_width+shadow_gap,yy+hh+i+shadow_gap,ww);
+ 126              		.loc 1 155 11 discriminator 3 view .LVU25
+ 127              		.loc 1 155 61 is_stmt 0 discriminator 3 view .LVU26
+ 128 0070 09EB0602 		add	r2, r9, r6
+ 129              		.loc 1 155 64 discriminator 3 view .LVU27
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 6
+
+
+ 130 0074 18FA82F2 		uxtah	r2, r8, r2
+ 131              		.loc 1 155 11 discriminator 3 view .LVU28
+ 132 0078 1AFA82F2 		uxtah	r2, r10, r2
+ 133 007c 0F9B     		ldr	r3, [sp, #60]
+ 134 007e 03EB0A01 		add	r1, r3, r10
+ 135 0082 5B46     		mov	r3, fp
+ 136 0084 92B2     		uxth	r2, r2
+ 137 0086 89B2     		uxth	r1, r1
+ 138 0088 3846     		mov	r0, r7
+ 139 008a FFF7FEFF 		bl	u8g2_DrawHLine
+ 140              	.LVL13:
+ 156:user/drivers/u8g2/u8g2_button.c ****           u8g2_DrawVLine(u8g2, xx+ww+i+shadow_gap,yy+border_width+shadow_gap,hh);
+ 141              		.loc 1 156 11 is_stmt 1 discriminator 3 view .LVU29
+ 142              		.loc 1 156 34 is_stmt 0 discriminator 3 view .LVU30
+ 143 008e 039B     		ldr	r3, [sp, #12]
+ 144 0090 03EB0B01 		add	r1, r3, fp
+ 145              		.loc 1 156 37 discriminator 3 view .LVU31
+ 146 0094 18FA81F1 		uxtah	r1, r8, r1
+ 147              		.loc 1 156 11 discriminator 3 view .LVU32
+ 148 0098 04EB0A02 		add	r2, r4, r10
+ 149 009c 1AFA81F1 		uxtah	r1, r10, r1
+ 150 00a0 3346     		mov	r3, r6
+ 151 00a2 92B2     		uxth	r2, r2
+ 152 00a4 89B2     		uxth	r1, r1
+ 153 00a6 3846     		mov	r0, r7
+ 154 00a8 FFF7FEFF 		bl	u8g2_DrawVLine
+ 155              	.LVL14:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 156              		.loc 1 153 40 is_stmt 1 discriminator 3 view .LVU33
+ 157 00ac 08F10108 		add	r8, r8, #1
+ 158              	.LVL15:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 159              		.loc 1 153 40 is_stmt 0 discriminator 3 view .LVU34
+ 160 00b0 1FFA88F8 		uxth	r8, r8
+ 161              	.LVL16:
+ 162              	.L6:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 163              		.loc 1 153 23 is_stmt 1 discriminator 1 view .LVU35
+ 164 00b4 4545     		cmp	r5, r8
+ 165 00b6 DBD8     		bhi	.L7
+ 166              	.LVL17:
+ 167              	.L5:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 168              		.loc 1 153 23 is_stmt 0 discriminator 1 view .LVU36
+ 169              	.LBE2:
+ 157:user/drivers/u8g2/u8g2_button.c ****         }
+ 158:user/drivers/u8g2/u8g2_button.c ****       }
+ 159:user/drivers/u8g2/u8g2_button.c ****     }
+ 160:user/drivers/u8g2/u8g2_button.c ****     border_width--;
+ 170              		.loc 1 160 5 is_stmt 1 view .LVU37
+ 171              		.loc 1 160 17 is_stmt 0 view .LVU38
+ 172 00b8 013D     		subs	r5, r5, #1
+ 173              	.LVL18:
+ 174              		.loc 1 160 17 view .LVU39
+ 175 00ba ADB2     		uxth	r5, r5
+ 176              	.LVL19:
+ 123:user/drivers/u8g2/u8g2_button.c ****   {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 7
+
+
+ 177              		.loc 1 123 3 is_stmt 1 view .LVU40
+ 178              	.L8:
+ 123:user/drivers/u8g2/u8g2_button.c ****   {
+ 179              		.loc 1 123 3 view .LVU41
+ 126:user/drivers/u8g2/u8g2_button.c ****     xx -= padding_h;
+ 180              		.loc 1 126 5 view .LVU42
+ 127:user/drivers/u8g2/u8g2_button.c ****     xx -= border_width;
+ 181              		.loc 1 127 5 view .LVU43
+ 127:user/drivers/u8g2/u8g2_button.c ****     xx -= border_width;
+ 182              		.loc 1 127 8 is_stmt 0 view .LVU44
+ 183 00bc 079B     		ldr	r3, [sp, #28]
+ 184 00be 0A9A     		ldr	r2, [sp, #40]
+ 185 00c0 9B1A     		subs	r3, r3, r2
+ 186 00c2 1FFA83FA 		uxth	r10, r3
+ 187              	.LVL20:
+ 128:user/drivers/u8g2/u8g2_button.c ****     ww = w+2*padding_h+2*border_width;
+ 188              		.loc 1 128 5 is_stmt 1 view .LVU45
+ 128:user/drivers/u8g2/u8g2_button.c ****     ww = w+2*padding_h+2*border_width;
+ 189              		.loc 1 128 8 is_stmt 0 view .LVU46
+ 190 00c6 AAEB0503 		sub	r3, r10, r5
+ 191 00ca 9BB2     		uxth	r3, r3
+ 192 00cc 0393     		str	r3, [sp, #12]
+ 193              	.LVL21:
+ 129:user/drivers/u8g2/u8g2_button.c ****     
+ 194              		.loc 1 129 5 is_stmt 1 view .LVU47
+ 129:user/drivers/u8g2/u8g2_button.c ****     
+ 195              		.loc 1 129 23 is_stmt 0 view .LVU48
+ 196 00ce 05EB020B 		add	fp, r5, r2
+ 197 00d2 4FEA4B0B 		lsl	fp, fp, #1
+ 198 00d6 1FFA8BFB 		uxth	fp, fp
+ 129:user/drivers/u8g2/u8g2_button.c ****     
+ 199              		.loc 1 129 8 view .LVU49
+ 200 00da 099B     		ldr	r3, [sp, #36]
+ 201 00dc 9B44     		add	fp, fp, r3
+ 202 00de 1FFA8BFB 		uxth	fp, fp
+ 203              	.LVL22:
+ 131:user/drivers/u8g2/u8g2_button.c ****     yy += u8g2->font_calc_vref(u8g2);
+ 204              		.loc 1 131 5 is_stmt 1 view .LVU50
+ 132:user/drivers/u8g2/u8g2_button.c ****     yy -= a;
+ 205              		.loc 1 132 5 view .LVU51
+ 132:user/drivers/u8g2/u8g2_button.c ****     yy -= a;
+ 206              		.loc 1 132 15 is_stmt 0 view .LVU52
+ 207 00e2 FB6D     		ldr	r3, [r7, #92]
+ 132:user/drivers/u8g2/u8g2_button.c ****     yy -= a;
+ 208              		.loc 1 132 11 view .LVU53
+ 209 00e4 3846     		mov	r0, r7
+ 210 00e6 9847     		blx	r3
+ 211              	.LVL23:
+ 132:user/drivers/u8g2/u8g2_button.c ****     yy -= a;
+ 212              		.loc 1 132 8 view .LVU54
+ 213 00e8 089B     		ldr	r3, [sp, #32]
+ 214 00ea 1C18     		adds	r4, r3, r0
+ 215 00ec A4B2     		uxth	r4, r4
+ 216              	.LVL24:
+ 133:user/drivers/u8g2/u8g2_button.c ****     yy -= padding_v;
+ 217              		.loc 1 133 5 is_stmt 1 view .LVU55
+ 133:user/drivers/u8g2/u8g2_button.c ****     yy -= padding_v;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 8
+
+
+ 218              		.loc 1 133 8 is_stmt 0 view .LVU56
+ 219 00ee 0C9B     		ldr	r3, [sp, #48]
+ 220 00f0 E41A     		subs	r4, r4, r3
+ 221              	.LVL25:
+ 133:user/drivers/u8g2/u8g2_button.c ****     yy -= padding_v;
+ 222              		.loc 1 133 8 view .LVU57
+ 223 00f2 A4B2     		uxth	r4, r4
+ 224              	.LVL26:
+ 134:user/drivers/u8g2/u8g2_button.c ****     yy -= border_width;
+ 225              		.loc 1 134 5 is_stmt 1 view .LVU58
+ 134:user/drivers/u8g2/u8g2_button.c ****     yy -= border_width;
+ 226              		.loc 1 134 8 is_stmt 0 view .LVU59
+ 227 00f4 0B9A     		ldr	r2, [sp, #44]
+ 228 00f6 A41A     		subs	r4, r4, r2
+ 229              	.LVL27:
+ 134:user/drivers/u8g2/u8g2_button.c ****     yy -= border_width;
+ 230              		.loc 1 134 8 view .LVU60
+ 231 00f8 A4B2     		uxth	r4, r4
+ 232              	.LVL28:
+ 135:user/drivers/u8g2/u8g2_button.c ****     hh = a-d+2*padding_v+2*border_width;
+ 233              		.loc 1 135 5 is_stmt 1 view .LVU61
+ 135:user/drivers/u8g2/u8g2_button.c ****     hh = a-d+2*padding_v+2*border_width;
+ 234              		.loc 1 135 8 is_stmt 0 view .LVU62
+ 235 00fa A4EB0509 		sub	r9, r4, r5
+ 236 00fe 1FFA89F9 		uxth	r9, r9
+ 237              	.LVL29:
+ 136:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == 0 )
+ 238              		.loc 1 136 5 is_stmt 1 view .LVU63
+ 136:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == 0 )
+ 239              		.loc 1 136 11 is_stmt 0 view .LVU64
+ 240 0102 0699     		ldr	r1, [sp, #24]
+ 241 0104 5E1A     		subs	r6, r3, r1
+ 136:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == 0 )
+ 242              		.loc 1 136 25 view .LVU65
+ 243 0106 AB18     		adds	r3, r5, r2
+ 244 0108 5B00     		lsls	r3, r3, #1
+ 245 010a 9BB2     		uxth	r3, r3
+ 136:user/drivers/u8g2/u8g2_button.c ****     if ( border_width == 0 )
+ 246              		.loc 1 136 8 view .LVU66
+ 247 010c 13FA86F6 		uxtah	r6, r3, r6
+ 248 0110 B6B2     		uxth	r6, r6
+ 249              	.LVL30:
+ 137:user/drivers/u8g2/u8g2_button.c ****       break;
+ 250              		.loc 1 137 5 is_stmt 1 view .LVU67
+ 137:user/drivers/u8g2/u8g2_button.c ****       break;
+ 251              		.loc 1 137 8 is_stmt 0 view .LVU68
+ 252 0112 FDB1     		cbz	r5, .L3
+ 139:user/drivers/u8g2/u8g2_button.c ****     {
+ 253              		.loc 1 139 5 is_stmt 1 view .LVU69
+ 139:user/drivers/u8g2/u8g2_button.c ****     {
+ 254              		.loc 1 139 8 is_stmt 0 view .LVU70
+ 255 0114 0D9B     		ldr	r3, [sp, #52]
+ 256 0116 9D42     		cmp	r5, r3
+ 257 0118 A2D0     		beq	.L12
+ 258              	.L4:
+ 143:user/drivers/u8g2/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 259              		.loc 1 143 5 is_stmt 1 view .LVU71
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 9
+
+
+ 260 011a 0096     		str	r6, [sp]
+ 261 011c 5B46     		mov	r3, fp
+ 262 011e 4A46     		mov	r2, r9
+ 263 0120 0399     		ldr	r1, [sp, #12]
+ 264 0122 3846     		mov	r0, r7
+ 265 0124 FFF7FEFF 		bl	u8g2_DrawFrame
+ 266              	.LVL31:
+ 144:user/drivers/u8g2/u8g2_button.c ****     
+ 267              		.loc 1 144 5 view .LVU72
+ 268 0128 0599     		ldr	r1, [sp, #20]
+ 269 012a 3846     		mov	r0, r7
+ 270 012c FFF7FEFF 		bl	u8g2_SetDrawColor
+ 271              	.LVL32:
+ 146:user/drivers/u8g2/u8g2_button.c ****     {
+ 272              		.loc 1 146 5 view .LVU73
+ 146:user/drivers/u8g2/u8g2_button.c ****     {
+ 273              		.loc 1 146 8 is_stmt 0 view .LVU74
+ 274 0130 049B     		ldr	r3, [sp, #16]
+ 275 0132 13F0180F 		tst	r3, #24
+ 276 0136 BFD0     		beq	.L5
+ 148:user/drivers/u8g2/u8g2_button.c ****       {
+ 277              		.loc 1 148 7 is_stmt 1 view .LVU75
+ 148:user/drivers/u8g2/u8g2_button.c ****       {
+ 278              		.loc 1 148 10 is_stmt 0 view .LVU76
+ 279 0138 0E9B     		ldr	r3, [sp, #56]
+ 280 013a 9D42     		cmp	r5, r3
+ 281 013c BCD1     		bne	.L5
+ 282              	.LBB3:
+ 150:user/drivers/u8g2/u8g2_button.c ****         u8g2_uint_t shadow_gap = (flags & U8G2_BTN_SHADOW_MASK) >> U8G2_BTN_SHADOW_POS;
+ 283              		.loc 1 150 9 is_stmt 1 view .LVU77
+ 151:user/drivers/u8g2/u8g2_button.c ****         shadow_gap--;
+ 284              		.loc 1 151 9 view .LVU78
+ 151:user/drivers/u8g2/u8g2_button.c ****         shadow_gap--;
+ 285              		.loc 1 151 21 is_stmt 0 view .LVU79
+ 286 013e 049B     		ldr	r3, [sp, #16]
+ 287 0140 C3F3C103 		ubfx	r3, r3, #3, #2
+ 288              	.LVL33:
+ 152:user/drivers/u8g2/u8g2_button.c ****         for( i = 0; i < border_width; i++ )
+ 289              		.loc 1 152 9 is_stmt 1 view .LVU80
+ 152:user/drivers/u8g2/u8g2_button.c ****         for( i = 0; i < border_width; i++ )
+ 290              		.loc 1 152 19 is_stmt 0 view .LVU81
+ 291 0144 013B     		subs	r3, r3, #1
+ 292              	.LVL34:
+ 152:user/drivers/u8g2/u8g2_button.c ****         for( i = 0; i < border_width; i++ )
+ 293              		.loc 1 152 19 view .LVU82
+ 294 0146 9BB2     		uxth	r3, r3
+ 295              	.LVL35:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 296              		.loc 1 153 9 is_stmt 1 view .LVU83
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 297              		.loc 1 153 16 is_stmt 0 view .LVU84
+ 298 0148 4FF00008 		mov	r8, #0
+ 299 014c CDF83CA0 		str	r10, [sp, #60]
+ 300 0150 9A46     		mov	r10, r3
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 301              		.loc 1 153 9 view .LVU85
+ 302 0152 AFE7     		b	.L6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 10
+
+
+ 303              	.LVL36:
+ 304              	.L3:
+ 153:user/drivers/u8g2/u8g2_button.c ****         {
+ 305              		.loc 1 153 9 view .LVU86
+ 306              	.LBE3:
+ 161:user/drivers/u8g2/u8g2_button.c ****   } /* for */
+ 162:user/drivers/u8g2/u8g2_button.c ****   
+ 163:user/drivers/u8g2/u8g2_button.c ****   if ( flags & U8G2_BTN_INV )
+ 307              		.loc 1 163 6 view .LVU87
+ 308 0154 049B     		ldr	r3, [sp, #16]
+ 309              		.loc 1 163 3 is_stmt 1 view .LVU88
+ 310              		.loc 1 163 6 is_stmt 0 view .LVU89
+ 311 0156 13F0200F 		tst	r3, #32
+ 312 015a 02D1     		bne	.L13
+ 313              	.L1:
+ 164:user/drivers/u8g2/u8g2_button.c ****   {
+ 165:user/drivers/u8g2/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, 2);         /* XOR */
+ 166:user/drivers/u8g2/u8g2_button.c ****     u8g2_DrawBox(u8g2, xx, yy, ww, hh);
+ 167:user/drivers/u8g2/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 168:user/drivers/u8g2/u8g2_button.c ****   }
+ 169:user/drivers/u8g2/u8g2_button.c **** }
+ 314              		.loc 1 169 1 view .LVU90
+ 315 015c 11B0     		add	sp, sp, #68
+ 316              	.LCFI2:
+ 317              		.cfi_remember_state
+ 318              		.cfi_def_cfa_offset 36
+ 319              		@ sp needed
+ 320 015e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 321              	.LVL37:
+ 322              	.L13:
+ 323              	.LCFI3:
+ 324              		.cfi_restore_state
+ 165:user/drivers/u8g2/u8g2_button.c ****     u8g2_DrawBox(u8g2, xx, yy, ww, hh);
+ 325              		.loc 1 165 5 is_stmt 1 view .LVU91
+ 326 0162 0221     		movs	r1, #2
+ 327 0164 3846     		mov	r0, r7
+ 328 0166 FFF7FEFF 		bl	u8g2_SetDrawColor
+ 329              	.LVL38:
+ 166:user/drivers/u8g2/u8g2_button.c ****     u8g2_SetDrawColor(u8g2, color_backup);
+ 330              		.loc 1 166 5 view .LVU92
+ 331 016a 0096     		str	r6, [sp]
+ 332 016c 5B46     		mov	r3, fp
+ 333 016e 4A46     		mov	r2, r9
+ 334 0170 0399     		ldr	r1, [sp, #12]
+ 335 0172 3846     		mov	r0, r7
+ 336 0174 FFF7FEFF 		bl	u8g2_DrawBox
+ 337              	.LVL39:
+ 167:user/drivers/u8g2/u8g2_button.c ****   }
+ 338              		.loc 1 167 5 view .LVU93
+ 339 0178 0599     		ldr	r1, [sp, #20]
+ 340 017a 3846     		mov	r0, r7
+ 341 017c FFF7FEFF 		bl	u8g2_SetDrawColor
+ 342              	.LVL40:
+ 343              		.loc 1 169 1 is_stmt 0 view .LVU94
+ 344 0180 ECE7     		b	.L1
+ 345              		.cfi_endproc
+ 346              	.LFE0:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 11
+
+
+ 348              		.section	.text.u8g2_DrawButtonUTF8,"ax",%progbits
+ 349              		.align	1
+ 350              		.global	u8g2_DrawButtonUTF8
+ 351              		.syntax unified
+ 352              		.thumb
+ 353              		.thumb_func
+ 355              	u8g2_DrawButtonUTF8:
+ 356              	.LVL41:
+ 357              	.LFB1:
+ 170:user/drivers/u8g2/u8g2_button.c **** 
+ 171:user/drivers/u8g2/u8g2_button.c **** void u8g2_DrawButtonUTF8(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t flags, u8g2_uint_t
+ 172:user/drivers/u8g2/u8g2_button.c **** {
+ 358              		.loc 1 172 1 is_stmt 1 view -0
+ 359              		.cfi_startproc
+ 360              		@ args = 16, pretend = 0, frame = 0
+ 361              		@ frame_needed = 0, uses_anonymous_args = 0
+ 362              		.loc 1 172 1 is_stmt 0 view .LVU96
+ 363 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 364              	.LCFI4:
+ 365              		.cfi_def_cfa_offset 36
+ 366              		.cfi_offset 4, -36
+ 367              		.cfi_offset 5, -32
+ 368              		.cfi_offset 6, -28
+ 369              		.cfi_offset 7, -24
+ 370              		.cfi_offset 8, -20
+ 371              		.cfi_offset 9, -16
+ 372              		.cfi_offset 10, -12
+ 373              		.cfi_offset 11, -8
+ 374              		.cfi_offset 14, -4
+ 375 0004 85B0     		sub	sp, sp, #20
+ 376              	.LCFI5:
+ 377              		.cfi_def_cfa_offset 56
+ 378 0006 0646     		mov	r6, r0
+ 379 0008 0C46     		mov	r4, r1
+ 380 000a 9046     		mov	r8, r2
+ 381 000c 1F46     		mov	r7, r3
+ 382 000e BDF838B0 		ldrh	fp, [sp, #56]
+ 383 0012 DDF844A0 		ldr	r10, [sp, #68]
+ 173:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t w = u8g2_GetUTF8Width(u8g2, text);
+ 384              		.loc 1 173 3 is_stmt 1 view .LVU97
+ 385              		.loc 1 173 19 is_stmt 0 view .LVU98
+ 386 0016 5146     		mov	r1, r10
+ 387              	.LVL42:
+ 388              		.loc 1 173 19 view .LVU99
+ 389 0018 FFF7FEFF 		bl	u8g2_GetUTF8Width
+ 390              	.LVL43:
+ 391              		.loc 1 173 19 view .LVU100
+ 392 001c 0546     		mov	r5, r0
+ 393              	.LVL44:
+ 174:user/drivers/u8g2/u8g2_button.c ****   
+ 175:user/drivers/u8g2/u8g2_button.c ****   u8g2_uint_t text_x_offset = 0; 
+ 394              		.loc 1 175 3 is_stmt 1 view .LVU101
+ 176:user/drivers/u8g2/u8g2_button.c **** 
+ 177:user/drivers/u8g2/u8g2_button.c ****   if ( flags & U8G2_BTN_HCENTER )
+ 395              		.loc 1 177 3 view .LVU102
+ 396              		.loc 1 177 6 is_stmt 0 view .LVU103
+ 397 001e 17F04009 		ands	r9, r7, #64
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 12
+
+
+ 398 0022 05D0     		beq	.L15
+ 178:user/drivers/u8g2/u8g2_button.c ****     x -= (w+1)/2;
+ 399              		.loc 1 178 5 is_stmt 1 view .LVU104
+ 400              		.loc 1 178 12 is_stmt 0 view .LVU105
+ 401 0024 431C     		adds	r3, r0, #1
+ 402              		.loc 1 178 15 view .LVU106
+ 403 0026 03EBD373 		add	r3, r3, r3, lsr #31
+ 404              		.loc 1 178 7 view .LVU107
+ 405 002a A4EB6303 		sub	r3, r4, r3, asr #1
+ 406 002e 9CB2     		uxth	r4, r3
+ 407              	.LVL45:
+ 408              	.L15:
+ 179:user/drivers/u8g2/u8g2_button.c **** 
+ 180:user/drivers/u8g2/u8g2_button.c ****   if ( w < width )
+ 409              		.loc 1 180 3 is_stmt 1 view .LVU108
+ 410              		.loc 1 180 6 is_stmt 0 view .LVU109
+ 411 0030 5D45     		cmp	r5, fp
+ 412 0032 0AD2     		bcs	.L17
+ 181:user/drivers/u8g2/u8g2_button.c ****   {
+ 182:user/drivers/u8g2/u8g2_button.c ****     if ( flags & U8G2_BTN_HCENTER )
+ 413              		.loc 1 182 5 is_stmt 1 view .LVU110
+ 414              		.loc 1 182 8 is_stmt 0 view .LVU111
+ 415 0034 B9F1000F 		cmp	r9, #0
+ 416 0038 25D0     		beq	.L18
+ 183:user/drivers/u8g2/u8g2_button.c ****     {
+ 184:user/drivers/u8g2/u8g2_button.c ****       text_x_offset = (width-w)/2;
+ 417              		.loc 1 184 7 is_stmt 1 view .LVU112
+ 418              		.loc 1 184 29 is_stmt 0 view .LVU113
+ 419 003a ABEB0509 		sub	r9, fp, r5
+ 420              		.loc 1 184 32 view .LVU114
+ 421 003e 09EBD979 		add	r9, r9, r9, lsr #31
+ 422              		.loc 1 184 21 view .LVU115
+ 423 0042 C9F34F09 		ubfx	r9, r9, #1, #16
+ 424              	.LVL46:
+ 185:user/drivers/u8g2/u8g2_button.c ****     }
+ 186:user/drivers/u8g2/u8g2_button.c ****     w = width;
+ 425              		.loc 1 186 7 view .LVU116
+ 426 0046 5D46     		mov	r5, fp
+ 427 0048 01E0     		b	.L16
+ 428              	.LVL47:
+ 429              	.L17:
+ 175:user/drivers/u8g2/u8g2_button.c **** 
+ 430              		.loc 1 175 15 view .LVU117
+ 431 004a 4FF00009 		mov	r9, #0
+ 432              	.LVL48:
+ 433              	.L16:
+ 187:user/drivers/u8g2/u8g2_button.c ****   }
+ 188:user/drivers/u8g2/u8g2_button.c ****   
+ 189:user/drivers/u8g2/u8g2_button.c ****   u8g2_SetFontMode(u8g2, 1);    
+ 434              		.loc 1 189 3 is_stmt 1 view .LVU118
+ 435 004e 0121     		movs	r1, #1
+ 436 0050 3046     		mov	r0, r6
+ 437 0052 FFF7FEFF 		bl	u8g2_SetFontMode
+ 438              	.LVL49:
+ 190:user/drivers/u8g2/u8g2_button.c ****   u8g2_DrawUTF8(u8g2, x,y, text);
+ 439              		.loc 1 190 3 view .LVU119
+ 440 0056 5346     		mov	r3, r10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 13
+
+
+ 441 0058 4246     		mov	r2, r8
+ 442 005a 2146     		mov	r1, r4
+ 443 005c 3046     		mov	r0, r6
+ 444 005e FFF7FEFF 		bl	u8g2_DrawUTF8
+ 445              	.LVL50:
+ 191:user/drivers/u8g2/u8g2_button.c ****   u8g2_DrawButtonFrame(u8g2, x-text_x_offset, y, flags, w, padding_h, padding_v);
+ 446              		.loc 1 191 3 view .LVU120
+ 447 0062 A4EB0901 		sub	r1, r4, r9
+ 448 0066 BDF84030 		ldrh	r3, [sp, #64]
+ 449 006a 0293     		str	r3, [sp, #8]
+ 450 006c BDF83C30 		ldrh	r3, [sp, #60]
+ 451 0070 0193     		str	r3, [sp, #4]
+ 452 0072 0095     		str	r5, [sp]
+ 453 0074 3B46     		mov	r3, r7
+ 454 0076 4246     		mov	r2, r8
+ 455 0078 89B2     		uxth	r1, r1
+ 456 007a 3046     		mov	r0, r6
+ 457 007c FFF7FEFF 		bl	u8g2_DrawButtonFrame
+ 458              	.LVL51:
+ 192:user/drivers/u8g2/u8g2_button.c ****   
+ 193:user/drivers/u8g2/u8g2_button.c **** }
+ 459              		.loc 1 193 1 is_stmt 0 view .LVU121
+ 460 0080 05B0     		add	sp, sp, #20
+ 461              	.LCFI6:
+ 462              		.cfi_remember_state
+ 463              		.cfi_def_cfa_offset 36
+ 464              		@ sp needed
+ 465 0082 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 466              	.LVL52:
+ 467              	.L18:
+ 468              	.LCFI7:
+ 469              		.cfi_restore_state
+ 186:user/drivers/u8g2/u8g2_button.c ****   }
+ 470              		.loc 1 186 7 view .LVU122
+ 471 0086 5D46     		mov	r5, fp
+ 472 0088 E1E7     		b	.L16
+ 473              		.cfi_endproc
+ 474              	.LFE1:
+ 476              		.text
+ 477              	.Letext0:
+ 478              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 479              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 480              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 481              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 482              		.file 6 "user/drivers/u8g2/u8x8.h"
+ 483              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_button.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s:21     .text.u8g2_DrawButtonFrame:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s:27     .text.u8g2_DrawButtonFrame:00000000 u8g2_DrawButtonFrame
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s:349    .text.u8g2_DrawButtonUTF8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccgRhi68.s:355    .text.u8g2_DrawButtonUTF8:00000000 u8g2_DrawButtonUTF8
+
+UNDEFINED SYMBOLS
+u8g2_SetDrawColor
+u8g2_DrawHLine
+u8g2_DrawVLine
+u8g2_DrawFrame
+u8g2_DrawBox
+u8g2_GetUTF8Width
+u8g2_SetFontMode
+u8g2_DrawUTF8

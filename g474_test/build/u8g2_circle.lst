@@ -1,0 +1,2501 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_circle.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_circle.c"
+  20              		.section	.text.u8g2_draw_circle_section,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_draw_circle_section:
+  27              	.LVL0:
+  28              	.LFB0:
+   1:user/drivers/u8g2/u8g2_circle.c **** /*
+   2:user/drivers/u8g2/u8g2_circle.c **** 
+   3:user/drivers/u8g2/u8g2_circle.c ****   u8g2_circle.c
+   4:user/drivers/u8g2/u8g2_circle.c **** 
+   5:user/drivers/u8g2/u8g2_circle.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_circle.c **** 
+   7:user/drivers/u8g2/u8g2_circle.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_circle.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_circle.c **** 
+  10:user/drivers/u8g2/u8g2_circle.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_circle.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_circle.c **** 
+  13:user/drivers/u8g2/u8g2_circle.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_circle.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_circle.c ****     
+  16:user/drivers/u8g2/u8g2_circle.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_circle.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_circle.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_circle.c **** 
+  20:user/drivers/u8g2/u8g2_circle.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_circle.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_circle.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_circle.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_circle.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_circle.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_circle.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_circle.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_circle.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_circle.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:user/drivers/u8g2/u8g2_circle.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 2
+
+
+  31:user/drivers/u8g2/u8g2_circle.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_circle.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_circle.c **** 
+  34:user/drivers/u8g2/u8g2_circle.c **** */
+  35:user/drivers/u8g2/u8g2_circle.c **** 
+  36:user/drivers/u8g2/u8g2_circle.c **** #include "u8g2.h"
+  37:user/drivers/u8g2/u8g2_circle.c **** 
+  38:user/drivers/u8g2/u8g2_circle.c **** /*==============================================*/
+  39:user/drivers/u8g2/u8g2_circle.c **** /* Circle */
+  40:user/drivers/u8g2/u8g2_circle.c **** 
+  41:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_circle_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u8
+  42:user/drivers/u8g2/u8g2_circle.c **** 
+  43:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_circle_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u8
+  44:user/drivers/u8g2/u8g2_circle.c **** {
+  29              		.loc 1 44 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 8, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 44 1 is_stmt 0 view .LVU1
+  34 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 32
+  37              		.cfi_offset 3, -32
+  38              		.cfi_offset 4, -28
+  39              		.cfi_offset 5, -24
+  40              		.cfi_offset 6, -20
+  41              		.cfi_offset 7, -16
+  42              		.cfi_offset 8, -12
+  43              		.cfi_offset 9, -8
+  44              		.cfi_offset 14, -4
+  45 0004 8046     		mov	r8, r0
+  46 0006 0F46     		mov	r7, r1
+  47 0008 9146     		mov	r9, r2
+  48 000a 1C46     		mov	r4, r3
+  49 000c BDF82060 		ldrh	r6, [sp, #32]
+  50 0010 9DF82450 		ldrb	r5, [sp, #36]	@ zero_extendqisi2
+  45:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+  46:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_RIGHT )
+  51              		.loc 1 46 5 is_stmt 1 view .LVU2
+  52              		.loc 1 46 8 is_stmt 0 view .LVU3
+  53 0014 15F0010F 		tst	r5, #1
+  54 0018 0AD1     		bne	.L7
+  55              	.LVL1:
+  56              	.L2:
+  47:user/drivers/u8g2/u8g2_circle.c ****     {
+  48:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + x, y0 - y);
+  49:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
+  50:user/drivers/u8g2/u8g2_circle.c ****     }
+  51:user/drivers/u8g2/u8g2_circle.c ****     
+  52:user/drivers/u8g2/u8g2_circle.c ****     /* upper left */
+  53:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_LEFT )
+  57              		.loc 1 53 5 is_stmt 1 view .LVU4
+  58              		.loc 1 53 8 is_stmt 0 view .LVU5
+  59 001a 15F0020F 		tst	r5, #2
+  60 001e 16D1     		bne	.L8
+  61              	.L3:
+  54:user/drivers/u8g2/u8g2_circle.c ****     {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 3
+
+
+  55:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - x, y0 - y);
+  56:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - y, y0 - x);
+  57:user/drivers/u8g2/u8g2_circle.c ****     }
+  58:user/drivers/u8g2/u8g2_circle.c ****     
+  59:user/drivers/u8g2/u8g2_circle.c ****     /* lower right */
+  60:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_RIGHT )
+  62              		.loc 1 60 5 is_stmt 1 view .LVU6
+  63              		.loc 1 60 8 is_stmt 0 view .LVU7
+  64 0020 15F0080F 		tst	r5, #8
+  65 0024 24D1     		bne	.L9
+  66              	.L4:
+  61:user/drivers/u8g2/u8g2_circle.c ****     {
+  62:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + x, y0 + y);
+  63:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 + x);
+  64:user/drivers/u8g2/u8g2_circle.c ****     }
+  65:user/drivers/u8g2/u8g2_circle.c ****     
+  66:user/drivers/u8g2/u8g2_circle.c ****     /* lower left */
+  67:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_LEFT )
+  67              		.loc 1 67 5 is_stmt 1 view .LVU8
+  68              		.loc 1 67 8 is_stmt 0 view .LVU9
+  69 0026 15F0040F 		tst	r5, #4
+  70 002a 32D1     		bne	.L10
+  71              	.L1:
+  68:user/drivers/u8g2/u8g2_circle.c ****     {
+  69:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - x, y0 + y);
+  70:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - y, y0 + x);
+  71:user/drivers/u8g2/u8g2_circle.c ****     }
+  72:user/drivers/u8g2/u8g2_circle.c **** }
+  72              		.loc 1 72 1 view .LVU10
+  73 002c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  74              	.LVL2:
+  75              	.L7:
+  48:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
+  76              		.loc 1 48 7 is_stmt 1 view .LVU11
+  77 0030 B21A     		subs	r2, r6, r2
+  78              	.LVL3:
+  48:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
+  79              		.loc 1 48 7 is_stmt 0 view .LVU12
+  80 0032 5918     		adds	r1, r3, r1
+  81              	.LVL4:
+  48:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 - x);
+  82              		.loc 1 48 7 view .LVU13
+  83 0034 92B2     		uxth	r2, r2
+  84 0036 89B2     		uxth	r1, r1
+  85 0038 FFF7FEFF 		bl	u8g2_DrawPixel
+  86              	.LVL5:
+  49:user/drivers/u8g2/u8g2_circle.c ****     }
+  87              		.loc 1 49 7 is_stmt 1 view .LVU14
+  88 003c F21B     		subs	r2, r6, r7
+  89 003e 04EB0901 		add	r1, r4, r9
+  90 0042 92B2     		uxth	r2, r2
+  91 0044 89B2     		uxth	r1, r1
+  92 0046 4046     		mov	r0, r8
+  93 0048 FFF7FEFF 		bl	u8g2_DrawPixel
+  94              	.LVL6:
+  95 004c E5E7     		b	.L2
+  96              	.L8:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 4
+
+
+  55:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - y, y0 - x);
+  97              		.loc 1 55 7 view .LVU15
+  98 004e A6EB0902 		sub	r2, r6, r9
+  99 0052 E11B     		subs	r1, r4, r7
+ 100 0054 92B2     		uxth	r2, r2
+ 101 0056 89B2     		uxth	r1, r1
+ 102 0058 4046     		mov	r0, r8
+ 103 005a FFF7FEFF 		bl	u8g2_DrawPixel
+ 104              	.LVL7:
+  56:user/drivers/u8g2/u8g2_circle.c ****     }
+ 105              		.loc 1 56 7 view .LVU16
+ 106 005e F21B     		subs	r2, r6, r7
+ 107 0060 A4EB0901 		sub	r1, r4, r9
+ 108 0064 92B2     		uxth	r2, r2
+ 109 0066 89B2     		uxth	r1, r1
+ 110 0068 4046     		mov	r0, r8
+ 111 006a FFF7FEFF 		bl	u8g2_DrawPixel
+ 112              	.LVL8:
+ 113 006e D7E7     		b	.L3
+ 114              	.L9:
+  62:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + y, y0 + x);
+ 115              		.loc 1 62 7 view .LVU17
+ 116 0070 06EB0902 		add	r2, r6, r9
+ 117 0074 E119     		adds	r1, r4, r7
+ 118 0076 92B2     		uxth	r2, r2
+ 119 0078 89B2     		uxth	r1, r1
+ 120 007a 4046     		mov	r0, r8
+ 121 007c FFF7FEFF 		bl	u8g2_DrawPixel
+ 122              	.LVL9:
+  63:user/drivers/u8g2/u8g2_circle.c ****     }
+ 123              		.loc 1 63 7 view .LVU18
+ 124 0080 BA19     		adds	r2, r7, r6
+ 125 0082 04EB0901 		add	r1, r4, r9
+ 126 0086 92B2     		uxth	r2, r2
+ 127 0088 89B2     		uxth	r1, r1
+ 128 008a 4046     		mov	r0, r8
+ 129 008c FFF7FEFF 		bl	u8g2_DrawPixel
+ 130              	.LVL10:
+ 131 0090 C9E7     		b	.L4
+ 132              	.L10:
+  69:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - y, y0 + x);
+ 133              		.loc 1 69 7 view .LVU19
+ 134 0092 06EB0902 		add	r2, r6, r9
+ 135 0096 E11B     		subs	r1, r4, r7
+ 136 0098 92B2     		uxth	r2, r2
+ 137 009a 89B2     		uxth	r1, r1
+ 138 009c 4046     		mov	r0, r8
+ 139 009e FFF7FEFF 		bl	u8g2_DrawPixel
+ 140              	.LVL11:
+  70:user/drivers/u8g2/u8g2_circle.c ****     }
+ 141              		.loc 1 70 7 view .LVU20
+ 142 00a2 BA19     		adds	r2, r7, r6
+ 143 00a4 A4EB0901 		sub	r1, r4, r9
+ 144 00a8 92B2     		uxth	r2, r2
+ 145 00aa 89B2     		uxth	r1, r1
+ 146 00ac 4046     		mov	r0, r8
+ 147 00ae FFF7FEFF 		bl	u8g2_DrawPixel
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 5
+
+
+ 148              	.LVL12:
+ 149              		.loc 1 72 1 is_stmt 0 view .LVU21
+ 150 00b2 BBE7     		b	.L1
+ 151              		.cfi_endproc
+ 152              	.LFE0:
+ 154              		.section	.text.u8g2_draw_circle,"ax",%progbits
+ 155              		.align	1
+ 156              		.syntax unified
+ 157              		.thumb
+ 158              		.thumb_func
+ 160              	u8g2_draw_circle:
+ 161              	.LVL13:
+ 162              	.LFB1:
+  73:user/drivers/u8g2/u8g2_circle.c **** 
+  74:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_circle(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t
+  75:user/drivers/u8g2/u8g2_circle.c **** {
+ 163              		.loc 1 75 1 is_stmt 1 view -0
+ 164              		.cfi_startproc
+ 165              		@ args = 4, pretend = 0, frame = 8
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167              		.loc 1 75 1 is_stmt 0 view .LVU23
+ 168 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 169              	.LCFI1:
+ 170              		.cfi_def_cfa_offset 36
+ 171              		.cfi_offset 4, -36
+ 172              		.cfi_offset 5, -32
+ 173              		.cfi_offset 6, -28
+ 174              		.cfi_offset 7, -24
+ 175              		.cfi_offset 8, -20
+ 176              		.cfi_offset 9, -16
+ 177              		.cfi_offset 10, -12
+ 178              		.cfi_offset 11, -8
+ 179              		.cfi_offset 14, -4
+ 180 0004 85B0     		sub	sp, sp, #20
+ 181              	.LCFI2:
+ 182              		.cfi_def_cfa_offset 56
+ 183 0006 0390     		str	r0, [sp, #12]
+ 184 0008 8946     		mov	r9, r1
+ 185 000a 9246     		mov	r10, r2
+ 186 000c 1E46     		mov	r6, r3
+ 187 000e 9DF838B0 		ldrb	fp, [sp, #56]	@ zero_extendqisi2
+  76:user/drivers/u8g2/u8g2_circle.c ****     u8g2_int_t f;
+ 188              		.loc 1 76 5 is_stmt 1 view .LVU24
+  77:user/drivers/u8g2/u8g2_circle.c ****     u8g2_int_t ddF_x;
+ 189              		.loc 1 77 5 view .LVU25
+  78:user/drivers/u8g2/u8g2_circle.c ****     u8g2_int_t ddF_y;
+ 190              		.loc 1 78 5 view .LVU26
+  79:user/drivers/u8g2/u8g2_circle.c ****     u8g2_uint_t x;
+ 191              		.loc 1 79 5 view .LVU27
+  80:user/drivers/u8g2/u8g2_circle.c ****     u8g2_uint_t y;
+ 192              		.loc 1 80 5 view .LVU28
+  81:user/drivers/u8g2/u8g2_circle.c **** 
+  82:user/drivers/u8g2/u8g2_circle.c ****     f = 1;
+ 193              		.loc 1 82 5 view .LVU29
+ 194              	.LVL14:
+  83:user/drivers/u8g2/u8g2_circle.c ****     f -= rad;
+ 195              		.loc 1 83 5 view .LVU30
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 6
+
+
+ 196              		.loc 1 83 7 is_stmt 0 view .LVU31
+ 197 0012 C3F10104 		rsb	r4, r3, #1
+ 198 0016 24B2     		sxth	r4, r4
+ 199              	.LVL15:
+  84:user/drivers/u8g2/u8g2_circle.c ****     ddF_x = 1;
+ 200              		.loc 1 84 5 is_stmt 1 view .LVU32
+  85:user/drivers/u8g2/u8g2_circle.c ****     ddF_y = 0;
+ 201              		.loc 1 85 5 view .LVU33
+  86:user/drivers/u8g2/u8g2_circle.c ****     ddF_y -= rad;
+ 202              		.loc 1 86 5 view .LVU34
+  87:user/drivers/u8g2/u8g2_circle.c ****     ddF_y *= 2;
+ 203              		.loc 1 87 5 view .LVU35
+ 204              		.loc 1 87 11 is_stmt 0 view .LVU36
+ 205 0018 C3EBC338 		rsb	r8, r3, r3, lsl #15
+ 206 001c 4FEA4808 		lsl	r8, r8, #1
+ 207 0020 0FFA88F8 		sxth	r8, r8
+ 208              	.LVL16:
+  88:user/drivers/u8g2/u8g2_circle.c ****     x = 0;
+ 209              		.loc 1 88 5 is_stmt 1 view .LVU37
+  89:user/drivers/u8g2/u8g2_circle.c ****     y = rad;
+ 210              		.loc 1 89 5 view .LVU38
+  90:user/drivers/u8g2/u8g2_circle.c **** 
+  91:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_circle_section(u8g2, x, y, x0, y0, option);
+ 211              		.loc 1 91 5 view .LVU39
+ 212 0024 CDF804B0 		str	fp, [sp, #4]
+ 213 0028 0092     		str	r2, [sp]
+ 214 002a 0B46     		mov	r3, r1
+ 215              	.LVL17:
+ 216              		.loc 1 91 5 is_stmt 0 view .LVU40
+ 217 002c 3246     		mov	r2, r6
+ 218              	.LVL18:
+ 219              		.loc 1 91 5 view .LVU41
+ 220 002e 0021     		movs	r1, #0
+ 221              	.LVL19:
+ 222              		.loc 1 91 5 view .LVU42
+ 223 0030 FFF7FEFF 		bl	u8g2_draw_circle_section
+ 224              	.LVL20:
+  92:user/drivers/u8g2/u8g2_circle.c ****     
+  93:user/drivers/u8g2/u8g2_circle.c ****     while ( x < y )
+ 225              		.loc 1 93 5 is_stmt 1 view .LVU43
+  88:user/drivers/u8g2/u8g2_circle.c ****     y = rad;
+ 226              		.loc 1 88 7 is_stmt 0 view .LVU44
+ 227 0034 0025     		movs	r5, #0
+  84:user/drivers/u8g2/u8g2_circle.c ****     ddF_y = 0;
+ 228              		.loc 1 84 11 view .LVU45
+ 229 0036 0127     		movs	r7, #1
+ 230              		.loc 1 93 11 view .LVU46
+ 231 0038 19E0     		b	.L12
+ 232              	.LVL21:
+ 233              	.L17:
+  94:user/drivers/u8g2/u8g2_circle.c ****     {
+  95:user/drivers/u8g2/u8g2_circle.c ****       if (f >= 0) 
+  96:user/drivers/u8g2/u8g2_circle.c ****       {
+  97:user/drivers/u8g2/u8g2_circle.c ****         y--;
+ 234              		.loc 1 97 9 is_stmt 1 view .LVU47
+ 235              		.loc 1 97 10 is_stmt 0 view .LVU48
+ 236 003a 013E     		subs	r6, r6, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 7
+
+
+ 237              	.LVL22:
+ 238              		.loc 1 97 10 view .LVU49
+ 239 003c B6B2     		uxth	r6, r6
+ 240              	.LVL23:
+  98:user/drivers/u8g2/u8g2_circle.c ****         ddF_y += 2;
+ 241              		.loc 1 98 9 is_stmt 1 view .LVU50
+ 242              		.loc 1 98 15 is_stmt 0 view .LVU51
+ 243 003e 08F10203 		add	r3, r8, #2
+ 244 0042 0FFA83F8 		sxth	r8, r3
+ 245              	.LVL24:
+  99:user/drivers/u8g2/u8g2_circle.c ****         f += ddF_y;
+ 246              		.loc 1 99 9 is_stmt 1 view .LVU52
+ 247              		.loc 1 99 11 is_stmt 0 view .LVU53
+ 248 0046 14FA83F3 		uxtah	r3, r4, r3
+ 249 004a 1CB2     		sxth	r4, r3
+ 250              	.LVL25:
+ 251              	.L13:
+ 100:user/drivers/u8g2/u8g2_circle.c ****       }
+ 101:user/drivers/u8g2/u8g2_circle.c ****       x++;
+ 252              		.loc 1 101 7 is_stmt 1 view .LVU54
+ 253              		.loc 1 101 8 is_stmt 0 view .LVU55
+ 254 004c 0135     		adds	r5, r5, #1
+ 255              	.LVL26:
+ 256              		.loc 1 101 8 view .LVU56
+ 257 004e ADB2     		uxth	r5, r5
+ 258              	.LVL27:
+ 102:user/drivers/u8g2/u8g2_circle.c ****       ddF_x += 2;
+ 259              		.loc 1 102 7 is_stmt 1 view .LVU57
+ 260              		.loc 1 102 13 is_stmt 0 view .LVU58
+ 261 0050 BB1C     		adds	r3, r7, #2
+ 262 0052 1FB2     		sxth	r7, r3
+ 263              	.LVL28:
+ 103:user/drivers/u8g2/u8g2_circle.c ****       f += ddF_x;
+ 264              		.loc 1 103 7 is_stmt 1 view .LVU59
+ 265              		.loc 1 103 9 is_stmt 0 view .LVU60
+ 266 0054 14FA83F3 		uxtah	r3, r4, r3
+ 267 0058 1CB2     		sxth	r4, r3
+ 268              	.LVL29:
+ 104:user/drivers/u8g2/u8g2_circle.c **** 
+ 105:user/drivers/u8g2/u8g2_circle.c ****       u8g2_draw_circle_section(u8g2, x, y, x0, y0, option);    
+ 269              		.loc 1 105 7 is_stmt 1 view .LVU61
+ 270 005a CDF804B0 		str	fp, [sp, #4]
+ 271 005e CDF800A0 		str	r10, [sp]
+ 272 0062 4B46     		mov	r3, r9
+ 273 0064 3246     		mov	r2, r6
+ 274 0066 2946     		mov	r1, r5
+ 275 0068 0398     		ldr	r0, [sp, #12]
+ 276 006a FFF7FEFF 		bl	u8g2_draw_circle_section
+ 277              	.LVL30:
+ 278              	.L12:
+  93:user/drivers/u8g2/u8g2_circle.c ****     {
+ 279              		.loc 1 93 15 view .LVU62
+ 280 006e B542     		cmp	r5, r6
+ 281 0070 02D2     		bcs	.L16
+  95:user/drivers/u8g2/u8g2_circle.c ****       {
+ 282              		.loc 1 95 7 view .LVU63
+  95:user/drivers/u8g2/u8g2_circle.c ****       {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 8
+
+
+ 283              		.loc 1 95 10 is_stmt 0 view .LVU64
+ 284 0072 002C     		cmp	r4, #0
+ 285 0074 E1DA     		bge	.L17
+ 286 0076 E9E7     		b	.L13
+ 287              	.L16:
+ 106:user/drivers/u8g2/u8g2_circle.c ****     }
+ 107:user/drivers/u8g2/u8g2_circle.c **** }
+ 288              		.loc 1 107 1 view .LVU65
+ 289 0078 05B0     		add	sp, sp, #20
+ 290              	.LCFI3:
+ 291              		.cfi_def_cfa_offset 36
+ 292              		@ sp needed
+ 293 007a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 294              		.loc 1 107 1 view .LVU66
+ 295              		.cfi_endproc
+ 296              	.LFE1:
+ 298              		.section	.text.u8g2_draw_ellipse_section,"ax",%progbits
+ 299              		.align	1
+ 300              		.syntax unified
+ 301              		.thumb
+ 302              		.thumb_func
+ 304              	u8g2_draw_ellipse_section:
+ 305              	.LVL31:
+ 306              	.LFB6:
+ 108:user/drivers/u8g2/u8g2_circle.c **** 
+ 109:user/drivers/u8g2/u8g2_circle.c **** void u8g2_DrawCircle(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t option)
+ 110:user/drivers/u8g2/u8g2_circle.c **** {
+ 111:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 112:user/drivers/u8g2/u8g2_circle.c **** #ifdef U8G2_WITH_INTERSECTION
+ 113:user/drivers/u8g2/u8g2_circle.c ****   {
+ 114:user/drivers/u8g2/u8g2_circle.c ****     if ( u8g2_IsIntersection(u8g2, x0-rad, y0-rad, x0+rad+1, y0+rad+1) == 0 ) 
+ 115:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 116:user/drivers/u8g2/u8g2_circle.c ****   }
+ 117:user/drivers/u8g2/u8g2_circle.c **** #endif /* U8G2_WITH_INTERSECTION */
+ 118:user/drivers/u8g2/u8g2_circle.c ****   
+ 119:user/drivers/u8g2/u8g2_circle.c ****   
+ 120:user/drivers/u8g2/u8g2_circle.c ****   /* draw circle */
+ 121:user/drivers/u8g2/u8g2_circle.c ****   u8g2_draw_circle(u8g2, x0, y0, rad, option);
+ 122:user/drivers/u8g2/u8g2_circle.c **** }
+ 123:user/drivers/u8g2/u8g2_circle.c **** 
+ 124:user/drivers/u8g2/u8g2_circle.c **** /*==============================================*/
+ 125:user/drivers/u8g2/u8g2_circle.c **** /* Disk */
+ 126:user/drivers/u8g2/u8g2_circle.c **** 
+ 127:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_disc_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u8g2
+ 128:user/drivers/u8g2/u8g2_circle.c **** 
+ 129:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_disc_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u8g2
+ 130:user/drivers/u8g2/u8g2_circle.c **** {
+ 131:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+ 132:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_RIGHT )
+ 133:user/drivers/u8g2/u8g2_circle.c ****     {
+ 134:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+x, y0-y, y+1);
+ 135:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0-x, x+1);
+ 136:user/drivers/u8g2/u8g2_circle.c ****     }
+ 137:user/drivers/u8g2/u8g2_circle.c ****     
+ 138:user/drivers/u8g2/u8g2_circle.c ****     /* upper left */
+ 139:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_LEFT )
+ 140:user/drivers/u8g2/u8g2_circle.c ****     {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 9
+
+
+ 141:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-x, y0-y, y+1);
+ 142:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-y, y0-x, x+1);
+ 143:user/drivers/u8g2/u8g2_circle.c ****     }
+ 144:user/drivers/u8g2/u8g2_circle.c ****     
+ 145:user/drivers/u8g2/u8g2_circle.c ****     /* lower right */
+ 146:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_RIGHT )
+ 147:user/drivers/u8g2/u8g2_circle.c ****     {
+ 148:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+x, y0, y+1);
+ 149:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0, x+1);
+ 150:user/drivers/u8g2/u8g2_circle.c ****     }
+ 151:user/drivers/u8g2/u8g2_circle.c ****     
+ 152:user/drivers/u8g2/u8g2_circle.c ****     /* lower left */
+ 153:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_LEFT )
+ 154:user/drivers/u8g2/u8g2_circle.c ****     {
+ 155:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-x, y0, y+1);
+ 156:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-y, y0, x+1);
+ 157:user/drivers/u8g2/u8g2_circle.c ****     }
+ 158:user/drivers/u8g2/u8g2_circle.c **** }
+ 159:user/drivers/u8g2/u8g2_circle.c **** 
+ 160:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_disc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t o
+ 161:user/drivers/u8g2/u8g2_circle.c **** {
+ 162:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t f;
+ 163:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t ddF_x;
+ 164:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t ddF_y;
+ 165:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t x;
+ 166:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t y;
+ 167:user/drivers/u8g2/u8g2_circle.c **** 
+ 168:user/drivers/u8g2/u8g2_circle.c ****   f = 1;
+ 169:user/drivers/u8g2/u8g2_circle.c ****   f -= rad;
+ 170:user/drivers/u8g2/u8g2_circle.c ****   ddF_x = 1;
+ 171:user/drivers/u8g2/u8g2_circle.c ****   ddF_y = 0;
+ 172:user/drivers/u8g2/u8g2_circle.c ****   ddF_y -= rad;
+ 173:user/drivers/u8g2/u8g2_circle.c ****   ddF_y *= 2;
+ 174:user/drivers/u8g2/u8g2_circle.c ****   x = 0;
+ 175:user/drivers/u8g2/u8g2_circle.c ****   y = rad;
+ 176:user/drivers/u8g2/u8g2_circle.c **** 
+ 177:user/drivers/u8g2/u8g2_circle.c ****   u8g2_draw_disc_section(u8g2, x, y, x0, y0, option);
+ 178:user/drivers/u8g2/u8g2_circle.c ****   
+ 179:user/drivers/u8g2/u8g2_circle.c ****   while ( x < y )
+ 180:user/drivers/u8g2/u8g2_circle.c ****   {
+ 181:user/drivers/u8g2/u8g2_circle.c ****     if (f >= 0) 
+ 182:user/drivers/u8g2/u8g2_circle.c ****     {
+ 183:user/drivers/u8g2/u8g2_circle.c ****       y--;
+ 184:user/drivers/u8g2/u8g2_circle.c ****       ddF_y += 2;
+ 185:user/drivers/u8g2/u8g2_circle.c ****       f += ddF_y;
+ 186:user/drivers/u8g2/u8g2_circle.c ****     }
+ 187:user/drivers/u8g2/u8g2_circle.c ****     x++;
+ 188:user/drivers/u8g2/u8g2_circle.c ****     ddF_x += 2;
+ 189:user/drivers/u8g2/u8g2_circle.c ****     f += ddF_x;
+ 190:user/drivers/u8g2/u8g2_circle.c **** 
+ 191:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_disc_section(u8g2, x, y, x0, y0, option);    
+ 192:user/drivers/u8g2/u8g2_circle.c ****   }
+ 193:user/drivers/u8g2/u8g2_circle.c **** }
+ 194:user/drivers/u8g2/u8g2_circle.c **** 
+ 195:user/drivers/u8g2/u8g2_circle.c **** void u8g2_DrawDisc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t option)
+ 196:user/drivers/u8g2/u8g2_circle.c **** {
+ 197:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 10
+
+
+ 198:user/drivers/u8g2/u8g2_circle.c **** #ifdef U8G2_WITH_INTERSECTION
+ 199:user/drivers/u8g2/u8g2_circle.c ****   {
+ 200:user/drivers/u8g2/u8g2_circle.c ****     if ( u8g2_IsIntersection(u8g2, x0-rad, y0-rad, x0+rad+1, y0+rad+1) == 0 ) 
+ 201:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 202:user/drivers/u8g2/u8g2_circle.c ****   }
+ 203:user/drivers/u8g2/u8g2_circle.c **** #endif /* U8G2_WITH_INTERSECTION */
+ 204:user/drivers/u8g2/u8g2_circle.c ****   
+ 205:user/drivers/u8g2/u8g2_circle.c ****   /* draw disc */
+ 206:user/drivers/u8g2/u8g2_circle.c ****   u8g2_draw_disc(u8g2, x0, y0, rad, option);
+ 207:user/drivers/u8g2/u8g2_circle.c **** }
+ 208:user/drivers/u8g2/u8g2_circle.c **** 
+ 209:user/drivers/u8g2/u8g2_circle.c **** /*==============================================*/
+ 210:user/drivers/u8g2/u8g2_circle.c **** /* Ellipse */
+ 211:user/drivers/u8g2/u8g2_circle.c **** 
+ 212:user/drivers/u8g2/u8g2_circle.c **** /*
+ 213:user/drivers/u8g2/u8g2_circle.c ****   Source: 
+ 214:user/drivers/u8g2/u8g2_circle.c ****     Foley, Computer Graphics, p 90
+ 215:user/drivers/u8g2/u8g2_circle.c **** */
+ 216:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_ellipse_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u
+ 217:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_ellipse_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t x0, u
+ 218:user/drivers/u8g2/u8g2_circle.c **** {
+ 307              		.loc 1 218 1 is_stmt 1 view -0
+ 308              		.cfi_startproc
+ 309              		@ args = 8, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              		.loc 1 218 1 is_stmt 0 view .LVU68
+ 312 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 313              	.LCFI4:
+ 314              		.cfi_def_cfa_offset 32
+ 315              		.cfi_offset 3, -32
+ 316              		.cfi_offset 4, -28
+ 317              		.cfi_offset 5, -24
+ 318              		.cfi_offset 6, -20
+ 319              		.cfi_offset 7, -16
+ 320              		.cfi_offset 8, -12
+ 321              		.cfi_offset 9, -8
+ 322              		.cfi_offset 14, -4
+ 323 0004 0746     		mov	r7, r0
+ 324 0006 8846     		mov	r8, r1
+ 325 0008 9146     		mov	r9, r2
+ 326 000a 1D46     		mov	r5, r3
+ 327 000c BDF82060 		ldrh	r6, [sp, #32]
+ 328 0010 9DF82440 		ldrb	r4, [sp, #36]	@ zero_extendqisi2
+ 219:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+ 220:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_RIGHT )
+ 329              		.loc 1 220 5 is_stmt 1 view .LVU69
+ 330              		.loc 1 220 8 is_stmt 0 view .LVU70
+ 331 0014 14F0010F 		tst	r4, #1
+ 332 0018 0AD1     		bne	.L24
+ 333              	.LVL32:
+ 334              	.L19:
+ 221:user/drivers/u8g2/u8g2_circle.c ****     {
+ 222:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + x, y0 - y);
+ 223:user/drivers/u8g2/u8g2_circle.c ****     }
+ 224:user/drivers/u8g2/u8g2_circle.c ****     
+ 225:user/drivers/u8g2/u8g2_circle.c ****     /* upper left */
+ 226:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_LEFT )
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 11
+
+
+ 335              		.loc 1 226 5 is_stmt 1 view .LVU71
+ 336              		.loc 1 226 8 is_stmt 0 view .LVU72
+ 337 001a 14F0020F 		tst	r4, #2
+ 338 001e 0ED1     		bne	.L25
+ 339              	.L20:
+ 227:user/drivers/u8g2/u8g2_circle.c ****     {
+ 228:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - x, y0 - y);
+ 229:user/drivers/u8g2/u8g2_circle.c ****     }
+ 230:user/drivers/u8g2/u8g2_circle.c ****     
+ 231:user/drivers/u8g2/u8g2_circle.c ****     /* lower right */
+ 232:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_RIGHT )
+ 340              		.loc 1 232 5 is_stmt 1 view .LVU73
+ 341              		.loc 1 232 8 is_stmt 0 view .LVU74
+ 342 0020 14F0080F 		tst	r4, #8
+ 343 0024 15D1     		bne	.L26
+ 344              	.L21:
+ 233:user/drivers/u8g2/u8g2_circle.c ****     {
+ 234:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 + x, y0 + y);
+ 235:user/drivers/u8g2/u8g2_circle.c ****     }
+ 236:user/drivers/u8g2/u8g2_circle.c ****     
+ 237:user/drivers/u8g2/u8g2_circle.c ****     /* lower left */
+ 238:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_LEFT )
+ 345              		.loc 1 238 5 is_stmt 1 view .LVU75
+ 346              		.loc 1 238 8 is_stmt 0 view .LVU76
+ 347 0026 14F0040F 		tst	r4, #4
+ 348 002a 1CD1     		bne	.L27
+ 349              	.L18:
+ 239:user/drivers/u8g2/u8g2_circle.c ****     {
+ 240:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawPixel(u8g2, x0 - x, y0 + y);
+ 241:user/drivers/u8g2/u8g2_circle.c ****     }
+ 242:user/drivers/u8g2/u8g2_circle.c **** }
+ 350              		.loc 1 242 1 view .LVU77
+ 351 002c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 352              	.LVL33:
+ 353              	.L24:
+ 222:user/drivers/u8g2/u8g2_circle.c ****     }
+ 354              		.loc 1 222 7 is_stmt 1 view .LVU78
+ 355 0030 B21A     		subs	r2, r6, r2
+ 356              	.LVL34:
+ 222:user/drivers/u8g2/u8g2_circle.c ****     }
+ 357              		.loc 1 222 7 is_stmt 0 view .LVU79
+ 358 0032 5918     		adds	r1, r3, r1
+ 359              	.LVL35:
+ 222:user/drivers/u8g2/u8g2_circle.c ****     }
+ 360              		.loc 1 222 7 view .LVU80
+ 361 0034 92B2     		uxth	r2, r2
+ 362 0036 89B2     		uxth	r1, r1
+ 363 0038 FFF7FEFF 		bl	u8g2_DrawPixel
+ 364              	.LVL36:
+ 222:user/drivers/u8g2/u8g2_circle.c ****     }
+ 365              		.loc 1 222 7 view .LVU81
+ 366 003c EDE7     		b	.L19
+ 367              	.L25:
+ 228:user/drivers/u8g2/u8g2_circle.c ****     }
+ 368              		.loc 1 228 7 is_stmt 1 view .LVU82
+ 369 003e A6EB0902 		sub	r2, r6, r9
+ 370 0042 A5EB0801 		sub	r1, r5, r8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 12
+
+
+ 371 0046 92B2     		uxth	r2, r2
+ 372 0048 89B2     		uxth	r1, r1
+ 373 004a 3846     		mov	r0, r7
+ 374 004c FFF7FEFF 		bl	u8g2_DrawPixel
+ 375              	.LVL37:
+ 376 0050 E6E7     		b	.L20
+ 377              	.L26:
+ 234:user/drivers/u8g2/u8g2_circle.c ****     }
+ 378              		.loc 1 234 7 view .LVU83
+ 379 0052 06EB0902 		add	r2, r6, r9
+ 380 0056 05EB0801 		add	r1, r5, r8
+ 381 005a 92B2     		uxth	r2, r2
+ 382 005c 89B2     		uxth	r1, r1
+ 383 005e 3846     		mov	r0, r7
+ 384 0060 FFF7FEFF 		bl	u8g2_DrawPixel
+ 385              	.LVL38:
+ 386 0064 DFE7     		b	.L21
+ 387              	.L27:
+ 240:user/drivers/u8g2/u8g2_circle.c ****     }
+ 388              		.loc 1 240 7 view .LVU84
+ 389 0066 06EB0902 		add	r2, r6, r9
+ 390 006a A5EB0801 		sub	r1, r5, r8
+ 391 006e 92B2     		uxth	r2, r2
+ 392 0070 89B2     		uxth	r1, r1
+ 393 0072 3846     		mov	r0, r7
+ 394 0074 FFF7FEFF 		bl	u8g2_DrawPixel
+ 395              	.LVL39:
+ 396              		.loc 1 242 1 is_stmt 0 view .LVU85
+ 397 0078 D8E7     		b	.L18
+ 398              		.cfi_endproc
+ 399              	.LFE6:
+ 401              		.section	.text.u8g2_draw_ellipse,"ax",%progbits
+ 402              		.align	1
+ 403              		.syntax unified
+ 404              		.thumb
+ 405              		.thumb_func
+ 407              	u8g2_draw_ellipse:
+ 408              	.LVL40:
+ 409              	.LFB7:
+ 243:user/drivers/u8g2/u8g2_circle.c **** 
+ 244:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_ellipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, u8g2_ui
+ 245:user/drivers/u8g2/u8g2_circle.c **** {
+ 410              		.loc 1 245 1 is_stmt 1 view -0
+ 411              		.cfi_startproc
+ 412              		@ args = 8, pretend = 0, frame = 40
+ 413              		@ frame_needed = 0, uses_anonymous_args = 0
+ 414              		.loc 1 245 1 is_stmt 0 view .LVU87
+ 415 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 416              	.LCFI5:
+ 417              		.cfi_def_cfa_offset 36
+ 418              		.cfi_offset 4, -36
+ 419              		.cfi_offset 5, -32
+ 420              		.cfi_offset 6, -28
+ 421              		.cfi_offset 7, -24
+ 422              		.cfi_offset 8, -20
+ 423              		.cfi_offset 9, -16
+ 424              		.cfi_offset 10, -12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 13
+
+
+ 425              		.cfi_offset 11, -8
+ 426              		.cfi_offset 14, -4
+ 427 0004 8DB0     		sub	sp, sp, #52
+ 428              	.LCFI6:
+ 429              		.cfi_def_cfa_offset 88
+ 430 0006 0590     		str	r0, [sp, #20]
+ 431 0008 0691     		str	r1, [sp, #24]
+ 432 000a 0792     		str	r2, [sp, #28]
+ 433 000c 1D46     		mov	r5, r3
+ 434 000e BDF85830 		ldrh	r3, [sp, #88]
+ 435              	.LVL41:
+ 436              		.loc 1 245 1 view .LVU88
+ 437 0012 0493     		str	r3, [sp, #16]
+ 438 0014 9DF85C20 		ldrb	r2, [sp, #92]	@ zero_extendqisi2
+ 439              	.LVL42:
+ 440              		.loc 1 245 1 view .LVU89
+ 441 0018 0892     		str	r2, [sp, #32]
+ 246:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t x, y;
+ 442              		.loc 1 246 3 is_stmt 1 view .LVU90
+ 247:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t xchg, ychg;
+ 443              		.loc 1 247 3 view .LVU91
+ 248:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t err;
+ 444              		.loc 1 248 3 view .LVU92
+ 249:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t rxrx2;
+ 445              		.loc 1 249 3 view .LVU93
+ 250:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t ryry2;
+ 446              		.loc 1 250 3 view .LVU94
+ 251:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t stopx, stopy;
+ 447              		.loc 1 251 3 view .LVU95
+ 252:user/drivers/u8g2/u8g2_circle.c ****   
+ 253:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 = rx;
+ 448              		.loc 1 253 3 view .LVU96
+ 449              		.loc 1 253 9 is_stmt 0 view .LVU97
+ 450 001a 0995     		str	r5, [sp, #36]
+ 451              	.LVL43:
+ 254:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 *= rx;
+ 452              		.loc 1 254 3 is_stmt 1 view .LVU98
+ 453              		.loc 1 254 9 is_stmt 0 view .LVU99
+ 454 001c 05FB05FB 		mul	fp, r5, r5
+ 455              	.LVL44:
+ 255:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 *= 2;
+ 456              		.loc 1 255 3 is_stmt 1 view .LVU100
+ 457              		.loc 1 255 9 is_stmt 0 view .LVU101
+ 458 0020 4FEA4B08 		lsl	r8, fp, #1
+ 459              	.LVL45:
+ 256:user/drivers/u8g2/u8g2_circle.c ****   
+ 257:user/drivers/u8g2/u8g2_circle.c ****   ryry2 = ry;
+ 460              		.loc 1 257 3 is_stmt 1 view .LVU102
+ 461              		.loc 1 257 9 is_stmt 0 view .LVU103
+ 462 0024 0A93     		str	r3, [sp, #40]
+ 463              	.LVL46:
+ 258:user/drivers/u8g2/u8g2_circle.c ****   ryry2 *= ry;
+ 464              		.loc 1 258 3 is_stmt 1 view .LVU104
+ 465              		.loc 1 258 9 is_stmt 0 view .LVU105
+ 466 0026 03FB03FA 		mul	r10, r3, r3
+ 467              	.LVL47:
+ 259:user/drivers/u8g2/u8g2_circle.c ****   ryry2 *= 2;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 14
+
+
+ 468              		.loc 1 259 3 is_stmt 1 view .LVU106
+ 469              		.loc 1 259 9 is_stmt 0 view .LVU107
+ 470 002a 4FEA4A09 		lsl	r9, r10, #1
+ 471              	.LVL48:
+ 260:user/drivers/u8g2/u8g2_circle.c ****   
+ 261:user/drivers/u8g2/u8g2_circle.c ****   x = rx;
+ 472              		.loc 1 261 3 is_stmt 1 view .LVU108
+ 262:user/drivers/u8g2/u8g2_circle.c ****   y = 0;
+ 473              		.loc 1 262 3 view .LVU109
+ 263:user/drivers/u8g2/u8g2_circle.c ****   
+ 264:user/drivers/u8g2/u8g2_circle.c ****   xchg = 1;
+ 474              		.loc 1 264 3 view .LVU110
+ 265:user/drivers/u8g2/u8g2_circle.c ****   xchg -= rx;
+ 475              		.loc 1 265 3 view .LVU111
+ 476              		.loc 1 265 8 is_stmt 0 view .LVU112
+ 477 002e C5F10107 		rsb	r7, r5, #1
+ 478              	.LVL49:
+ 266:user/drivers/u8g2/u8g2_circle.c ****   xchg -= rx;
+ 479              		.loc 1 266 3 is_stmt 1 view .LVU113
+ 480              		.loc 1 266 8 is_stmt 0 view .LVU114
+ 481 0032 7F1B     		subs	r7, r7, r5
+ 482              	.LVL50:
+ 267:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 483              		.loc 1 267 3 is_stmt 1 view .LVU115
+ 484              		.loc 1 267 8 is_stmt 0 view .LVU116
+ 485 0034 03FB07F7 		mul	r7, r3, r7
+ 486              	.LVL51:
+ 268:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 487              		.loc 1 268 3 is_stmt 1 view .LVU117
+ 488              		.loc 1 268 8 is_stmt 0 view .LVU118
+ 489 0038 07FB03F3 		mul	r3, r7, r3
+ 490              	.LVL52:
+ 269:user/drivers/u8g2/u8g2_circle.c ****   
+ 270:user/drivers/u8g2/u8g2_circle.c ****   ychg = rx;
+ 491              		.loc 1 270 3 is_stmt 1 view .LVU119
+ 271:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 492              		.loc 1 271 3 view .LVU120
+ 272:user/drivers/u8g2/u8g2_circle.c ****   
+ 273:user/drivers/u8g2/u8g2_circle.c ****   err = 0;
+ 493              		.loc 1 273 3 view .LVU121
+ 274:user/drivers/u8g2/u8g2_circle.c ****   
+ 275:user/drivers/u8g2/u8g2_circle.c ****   stopx = ryry2;
+ 494              		.loc 1 275 3 view .LVU122
+ 276:user/drivers/u8g2/u8g2_circle.c ****   stopx *= rx;
+ 495              		.loc 1 276 3 view .LVU123
+ 496              		.loc 1 276 9 is_stmt 0 view .LVU124
+ 497 003c 09FB05F2 		mul	r2, r9, r5
+ 498 0040 0392     		str	r2, [sp, #12]
+ 499              	.LVL53:
+ 277:user/drivers/u8g2/u8g2_circle.c ****   stopy = 0;
+ 500              		.loc 1 277 3 is_stmt 1 view .LVU125
+ 278:user/drivers/u8g2/u8g2_circle.c ****   
+ 279:user/drivers/u8g2/u8g2_circle.c ****   while( stopx >= stopy )
+ 501              		.loc 1 279 3 view .LVU126
+ 277:user/drivers/u8g2/u8g2_circle.c ****   stopy = 0;
+ 502              		.loc 1 277 9 is_stmt 0 view .LVU127
+ 503 0042 0027     		movs	r7, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 15
+
+
+ 273:user/drivers/u8g2/u8g2_circle.c ****   
+ 504              		.loc 1 273 7 view .LVU128
+ 505 0044 3E46     		mov	r6, r7
+ 262:user/drivers/u8g2/u8g2_circle.c ****   
+ 506              		.loc 1 262 5 view .LVU129
+ 507 0046 3C46     		mov	r4, r7
+ 508 0048 CDF82CA0 		str	r10, [sp, #44]
+ 509 004c 9A46     		mov	r10, r3
+ 510              	.LVL54:
+ 511              	.L29:
+ 512              		.loc 1 279 16 is_stmt 1 view .LVU130
+ 513 004e 039B     		ldr	r3, [sp, #12]
+ 514 0050 BB42     		cmp	r3, r7
+ 515 0052 1BDB     		blt	.L36
+ 280:user/drivers/u8g2/u8g2_circle.c ****   {
+ 281:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_ellipse_section(u8g2, x, y, x0, y0, option);
+ 516              		.loc 1 281 5 view .LVU131
+ 517 0054 089B     		ldr	r3, [sp, #32]
+ 518 0056 0193     		str	r3, [sp, #4]
+ 519 0058 079B     		ldr	r3, [sp, #28]
+ 520 005a 0093     		str	r3, [sp]
+ 521 005c 069B     		ldr	r3, [sp, #24]
+ 522 005e 2246     		mov	r2, r4
+ 523 0060 2946     		mov	r1, r5
+ 524 0062 0598     		ldr	r0, [sp, #20]
+ 525 0064 FFF7FEFF 		bl	u8g2_draw_ellipse_section
+ 526              	.LVL55:
+ 282:user/drivers/u8g2/u8g2_circle.c ****     y++;
+ 527              		.loc 1 282 5 view .LVU132
+ 528              		.loc 1 282 6 is_stmt 0 view .LVU133
+ 529 0068 0134     		adds	r4, r4, #1
+ 530              	.LVL56:
+ 531              		.loc 1 282 6 view .LVU134
+ 532 006a A4B2     		uxth	r4, r4
+ 533              	.LVL57:
+ 283:user/drivers/u8g2/u8g2_circle.c ****     stopy += rxrx2;
+ 534              		.loc 1 283 5 is_stmt 1 view .LVU135
+ 535              		.loc 1 283 11 is_stmt 0 view .LVU136
+ 536 006c 4744     		add	r7, r7, r8
+ 537              	.LVL58:
+ 284:user/drivers/u8g2/u8g2_circle.c ****     err += ychg;
+ 538              		.loc 1 284 5 is_stmt 1 view .LVU137
+ 539              		.loc 1 284 9 is_stmt 0 view .LVU138
+ 540 006e 5E44     		add	r6, r6, fp
+ 541              	.LVL59:
+ 285:user/drivers/u8g2/u8g2_circle.c ****     ychg += rxrx2;
+ 542              		.loc 1 285 5 is_stmt 1 view .LVU139
+ 543              		.loc 1 285 10 is_stmt 0 view .LVU140
+ 544 0070 C344     		add	fp, fp, r8
+ 545              	.LVL60:
+ 286:user/drivers/u8g2/u8g2_circle.c ****     if ( 2*err+xchg > 0 )
+ 546              		.loc 1 286 5 is_stmt 1 view .LVU141
+ 547              		.loc 1 286 15 is_stmt 0 view .LVU142
+ 548 0072 0AEB4603 		add	r3, r10, r6, lsl #1
+ 549              		.loc 1 286 8 view .LVU143
+ 550 0076 002B     		cmp	r3, #0
+ 551 0078 E9DD     		ble	.L29
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 16
+
+
+ 287:user/drivers/u8g2/u8g2_circle.c ****     {
+ 288:user/drivers/u8g2/u8g2_circle.c ****       x--;
+ 552              		.loc 1 288 7 is_stmt 1 view .LVU144
+ 553              		.loc 1 288 8 is_stmt 0 view .LVU145
+ 554 007a 013D     		subs	r5, r5, #1
+ 555              	.LVL61:
+ 556              		.loc 1 288 8 view .LVU146
+ 557 007c ADB2     		uxth	r5, r5
+ 558              	.LVL62:
+ 289:user/drivers/u8g2/u8g2_circle.c ****       stopx -= ryry2;
+ 559              		.loc 1 289 7 is_stmt 1 view .LVU147
+ 560              		.loc 1 289 13 is_stmt 0 view .LVU148
+ 561 007e 039B     		ldr	r3, [sp, #12]
+ 562 0080 A3EB0903 		sub	r3, r3, r9
+ 563 0084 0393     		str	r3, [sp, #12]
+ 564              	.LVL63:
+ 290:user/drivers/u8g2/u8g2_circle.c ****       err += xchg;
+ 565              		.loc 1 290 7 is_stmt 1 view .LVU149
+ 566              		.loc 1 290 11 is_stmt 0 view .LVU150
+ 567 0086 5644     		add	r6, r6, r10
+ 568              	.LVL64:
+ 291:user/drivers/u8g2/u8g2_circle.c ****       xchg += ryry2;      
+ 569              		.loc 1 291 7 is_stmt 1 view .LVU151
+ 570              		.loc 1 291 12 is_stmt 0 view .LVU152
+ 571 0088 CA44     		add	r10, r10, r9
+ 572              	.LVL65:
+ 573              		.loc 1 291 12 view .LVU153
+ 574 008a E0E7     		b	.L29
+ 575              	.L36:
+ 292:user/drivers/u8g2/u8g2_circle.c ****     }
+ 293:user/drivers/u8g2/u8g2_circle.c ****   }
+ 294:user/drivers/u8g2/u8g2_circle.c **** 
+ 295:user/drivers/u8g2/u8g2_circle.c ****   x = 0;
+ 296:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 297:user/drivers/u8g2/u8g2_circle.c ****   
+ 298:user/drivers/u8g2/u8g2_circle.c ****   xchg = ry;
+ 299:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 300:user/drivers/u8g2/u8g2_circle.c ****   
+ 301:user/drivers/u8g2/u8g2_circle.c ****   ychg = 1;
+ 302:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 576              		.loc 1 302 8 view .LVU154
+ 577 008c DDF82CA0 		ldr	r10, [sp, #44]
+ 578              	.LVL66:
+ 295:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 579              		.loc 1 295 3 is_stmt 1 view .LVU155
+ 296:user/drivers/u8g2/u8g2_circle.c ****   
+ 580              		.loc 1 296 3 view .LVU156
+ 298:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 581              		.loc 1 298 3 view .LVU157
+ 299:user/drivers/u8g2/u8g2_circle.c ****   
+ 582              		.loc 1 299 3 view .LVU158
+ 301:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 583              		.loc 1 301 3 view .LVU159
+ 584              		.loc 1 302 3 view .LVU160
+ 585              		.loc 1 302 8 is_stmt 0 view .LVU161
+ 586 0090 0A9B     		ldr	r3, [sp, #40]
+ 587              	.LVL67:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 17
+
+
+ 588              		.loc 1 302 8 view .LVU162
+ 589 0092 C3F10106 		rsb	r6, r3, #1
+ 590              	.LVL68:
+ 303:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 591              		.loc 1 303 3 is_stmt 1 view .LVU163
+ 592              		.loc 1 303 8 is_stmt 0 view .LVU164
+ 593 0096 F61A     		subs	r6, r6, r3
+ 594              	.LVL69:
+ 304:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 595              		.loc 1 304 3 is_stmt 1 view .LVU165
+ 596              		.loc 1 304 8 is_stmt 0 view .LVU166
+ 597 0098 099A     		ldr	r2, [sp, #36]
+ 598 009a 02FB06F6 		mul	r6, r2, r6
+ 599              	.LVL70:
+ 305:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 600              		.loc 1 305 3 is_stmt 1 view .LVU167
+ 601              		.loc 1 305 8 is_stmt 0 view .LVU168
+ 602 009e 02FB06F6 		mul	r6, r2, r6
+ 603              	.LVL71:
+ 306:user/drivers/u8g2/u8g2_circle.c ****   
+ 307:user/drivers/u8g2/u8g2_circle.c ****   err = 0;
+ 604              		.loc 1 307 3 is_stmt 1 view .LVU169
+ 308:user/drivers/u8g2/u8g2_circle.c ****   
+ 309:user/drivers/u8g2/u8g2_circle.c ****   stopx = 0;
+ 605              		.loc 1 309 3 view .LVU170
+ 310:user/drivers/u8g2/u8g2_circle.c **** 
+ 311:user/drivers/u8g2/u8g2_circle.c ****   stopy = rxrx2;
+ 606              		.loc 1 311 3 view .LVU171
+ 312:user/drivers/u8g2/u8g2_circle.c ****   stopy *= ry;
+ 607              		.loc 1 312 3 view .LVU172
+ 608              		.loc 1 312 9 is_stmt 0 view .LVU173
+ 609 00a2 03FB08FB 		mul	fp, r3, r8
+ 610              	.LVL72:
+ 313:user/drivers/u8g2/u8g2_circle.c ****   
+ 314:user/drivers/u8g2/u8g2_circle.c **** 
+ 315:user/drivers/u8g2/u8g2_circle.c ****   while( stopx <= stopy )
+ 611              		.loc 1 315 3 is_stmt 1 view .LVU174
+ 309:user/drivers/u8g2/u8g2_circle.c **** 
+ 612              		.loc 1 309 9 is_stmt 0 view .LVU175
+ 613 00a6 0027     		movs	r7, #0
+ 307:user/drivers/u8g2/u8g2_circle.c ****   
+ 614              		.loc 1 307 7 view .LVU176
+ 615 00a8 3D46     		mov	r5, r7
+ 295:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 616              		.loc 1 295 5 view .LVU177
+ 617 00aa 3C46     		mov	r4, r7
+ 618              	.LVL73:
+ 619              	.L32:
+ 620              		.loc 1 315 16 is_stmt 1 view .LVU178
+ 621 00ac 5F45     		cmp	r7, fp
+ 622 00ae 1BDC     		bgt	.L37
+ 316:user/drivers/u8g2/u8g2_circle.c ****   {
+ 317:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_ellipse_section(u8g2, x, y, x0, y0, option);
+ 623              		.loc 1 317 5 view .LVU179
+ 624 00b0 089B     		ldr	r3, [sp, #32]
+ 625 00b2 0193     		str	r3, [sp, #4]
+ 626 00b4 079B     		ldr	r3, [sp, #28]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 18
+
+
+ 627 00b6 0093     		str	r3, [sp]
+ 628 00b8 069B     		ldr	r3, [sp, #24]
+ 629 00ba 049A     		ldr	r2, [sp, #16]
+ 630 00bc 2146     		mov	r1, r4
+ 631 00be 0598     		ldr	r0, [sp, #20]
+ 632 00c0 FFF7FEFF 		bl	u8g2_draw_ellipse_section
+ 633              	.LVL74:
+ 318:user/drivers/u8g2/u8g2_circle.c ****     x++;
+ 634              		.loc 1 318 5 view .LVU180
+ 635              		.loc 1 318 6 is_stmt 0 view .LVU181
+ 636 00c4 0134     		adds	r4, r4, #1
+ 637              	.LVL75:
+ 638              		.loc 1 318 6 view .LVU182
+ 639 00c6 A4B2     		uxth	r4, r4
+ 640              	.LVL76:
+ 319:user/drivers/u8g2/u8g2_circle.c ****     stopx += ryry2;
+ 641              		.loc 1 319 5 is_stmt 1 view .LVU183
+ 642              		.loc 1 319 11 is_stmt 0 view .LVU184
+ 643 00c8 4F44     		add	r7, r7, r9
+ 644              	.LVL77:
+ 320:user/drivers/u8g2/u8g2_circle.c ****     err += xchg;
+ 645              		.loc 1 320 5 is_stmt 1 view .LVU185
+ 646              		.loc 1 320 9 is_stmt 0 view .LVU186
+ 647 00ca 5544     		add	r5, r5, r10
+ 648              	.LVL78:
+ 321:user/drivers/u8g2/u8g2_circle.c ****     xchg += ryry2;
+ 649              		.loc 1 321 5 is_stmt 1 view .LVU187
+ 650              		.loc 1 321 10 is_stmt 0 view .LVU188
+ 651 00cc CA44     		add	r10, r10, r9
+ 652              	.LVL79:
+ 322:user/drivers/u8g2/u8g2_circle.c ****     if ( 2*err+ychg > 0 )
+ 653              		.loc 1 322 5 is_stmt 1 view .LVU189
+ 654              		.loc 1 322 15 is_stmt 0 view .LVU190
+ 655 00ce 06EB4503 		add	r3, r6, r5, lsl #1
+ 656              		.loc 1 322 8 view .LVU191
+ 657 00d2 002B     		cmp	r3, #0
+ 658 00d4 EADD     		ble	.L32
+ 323:user/drivers/u8g2/u8g2_circle.c ****     {
+ 324:user/drivers/u8g2/u8g2_circle.c ****       y--;
+ 659              		.loc 1 324 7 is_stmt 1 view .LVU192
+ 660              		.loc 1 324 8 is_stmt 0 view .LVU193
+ 661 00d6 049B     		ldr	r3, [sp, #16]
+ 662 00d8 013B     		subs	r3, r3, #1
+ 663 00da 9BB2     		uxth	r3, r3
+ 664 00dc 0493     		str	r3, [sp, #16]
+ 665              	.LVL80:
+ 325:user/drivers/u8g2/u8g2_circle.c ****       stopy -= rxrx2;
+ 666              		.loc 1 325 7 is_stmt 1 view .LVU194
+ 667              		.loc 1 325 13 is_stmt 0 view .LVU195
+ 668 00de ABEB080B 		sub	fp, fp, r8
+ 669              	.LVL81:
+ 326:user/drivers/u8g2/u8g2_circle.c ****       err += ychg;
+ 670              		.loc 1 326 7 is_stmt 1 view .LVU196
+ 671              		.loc 1 326 11 is_stmt 0 view .LVU197
+ 672 00e2 3544     		add	r5, r5, r6
+ 673              	.LVL82:
+ 327:user/drivers/u8g2/u8g2_circle.c ****       ychg += rxrx2;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 19
+
+
+ 674              		.loc 1 327 7 is_stmt 1 view .LVU198
+ 675              		.loc 1 327 12 is_stmt 0 view .LVU199
+ 676 00e4 4644     		add	r6, r6, r8
+ 677              	.LVL83:
+ 678              		.loc 1 327 12 view .LVU200
+ 679 00e6 E1E7     		b	.L32
+ 680              	.L37:
+ 328:user/drivers/u8g2/u8g2_circle.c ****     }
+ 329:user/drivers/u8g2/u8g2_circle.c ****   }
+ 330:user/drivers/u8g2/u8g2_circle.c ****   
+ 331:user/drivers/u8g2/u8g2_circle.c **** }
+ 681              		.loc 1 331 1 view .LVU201
+ 682 00e8 0DB0     		add	sp, sp, #52
+ 683              	.LCFI7:
+ 684              		.cfi_def_cfa_offset 36
+ 685              		@ sp needed
+ 686 00ea BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 687              		.loc 1 331 1 view .LVU202
+ 688              		.cfi_endproc
+ 689              	.LFE7:
+ 691              		.section	.text.u8g2_draw_disc_section,"ax",%progbits
+ 692              		.align	1
+ 693              		.syntax unified
+ 694              		.thumb
+ 695              		.thumb_func
+ 697              	u8g2_draw_disc_section:
+ 698              	.LVL84:
+ 699              	.LFB3:
+ 130:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+ 700              		.loc 1 130 1 is_stmt 1 view -0
+ 701              		.cfi_startproc
+ 702              		@ args = 8, pretend = 0, frame = 0
+ 703              		@ frame_needed = 0, uses_anonymous_args = 0
+ 130:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+ 704              		.loc 1 130 1 is_stmt 0 view .LVU204
+ 705 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 706              	.LCFI8:
+ 707              		.cfi_def_cfa_offset 32
+ 708              		.cfi_offset 3, -32
+ 709              		.cfi_offset 4, -28
+ 710              		.cfi_offset 5, -24
+ 711              		.cfi_offset 6, -20
+ 712              		.cfi_offset 7, -16
+ 713              		.cfi_offset 8, -12
+ 714              		.cfi_offset 9, -8
+ 715              		.cfi_offset 14, -4
+ 716 0004 8046     		mov	r8, r0
+ 717 0006 0C46     		mov	r4, r1
+ 718 0008 1746     		mov	r7, r2
+ 719 000a 1D46     		mov	r5, r3
+ 720 000c BDF82090 		ldrh	r9, [sp, #32]
+ 721 0010 9DF82460 		ldrb	r6, [sp, #36]	@ zero_extendqisi2
+ 132:user/drivers/u8g2/u8g2_circle.c ****     {
+ 722              		.loc 1 132 5 is_stmt 1 view .LVU205
+ 132:user/drivers/u8g2/u8g2_circle.c ****     {
+ 723              		.loc 1 132 8 is_stmt 0 view .LVU206
+ 724 0014 16F0010F 		tst	r6, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 20
+
+
+ 725 0018 0AD1     		bne	.L44
+ 726              	.LVL85:
+ 727              	.L39:
+ 139:user/drivers/u8g2/u8g2_circle.c ****     {
+ 728              		.loc 1 139 5 is_stmt 1 view .LVU207
+ 139:user/drivers/u8g2/u8g2_circle.c ****     {
+ 729              		.loc 1 139 8 is_stmt 0 view .LVU208
+ 730 001a 16F0020F 		tst	r6, #2
+ 731 001e 1BD1     		bne	.L45
+ 732              	.L40:
+ 146:user/drivers/u8g2/u8g2_circle.c ****     {
+ 733              		.loc 1 146 5 is_stmt 1 view .LVU209
+ 146:user/drivers/u8g2/u8g2_circle.c ****     {
+ 734              		.loc 1 146 8 is_stmt 0 view .LVU210
+ 735 0020 16F0080F 		tst	r6, #8
+ 736 0024 2DD1     		bne	.L46
+ 737              	.L41:
+ 153:user/drivers/u8g2/u8g2_circle.c ****     {
+ 738              		.loc 1 153 5 is_stmt 1 view .LVU211
+ 153:user/drivers/u8g2/u8g2_circle.c ****     {
+ 739              		.loc 1 153 8 is_stmt 0 view .LVU212
+ 740 0026 16F0040F 		tst	r6, #4
+ 741 002a 3BD1     		bne	.L47
+ 742              	.L38:
+ 158:user/drivers/u8g2/u8g2_circle.c **** 
+ 743              		.loc 1 158 1 view .LVU213
+ 744 002c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 745              	.LVL86:
+ 746              	.L44:
+ 134:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0-x, x+1);
+ 747              		.loc 1 134 7 is_stmt 1 view .LVU214
+ 748 0030 531C     		adds	r3, r2, #1
+ 749              	.LVL87:
+ 134:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0-x, x+1);
+ 750              		.loc 1 134 7 is_stmt 0 view .LVU215
+ 751 0032 A9EB0202 		sub	r2, r9, r2
+ 752              	.LVL88:
+ 134:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0-x, x+1);
+ 753              		.loc 1 134 7 view .LVU216
+ 754 0036 6918     		adds	r1, r5, r1
+ 755              	.LVL89:
+ 134:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0-x, x+1);
+ 756              		.loc 1 134 7 view .LVU217
+ 757 0038 9BB2     		uxth	r3, r3
+ 758 003a 92B2     		uxth	r2, r2
+ 759 003c 89B2     		uxth	r1, r1
+ 760 003e FFF7FEFF 		bl	u8g2_DrawVLine
+ 761              	.LVL90:
+ 135:user/drivers/u8g2/u8g2_circle.c ****     }
+ 762              		.loc 1 135 7 is_stmt 1 view .LVU218
+ 763 0042 631C     		adds	r3, r4, #1
+ 764 0044 A9EB0402 		sub	r2, r9, r4
+ 765 0048 E919     		adds	r1, r5, r7
+ 766 004a 9BB2     		uxth	r3, r3
+ 767 004c 92B2     		uxth	r2, r2
+ 768 004e 89B2     		uxth	r1, r1
+ 769 0050 4046     		mov	r0, r8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 21
+
+
+ 770 0052 FFF7FEFF 		bl	u8g2_DrawVLine
+ 771              	.LVL91:
+ 772 0056 E0E7     		b	.L39
+ 773              	.L45:
+ 141:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-y, y0-x, x+1);
+ 774              		.loc 1 141 7 view .LVU219
+ 775 0058 7B1C     		adds	r3, r7, #1
+ 776 005a A9EB0702 		sub	r2, r9, r7
+ 777 005e 291B     		subs	r1, r5, r4
+ 778 0060 9BB2     		uxth	r3, r3
+ 779 0062 92B2     		uxth	r2, r2
+ 780 0064 89B2     		uxth	r1, r1
+ 781 0066 4046     		mov	r0, r8
+ 782 0068 FFF7FEFF 		bl	u8g2_DrawVLine
+ 783              	.LVL92:
+ 142:user/drivers/u8g2/u8g2_circle.c ****     }
+ 784              		.loc 1 142 7 view .LVU220
+ 785 006c 631C     		adds	r3, r4, #1
+ 786 006e A9EB0402 		sub	r2, r9, r4
+ 787 0072 E91B     		subs	r1, r5, r7
+ 788 0074 9BB2     		uxth	r3, r3
+ 789 0076 92B2     		uxth	r2, r2
+ 790 0078 89B2     		uxth	r1, r1
+ 791 007a 4046     		mov	r0, r8
+ 792 007c FFF7FEFF 		bl	u8g2_DrawVLine
+ 793              	.LVL93:
+ 794 0080 CEE7     		b	.L40
+ 795              	.L46:
+ 148:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+y, y0, x+1);
+ 796              		.loc 1 148 7 view .LVU221
+ 797 0082 7B1C     		adds	r3, r7, #1
+ 798 0084 2919     		adds	r1, r5, r4
+ 799 0086 9BB2     		uxth	r3, r3
+ 800 0088 4A46     		mov	r2, r9
+ 801 008a 89B2     		uxth	r1, r1
+ 802 008c 4046     		mov	r0, r8
+ 803 008e FFF7FEFF 		bl	u8g2_DrawVLine
+ 804              	.LVL94:
+ 149:user/drivers/u8g2/u8g2_circle.c ****     }
+ 805              		.loc 1 149 7 view .LVU222
+ 806 0092 631C     		adds	r3, r4, #1
+ 807 0094 E919     		adds	r1, r5, r7
+ 808 0096 9BB2     		uxth	r3, r3
+ 809 0098 4A46     		mov	r2, r9
+ 810 009a 89B2     		uxth	r1, r1
+ 811 009c 4046     		mov	r0, r8
+ 812 009e FFF7FEFF 		bl	u8g2_DrawVLine
+ 813              	.LVL95:
+ 814 00a2 C0E7     		b	.L41
+ 815              	.L47:
+ 155:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-y, y0, x+1);
+ 816              		.loc 1 155 7 view .LVU223
+ 817 00a4 7B1C     		adds	r3, r7, #1
+ 818 00a6 291B     		subs	r1, r5, r4
+ 819 00a8 9BB2     		uxth	r3, r3
+ 820 00aa 4A46     		mov	r2, r9
+ 821 00ac 89B2     		uxth	r1, r1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 22
+
+
+ 822 00ae 4046     		mov	r0, r8
+ 823 00b0 FFF7FEFF 		bl	u8g2_DrawVLine
+ 824              	.LVL96:
+ 156:user/drivers/u8g2/u8g2_circle.c ****     }
+ 825              		.loc 1 156 7 view .LVU224
+ 826 00b4 631C     		adds	r3, r4, #1
+ 827 00b6 E91B     		subs	r1, r5, r7
+ 828 00b8 9BB2     		uxth	r3, r3
+ 829 00ba 4A46     		mov	r2, r9
+ 830 00bc 89B2     		uxth	r1, r1
+ 831 00be 4046     		mov	r0, r8
+ 832 00c0 FFF7FEFF 		bl	u8g2_DrawVLine
+ 833              	.LVL97:
+ 158:user/drivers/u8g2/u8g2_circle.c **** 
+ 834              		.loc 1 158 1 is_stmt 0 view .LVU225
+ 835 00c4 B2E7     		b	.L38
+ 836              		.cfi_endproc
+ 837              	.LFE3:
+ 839              		.section	.text.u8g2_draw_disc,"ax",%progbits
+ 840              		.align	1
+ 841              		.syntax unified
+ 842              		.thumb
+ 843              		.thumb_func
+ 845              	u8g2_draw_disc:
+ 846              	.LVL98:
+ 847              	.LFB4:
+ 161:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t f;
+ 848              		.loc 1 161 1 is_stmt 1 view -0
+ 849              		.cfi_startproc
+ 850              		@ args = 4, pretend = 0, frame = 8
+ 851              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t f;
+ 852              		.loc 1 161 1 is_stmt 0 view .LVU227
+ 853 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 854              	.LCFI9:
+ 855              		.cfi_def_cfa_offset 36
+ 856              		.cfi_offset 4, -36
+ 857              		.cfi_offset 5, -32
+ 858              		.cfi_offset 6, -28
+ 859              		.cfi_offset 7, -24
+ 860              		.cfi_offset 8, -20
+ 861              		.cfi_offset 9, -16
+ 862              		.cfi_offset 10, -12
+ 863              		.cfi_offset 11, -8
+ 864              		.cfi_offset 14, -4
+ 865 0004 85B0     		sub	sp, sp, #20
+ 866              	.LCFI10:
+ 867              		.cfi_def_cfa_offset 56
+ 868 0006 0390     		str	r0, [sp, #12]
+ 869 0008 8946     		mov	r9, r1
+ 870 000a 9246     		mov	r10, r2
+ 871 000c 1E46     		mov	r6, r3
+ 872 000e 9DF838B0 		ldrb	fp, [sp, #56]	@ zero_extendqisi2
+ 162:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t ddF_x;
+ 873              		.loc 1 162 3 is_stmt 1 view .LVU228
+ 163:user/drivers/u8g2/u8g2_circle.c ****   u8g2_int_t ddF_y;
+ 874              		.loc 1 163 3 view .LVU229
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 23
+
+
+ 164:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t x;
+ 875              		.loc 1 164 3 view .LVU230
+ 165:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t y;
+ 876              		.loc 1 165 3 view .LVU231
+ 166:user/drivers/u8g2/u8g2_circle.c **** 
+ 877              		.loc 1 166 3 view .LVU232
+ 168:user/drivers/u8g2/u8g2_circle.c ****   f -= rad;
+ 878              		.loc 1 168 3 view .LVU233
+ 879              	.LVL99:
+ 169:user/drivers/u8g2/u8g2_circle.c ****   ddF_x = 1;
+ 880              		.loc 1 169 3 view .LVU234
+ 169:user/drivers/u8g2/u8g2_circle.c ****   ddF_x = 1;
+ 881              		.loc 1 169 5 is_stmt 0 view .LVU235
+ 882 0012 C3F10104 		rsb	r4, r3, #1
+ 883 0016 24B2     		sxth	r4, r4
+ 884              	.LVL100:
+ 170:user/drivers/u8g2/u8g2_circle.c ****   ddF_y = 0;
+ 885              		.loc 1 170 3 is_stmt 1 view .LVU236
+ 171:user/drivers/u8g2/u8g2_circle.c ****   ddF_y -= rad;
+ 886              		.loc 1 171 3 view .LVU237
+ 172:user/drivers/u8g2/u8g2_circle.c ****   ddF_y *= 2;
+ 887              		.loc 1 172 3 view .LVU238
+ 173:user/drivers/u8g2/u8g2_circle.c ****   x = 0;
+ 888              		.loc 1 173 3 view .LVU239
+ 173:user/drivers/u8g2/u8g2_circle.c ****   x = 0;
+ 889              		.loc 1 173 9 is_stmt 0 view .LVU240
+ 890 0018 C3EBC338 		rsb	r8, r3, r3, lsl #15
+ 891 001c 4FEA4808 		lsl	r8, r8, #1
+ 892 0020 0FFA88F8 		sxth	r8, r8
+ 893              	.LVL101:
+ 174:user/drivers/u8g2/u8g2_circle.c ****   y = rad;
+ 894              		.loc 1 174 3 is_stmt 1 view .LVU241
+ 175:user/drivers/u8g2/u8g2_circle.c **** 
+ 895              		.loc 1 175 3 view .LVU242
+ 177:user/drivers/u8g2/u8g2_circle.c ****   
+ 896              		.loc 1 177 3 view .LVU243
+ 897 0024 CDF804B0 		str	fp, [sp, #4]
+ 898 0028 0092     		str	r2, [sp]
+ 899 002a 0B46     		mov	r3, r1
+ 900              	.LVL102:
+ 177:user/drivers/u8g2/u8g2_circle.c ****   
+ 901              		.loc 1 177 3 is_stmt 0 view .LVU244
+ 902 002c 3246     		mov	r2, r6
+ 903              	.LVL103:
+ 177:user/drivers/u8g2/u8g2_circle.c ****   
+ 904              		.loc 1 177 3 view .LVU245
+ 905 002e 0021     		movs	r1, #0
+ 906              	.LVL104:
+ 177:user/drivers/u8g2/u8g2_circle.c ****   
+ 907              		.loc 1 177 3 view .LVU246
+ 908 0030 FFF7FEFF 		bl	u8g2_draw_disc_section
+ 909              	.LVL105:
+ 179:user/drivers/u8g2/u8g2_circle.c ****   {
+ 910              		.loc 1 179 3 is_stmt 1 view .LVU247
+ 174:user/drivers/u8g2/u8g2_circle.c ****   y = rad;
+ 911              		.loc 1 174 5 is_stmt 0 view .LVU248
+ 912 0034 0025     		movs	r5, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 24
+
+
+ 170:user/drivers/u8g2/u8g2_circle.c ****   ddF_y = 0;
+ 913              		.loc 1 170 9 view .LVU249
+ 914 0036 0127     		movs	r7, #1
+ 179:user/drivers/u8g2/u8g2_circle.c ****   {
+ 915              		.loc 1 179 9 view .LVU250
+ 916 0038 19E0     		b	.L49
+ 917              	.LVL106:
+ 918              	.L54:
+ 183:user/drivers/u8g2/u8g2_circle.c ****       ddF_y += 2;
+ 919              		.loc 1 183 7 is_stmt 1 view .LVU251
+ 183:user/drivers/u8g2/u8g2_circle.c ****       ddF_y += 2;
+ 920              		.loc 1 183 8 is_stmt 0 view .LVU252
+ 921 003a 013E     		subs	r6, r6, #1
+ 922              	.LVL107:
+ 183:user/drivers/u8g2/u8g2_circle.c ****       ddF_y += 2;
+ 923              		.loc 1 183 8 view .LVU253
+ 924 003c B6B2     		uxth	r6, r6
+ 925              	.LVL108:
+ 184:user/drivers/u8g2/u8g2_circle.c ****       f += ddF_y;
+ 926              		.loc 1 184 7 is_stmt 1 view .LVU254
+ 184:user/drivers/u8g2/u8g2_circle.c ****       f += ddF_y;
+ 927              		.loc 1 184 13 is_stmt 0 view .LVU255
+ 928 003e 08F10203 		add	r3, r8, #2
+ 929 0042 0FFA83F8 		sxth	r8, r3
+ 930              	.LVL109:
+ 185:user/drivers/u8g2/u8g2_circle.c ****     }
+ 931              		.loc 1 185 7 is_stmt 1 view .LVU256
+ 185:user/drivers/u8g2/u8g2_circle.c ****     }
+ 932              		.loc 1 185 9 is_stmt 0 view .LVU257
+ 933 0046 14FA83F3 		uxtah	r3, r4, r3
+ 934 004a 1CB2     		sxth	r4, r3
+ 935              	.LVL110:
+ 936              	.L50:
+ 187:user/drivers/u8g2/u8g2_circle.c ****     ddF_x += 2;
+ 937              		.loc 1 187 5 is_stmt 1 view .LVU258
+ 187:user/drivers/u8g2/u8g2_circle.c ****     ddF_x += 2;
+ 938              		.loc 1 187 6 is_stmt 0 view .LVU259
+ 939 004c 0135     		adds	r5, r5, #1
+ 940              	.LVL111:
+ 187:user/drivers/u8g2/u8g2_circle.c ****     ddF_x += 2;
+ 941              		.loc 1 187 6 view .LVU260
+ 942 004e ADB2     		uxth	r5, r5
+ 943              	.LVL112:
+ 188:user/drivers/u8g2/u8g2_circle.c ****     f += ddF_x;
+ 944              		.loc 1 188 5 is_stmt 1 view .LVU261
+ 188:user/drivers/u8g2/u8g2_circle.c ****     f += ddF_x;
+ 945              		.loc 1 188 11 is_stmt 0 view .LVU262
+ 946 0050 BB1C     		adds	r3, r7, #2
+ 947 0052 1FB2     		sxth	r7, r3
+ 948              	.LVL113:
+ 189:user/drivers/u8g2/u8g2_circle.c **** 
+ 949              		.loc 1 189 5 is_stmt 1 view .LVU263
+ 189:user/drivers/u8g2/u8g2_circle.c **** 
+ 950              		.loc 1 189 7 is_stmt 0 view .LVU264
+ 951 0054 14FA83F3 		uxtah	r3, r4, r3
+ 952 0058 1CB2     		sxth	r4, r3
+ 953              	.LVL114:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 25
+
+
+ 191:user/drivers/u8g2/u8g2_circle.c ****   }
+ 954              		.loc 1 191 5 is_stmt 1 view .LVU265
+ 955 005a CDF804B0 		str	fp, [sp, #4]
+ 956 005e CDF800A0 		str	r10, [sp]
+ 957 0062 4B46     		mov	r3, r9
+ 958 0064 3246     		mov	r2, r6
+ 959 0066 2946     		mov	r1, r5
+ 960 0068 0398     		ldr	r0, [sp, #12]
+ 961 006a FFF7FEFF 		bl	u8g2_draw_disc_section
+ 962              	.LVL115:
+ 963              	.L49:
+ 179:user/drivers/u8g2/u8g2_circle.c ****   {
+ 964              		.loc 1 179 13 view .LVU266
+ 965 006e B542     		cmp	r5, r6
+ 966 0070 02D2     		bcs	.L53
+ 181:user/drivers/u8g2/u8g2_circle.c ****     {
+ 967              		.loc 1 181 5 view .LVU267
+ 181:user/drivers/u8g2/u8g2_circle.c ****     {
+ 968              		.loc 1 181 8 is_stmt 0 view .LVU268
+ 969 0072 002C     		cmp	r4, #0
+ 970 0074 E1DA     		bge	.L54
+ 971 0076 E9E7     		b	.L50
+ 972              	.L53:
+ 193:user/drivers/u8g2/u8g2_circle.c **** 
+ 973              		.loc 1 193 1 view .LVU269
+ 974 0078 05B0     		add	sp, sp, #20
+ 975              	.LCFI11:
+ 976              		.cfi_def_cfa_offset 36
+ 977              		@ sp needed
+ 978 007a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 193:user/drivers/u8g2/u8g2_circle.c **** 
+ 979              		.loc 1 193 1 view .LVU270
+ 980              		.cfi_endproc
+ 981              	.LFE4:
+ 983              		.section	.text.u8g2_draw_filled_ellipse_section,"ax",%progbits
+ 984              		.align	1
+ 985              		.syntax unified
+ 986              		.thumb
+ 987              		.thumb_func
+ 989              	u8g2_draw_filled_ellipse_section:
+ 990              	.LVL116:
+ 991              	.LFB9:
+ 332:user/drivers/u8g2/u8g2_circle.c **** 
+ 333:user/drivers/u8g2/u8g2_circle.c **** void u8g2_DrawEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, u8g2_uint_t ry,
+ 334:user/drivers/u8g2/u8g2_circle.c **** {
+ 335:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 336:user/drivers/u8g2/u8g2_circle.c **** #ifdef U8G2_WITH_INTERSECTION
+ 337:user/drivers/u8g2/u8g2_circle.c ****   {
+ 338:user/drivers/u8g2/u8g2_circle.c ****     if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0+rx+1, y0+ry+1) == 0 ) 
+ 339:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 340:user/drivers/u8g2/u8g2_circle.c ****   }
+ 341:user/drivers/u8g2/u8g2_circle.c **** #endif /* U8G2_WITH_INTERSECTION */
+ 342:user/drivers/u8g2/u8g2_circle.c ****   
+ 343:user/drivers/u8g2/u8g2_circle.c ****   u8g2_draw_ellipse(u8g2, x0, y0, rx, ry, option);
+ 344:user/drivers/u8g2/u8g2_circle.c **** }
+ 345:user/drivers/u8g2/u8g2_circle.c **** 
+ 346:user/drivers/u8g2/u8g2_circle.c **** /*==============================================*/
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 26
+
+
+ 347:user/drivers/u8g2/u8g2_circle.c **** /* Filled Ellipse */
+ 348:user/drivers/u8g2/u8g2_circle.c **** 
+ 349:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_filled_ellipse_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
+ 350:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_filled_ellipse_section(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_
+ 351:user/drivers/u8g2/u8g2_circle.c **** {
+ 992              		.loc 1 351 1 is_stmt 1 view -0
+ 993              		.cfi_startproc
+ 994              		@ args = 8, pretend = 0, frame = 0
+ 995              		@ frame_needed = 0, uses_anonymous_args = 0
+ 996              		.loc 1 351 1 is_stmt 0 view .LVU272
+ 997 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 998              	.LCFI12:
+ 999              		.cfi_def_cfa_offset 32
+ 1000              		.cfi_offset 3, -32
+ 1001              		.cfi_offset 4, -28
+ 1002              		.cfi_offset 5, -24
+ 1003              		.cfi_offset 6, -20
+ 1004              		.cfi_offset 7, -16
+ 1005              		.cfi_offset 8, -12
+ 1006              		.cfi_offset 9, -8
+ 1007              		.cfi_offset 14, -4
+ 1008 0004 0746     		mov	r7, r0
+ 1009 0006 8846     		mov	r8, r1
+ 1010 0008 1446     		mov	r4, r2
+ 1011 000a 1E46     		mov	r6, r3
+ 1012 000c BDF82090 		ldrh	r9, [sp, #32]
+ 1013 0010 9DF82450 		ldrb	r5, [sp, #36]	@ zero_extendqisi2
+ 352:user/drivers/u8g2/u8g2_circle.c ****     /* upper right */
+ 353:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_RIGHT )
+ 1014              		.loc 1 353 5 is_stmt 1 view .LVU273
+ 1015              		.loc 1 353 8 is_stmt 0 view .LVU274
+ 1016 0014 15F0010F 		tst	r5, #1
+ 1017 0018 0AD1     		bne	.L61
+ 1018              	.LVL117:
+ 1019              	.L56:
+ 354:user/drivers/u8g2/u8g2_circle.c ****     {
+ 355:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+x, y0-y, y+1);
+ 356:user/drivers/u8g2/u8g2_circle.c ****     }
+ 357:user/drivers/u8g2/u8g2_circle.c ****     
+ 358:user/drivers/u8g2/u8g2_circle.c ****     /* upper left */
+ 359:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_UPPER_LEFT )
+ 1020              		.loc 1 359 5 is_stmt 1 view .LVU275
+ 1021              		.loc 1 359 8 is_stmt 0 view .LVU276
+ 1022 001a 15F0020F 		tst	r5, #2
+ 1023 001e 11D1     		bne	.L62
+ 1024              	.L57:
+ 360:user/drivers/u8g2/u8g2_circle.c ****     {
+ 361:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-x, y0-y, y+1);
+ 362:user/drivers/u8g2/u8g2_circle.c ****     }
+ 363:user/drivers/u8g2/u8g2_circle.c ****     
+ 364:user/drivers/u8g2/u8g2_circle.c ****     /* lower right */
+ 365:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_RIGHT )
+ 1025              		.loc 1 365 5 is_stmt 1 view .LVU277
+ 1026              		.loc 1 365 8 is_stmt 0 view .LVU278
+ 1027 0020 15F0080F 		tst	r5, #8
+ 1028 0024 1AD1     		bne	.L63
+ 1029              	.L58:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 27
+
+
+ 366:user/drivers/u8g2/u8g2_circle.c ****     {
+ 367:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0+x, y0, y+1);
+ 368:user/drivers/u8g2/u8g2_circle.c ****     }
+ 369:user/drivers/u8g2/u8g2_circle.c ****     
+ 370:user/drivers/u8g2/u8g2_circle.c ****     /* lower left */
+ 371:user/drivers/u8g2/u8g2_circle.c ****     if ( option & U8G2_DRAW_LOWER_LEFT )
+ 1030              		.loc 1 371 5 is_stmt 1 view .LVU279
+ 1031              		.loc 1 371 8 is_stmt 0 view .LVU280
+ 1032 0026 15F0040F 		tst	r5, #4
+ 1033 002a 21D1     		bne	.L64
+ 1034              	.L55:
+ 372:user/drivers/u8g2/u8g2_circle.c ****     {
+ 373:user/drivers/u8g2/u8g2_circle.c ****       u8g2_DrawVLine(u8g2, x0-x, y0, y+1);
+ 374:user/drivers/u8g2/u8g2_circle.c ****     }
+ 375:user/drivers/u8g2/u8g2_circle.c **** }
+ 1035              		.loc 1 375 1 view .LVU281
+ 1036 002c BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1037              	.LVL118:
+ 1038              	.L61:
+ 355:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1039              		.loc 1 355 7 is_stmt 1 view .LVU282
+ 1040 0030 531C     		adds	r3, r2, #1
+ 1041              	.LVL119:
+ 355:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1042              		.loc 1 355 7 is_stmt 0 view .LVU283
+ 1043 0032 A9EB0202 		sub	r2, r9, r2
+ 1044              	.LVL120:
+ 355:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1045              		.loc 1 355 7 view .LVU284
+ 1046 0036 7118     		adds	r1, r6, r1
+ 1047              	.LVL121:
+ 355:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1048              		.loc 1 355 7 view .LVU285
+ 1049 0038 9BB2     		uxth	r3, r3
+ 1050 003a 92B2     		uxth	r2, r2
+ 1051 003c 89B2     		uxth	r1, r1
+ 1052 003e FFF7FEFF 		bl	u8g2_DrawVLine
+ 1053              	.LVL122:
+ 355:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1054              		.loc 1 355 7 view .LVU286
+ 1055 0042 EAE7     		b	.L56
+ 1056              	.L62:
+ 361:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1057              		.loc 1 361 7 is_stmt 1 view .LVU287
+ 1058 0044 631C     		adds	r3, r4, #1
+ 1059 0046 A9EB0402 		sub	r2, r9, r4
+ 1060 004a A6EB0801 		sub	r1, r6, r8
+ 1061 004e 9BB2     		uxth	r3, r3
+ 1062 0050 92B2     		uxth	r2, r2
+ 1063 0052 89B2     		uxth	r1, r1
+ 1064 0054 3846     		mov	r0, r7
+ 1065 0056 FFF7FEFF 		bl	u8g2_DrawVLine
+ 1066              	.LVL123:
+ 1067 005a E1E7     		b	.L57
+ 1068              	.L63:
+ 367:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1069              		.loc 1 367 7 view .LVU288
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 28
+
+
+ 1070 005c 631C     		adds	r3, r4, #1
+ 1071 005e 06EB0801 		add	r1, r6, r8
+ 1072 0062 9BB2     		uxth	r3, r3
+ 1073 0064 4A46     		mov	r2, r9
+ 1074 0066 89B2     		uxth	r1, r1
+ 1075 0068 3846     		mov	r0, r7
+ 1076 006a FFF7FEFF 		bl	u8g2_DrawVLine
+ 1077              	.LVL124:
+ 1078 006e DAE7     		b	.L58
+ 1079              	.L64:
+ 373:user/drivers/u8g2/u8g2_circle.c ****     }
+ 1080              		.loc 1 373 7 view .LVU289
+ 1081 0070 631C     		adds	r3, r4, #1
+ 1082 0072 A6EB0801 		sub	r1, r6, r8
+ 1083 0076 9BB2     		uxth	r3, r3
+ 1084 0078 4A46     		mov	r2, r9
+ 1085 007a 89B2     		uxth	r1, r1
+ 1086 007c 3846     		mov	r0, r7
+ 1087 007e FFF7FEFF 		bl	u8g2_DrawVLine
+ 1088              	.LVL125:
+ 1089              		.loc 1 375 1 is_stmt 0 view .LVU290
+ 1090 0082 D3E7     		b	.L55
+ 1091              		.cfi_endproc
+ 1092              	.LFE9:
+ 1094              		.section	.text.u8g2_draw_filled_ellipse,"ax",%progbits
+ 1095              		.align	1
+ 1096              		.syntax unified
+ 1097              		.thumb
+ 1098              		.thumb_func
+ 1100              	u8g2_draw_filled_ellipse:
+ 1101              	.LVL126:
+ 1102              	.LFB10:
+ 376:user/drivers/u8g2/u8g2_circle.c **** 
+ 377:user/drivers/u8g2/u8g2_circle.c **** static void u8g2_draw_filled_ellipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, 
+ 378:user/drivers/u8g2/u8g2_circle.c **** {
+ 1103              		.loc 1 378 1 is_stmt 1 view -0
+ 1104              		.cfi_startproc
+ 1105              		@ args = 8, pretend = 0, frame = 40
+ 1106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1107              		.loc 1 378 1 is_stmt 0 view .LVU292
+ 1108 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1109              	.LCFI13:
+ 1110              		.cfi_def_cfa_offset 36
+ 1111              		.cfi_offset 4, -36
+ 1112              		.cfi_offset 5, -32
+ 1113              		.cfi_offset 6, -28
+ 1114              		.cfi_offset 7, -24
+ 1115              		.cfi_offset 8, -20
+ 1116              		.cfi_offset 9, -16
+ 1117              		.cfi_offset 10, -12
+ 1118              		.cfi_offset 11, -8
+ 1119              		.cfi_offset 14, -4
+ 1120 0004 8DB0     		sub	sp, sp, #52
+ 1121              	.LCFI14:
+ 1122              		.cfi_def_cfa_offset 88
+ 1123 0006 0590     		str	r0, [sp, #20]
+ 1124 0008 0691     		str	r1, [sp, #24]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 29
+
+
+ 1125 000a 0792     		str	r2, [sp, #28]
+ 1126 000c 1D46     		mov	r5, r3
+ 1127 000e BDF85830 		ldrh	r3, [sp, #88]
+ 1128              	.LVL127:
+ 1129              		.loc 1 378 1 view .LVU293
+ 1130 0012 0493     		str	r3, [sp, #16]
+ 1131 0014 9DF85C20 		ldrb	r2, [sp, #92]	@ zero_extendqisi2
+ 1132              	.LVL128:
+ 1133              		.loc 1 378 1 view .LVU294
+ 1134 0018 0892     		str	r2, [sp, #32]
+ 379:user/drivers/u8g2/u8g2_circle.c ****   u8g2_uint_t x, y;
+ 1135              		.loc 1 379 3 is_stmt 1 view .LVU295
+ 380:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t xchg, ychg;
+ 1136              		.loc 1 380 3 view .LVU296
+ 381:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t err;
+ 1137              		.loc 1 381 3 view .LVU297
+ 382:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t rxrx2;
+ 1138              		.loc 1 382 3 view .LVU298
+ 383:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t ryry2;
+ 1139              		.loc 1 383 3 view .LVU299
+ 384:user/drivers/u8g2/u8g2_circle.c ****   u8g2_long_t stopx, stopy;
+ 1140              		.loc 1 384 3 view .LVU300
+ 385:user/drivers/u8g2/u8g2_circle.c ****   
+ 386:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 = rx;
+ 1141              		.loc 1 386 3 view .LVU301
+ 1142              		.loc 1 386 9 is_stmt 0 view .LVU302
+ 1143 001a 0995     		str	r5, [sp, #36]
+ 1144              	.LVL129:
+ 387:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 *= rx;
+ 1145              		.loc 1 387 3 is_stmt 1 view .LVU303
+ 1146              		.loc 1 387 9 is_stmt 0 view .LVU304
+ 1147 001c 05FB05FB 		mul	fp, r5, r5
+ 1148              	.LVL130:
+ 388:user/drivers/u8g2/u8g2_circle.c ****   rxrx2 *= 2;
+ 1149              		.loc 1 388 3 is_stmt 1 view .LVU305
+ 1150              		.loc 1 388 9 is_stmt 0 view .LVU306
+ 1151 0020 4FEA4B08 		lsl	r8, fp, #1
+ 1152              	.LVL131:
+ 389:user/drivers/u8g2/u8g2_circle.c ****   
+ 390:user/drivers/u8g2/u8g2_circle.c ****   ryry2 = ry;
+ 1153              		.loc 1 390 3 is_stmt 1 view .LVU307
+ 1154              		.loc 1 390 9 is_stmt 0 view .LVU308
+ 1155 0024 0A93     		str	r3, [sp, #40]
+ 1156              	.LVL132:
+ 391:user/drivers/u8g2/u8g2_circle.c ****   ryry2 *= ry;
+ 1157              		.loc 1 391 3 is_stmt 1 view .LVU309
+ 1158              		.loc 1 391 9 is_stmt 0 view .LVU310
+ 1159 0026 03FB03FA 		mul	r10, r3, r3
+ 1160              	.LVL133:
+ 392:user/drivers/u8g2/u8g2_circle.c ****   ryry2 *= 2;
+ 1161              		.loc 1 392 3 is_stmt 1 view .LVU311
+ 1162              		.loc 1 392 9 is_stmt 0 view .LVU312
+ 1163 002a 4FEA4A09 		lsl	r9, r10, #1
+ 1164              	.LVL134:
+ 393:user/drivers/u8g2/u8g2_circle.c ****   
+ 394:user/drivers/u8g2/u8g2_circle.c ****   x = rx;
+ 1165              		.loc 1 394 3 is_stmt 1 view .LVU313
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 30
+
+
+ 395:user/drivers/u8g2/u8g2_circle.c ****   y = 0;
+ 1166              		.loc 1 395 3 view .LVU314
+ 396:user/drivers/u8g2/u8g2_circle.c ****   
+ 397:user/drivers/u8g2/u8g2_circle.c ****   xchg = 1;
+ 1167              		.loc 1 397 3 view .LVU315
+ 398:user/drivers/u8g2/u8g2_circle.c ****   xchg -= rx;
+ 1168              		.loc 1 398 3 view .LVU316
+ 1169              		.loc 1 398 8 is_stmt 0 view .LVU317
+ 1170 002e C5F10107 		rsb	r7, r5, #1
+ 1171              	.LVL135:
+ 399:user/drivers/u8g2/u8g2_circle.c ****   xchg -= rx;
+ 1172              		.loc 1 399 3 is_stmt 1 view .LVU318
+ 1173              		.loc 1 399 8 is_stmt 0 view .LVU319
+ 1174 0032 7F1B     		subs	r7, r7, r5
+ 1175              	.LVL136:
+ 400:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 1176              		.loc 1 400 3 is_stmt 1 view .LVU320
+ 1177              		.loc 1 400 8 is_stmt 0 view .LVU321
+ 1178 0034 03FB07F7 		mul	r7, r3, r7
+ 1179              	.LVL137:
+ 401:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 1180              		.loc 1 401 3 is_stmt 1 view .LVU322
+ 1181              		.loc 1 401 8 is_stmt 0 view .LVU323
+ 1182 0038 07FB03F3 		mul	r3, r7, r3
+ 1183              	.LVL138:
+ 402:user/drivers/u8g2/u8g2_circle.c ****   
+ 403:user/drivers/u8g2/u8g2_circle.c ****   ychg = rx;
+ 1184              		.loc 1 403 3 is_stmt 1 view .LVU324
+ 404:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 1185              		.loc 1 404 3 view .LVU325
+ 405:user/drivers/u8g2/u8g2_circle.c ****   
+ 406:user/drivers/u8g2/u8g2_circle.c ****   err = 0;
+ 1186              		.loc 1 406 3 view .LVU326
+ 407:user/drivers/u8g2/u8g2_circle.c ****   
+ 408:user/drivers/u8g2/u8g2_circle.c ****   stopx = ryry2;
+ 1187              		.loc 1 408 3 view .LVU327
+ 409:user/drivers/u8g2/u8g2_circle.c ****   stopx *= rx;
+ 1188              		.loc 1 409 3 view .LVU328
+ 1189              		.loc 1 409 9 is_stmt 0 view .LVU329
+ 1190 003c 09FB05F2 		mul	r2, r9, r5
+ 1191 0040 0392     		str	r2, [sp, #12]
+ 1192              	.LVL139:
+ 410:user/drivers/u8g2/u8g2_circle.c ****   stopy = 0;
+ 1193              		.loc 1 410 3 is_stmt 1 view .LVU330
+ 411:user/drivers/u8g2/u8g2_circle.c ****   
+ 412:user/drivers/u8g2/u8g2_circle.c ****   while( stopx >= stopy )
+ 1194              		.loc 1 412 3 view .LVU331
+ 410:user/drivers/u8g2/u8g2_circle.c ****   stopy = 0;
+ 1195              		.loc 1 410 9 is_stmt 0 view .LVU332
+ 1196 0042 0027     		movs	r7, #0
+ 406:user/drivers/u8g2/u8g2_circle.c ****   
+ 1197              		.loc 1 406 7 view .LVU333
+ 1198 0044 3E46     		mov	r6, r7
+ 395:user/drivers/u8g2/u8g2_circle.c ****   
+ 1199              		.loc 1 395 5 view .LVU334
+ 1200 0046 3C46     		mov	r4, r7
+ 1201 0048 CDF82CA0 		str	r10, [sp, #44]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 31
+
+
+ 1202 004c 9A46     		mov	r10, r3
+ 1203              	.LVL140:
+ 1204              	.L66:
+ 1205              		.loc 1 412 16 is_stmt 1 view .LVU335
+ 1206 004e 039B     		ldr	r3, [sp, #12]
+ 1207 0050 BB42     		cmp	r3, r7
+ 1208 0052 1BDB     		blt	.L73
+ 413:user/drivers/u8g2/u8g2_circle.c ****   {
+ 414:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_filled_ellipse_section(u8g2, x, y, x0, y0, option);
+ 1209              		.loc 1 414 5 view .LVU336
+ 1210 0054 089B     		ldr	r3, [sp, #32]
+ 1211 0056 0193     		str	r3, [sp, #4]
+ 1212 0058 079B     		ldr	r3, [sp, #28]
+ 1213 005a 0093     		str	r3, [sp]
+ 1214 005c 069B     		ldr	r3, [sp, #24]
+ 1215 005e 2246     		mov	r2, r4
+ 1216 0060 2946     		mov	r1, r5
+ 1217 0062 0598     		ldr	r0, [sp, #20]
+ 1218 0064 FFF7FEFF 		bl	u8g2_draw_filled_ellipse_section
+ 1219              	.LVL141:
+ 415:user/drivers/u8g2/u8g2_circle.c ****     y++;
+ 1220              		.loc 1 415 5 view .LVU337
+ 1221              		.loc 1 415 6 is_stmt 0 view .LVU338
+ 1222 0068 0134     		adds	r4, r4, #1
+ 1223              	.LVL142:
+ 1224              		.loc 1 415 6 view .LVU339
+ 1225 006a A4B2     		uxth	r4, r4
+ 1226              	.LVL143:
+ 416:user/drivers/u8g2/u8g2_circle.c ****     stopy += rxrx2;
+ 1227              		.loc 1 416 5 is_stmt 1 view .LVU340
+ 1228              		.loc 1 416 11 is_stmt 0 view .LVU341
+ 1229 006c 4744     		add	r7, r7, r8
+ 1230              	.LVL144:
+ 417:user/drivers/u8g2/u8g2_circle.c ****     err += ychg;
+ 1231              		.loc 1 417 5 is_stmt 1 view .LVU342
+ 1232              		.loc 1 417 9 is_stmt 0 view .LVU343
+ 1233 006e 5E44     		add	r6, r6, fp
+ 1234              	.LVL145:
+ 418:user/drivers/u8g2/u8g2_circle.c ****     ychg += rxrx2;
+ 1235              		.loc 1 418 5 is_stmt 1 view .LVU344
+ 1236              		.loc 1 418 10 is_stmt 0 view .LVU345
+ 1237 0070 C344     		add	fp, fp, r8
+ 1238              	.LVL146:
+ 419:user/drivers/u8g2/u8g2_circle.c ****     if ( 2*err+xchg > 0 )
+ 1239              		.loc 1 419 5 is_stmt 1 view .LVU346
+ 1240              		.loc 1 419 15 is_stmt 0 view .LVU347
+ 1241 0072 0AEB4603 		add	r3, r10, r6, lsl #1
+ 1242              		.loc 1 419 8 view .LVU348
+ 1243 0076 002B     		cmp	r3, #0
+ 1244 0078 E9DD     		ble	.L66
+ 420:user/drivers/u8g2/u8g2_circle.c ****     {
+ 421:user/drivers/u8g2/u8g2_circle.c ****       x--;
+ 1245              		.loc 1 421 7 is_stmt 1 view .LVU349
+ 1246              		.loc 1 421 8 is_stmt 0 view .LVU350
+ 1247 007a 013D     		subs	r5, r5, #1
+ 1248              	.LVL147:
+ 1249              		.loc 1 421 8 view .LVU351
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 32
+
+
+ 1250 007c ADB2     		uxth	r5, r5
+ 1251              	.LVL148:
+ 422:user/drivers/u8g2/u8g2_circle.c ****       stopx -= ryry2;
+ 1252              		.loc 1 422 7 is_stmt 1 view .LVU352
+ 1253              		.loc 1 422 13 is_stmt 0 view .LVU353
+ 1254 007e 039B     		ldr	r3, [sp, #12]
+ 1255 0080 A3EB0903 		sub	r3, r3, r9
+ 1256 0084 0393     		str	r3, [sp, #12]
+ 1257              	.LVL149:
+ 423:user/drivers/u8g2/u8g2_circle.c ****       err += xchg;
+ 1258              		.loc 1 423 7 is_stmt 1 view .LVU354
+ 1259              		.loc 1 423 11 is_stmt 0 view .LVU355
+ 1260 0086 5644     		add	r6, r6, r10
+ 1261              	.LVL150:
+ 424:user/drivers/u8g2/u8g2_circle.c ****       xchg += ryry2;      
+ 1262              		.loc 1 424 7 is_stmt 1 view .LVU356
+ 1263              		.loc 1 424 12 is_stmt 0 view .LVU357
+ 1264 0088 CA44     		add	r10, r10, r9
+ 1265              	.LVL151:
+ 1266              		.loc 1 424 12 view .LVU358
+ 1267 008a E0E7     		b	.L66
+ 1268              	.L73:
+ 425:user/drivers/u8g2/u8g2_circle.c ****     }
+ 426:user/drivers/u8g2/u8g2_circle.c ****   }
+ 427:user/drivers/u8g2/u8g2_circle.c **** 
+ 428:user/drivers/u8g2/u8g2_circle.c ****   x = 0;
+ 429:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 430:user/drivers/u8g2/u8g2_circle.c ****   
+ 431:user/drivers/u8g2/u8g2_circle.c ****   xchg = ry;
+ 432:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 433:user/drivers/u8g2/u8g2_circle.c ****   
+ 434:user/drivers/u8g2/u8g2_circle.c ****   ychg = 1;
+ 435:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 1269              		.loc 1 435 8 view .LVU359
+ 1270 008c DDF82CA0 		ldr	r10, [sp, #44]
+ 1271              	.LVL152:
+ 428:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 1272              		.loc 1 428 3 is_stmt 1 view .LVU360
+ 429:user/drivers/u8g2/u8g2_circle.c ****   
+ 1273              		.loc 1 429 3 view .LVU361
+ 431:user/drivers/u8g2/u8g2_circle.c ****   xchg *= ry;
+ 1274              		.loc 1 431 3 view .LVU362
+ 432:user/drivers/u8g2/u8g2_circle.c ****   
+ 1275              		.loc 1 432 3 view .LVU363
+ 434:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 1276              		.loc 1 434 3 view .LVU364
+ 1277              		.loc 1 435 3 view .LVU365
+ 1278              		.loc 1 435 8 is_stmt 0 view .LVU366
+ 1279 0090 0A9B     		ldr	r3, [sp, #40]
+ 1280              	.LVL153:
+ 1281              		.loc 1 435 8 view .LVU367
+ 1282 0092 C3F10106 		rsb	r6, r3, #1
+ 1283              	.LVL154:
+ 436:user/drivers/u8g2/u8g2_circle.c ****   ychg -= ry;
+ 1284              		.loc 1 436 3 is_stmt 1 view .LVU368
+ 1285              		.loc 1 436 8 is_stmt 0 view .LVU369
+ 1286 0096 F61A     		subs	r6, r6, r3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 33
+
+
+ 1287              	.LVL155:
+ 437:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 1288              		.loc 1 437 3 is_stmt 1 view .LVU370
+ 1289              		.loc 1 437 8 is_stmt 0 view .LVU371
+ 1290 0098 099A     		ldr	r2, [sp, #36]
+ 1291 009a 02FB06F6 		mul	r6, r2, r6
+ 1292              	.LVL156:
+ 438:user/drivers/u8g2/u8g2_circle.c ****   ychg *= rx;
+ 1293              		.loc 1 438 3 is_stmt 1 view .LVU372
+ 1294              		.loc 1 438 8 is_stmt 0 view .LVU373
+ 1295 009e 02FB06F6 		mul	r6, r2, r6
+ 1296              	.LVL157:
+ 439:user/drivers/u8g2/u8g2_circle.c ****   
+ 440:user/drivers/u8g2/u8g2_circle.c ****   err = 0;
+ 1297              		.loc 1 440 3 is_stmt 1 view .LVU374
+ 441:user/drivers/u8g2/u8g2_circle.c ****   
+ 442:user/drivers/u8g2/u8g2_circle.c ****   stopx = 0;
+ 1298              		.loc 1 442 3 view .LVU375
+ 443:user/drivers/u8g2/u8g2_circle.c **** 
+ 444:user/drivers/u8g2/u8g2_circle.c ****   stopy = rxrx2;
+ 1299              		.loc 1 444 3 view .LVU376
+ 445:user/drivers/u8g2/u8g2_circle.c ****   stopy *= ry;
+ 1300              		.loc 1 445 3 view .LVU377
+ 1301              		.loc 1 445 9 is_stmt 0 view .LVU378
+ 1302 00a2 03FB08FB 		mul	fp, r3, r8
+ 1303              	.LVL158:
+ 446:user/drivers/u8g2/u8g2_circle.c ****   
+ 447:user/drivers/u8g2/u8g2_circle.c **** 
+ 448:user/drivers/u8g2/u8g2_circle.c ****   while( stopx <= stopy )
+ 1304              		.loc 1 448 3 is_stmt 1 view .LVU379
+ 442:user/drivers/u8g2/u8g2_circle.c **** 
+ 1305              		.loc 1 442 9 is_stmt 0 view .LVU380
+ 1306 00a6 0027     		movs	r7, #0
+ 440:user/drivers/u8g2/u8g2_circle.c ****   
+ 1307              		.loc 1 440 7 view .LVU381
+ 1308 00a8 3D46     		mov	r5, r7
+ 428:user/drivers/u8g2/u8g2_circle.c ****   y = ry;
+ 1309              		.loc 1 428 5 view .LVU382
+ 1310 00aa 3C46     		mov	r4, r7
+ 1311              	.LVL159:
+ 1312              	.L69:
+ 1313              		.loc 1 448 16 is_stmt 1 view .LVU383
+ 1314 00ac 5F45     		cmp	r7, fp
+ 1315 00ae 1BDC     		bgt	.L74
+ 449:user/drivers/u8g2/u8g2_circle.c ****   {
+ 450:user/drivers/u8g2/u8g2_circle.c ****     u8g2_draw_filled_ellipse_section(u8g2, x, y, x0, y0, option);
+ 1316              		.loc 1 450 5 view .LVU384
+ 1317 00b0 089B     		ldr	r3, [sp, #32]
+ 1318 00b2 0193     		str	r3, [sp, #4]
+ 1319 00b4 079B     		ldr	r3, [sp, #28]
+ 1320 00b6 0093     		str	r3, [sp]
+ 1321 00b8 069B     		ldr	r3, [sp, #24]
+ 1322 00ba 049A     		ldr	r2, [sp, #16]
+ 1323 00bc 2146     		mov	r1, r4
+ 1324 00be 0598     		ldr	r0, [sp, #20]
+ 1325 00c0 FFF7FEFF 		bl	u8g2_draw_filled_ellipse_section
+ 1326              	.LVL160:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 34
+
+
+ 451:user/drivers/u8g2/u8g2_circle.c ****     x++;
+ 1327              		.loc 1 451 5 view .LVU385
+ 1328              		.loc 1 451 6 is_stmt 0 view .LVU386
+ 1329 00c4 0134     		adds	r4, r4, #1
+ 1330              	.LVL161:
+ 1331              		.loc 1 451 6 view .LVU387
+ 1332 00c6 A4B2     		uxth	r4, r4
+ 1333              	.LVL162:
+ 452:user/drivers/u8g2/u8g2_circle.c ****     stopx += ryry2;
+ 1334              		.loc 1 452 5 is_stmt 1 view .LVU388
+ 1335              		.loc 1 452 11 is_stmt 0 view .LVU389
+ 1336 00c8 4F44     		add	r7, r7, r9
+ 1337              	.LVL163:
+ 453:user/drivers/u8g2/u8g2_circle.c ****     err += xchg;
+ 1338              		.loc 1 453 5 is_stmt 1 view .LVU390
+ 1339              		.loc 1 453 9 is_stmt 0 view .LVU391
+ 1340 00ca 5544     		add	r5, r5, r10
+ 1341              	.LVL164:
+ 454:user/drivers/u8g2/u8g2_circle.c ****     xchg += ryry2;
+ 1342              		.loc 1 454 5 is_stmt 1 view .LVU392
+ 1343              		.loc 1 454 10 is_stmt 0 view .LVU393
+ 1344 00cc CA44     		add	r10, r10, r9
+ 1345              	.LVL165:
+ 455:user/drivers/u8g2/u8g2_circle.c ****     if ( 2*err+ychg > 0 )
+ 1346              		.loc 1 455 5 is_stmt 1 view .LVU394
+ 1347              		.loc 1 455 15 is_stmt 0 view .LVU395
+ 1348 00ce 06EB4503 		add	r3, r6, r5, lsl #1
+ 1349              		.loc 1 455 8 view .LVU396
+ 1350 00d2 002B     		cmp	r3, #0
+ 1351 00d4 EADD     		ble	.L69
+ 456:user/drivers/u8g2/u8g2_circle.c ****     {
+ 457:user/drivers/u8g2/u8g2_circle.c ****       y--;
+ 1352              		.loc 1 457 7 is_stmt 1 view .LVU397
+ 1353              		.loc 1 457 8 is_stmt 0 view .LVU398
+ 1354 00d6 049B     		ldr	r3, [sp, #16]
+ 1355 00d8 013B     		subs	r3, r3, #1
+ 1356 00da 9BB2     		uxth	r3, r3
+ 1357 00dc 0493     		str	r3, [sp, #16]
+ 1358              	.LVL166:
+ 458:user/drivers/u8g2/u8g2_circle.c ****       stopy -= rxrx2;
+ 1359              		.loc 1 458 7 is_stmt 1 view .LVU399
+ 1360              		.loc 1 458 13 is_stmt 0 view .LVU400
+ 1361 00de ABEB080B 		sub	fp, fp, r8
+ 1362              	.LVL167:
+ 459:user/drivers/u8g2/u8g2_circle.c ****       err += ychg;
+ 1363              		.loc 1 459 7 is_stmt 1 view .LVU401
+ 1364              		.loc 1 459 11 is_stmt 0 view .LVU402
+ 1365 00e2 3544     		add	r5, r5, r6
+ 1366              	.LVL168:
+ 460:user/drivers/u8g2/u8g2_circle.c ****       ychg += rxrx2;
+ 1367              		.loc 1 460 7 is_stmt 1 view .LVU403
+ 1368              		.loc 1 460 12 is_stmt 0 view .LVU404
+ 1369 00e4 4644     		add	r6, r6, r8
+ 1370              	.LVL169:
+ 1371              		.loc 1 460 12 view .LVU405
+ 1372 00e6 E1E7     		b	.L69
+ 1373              	.L74:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 35
+
+
+ 461:user/drivers/u8g2/u8g2_circle.c ****     }
+ 462:user/drivers/u8g2/u8g2_circle.c ****   }
+ 463:user/drivers/u8g2/u8g2_circle.c ****   
+ 464:user/drivers/u8g2/u8g2_circle.c **** }
+ 1374              		.loc 1 464 1 view .LVU406
+ 1375 00e8 0DB0     		add	sp, sp, #52
+ 1376              	.LCFI15:
+ 1377              		.cfi_def_cfa_offset 36
+ 1378              		@ sp needed
+ 1379 00ea BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1380              		.loc 1 464 1 view .LVU407
+ 1381              		.cfi_endproc
+ 1382              	.LFE10:
+ 1384              		.section	.text.u8g2_DrawCircle,"ax",%progbits
+ 1385              		.align	1
+ 1386              		.global	u8g2_DrawCircle
+ 1387              		.syntax unified
+ 1388              		.thumb
+ 1389              		.thumb_func
+ 1391              	u8g2_DrawCircle:
+ 1392              	.LVL170:
+ 1393              	.LFB2:
+ 110:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1394              		.loc 1 110 1 is_stmt 1 view -0
+ 1395              		.cfi_startproc
+ 1396              		@ args = 4, pretend = 0, frame = 0
+ 1397              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1398              		.loc 1 110 1 is_stmt 0 view .LVU409
+ 1399 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1400              	.LCFI16:
+ 1401              		.cfi_def_cfa_offset 24
+ 1402              		.cfi_offset 4, -24
+ 1403              		.cfi_offset 5, -20
+ 1404              		.cfi_offset 6, -16
+ 1405              		.cfi_offset 7, -12
+ 1406              		.cfi_offset 8, -8
+ 1407              		.cfi_offset 14, -4
+ 1408 0004 82B0     		sub	sp, sp, #8
+ 1409              	.LCFI17:
+ 1410              		.cfi_def_cfa_offset 32
+ 1411 0006 8046     		mov	r8, r0
+ 1412 0008 0E46     		mov	r6, r1
+ 1413 000a 1746     		mov	r7, r2
+ 1414 000c 1D46     		mov	r5, r3
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1415              		.loc 1 114 5 is_stmt 1 view .LVU410
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1416              		.loc 1 114 54 is_stmt 0 view .LVU411
+ 1417 000e CB18     		adds	r3, r1, r3
+ 1418              	.LVL171:
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1419              		.loc 1 114 54 view .LVU412
+ 1420 0010 9BB2     		uxth	r3, r3
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1421              		.loc 1 114 64 view .LVU413
+ 1422 0012 AC18     		adds	r4, r5, r2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 36
+
+
+ 1423 0014 A4B2     		uxth	r4, r4
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1424              		.loc 1 114 10 view .LVU414
+ 1425 0016 0133     		adds	r3, r3, #1
+ 1426 0018 521B     		subs	r2, r2, r5
+ 1427              	.LVL172:
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1428              		.loc 1 114 10 view .LVU415
+ 1429 001a 491B     		subs	r1, r1, r5
+ 1430              	.LVL173:
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1431              		.loc 1 114 10 view .LVU416
+ 1432 001c 0134     		adds	r4, r4, #1
+ 1433 001e A4B2     		uxth	r4, r4
+ 1434 0020 0094     		str	r4, [sp]
+ 1435 0022 9BB2     		uxth	r3, r3
+ 1436 0024 92B2     		uxth	r2, r2
+ 1437 0026 89B2     		uxth	r1, r1
+ 1438 0028 FFF7FEFF 		bl	u8g2_IsIntersection
+ 1439              	.LVL174:
+ 114:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1440              		.loc 1 114 8 view .LVU417
+ 1441 002c 10B9     		cbnz	r0, .L78
+ 1442              	.L75:
+ 122:user/drivers/u8g2/u8g2_circle.c **** 
+ 1443              		.loc 1 122 1 view .LVU418
+ 1444 002e 02B0     		add	sp, sp, #8
+ 1445              	.LCFI18:
+ 1446              		.cfi_remember_state
+ 1447              		.cfi_def_cfa_offset 24
+ 1448              		@ sp needed
+ 1449 0030 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1450              	.LVL175:
+ 1451              	.L78:
+ 1452              	.LCFI19:
+ 1453              		.cfi_restore_state
+ 121:user/drivers/u8g2/u8g2_circle.c **** }
+ 1454              		.loc 1 121 3 is_stmt 1 view .LVU419
+ 1455 0034 9DF82030 		ldrb	r3, [sp, #32]	@ zero_extendqisi2
+ 1456 0038 0093     		str	r3, [sp]
+ 1457 003a 2B46     		mov	r3, r5
+ 1458 003c 3A46     		mov	r2, r7
+ 1459 003e 3146     		mov	r1, r6
+ 1460 0040 4046     		mov	r0, r8
+ 1461 0042 FFF7FEFF 		bl	u8g2_draw_circle
+ 1462              	.LVL176:
+ 1463 0046 F2E7     		b	.L75
+ 1464              		.cfi_endproc
+ 1465              	.LFE2:
+ 1467              		.section	.text.u8g2_DrawDisc,"ax",%progbits
+ 1468              		.align	1
+ 1469              		.global	u8g2_DrawDisc
+ 1470              		.syntax unified
+ 1471              		.thumb
+ 1472              		.thumb_func
+ 1474              	u8g2_DrawDisc:
+ 1475              	.LVL177:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 37
+
+
+ 1476              	.LFB5:
+ 196:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1477              		.loc 1 196 1 view -0
+ 1478              		.cfi_startproc
+ 1479              		@ args = 4, pretend = 0, frame = 0
+ 1480              		@ frame_needed = 0, uses_anonymous_args = 0
+ 196:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1481              		.loc 1 196 1 is_stmt 0 view .LVU421
+ 1482 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1483              	.LCFI20:
+ 1484              		.cfi_def_cfa_offset 24
+ 1485              		.cfi_offset 4, -24
+ 1486              		.cfi_offset 5, -20
+ 1487              		.cfi_offset 6, -16
+ 1488              		.cfi_offset 7, -12
+ 1489              		.cfi_offset 8, -8
+ 1490              		.cfi_offset 14, -4
+ 1491 0004 82B0     		sub	sp, sp, #8
+ 1492              	.LCFI21:
+ 1493              		.cfi_def_cfa_offset 32
+ 1494 0006 8046     		mov	r8, r0
+ 1495 0008 0E46     		mov	r6, r1
+ 1496 000a 1746     		mov	r7, r2
+ 1497 000c 1D46     		mov	r5, r3
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1498              		.loc 1 200 5 is_stmt 1 view .LVU422
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1499              		.loc 1 200 54 is_stmt 0 view .LVU423
+ 1500 000e CB18     		adds	r3, r1, r3
+ 1501              	.LVL178:
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1502              		.loc 1 200 54 view .LVU424
+ 1503 0010 9BB2     		uxth	r3, r3
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1504              		.loc 1 200 64 view .LVU425
+ 1505 0012 AC18     		adds	r4, r5, r2
+ 1506 0014 A4B2     		uxth	r4, r4
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1507              		.loc 1 200 10 view .LVU426
+ 1508 0016 0133     		adds	r3, r3, #1
+ 1509 0018 521B     		subs	r2, r2, r5
+ 1510              	.LVL179:
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1511              		.loc 1 200 10 view .LVU427
+ 1512 001a 491B     		subs	r1, r1, r5
+ 1513              	.LVL180:
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1514              		.loc 1 200 10 view .LVU428
+ 1515 001c 0134     		adds	r4, r4, #1
+ 1516 001e A4B2     		uxth	r4, r4
+ 1517 0020 0094     		str	r4, [sp]
+ 1518 0022 9BB2     		uxth	r3, r3
+ 1519 0024 92B2     		uxth	r2, r2
+ 1520 0026 89B2     		uxth	r1, r1
+ 1521 0028 FFF7FEFF 		bl	u8g2_IsIntersection
+ 1522              	.LVL181:
+ 200:user/drivers/u8g2/u8g2_circle.c ****       return;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 38
+
+
+ 1523              		.loc 1 200 8 view .LVU429
+ 1524 002c 10B9     		cbnz	r0, .L82
+ 1525              	.L79:
+ 207:user/drivers/u8g2/u8g2_circle.c **** 
+ 1526              		.loc 1 207 1 view .LVU430
+ 1527 002e 02B0     		add	sp, sp, #8
+ 1528              	.LCFI22:
+ 1529              		.cfi_remember_state
+ 1530              		.cfi_def_cfa_offset 24
+ 1531              		@ sp needed
+ 1532 0030 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1533              	.LVL182:
+ 1534              	.L82:
+ 1535              	.LCFI23:
+ 1536              		.cfi_restore_state
+ 206:user/drivers/u8g2/u8g2_circle.c **** }
+ 1537              		.loc 1 206 3 is_stmt 1 view .LVU431
+ 1538 0034 9DF82030 		ldrb	r3, [sp, #32]	@ zero_extendqisi2
+ 1539 0038 0093     		str	r3, [sp]
+ 1540 003a 2B46     		mov	r3, r5
+ 1541 003c 3A46     		mov	r2, r7
+ 1542 003e 3146     		mov	r1, r6
+ 1543 0040 4046     		mov	r0, r8
+ 1544 0042 FFF7FEFF 		bl	u8g2_draw_disc
+ 1545              	.LVL183:
+ 1546 0046 F2E7     		b	.L79
+ 1547              		.cfi_endproc
+ 1548              	.LFE5:
+ 1550              		.section	.text.u8g2_DrawEllipse,"ax",%progbits
+ 1551              		.align	1
+ 1552              		.global	u8g2_DrawEllipse
+ 1553              		.syntax unified
+ 1554              		.thumb
+ 1555              		.thumb_func
+ 1557              	u8g2_DrawEllipse:
+ 1558              	.LVL184:
+ 1559              	.LFB8:
+ 334:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1560              		.loc 1 334 1 view -0
+ 1561              		.cfi_startproc
+ 1562              		@ args = 8, pretend = 0, frame = 0
+ 1563              		@ frame_needed = 0, uses_anonymous_args = 0
+ 334:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 1564              		.loc 1 334 1 is_stmt 0 view .LVU433
+ 1565 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 1566              	.LCFI24:
+ 1567              		.cfi_def_cfa_offset 28
+ 1568              		.cfi_offset 4, -28
+ 1569              		.cfi_offset 5, -24
+ 1570              		.cfi_offset 6, -20
+ 1571              		.cfi_offset 7, -16
+ 1572              		.cfi_offset 8, -12
+ 1573              		.cfi_offset 9, -8
+ 1574              		.cfi_offset 14, -4
+ 1575 0004 83B0     		sub	sp, sp, #12
+ 1576              	.LCFI25:
+ 1577              		.cfi_def_cfa_offset 40
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 39
+
+
+ 1578 0006 8046     		mov	r8, r0
+ 1579 0008 0D46     		mov	r5, r1
+ 1580 000a 1646     		mov	r6, r2
+ 1581 000c 1F46     		mov	r7, r3
+ 1582 000e BDF82890 		ldrh	r9, [sp, #40]
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1583              		.loc 1 338 5 is_stmt 1 view .LVU434
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1584              		.loc 1 338 52 is_stmt 0 view .LVU435
+ 1585 0012 CB18     		adds	r3, r1, r3
+ 1586              	.LVL185:
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1587              		.loc 1 338 52 view .LVU436
+ 1588 0014 9BB2     		uxth	r3, r3
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1589              		.loc 1 338 61 view .LVU437
+ 1590 0016 02EB0904 		add	r4, r2, r9
+ 1591 001a A4B2     		uxth	r4, r4
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1592              		.loc 1 338 10 view .LVU438
+ 1593 001c 0133     		adds	r3, r3, #1
+ 1594 001e A2EB0902 		sub	r2, r2, r9
+ 1595              	.LVL186:
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1596              		.loc 1 338 10 view .LVU439
+ 1597 0022 C91B     		subs	r1, r1, r7
+ 1598              	.LVL187:
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1599              		.loc 1 338 10 view .LVU440
+ 1600 0024 0134     		adds	r4, r4, #1
+ 1601 0026 A4B2     		uxth	r4, r4
+ 1602 0028 0094     		str	r4, [sp]
+ 1603 002a 9BB2     		uxth	r3, r3
+ 1604 002c 92B2     		uxth	r2, r2
+ 1605 002e 89B2     		uxth	r1, r1
+ 1606 0030 FFF7FEFF 		bl	u8g2_IsIntersection
+ 1607              	.LVL188:
+ 338:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 1608              		.loc 1 338 8 view .LVU441
+ 1609 0034 10B9     		cbnz	r0, .L86
+ 1610              	.L83:
+ 344:user/drivers/u8g2/u8g2_circle.c **** 
+ 1611              		.loc 1 344 1 view .LVU442
+ 1612 0036 03B0     		add	sp, sp, #12
+ 1613              	.LCFI26:
+ 1614              		.cfi_remember_state
+ 1615              		.cfi_def_cfa_offset 28
+ 1616              		@ sp needed
+ 1617 0038 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 1618              	.LVL189:
+ 1619              	.L86:
+ 1620              	.LCFI27:
+ 1621              		.cfi_restore_state
+ 343:user/drivers/u8g2/u8g2_circle.c **** }
+ 1622              		.loc 1 343 3 is_stmt 1 view .LVU443
+ 1623 003c 9DF82C30 		ldrb	r3, [sp, #44]	@ zero_extendqisi2
+ 1624 0040 0193     		str	r3, [sp, #4]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 40
+
+
+ 1625 0042 CDF80090 		str	r9, [sp]
+ 1626 0046 3B46     		mov	r3, r7
+ 1627 0048 3246     		mov	r2, r6
+ 1628 004a 2946     		mov	r1, r5
+ 1629 004c 4046     		mov	r0, r8
+ 1630 004e FFF7FEFF 		bl	u8g2_draw_ellipse
+ 1631              	.LVL190:
+ 1632 0052 F0E7     		b	.L83
+ 1633              		.cfi_endproc
+ 1634              	.LFE8:
+ 1636              		.section	.text.u8g2_DrawFilledEllipse,"ax",%progbits
+ 1637              		.align	1
+ 1638              		.global	u8g2_DrawFilledEllipse
+ 1639              		.syntax unified
+ 1640              		.thumb
+ 1641              		.thumb_func
+ 1643              	u8g2_DrawFilledEllipse:
+ 1644              	.LVL191:
+ 1645              	.LFB11:
+ 465:user/drivers/u8g2/u8g2_circle.c **** 
+ 466:user/drivers/u8g2/u8g2_circle.c **** void u8g2_DrawFilledEllipse(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rx, u8g2_uint
+ 467:user/drivers/u8g2/u8g2_circle.c **** {
+ 1646              		.loc 1 467 1 view -0
+ 1647              		.cfi_startproc
+ 1648              		@ args = 8, pretend = 0, frame = 0
+ 1649              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1650              		.loc 1 467 1 is_stmt 0 view .LVU445
+ 1651 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 1652              	.LCFI28:
+ 1653              		.cfi_def_cfa_offset 28
+ 1654              		.cfi_offset 4, -28
+ 1655              		.cfi_offset 5, -24
+ 1656              		.cfi_offset 6, -20
+ 1657              		.cfi_offset 7, -16
+ 1658              		.cfi_offset 8, -12
+ 1659              		.cfi_offset 9, -8
+ 1660              		.cfi_offset 14, -4
+ 1661 0004 83B0     		sub	sp, sp, #12
+ 1662              	.LCFI29:
+ 1663              		.cfi_def_cfa_offset 40
+ 1664 0006 8046     		mov	r8, r0
+ 1665 0008 0D46     		mov	r5, r1
+ 1666 000a 1646     		mov	r6, r2
+ 1667 000c 1F46     		mov	r7, r3
+ 1668 000e BDF82890 		ldrh	r9, [sp, #40]
+ 468:user/drivers/u8g2/u8g2_circle.c ****   /* check for bounding box */
+ 469:user/drivers/u8g2/u8g2_circle.c **** #ifdef U8G2_WITH_INTERSECTION
+ 470:user/drivers/u8g2/u8g2_circle.c ****   {
+ 471:user/drivers/u8g2/u8g2_circle.c ****     if ( u8g2_IsIntersection(u8g2, x0-rx, y0-ry, x0+rx+1, y0+ry+1) == 0 ) 
+ 1669              		.loc 1 471 5 is_stmt 1 view .LVU446
+ 1670              		.loc 1 471 52 is_stmt 0 view .LVU447
+ 1671 0012 CB18     		adds	r3, r1, r3
+ 1672              	.LVL192:
+ 1673              		.loc 1 471 52 view .LVU448
+ 1674 0014 9BB2     		uxth	r3, r3
+ 1675              		.loc 1 471 61 view .LVU449
+ 1676 0016 02EB0904 		add	r4, r2, r9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 41
+
+
+ 1677 001a A4B2     		uxth	r4, r4
+ 1678              		.loc 1 471 10 view .LVU450
+ 1679 001c 0133     		adds	r3, r3, #1
+ 1680 001e A2EB0902 		sub	r2, r2, r9
+ 1681              	.LVL193:
+ 1682              		.loc 1 471 10 view .LVU451
+ 1683 0022 C91B     		subs	r1, r1, r7
+ 1684              	.LVL194:
+ 1685              		.loc 1 471 10 view .LVU452
+ 1686 0024 0134     		adds	r4, r4, #1
+ 1687 0026 A4B2     		uxth	r4, r4
+ 1688 0028 0094     		str	r4, [sp]
+ 1689 002a 9BB2     		uxth	r3, r3
+ 1690 002c 92B2     		uxth	r2, r2
+ 1691 002e 89B2     		uxth	r1, r1
+ 1692 0030 FFF7FEFF 		bl	u8g2_IsIntersection
+ 1693              	.LVL195:
+ 1694              		.loc 1 471 8 view .LVU453
+ 1695 0034 10B9     		cbnz	r0, .L90
+ 1696              	.L87:
+ 472:user/drivers/u8g2/u8g2_circle.c ****       return;
+ 473:user/drivers/u8g2/u8g2_circle.c ****   }
+ 474:user/drivers/u8g2/u8g2_circle.c **** #endif /* U8G2_WITH_INTERSECTION */
+ 475:user/drivers/u8g2/u8g2_circle.c ****   
+ 476:user/drivers/u8g2/u8g2_circle.c ****   u8g2_draw_filled_ellipse(u8g2, x0, y0, rx, ry, option);
+ 477:user/drivers/u8g2/u8g2_circle.c **** }
+ 1697              		.loc 1 477 1 view .LVU454
+ 1698 0036 03B0     		add	sp, sp, #12
+ 1699              	.LCFI30:
+ 1700              		.cfi_remember_state
+ 1701              		.cfi_def_cfa_offset 28
+ 1702              		@ sp needed
+ 1703 0038 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 1704              	.LVL196:
+ 1705              	.L90:
+ 1706              	.LCFI31:
+ 1707              		.cfi_restore_state
+ 476:user/drivers/u8g2/u8g2_circle.c **** }
+ 1708              		.loc 1 476 3 is_stmt 1 view .LVU455
+ 1709 003c 9DF82C30 		ldrb	r3, [sp, #44]	@ zero_extendqisi2
+ 1710 0040 0193     		str	r3, [sp, #4]
+ 1711 0042 CDF80090 		str	r9, [sp]
+ 1712 0046 3B46     		mov	r3, r7
+ 1713 0048 3246     		mov	r2, r6
+ 1714 004a 2946     		mov	r1, r5
+ 1715 004c 4046     		mov	r0, r8
+ 1716 004e FFF7FEFF 		bl	u8g2_draw_filled_ellipse
+ 1717              	.LVL197:
+ 1718 0052 F0E7     		b	.L87
+ 1719              		.cfi_endproc
+ 1720              	.LFE11:
+ 1722              		.text
+ 1723              	.Letext0:
+ 1724              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 1725              		.file 3 "/usr/local/include/sys/_types/_int16_t.h"
+ 1726              		.file 4 "/usr/local/include/sys/_types/_int32_t.h"
+ 1727              		.file 5 "/usr/local/include/_types/_uint8_t.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 42
+
+
+ 1728              		.file 6 "/usr/local/include/_types/_uint16_t.h"
+ 1729              		.file 7 "/usr/local/include/_types/_uint32_t.h"
+ 1730              		.file 8 "user/drivers/u8g2/u8x8.h"
+ 1731              		.file 9 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s 			page 43
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_circle.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:21     .text.u8g2_draw_circle_section:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:26     .text.u8g2_draw_circle_section:00000000 u8g2_draw_circle_section
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:155    .text.u8g2_draw_circle:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:160    .text.u8g2_draw_circle:00000000 u8g2_draw_circle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:299    .text.u8g2_draw_ellipse_section:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:304    .text.u8g2_draw_ellipse_section:00000000 u8g2_draw_ellipse_section
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:402    .text.u8g2_draw_ellipse:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:407    .text.u8g2_draw_ellipse:00000000 u8g2_draw_ellipse
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:692    .text.u8g2_draw_disc_section:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:697    .text.u8g2_draw_disc_section:00000000 u8g2_draw_disc_section
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:840    .text.u8g2_draw_disc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:845    .text.u8g2_draw_disc:00000000 u8g2_draw_disc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:984    .text.u8g2_draw_filled_ellipse_section:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:989    .text.u8g2_draw_filled_ellipse_section:00000000 u8g2_draw_filled_ellipse_section
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1095   .text.u8g2_draw_filled_ellipse:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1100   .text.u8g2_draw_filled_ellipse:00000000 u8g2_draw_filled_ellipse
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1385   .text.u8g2_DrawCircle:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1391   .text.u8g2_DrawCircle:00000000 u8g2_DrawCircle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1468   .text.u8g2_DrawDisc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1474   .text.u8g2_DrawDisc:00000000 u8g2_DrawDisc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1551   .text.u8g2_DrawEllipse:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1557   .text.u8g2_DrawEllipse:00000000 u8g2_DrawEllipse
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1637   .text.u8g2_DrawFilledEllipse:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6gs9F5.s:1643   .text.u8g2_DrawFilledEllipse:00000000 u8g2_DrawFilledEllipse
+
+UNDEFINED SYMBOLS
+u8g2_DrawPixel
+u8g2_DrawVLine
+u8g2_IsIntersection

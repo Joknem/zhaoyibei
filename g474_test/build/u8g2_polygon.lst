@@ -1,0 +1,1735 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_polygon.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_polygon.c"
+  20              		.section	.text.pge_Next,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	pge_Next:
+  27              	.LVL0:
+  28              	.LFB0:
+   1:user/drivers/u8g2/u8g2_polygon.c **** /*
+   2:user/drivers/u8g2/u8g2_polygon.c **** 
+   3:user/drivers/u8g2/u8g2_polygon.c ****   u8g22_polygon.c
+   4:user/drivers/u8g2/u8g2_polygon.c **** 
+   5:user/drivers/u8g2/u8g2_polygon.c **** */	
+   6:user/drivers/u8g2/u8g2_polygon.c **** 
+   7:user/drivers/u8g2/u8g2_polygon.c **** 
+   8:user/drivers/u8g2/u8g2_polygon.c **** #include "u8g2.h"
+   9:user/drivers/u8g2/u8g2_polygon.c **** 
+  10:user/drivers/u8g2/u8g2_polygon.c **** 
+  11:user/drivers/u8g2/u8g2_polygon.c **** 
+  12:user/drivers/u8g2/u8g2_polygon.c **** 
+  13:user/drivers/u8g2/u8g2_polygon.c **** /*===========================================*/
+  14:user/drivers/u8g2/u8g2_polygon.c **** /* local definitions */
+  15:user/drivers/u8g2/u8g2_polygon.c **** 
+  16:user/drivers/u8g2/u8g2_polygon.c **** typedef int16_t pg_word_t;
+  17:user/drivers/u8g2/u8g2_polygon.c **** 
+  18:user/drivers/u8g2/u8g2_polygon.c **** 
+  19:user/drivers/u8g2/u8g2_polygon.c **** struct pg_point_struct
+  20:user/drivers/u8g2/u8g2_polygon.c **** {
+  21:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x;
+  22:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t y;
+  23:user/drivers/u8g2/u8g2_polygon.c **** };
+  24:user/drivers/u8g2/u8g2_polygon.c **** 
+  25:user/drivers/u8g2/u8g2_polygon.c **** typedef struct _pg_struct pg_struct;	/* forward declaration */
+  26:user/drivers/u8g2/u8g2_polygon.c **** 
+  27:user/drivers/u8g2/u8g2_polygon.c **** struct pg_edge_struct
+  28:user/drivers/u8g2/u8g2_polygon.c **** {
+  29:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x_direction;	/* 1, if x2 is greater than x1, -1 otherwise */
+  30:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t height;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 2
+
+
+  31:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t current_x_offset;
+  32:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t error_offset;
+  33:user/drivers/u8g2/u8g2_polygon.c ****   
+  34:user/drivers/u8g2/u8g2_polygon.c ****   /* --- line loop --- */
+  35:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t current_y;
+  36:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t max_y;
+  37:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t current_x;
+  38:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t error;
+  39:user/drivers/u8g2/u8g2_polygon.c **** 
+  40:user/drivers/u8g2/u8g2_polygon.c ****   /* --- outer loop --- */
+  41:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t (*next_idx_fn)(pg_struct *pg, uint8_t i);
+  42:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t curr_idx;
+  43:user/drivers/u8g2/u8g2_polygon.c **** };
+  44:user/drivers/u8g2/u8g2_polygon.c **** 
+  45:user/drivers/u8g2/u8g2_polygon.c **** /* maximum number of points in the polygon */
+  46:user/drivers/u8g2/u8g2_polygon.c **** /* can be redefined, but highest possible value is 254 */
+  47:user/drivers/u8g2/u8g2_polygon.c **** #define PG_MAX_POINTS 6
+  48:user/drivers/u8g2/u8g2_polygon.c **** 
+  49:user/drivers/u8g2/u8g2_polygon.c **** /* index numbers for the pge structures below */
+  50:user/drivers/u8g2/u8g2_polygon.c **** #define PG_LEFT 0
+  51:user/drivers/u8g2/u8g2_polygon.c **** #define PG_RIGHT 1
+  52:user/drivers/u8g2/u8g2_polygon.c **** 
+  53:user/drivers/u8g2/u8g2_polygon.c **** 
+  54:user/drivers/u8g2/u8g2_polygon.c **** struct _pg_struct
+  55:user/drivers/u8g2/u8g2_polygon.c **** {
+  56:user/drivers/u8g2/u8g2_polygon.c ****   struct pg_point_struct list[PG_MAX_POINTS];
+  57:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t cnt;
+  58:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t is_min_y_not_flat;
+  59:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t total_scan_line_cnt;
+  60:user/drivers/u8g2/u8g2_polygon.c ****   struct pg_edge_struct pge[2];	/* left and right line draw structures */
+  61:user/drivers/u8g2/u8g2_polygon.c **** };
+  62:user/drivers/u8g2/u8g2_polygon.c **** 
+  63:user/drivers/u8g2/u8g2_polygon.c **** 
+  64:user/drivers/u8g2/u8g2_polygon.c **** /*===========================================*/
+  65:user/drivers/u8g2/u8g2_polygon.c **** /* procedures, which should not be inlined (save as much flash ROM as possible */
+  66:user/drivers/u8g2/u8g2_polygon.c **** 
+  67:user/drivers/u8g2/u8g2_polygon.c **** #define PG_NOINLINE U8G2_NOINLINE
+  68:user/drivers/u8g2/u8g2_polygon.c **** 
+  69:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pge_Next(struct pg_edge_struct *pge) PG_NOINLINE;
+  70:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pg_inc(pg_struct *pg, uint8_t i) PG_NOINLINE;
+  71:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pg_dec(pg_struct *pg, uint8_t i) PG_NOINLINE;
+  72:user/drivers/u8g2/u8g2_polygon.c **** static void pg_expand_min_y(pg_struct *pg, pg_word_t min_y, uint8_t pge_idx) PG_NOINLINE;
+  73:user/drivers/u8g2/u8g2_polygon.c **** static void pg_line_init(pg_struct * const pg, uint8_t pge_index) PG_NOINLINE;
+  74:user/drivers/u8g2/u8g2_polygon.c **** 
+  75:user/drivers/u8g2/u8g2_polygon.c **** /*===========================================*/
+  76:user/drivers/u8g2/u8g2_polygon.c **** /* line draw algorithm */
+  77:user/drivers/u8g2/u8g2_polygon.c **** 
+  78:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pge_Next(struct pg_edge_struct *pge)
+  79:user/drivers/u8g2/u8g2_polygon.c **** {
+  29              		.loc 1 79 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  80:user/drivers/u8g2/u8g2_polygon.c ****   if ( pge->current_y >= pge->max_y )
+  34              		.loc 1 80 3 view .LVU1
+  35              		.loc 1 80 11 is_stmt 0 view .LVU2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 3
+
+
+  36 0000 B0F90810 		ldrsh	r1, [r0, #8]
+  37              		.loc 1 80 29 view .LVU3
+  38 0004 B0F90A30 		ldrsh	r3, [r0, #10]
+  39              		.loc 1 80 6 view .LVU4
+  40 0008 9942     		cmp	r1, r3
+  41 000a 1ADA     		bge	.L4
+  81:user/drivers/u8g2/u8g2_polygon.c ****     return 0;
+  82:user/drivers/u8g2/u8g2_polygon.c ****   
+  83:user/drivers/u8g2/u8g2_polygon.c ****   pge->current_x += pge->current_x_offset;
+  42              		.loc 1 83 3 is_stmt 1 view .LVU5
+  43              		.loc 1 83 6 is_stmt 0 view .LVU6
+  44 000c 8289     		ldrh	r2, [r0, #12]
+  45              		.loc 1 83 24 view .LVU7
+  46 000e 8388     		ldrh	r3, [r0, #4]
+  47              		.loc 1 83 18 view .LVU8
+  48 0010 1A44     		add	r2, r2, r3
+  49 0012 92B2     		uxth	r2, r2
+  50 0014 8281     		strh	r2, [r0, #12]	@ movhi
+  84:user/drivers/u8g2/u8g2_polygon.c ****   pge->error += pge->error_offset;
+  51              		.loc 1 84 3 is_stmt 1 view .LVU9
+  52              		.loc 1 84 6 is_stmt 0 view .LVU10
+  53 0016 C389     		ldrh	r3, [r0, #14]
+  54              		.loc 1 84 20 view .LVU11
+  55 0018 B0F806C0 		ldrh	ip, [r0, #6]
+  56              		.loc 1 84 14 view .LVU12
+  57 001c 6344     		add	r3, r3, ip
+  58 001e 1FFA83FC 		uxth	ip, r3
+  59 0022 1BB2     		sxth	r3, r3
+  60 0024 C381     		strh	r3, [r0, #14]	@ movhi
+  85:user/drivers/u8g2/u8g2_polygon.c ****   if ( pge->error > 0 )
+  61              		.loc 1 85 3 is_stmt 1 view .LVU13
+  62              		.loc 1 85 6 is_stmt 0 view .LVU14
+  63 0026 002B     		cmp	r3, #0
+  64 0028 07DD     		ble	.L3
+  86:user/drivers/u8g2/u8g2_polygon.c ****   {
+  87:user/drivers/u8g2/u8g2_polygon.c ****     pge->current_x += pge->x_direction;
+  65              		.loc 1 87 5 is_stmt 1 view .LVU15
+  66              		.loc 1 87 26 is_stmt 0 view .LVU16
+  67 002a 0388     		ldrh	r3, [r0]
+  68              		.loc 1 87 20 view .LVU17
+  69 002c 1A44     		add	r2, r2, r3
+  70 002e 8281     		strh	r2, [r0, #12]	@ movhi
+  88:user/drivers/u8g2/u8g2_polygon.c ****     pge->error -= pge->height;
+  71              		.loc 1 88 5 is_stmt 1 view .LVU18
+  72              		.loc 1 88 22 is_stmt 0 view .LVU19
+  73 0030 4388     		ldrh	r3, [r0, #2]
+  74              		.loc 1 88 16 view .LVU20
+  75 0032 ACEB030C 		sub	ip, ip, r3
+  76 0036 A0F80EC0 		strh	ip, [r0, #14]	@ movhi
+  77              	.L3:
+  89:user/drivers/u8g2/u8g2_polygon.c ****   }  
+  90:user/drivers/u8g2/u8g2_polygon.c ****   
+  91:user/drivers/u8g2/u8g2_polygon.c ****   pge->current_y++;
+  78              		.loc 1 91 3 is_stmt 1 view .LVU21
+  79              		.loc 1 91 17 is_stmt 0 view .LVU22
+  80 003a 0131     		adds	r1, r1, #1
+  81 003c 0181     		strh	r1, [r0, #8]	@ movhi
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 4
+
+
+  92:user/drivers/u8g2/u8g2_polygon.c ****   return 1;
+  82              		.loc 1 92 3 is_stmt 1 view .LVU23
+  83              		.loc 1 92 10 is_stmt 0 view .LVU24
+  84 003e 0120     		movs	r0, #1
+  85              	.LVL1:
+  86              		.loc 1 92 10 view .LVU25
+  87 0040 7047     		bx	lr
+  88              	.LVL2:
+  89              	.L4:
+  81:user/drivers/u8g2/u8g2_polygon.c ****   
+  90              		.loc 1 81 12 view .LVU26
+  91 0042 0020     		movs	r0, #0
+  92              	.LVL3:
+  93:user/drivers/u8g2/u8g2_polygon.c **** }
+  93              		.loc 1 93 1 view .LVU27
+  94 0044 7047     		bx	lr
+  95              		.cfi_endproc
+  96              	.LFE0:
+  98              		.section	.text.pge_Init,"ax",%progbits
+  99              		.align	1
+ 100              		.syntax unified
+ 101              		.thumb
+ 102              		.thumb_func
+ 104              	pge_Init:
+ 105              	.LVL4:
+ 106              	.LFB1:
+  94:user/drivers/u8g2/u8g2_polygon.c **** 
+  95:user/drivers/u8g2/u8g2_polygon.c **** /* assumes y2 > y1 */
+  96:user/drivers/u8g2/u8g2_polygon.c **** static void pge_Init(struct pg_edge_struct *pge, pg_word_t x1, pg_word_t y1, pg_word_t x2, pg_word_
+  97:user/drivers/u8g2/u8g2_polygon.c **** {
+ 107              		.loc 1 97 1 is_stmt 1 view -0
+ 108              		.cfi_startproc
+ 109              		@ args = 4, pretend = 0, frame = 0
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111              		.loc 1 97 1 is_stmt 0 view .LVU29
+ 112 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 113              	.LCFI0:
+ 114              		.cfi_def_cfa_offset 20
+ 115              		.cfi_offset 4, -20
+ 116              		.cfi_offset 5, -16
+ 117              		.cfi_offset 6, -12
+ 118              		.cfi_offset 7, -8
+ 119              		.cfi_offset 14, -4
+ 120 0002 BDF91460 		ldrsh	r6, [sp, #20]
+  98:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t dx = x2 - x1;
+ 121              		.loc 1 98 3 is_stmt 1 view .LVU30
+ 122              		.loc 1 98 21 is_stmt 0 view .LVU31
+ 123 0006 9BB2     		uxth	r3, r3
+ 124              		.loc 1 98 21 view .LVU32
+ 125 0008 1FFA81FC 		uxth	ip, r1
+ 126 000c A3EB0C0E 		sub	lr, r3, ip
+ 127              		.loc 1 98 13 view .LVU33
+ 128 0010 0FFA8EFE 		sxth	lr, lr
+ 129              	.LVL5:
+  99:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t width;
+ 130              		.loc 1 99 3 is_stmt 1 view .LVU34
+ 100:user/drivers/u8g2/u8g2_polygon.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 5
+
+
+ 101:user/drivers/u8g2/u8g2_polygon.c ****   pge->height = y2 - y1;
+ 131              		.loc 1 101 3 view .LVU35
+ 132              		.loc 1 101 20 is_stmt 0 view .LVU36
+ 133 0014 B7B2     		uxth	r7, r6
+ 134 0016 95B2     		uxth	r5, r2
+ 135 0018 7C1B     		subs	r4, r7, r5
+ 136 001a 24B2     		sxth	r4, r4
+ 137              		.loc 1 101 15 view .LVU37
+ 138 001c 4480     		strh	r4, [r0, #2]	@ movhi
+ 102:user/drivers/u8g2/u8g2_polygon.c ****   pge->max_y = y2;
+ 139              		.loc 1 102 3 is_stmt 1 view .LVU38
+ 140              		.loc 1 102 14 is_stmt 0 view .LVU39
+ 141 001e 4681     		strh	r6, [r0, #10]	@ movhi
+ 103:user/drivers/u8g2/u8g2_polygon.c ****   pge->current_y = y1;
+ 142              		.loc 1 103 3 is_stmt 1 view .LVU40
+ 143              		.loc 1 103 18 is_stmt 0 view .LVU41
+ 144 0020 0281     		strh	r2, [r0, #8]	@ movhi
+ 104:user/drivers/u8g2/u8g2_polygon.c ****   pge->current_x = x1;
+ 145              		.loc 1 104 3 is_stmt 1 view .LVU42
+ 146              		.loc 1 104 18 is_stmt 0 view .LVU43
+ 147 0022 8181     		strh	r1, [r0, #12]	@ movhi
+ 105:user/drivers/u8g2/u8g2_polygon.c **** 
+ 106:user/drivers/u8g2/u8g2_polygon.c ****   if ( dx >= 0 )
+ 148              		.loc 1 106 3 is_stmt 1 view .LVU44
+ 149              		.loc 1 106 6 is_stmt 0 view .LVU45
+ 150 0024 BEF1000F 		cmp	lr, #0
+ 151 0028 0EDB     		blt	.L6
+ 107:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 108:user/drivers/u8g2/u8g2_polygon.c ****     pge->x_direction = 1;
+ 152              		.loc 1 108 5 is_stmt 1 view .LVU46
+ 153              		.loc 1 108 22 is_stmt 0 view .LVU47
+ 154 002a 0123     		movs	r3, #1
+ 155              	.LVL6:
+ 156              		.loc 1 108 22 view .LVU48
+ 157 002c 0380     		strh	r3, [r0]	@ movhi
+ 109:user/drivers/u8g2/u8g2_polygon.c ****     width = dx;
+ 158              		.loc 1 109 5 is_stmt 1 view .LVU49
+ 159              	.LVL7:
+ 110:user/drivers/u8g2/u8g2_polygon.c ****     pge->error = 0;
+ 160              		.loc 1 110 5 view .LVU50
+ 161              		.loc 1 110 16 is_stmt 0 view .LVU51
+ 162 002e 0023     		movs	r3, #0
+ 163 0030 C381     		strh	r3, [r0, #14]	@ movhi
+ 109:user/drivers/u8g2/u8g2_polygon.c ****     width = dx;
+ 164              		.loc 1 109 11 view .LVU52
+ 165 0032 7346     		mov	r3, lr
+ 166              	.LVL8:
+ 167              	.L7:
+ 111:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 112:user/drivers/u8g2/u8g2_polygon.c ****   else
+ 113:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 114:user/drivers/u8g2/u8g2_polygon.c ****     pge->x_direction = -1;
+ 115:user/drivers/u8g2/u8g2_polygon.c ****     width = -dx;
+ 116:user/drivers/u8g2/u8g2_polygon.c ****     pge->error = 1 - pge->height;
+ 117:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 118:user/drivers/u8g2/u8g2_polygon.c ****   
+ 119:user/drivers/u8g2/u8g2_polygon.c ****   pge->current_x_offset = dx / pge->height;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 6
+
+
+ 168              		.loc 1 119 3 is_stmt 1 view .LVU53
+ 169              		.loc 1 119 30 is_stmt 0 view .LVU54
+ 170 0034 9EFBF4FE 		sdiv	lr, lr, r4
+ 171              	.LVL9:
+ 172              		.loc 1 119 25 view .LVU55
+ 173 0038 A0F804E0 		strh	lr, [r0, #4]	@ movhi
+ 120:user/drivers/u8g2/u8g2_polygon.c ****   pge->error_offset = width % pge->height;
+ 174              		.loc 1 120 3 is_stmt 1 view .LVU56
+ 175              		.loc 1 120 29 is_stmt 0 view .LVU57
+ 176 003c 93FBF4F2 		sdiv	r2, r3, r4
+ 177 0040 04FB1233 		mls	r3, r4, r2, r3
+ 178              	.LVL10:
+ 179              		.loc 1 120 21 view .LVU58
+ 180 0044 C380     		strh	r3, [r0, #6]	@ movhi
+ 121:user/drivers/u8g2/u8g2_polygon.c **** }
+ 181              		.loc 1 121 1 view .LVU59
+ 182 0046 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 183              	.LVL11:
+ 184              	.L6:
+ 114:user/drivers/u8g2/u8g2_polygon.c ****     width = -dx;
+ 185              		.loc 1 114 5 is_stmt 1 view .LVU60
+ 114:user/drivers/u8g2/u8g2_polygon.c ****     width = -dx;
+ 186              		.loc 1 114 22 is_stmt 0 view .LVU61
+ 187 0048 4FF6FF72 		movw	r2, #65535
+ 188              	.LVL12:
+ 114:user/drivers/u8g2/u8g2_polygon.c ****     width = -dx;
+ 189              		.loc 1 114 22 view .LVU62
+ 190 004c 0280     		strh	r2, [r0]	@ movhi
+ 115:user/drivers/u8g2/u8g2_polygon.c ****     pge->error = 1 - pge->height;
+ 191              		.loc 1 115 5 is_stmt 1 view .LVU63
+ 115:user/drivers/u8g2/u8g2_polygon.c ****     pge->error = 1 - pge->height;
+ 192              		.loc 1 115 11 is_stmt 0 view .LVU64
+ 193 004e ACEB0303 		sub	r3, ip, r3
+ 194 0052 1BB2     		sxth	r3, r3
+ 195              	.LVL13:
+ 116:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 196              		.loc 1 116 5 is_stmt 1 view .LVU65
+ 116:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 197              		.loc 1 116 20 is_stmt 0 view .LVU66
+ 198 0054 ED1B     		subs	r5, r5, r7
+ 199 0056 0135     		adds	r5, r5, #1
+ 116:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 200              		.loc 1 116 16 view .LVU67
+ 201 0058 C581     		strh	r5, [r0, #14]	@ movhi
+ 202 005a EBE7     		b	.L7
+ 203              		.cfi_endproc
+ 204              	.LFE1:
+ 206              		.section	.text.pg_inc,"ax",%progbits
+ 207              		.align	1
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	pg_inc:
+ 213              	.LVL14:
+ 214              	.LFB2:
+ 122:user/drivers/u8g2/u8g2_polygon.c **** 
+ 123:user/drivers/u8g2/u8g2_polygon.c **** /*===========================================*/
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 7
+
+
+ 124:user/drivers/u8g2/u8g2_polygon.c **** /* convex polygon algorithm */
+ 125:user/drivers/u8g2/u8g2_polygon.c **** 
+ 126:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pg_inc(pg_struct *pg, uint8_t i)
+ 127:user/drivers/u8g2/u8g2_polygon.c **** {
+ 215              		.loc 1 127 1 is_stmt 1 view -0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              		@ link register save eliminated.
+ 128:user/drivers/u8g2/u8g2_polygon.c ****     i++;
+ 220              		.loc 1 128 5 view .LVU69
+ 221              		.loc 1 128 6 is_stmt 0 view .LVU70
+ 222 0000 0131     		adds	r1, r1, #1
+ 223              	.LVL15:
+ 224              		.loc 1 128 6 view .LVU71
+ 225 0002 C9B2     		uxtb	r1, r1
+ 226              	.LVL16:
+ 129:user/drivers/u8g2/u8g2_polygon.c ****     if ( i >= pg->cnt )
+ 227              		.loc 1 129 5 is_stmt 1 view .LVU72
+ 228              		.loc 1 129 17 is_stmt 0 view .LVU73
+ 229 0004 037E     		ldrb	r3, [r0, #24]	@ zero_extendqisi2
+ 230              		.loc 1 129 8 view .LVU74
+ 231 0006 8B42     		cmp	r3, r1
+ 232 0008 00D8     		bhi	.L10
+ 130:user/drivers/u8g2/u8g2_polygon.c ****       i = 0;
+ 233              		.loc 1 130 9 view .LVU75
+ 234 000a 0021     		movs	r1, #0
+ 235              	.LVL17:
+ 236              	.L10:
+ 131:user/drivers/u8g2/u8g2_polygon.c ****     return i;
+ 237              		.loc 1 131 5 is_stmt 1 view .LVU76
+ 132:user/drivers/u8g2/u8g2_polygon.c **** }
+ 238              		.loc 1 132 1 is_stmt 0 view .LVU77
+ 239 000c 0846     		mov	r0, r1
+ 240              	.LVL18:
+ 241              		.loc 1 132 1 view .LVU78
+ 242 000e 7047     		bx	lr
+ 243              		.cfi_endproc
+ 244              	.LFE2:
+ 246              		.section	.text.pg_dec,"ax",%progbits
+ 247              		.align	1
+ 248              		.syntax unified
+ 249              		.thumb
+ 250              		.thumb_func
+ 252              	pg_dec:
+ 253              	.LVL19:
+ 254              	.LFB3:
+ 133:user/drivers/u8g2/u8g2_polygon.c **** 
+ 134:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pg_dec(pg_struct *pg, uint8_t i)
+ 135:user/drivers/u8g2/u8g2_polygon.c **** {
+ 255              		.loc 1 135 1 is_stmt 1 view -0
+ 256              		.cfi_startproc
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              		@ link register save eliminated.
+ 136:user/drivers/u8g2/u8g2_polygon.c ****     i--;
+ 260              		.loc 1 136 5 view .LVU80
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 8
+
+
+ 261              		.loc 1 136 6 is_stmt 0 view .LVU81
+ 262 0000 0139     		subs	r1, r1, #1
+ 263              	.LVL20:
+ 264              		.loc 1 136 6 view .LVU82
+ 265 0002 C9B2     		uxtb	r1, r1
+ 266              	.LVL21:
+ 137:user/drivers/u8g2/u8g2_polygon.c ****     if ( i >= pg->cnt )
+ 267              		.loc 1 137 5 is_stmt 1 view .LVU83
+ 268              		.loc 1 137 17 is_stmt 0 view .LVU84
+ 269 0004 037E     		ldrb	r3, [r0, #24]	@ zero_extendqisi2
+ 270              		.loc 1 137 8 view .LVU85
+ 271 0006 8B42     		cmp	r3, r1
+ 272 0008 01D8     		bhi	.L13
+ 138:user/drivers/u8g2/u8g2_polygon.c ****       i = pg->cnt-1;
+ 273              		.loc 1 138 7 is_stmt 1 view .LVU86
+ 274              		.loc 1 138 9 is_stmt 0 view .LVU87
+ 275 000a 013B     		subs	r3, r3, #1
+ 276 000c D9B2     		uxtb	r1, r3
+ 277              	.LVL22:
+ 278              	.L13:
+ 139:user/drivers/u8g2/u8g2_polygon.c ****     return i;
+ 279              		.loc 1 139 5 is_stmt 1 view .LVU88
+ 140:user/drivers/u8g2/u8g2_polygon.c **** }
+ 280              		.loc 1 140 1 is_stmt 0 view .LVU89
+ 281 000e 0846     		mov	r0, r1
+ 282              	.LVL23:
+ 283              		.loc 1 140 1 view .LVU90
+ 284 0010 7047     		bx	lr
+ 285              		.cfi_endproc
+ 286              	.LFE3:
+ 288              		.section	.text.pg_expand_min_y,"ax",%progbits
+ 289              		.align	1
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 294              	pg_expand_min_y:
+ 295              	.LVL24:
+ 296              	.LFB4:
+ 141:user/drivers/u8g2/u8g2_polygon.c **** 
+ 142:user/drivers/u8g2/u8g2_polygon.c **** static void pg_expand_min_y(pg_struct *pg, pg_word_t min_y, uint8_t pge_idx)
+ 143:user/drivers/u8g2/u8g2_polygon.c **** {
+ 297              		.loc 1 143 1 is_stmt 1 view -0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              		.loc 1 143 1 is_stmt 0 view .LVU92
+ 302 0000 70B5     		push	{r4, r5, r6, lr}
+ 303              	.LCFI1:
+ 304              		.cfi_def_cfa_offset 16
+ 305              		.cfi_offset 4, -16
+ 306              		.cfi_offset 5, -12
+ 307              		.cfi_offset 6, -8
+ 308              		.cfi_offset 14, -4
+ 309 0002 0446     		mov	r4, r0
+ 310 0004 0E46     		mov	r6, r1
+ 311 0006 1546     		mov	r5, r2
+ 144:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t i = pg->pge[pge_idx].curr_idx;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 9
+
+
+ 312              		.loc 1 144 3 is_stmt 1 view .LVU93
+ 313              		.loc 1 144 11 is_stmt 0 view .LVU94
+ 314 0008 02EB4203 		add	r3, r2, r2, lsl #1
+ 315 000c 00EBC303 		add	r3, r0, r3, lsl #3
+ 316 0010 93F83010 		ldrb	r1, [r3, #48]	@ zero_extendqisi2
+ 317              	.LVL25:
+ 318              		.loc 1 144 11 view .LVU95
+ 319 0014 05E0     		b	.L16
+ 320              	.LVL26:
+ 321              	.L18:
+ 145:user/drivers/u8g2/u8g2_polygon.c ****   for(;;)
+ 146:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 147:user/drivers/u8g2/u8g2_polygon.c ****     i = pg->pge[pge_idx].next_idx_fn(pg, i);
+ 148:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->list[i].y != min_y )
+ 149:user/drivers/u8g2/u8g2_polygon.c ****       break;	
+ 150:user/drivers/u8g2/u8g2_polygon.c ****     pg->pge[pge_idx].curr_idx = i;
+ 322              		.loc 1 150 5 is_stmt 1 view .LVU96
+ 323              		.loc 1 150 31 is_stmt 0 view .LVU97
+ 324 0016 05EB4503 		add	r3, r5, r5, lsl #1
+ 325 001a 04EBC303 		add	r3, r4, r3, lsl #3
+ 326 001e 83F83000 		strb	r0, [r3, #48]
+ 145:user/drivers/u8g2/u8g2_polygon.c ****   for(;;)
+ 327              		.loc 1 145 3 is_stmt 1 view .LVU98
+ 328              	.LVL27:
+ 329              	.L16:
+ 145:user/drivers/u8g2/u8g2_polygon.c ****   for(;;)
+ 330              		.loc 1 145 3 view .LVU99
+ 147:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->list[i].y != min_y )
+ 331              		.loc 1 147 5 view .LVU100
+ 147:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->list[i].y != min_y )
+ 332              		.loc 1 147 25 is_stmt 0 view .LVU101
+ 333 0022 05EB4503 		add	r3, r5, r5, lsl #1
+ 334 0026 04EBC303 		add	r3, r4, r3, lsl #3
+ 335 002a DB6A     		ldr	r3, [r3, #44]
+ 147:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->list[i].y != min_y )
+ 336              		.loc 1 147 9 view .LVU102
+ 337 002c 2046     		mov	r0, r4
+ 338 002e 9847     		blx	r3
+ 339              	.LVL28:
+ 147:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->list[i].y != min_y )
+ 340              		.loc 1 147 9 view .LVU103
+ 341 0030 0146     		mov	r1, r0
+ 342              	.LVL29:
+ 148:user/drivers/u8g2/u8g2_polygon.c ****       break;	
+ 343              		.loc 1 148 5 is_stmt 1 view .LVU104
+ 148:user/drivers/u8g2/u8g2_polygon.c ****       break;	
+ 344              		.loc 1 148 21 is_stmt 0 view .LVU105
+ 345 0032 04EB8003 		add	r3, r4, r0, lsl #2
+ 346 0036 B3F90230 		ldrsh	r3, [r3, #2]
+ 148:user/drivers/u8g2/u8g2_polygon.c ****       break;	
+ 347              		.loc 1 148 8 view .LVU106
+ 348 003a B342     		cmp	r3, r6
+ 349 003c EBD0     		beq	.L18
+ 151:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 152:user/drivers/u8g2/u8g2_polygon.c **** }
+ 350              		.loc 1 152 1 view .LVU107
+ 351 003e 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 10
+
+
+ 352              		.loc 1 152 1 view .LVU108
+ 353              		.cfi_endproc
+ 354              	.LFE4:
+ 356              		.section	.text.pg_prepare,"ax",%progbits
+ 357              		.align	1
+ 358              		.syntax unified
+ 359              		.thumb
+ 360              		.thumb_func
+ 362              	pg_prepare:
+ 363              	.LVL30:
+ 364              	.LFB5:
+ 153:user/drivers/u8g2/u8g2_polygon.c **** 
+ 154:user/drivers/u8g2/u8g2_polygon.c **** static uint8_t pg_prepare(pg_struct *pg)
+ 155:user/drivers/u8g2/u8g2_polygon.c **** {
+ 365              		.loc 1 155 1 is_stmt 1 view -0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              		.loc 1 155 1 is_stmt 0 view .LVU110
+ 370 0000 38B5     		push	{r3, r4, r5, lr}
+ 371              	.LCFI2:
+ 372              		.cfi_def_cfa_offset 16
+ 373              		.cfi_offset 3, -16
+ 374              		.cfi_offset 4, -12
+ 375              		.cfi_offset 5, -8
+ 376              		.cfi_offset 14, -4
+ 377 0002 0446     		mov	r4, r0
+ 156:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t max_y;
+ 378              		.loc 1 156 3 is_stmt 1 view .LVU111
+ 157:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t min_y;
+ 379              		.loc 1 157 3 view .LVU112
+ 158:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t i;
+ 380              		.loc 1 158 3 view .LVU113
+ 159:user/drivers/u8g2/u8g2_polygon.c **** 
+ 160:user/drivers/u8g2/u8g2_polygon.c ****   /* setup the next index procedures */
+ 161:user/drivers/u8g2/u8g2_polygon.c ****   pg->pge[PG_RIGHT].next_idx_fn = pg_inc;
+ 381              		.loc 1 161 3 view .LVU114
+ 382              		.loc 1 161 33 is_stmt 0 view .LVU115
+ 383 0004 264B     		ldr	r3, .L32
+ 384 0006 4364     		str	r3, [r0, #68]
+ 162:user/drivers/u8g2/u8g2_polygon.c ****   pg->pge[PG_LEFT].next_idx_fn = pg_dec;
+ 385              		.loc 1 162 3 is_stmt 1 view .LVU116
+ 386              		.loc 1 162 32 is_stmt 0 view .LVU117
+ 387 0008 264B     		ldr	r3, .L32+4
+ 388 000a C362     		str	r3, [r0, #44]
+ 163:user/drivers/u8g2/u8g2_polygon.c ****   
+ 164:user/drivers/u8g2/u8g2_polygon.c ****   /* search for highest and lowest point */
+ 165:user/drivers/u8g2/u8g2_polygon.c ****   max_y = pg->list[0].y;
+ 389              		.loc 1 165 3 is_stmt 1 view .LVU118
+ 390              		.loc 1 165 9 is_stmt 0 view .LVU119
+ 391 000c B0F90210 		ldrsh	r1, [r0, #2]
+ 392              	.LVL31:
+ 166:user/drivers/u8g2/u8g2_polygon.c ****   min_y = pg->list[0].y;
+ 393              		.loc 1 166 3 is_stmt 1 view .LVU120
+ 167:user/drivers/u8g2/u8g2_polygon.c ****   pg->pge[PG_LEFT].curr_idx = 0;
+ 394              		.loc 1 167 3 view .LVU121
+ 395              		.loc 1 167 29 is_stmt 0 view .LVU122
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 11
+
+
+ 396 0010 0023     		movs	r3, #0
+ 397 0012 80F83030 		strb	r3, [r0, #48]
+ 168:user/drivers/u8g2/u8g2_polygon.c ****   for( i = 1; i < pg->cnt; i++ )
+ 398              		.loc 1 168 3 is_stmt 1 view .LVU123
+ 399              	.LVL32:
+ 166:user/drivers/u8g2/u8g2_polygon.c ****   min_y = pg->list[0].y;
+ 400              		.loc 1 166 9 is_stmt 0 view .LVU124
+ 401 0016 0D46     		mov	r5, r1
+ 402              		.loc 1 168 10 view .LVU125
+ 403 0018 0123     		movs	r3, #1
+ 404              		.loc 1 168 3 view .LVU126
+ 405 001a 01E0     		b	.L20
+ 406              	.LVL33:
+ 407              	.L22:
+ 408              		.loc 1 168 29 is_stmt 1 discriminator 2 view .LVU127
+ 409 001c 0133     		adds	r3, r3, #1
+ 410              	.LVL34:
+ 411              		.loc 1 168 29 is_stmt 0 discriminator 2 view .LVU128
+ 412 001e DBB2     		uxtb	r3, r3
+ 413              	.LVL35:
+ 414              	.L20:
+ 415              		.loc 1 168 17 is_stmt 1 discriminator 1 view .LVU129
+ 416              		.loc 1 168 21 is_stmt 0 discriminator 1 view .LVU130
+ 417 0020 227E     		ldrb	r2, [r4, #24]	@ zero_extendqisi2
+ 418              		.loc 1 168 17 discriminator 1 view .LVU131
+ 419 0022 9A42     		cmp	r2, r3
+ 420 0024 0CD9     		bls	.L30
+ 169:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 170:user/drivers/u8g2/u8g2_polygon.c ****     if ( max_y < pg->list[i].y )
+ 421              		.loc 1 170 5 is_stmt 1 view .LVU132
+ 422              		.loc 1 170 29 is_stmt 0 view .LVU133
+ 423 0026 04EB8302 		add	r2, r4, r3, lsl #2
+ 424 002a B2F90220 		ldrsh	r2, [r2, #2]
+ 425              		.loc 1 170 8 view .LVU134
+ 426 002e 8A42     		cmp	r2, r1
+ 427 0030 00DD     		ble	.L21
+ 171:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 172:user/drivers/u8g2/u8g2_polygon.c ****       max_y = pg->list[i].y;
+ 428              		.loc 1 172 13 view .LVU135
+ 429 0032 1146     		mov	r1, r2
+ 430              	.LVL36:
+ 431              	.L21:
+ 173:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 174:user/drivers/u8g2/u8g2_polygon.c ****     if ( min_y > pg->list[i].y )
+ 432              		.loc 1 174 5 is_stmt 1 view .LVU136
+ 433              		.loc 1 174 8 is_stmt 0 view .LVU137
+ 434 0034 AA42     		cmp	r2, r5
+ 435 0036 F1DA     		bge	.L22
+ 175:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 176:user/drivers/u8g2/u8g2_polygon.c ****       pg->pge[PG_LEFT].curr_idx = i;
+ 436              		.loc 1 176 7 is_stmt 1 view .LVU138
+ 437              		.loc 1 176 33 is_stmt 0 view .LVU139
+ 438 0038 84F83030 		strb	r3, [r4, #48]
+ 177:user/drivers/u8g2/u8g2_polygon.c ****       min_y = pg->list[i].y;
+ 439              		.loc 1 177 7 is_stmt 1 view .LVU140
+ 440              	.LVL37:
+ 441              		.loc 1 177 13 is_stmt 0 view .LVU141
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 12
+
+
+ 442 003c 1546     		mov	r5, r2
+ 443 003e EDE7     		b	.L22
+ 444              	.LVL38:
+ 445              	.L30:
+ 178:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 179:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 180:user/drivers/u8g2/u8g2_polygon.c **** 
+ 181:user/drivers/u8g2/u8g2_polygon.c ****   /* calculate total number of scan lines */
+ 182:user/drivers/u8g2/u8g2_polygon.c ****   pg->total_scan_line_cnt = max_y;
+ 446              		.loc 1 182 3 is_stmt 1 view .LVU142
+ 447              		.loc 1 182 27 is_stmt 0 view .LVU143
+ 448 0040 6183     		strh	r1, [r4, #26]	@ movhi
+ 183:user/drivers/u8g2/u8g2_polygon.c ****   pg->total_scan_line_cnt -= min_y;
+ 449              		.loc 1 183 3 is_stmt 1 view .LVU144
+ 450              		.loc 1 183 5 is_stmt 0 view .LVU145
+ 451 0042 89B2     		uxth	r1, r1
+ 452              	.LVL39:
+ 453              		.loc 1 183 27 view .LVU146
+ 454 0044 491B     		subs	r1, r1, r5
+ 455 0046 09B2     		sxth	r1, r1
+ 456 0048 6183     		strh	r1, [r4, #26]	@ movhi
+ 457              	.LVL40:
+ 184:user/drivers/u8g2/u8g2_polygon.c ****   
+ 185:user/drivers/u8g2/u8g2_polygon.c ****   /* exit if polygon height is zero */
+ 186:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->total_scan_line_cnt == 0 )
+ 458              		.loc 1 186 3 is_stmt 1 view .LVU147
+ 459              		.loc 1 186 6 is_stmt 0 view .LVU148
+ 460 004a 09B9     		cbnz	r1, .L31
+ 187:user/drivers/u8g2/u8g2_polygon.c ****     return 0;
+ 461              		.loc 1 187 12 view .LVU149
+ 462 004c 0020     		movs	r0, #0
+ 463              	.LVL41:
+ 464              	.L24:
+ 188:user/drivers/u8g2/u8g2_polygon.c ****   
+ 189:user/drivers/u8g2/u8g2_polygon.c ****   /* if the minimum y side is flat, try to find the lowest and highest x points */
+ 190:user/drivers/u8g2/u8g2_polygon.c ****   pg->pge[PG_RIGHT].curr_idx = pg->pge[PG_LEFT].curr_idx;  
+ 191:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_RIGHT);
+ 192:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_LEFT);
+ 193:user/drivers/u8g2/u8g2_polygon.c ****   
+ 194:user/drivers/u8g2/u8g2_polygon.c ****   /* check if the min side is really flat (depends on the x values) */
+ 195:user/drivers/u8g2/u8g2_polygon.c ****   pg->is_min_y_not_flat = 1;
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->list[pg->pge[PG_LEFT].curr_idx].x != pg->list[pg->pge[PG_RIGHT].curr_idx].x )
+ 197:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 198:user/drivers/u8g2/u8g2_polygon.c ****     pg->is_min_y_not_flat = 0;
+ 199:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 200:user/drivers/u8g2/u8g2_polygon.c ****   else
+ 201:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 202:user/drivers/u8g2/u8g2_polygon.c ****     pg->total_scan_line_cnt--;
+ 203:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->total_scan_line_cnt == 0 )
+ 204:user/drivers/u8g2/u8g2_polygon.c ****       return 0;
+ 205:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 206:user/drivers/u8g2/u8g2_polygon.c **** 
+ 207:user/drivers/u8g2/u8g2_polygon.c ****   return 1;
+ 208:user/drivers/u8g2/u8g2_polygon.c **** }
+ 465              		.loc 1 208 1 view .LVU150
+ 466 004e 38BD     		pop	{r3, r4, r5, pc}
+ 467              	.LVL42:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 13
+
+
+ 468              	.L31:
+ 190:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_RIGHT);
+ 469              		.loc 1 190 3 is_stmt 1 view .LVU151
+ 190:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_RIGHT);
+ 470              		.loc 1 190 48 is_stmt 0 view .LVU152
+ 471 0050 94F83030 		ldrb	r3, [r4, #48]	@ zero_extendqisi2
+ 472              	.LVL43:
+ 190:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_RIGHT);
+ 473              		.loc 1 190 30 view .LVU153
+ 474 0054 84F84830 		strb	r3, [r4, #72]
+ 191:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_LEFT);
+ 475              		.loc 1 191 3 is_stmt 1 view .LVU154
+ 476 0058 0122     		movs	r2, #1
+ 477 005a 2946     		mov	r1, r5
+ 478 005c 2046     		mov	r0, r4
+ 479              	.LVL44:
+ 191:user/drivers/u8g2/u8g2_polygon.c ****   pg_expand_min_y(pg, min_y, PG_LEFT);
+ 480              		.loc 1 191 3 is_stmt 0 view .LVU155
+ 481 005e FFF7FEFF 		bl	pg_expand_min_y
+ 482              	.LVL45:
+ 192:user/drivers/u8g2/u8g2_polygon.c ****   
+ 483              		.loc 1 192 3 is_stmt 1 view .LVU156
+ 484 0062 0022     		movs	r2, #0
+ 485 0064 2946     		mov	r1, r5
+ 486 0066 2046     		mov	r0, r4
+ 487 0068 FFF7FEFF 		bl	pg_expand_min_y
+ 488              	.LVL46:
+ 195:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->list[pg->pge[PG_LEFT].curr_idx].x != pg->list[pg->pge[PG_RIGHT].curr_idx].x )
+ 489              		.loc 1 195 3 view .LVU157
+ 195:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->list[pg->pge[PG_LEFT].curr_idx].x != pg->list[pg->pge[PG_RIGHT].curr_idx].x )
+ 490              		.loc 1 195 25 is_stmt 0 view .LVU158
+ 491 006c 0123     		movs	r3, #1
+ 492 006e 6376     		strb	r3, [r4, #25]
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 493              		.loc 1 196 3 is_stmt 1 view .LVU159
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 494              		.loc 1 196 33 is_stmt 0 view .LVU160
+ 495 0070 94F83030 		ldrb	r3, [r4, #48]	@ zero_extendqisi2
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 496              		.loc 1 196 43 view .LVU161
+ 497 0074 34F92320 		ldrsh	r2, [r4, r3, lsl #2]
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 498              		.loc 1 196 75 view .LVU162
+ 499 0078 94F84830 		ldrb	r3, [r4, #72]	@ zero_extendqisi2
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 500              		.loc 1 196 85 view .LVU163
+ 501 007c 34F92330 		ldrsh	r3, [r4, r3, lsl #2]
+ 196:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 502              		.loc 1 196 6 view .LVU164
+ 503 0080 9A42     		cmp	r2, r3
+ 504 0082 03D0     		beq	.L25
+ 198:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 505              		.loc 1 198 5 is_stmt 1 view .LVU165
+ 198:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 506              		.loc 1 198 27 is_stmt 0 view .LVU166
+ 507 0084 0023     		movs	r3, #0
+ 508 0086 6376     		strb	r3, [r4, #25]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 14
+
+
+ 207:user/drivers/u8g2/u8g2_polygon.c **** }
+ 509              		.loc 1 207 10 view .LVU167
+ 510 0088 0120     		movs	r0, #1
+ 511 008a E0E7     		b	.L24
+ 512              	.L25:
+ 202:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->total_scan_line_cnt == 0 )
+ 513              		.loc 1 202 5 is_stmt 1 view .LVU168
+ 202:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->total_scan_line_cnt == 0 )
+ 514              		.loc 1 202 7 is_stmt 0 view .LVU169
+ 515 008c B4F91A30 		ldrsh	r3, [r4, #26]
+ 202:user/drivers/u8g2/u8g2_polygon.c ****     if ( pg->total_scan_line_cnt == 0 )
+ 516              		.loc 1 202 28 view .LVU170
+ 517 0090 013B     		subs	r3, r3, #1
+ 518 0092 1BB2     		sxth	r3, r3
+ 519 0094 6383     		strh	r3, [r4, #26]	@ movhi
+ 203:user/drivers/u8g2/u8g2_polygon.c ****       return 0;
+ 520              		.loc 1 203 5 is_stmt 1 view .LVU171
+ 203:user/drivers/u8g2/u8g2_polygon.c ****       return 0;
+ 521              		.loc 1 203 8 is_stmt 0 view .LVU172
+ 522 0096 0BB1     		cbz	r3, .L28
+ 207:user/drivers/u8g2/u8g2_polygon.c **** }
+ 523              		.loc 1 207 10 view .LVU173
+ 524 0098 0120     		movs	r0, #1
+ 525 009a D8E7     		b	.L24
+ 526              	.L28:
+ 204:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 527              		.loc 1 204 14 view .LVU174
+ 528 009c 0020     		movs	r0, #0
+ 529 009e D6E7     		b	.L24
+ 530              	.L33:
+ 531              		.align	2
+ 532              	.L32:
+ 533 00a0 00000000 		.word	pg_inc
+ 534 00a4 00000000 		.word	pg_dec
+ 535              		.cfi_endproc
+ 536              	.LFE5:
+ 538              		.section	.text.pg_line_init,"ax",%progbits
+ 539              		.align	1
+ 540              		.syntax unified
+ 541              		.thumb
+ 542              		.thumb_func
+ 544              	pg_line_init:
+ 545              	.LVL47:
+ 546              	.LFB7:
+ 209:user/drivers/u8g2/u8g2_polygon.c **** 
+ 210:user/drivers/u8g2/u8g2_polygon.c **** static void pg_hline(pg_struct *pg, u8g2_t *u8g2)
+ 211:user/drivers/u8g2/u8g2_polygon.c **** {
+ 212:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x1, x2, y;
+ 213:user/drivers/u8g2/u8g2_polygon.c ****   x1 = pg->pge[PG_LEFT].current_x;
+ 214:user/drivers/u8g2/u8g2_polygon.c ****   x2 = pg->pge[PG_RIGHT].current_x;
+ 215:user/drivers/u8g2/u8g2_polygon.c ****   y = pg->pge[PG_RIGHT].current_y;
+ 216:user/drivers/u8g2/u8g2_polygon.c ****   
+ 217:user/drivers/u8g2/u8g2_polygon.c ****   if ( y < 0 )
+ 218:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 219:user/drivers/u8g2/u8g2_polygon.c ****   if ( y >= (pg_word_t)u8g2_GetDisplayHeight(u8g2) )  // does not work for 256x64 display???
+ 220:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 221:user/drivers/u8g2/u8g2_polygon.c ****   if ( x1 < x2 )
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 15
+
+
+ 222:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 223:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 < 0 )
+ 224:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 225:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 226:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 227:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 < 0 )
+ 228:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 229:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 230:user/drivers/u8g2/u8g2_polygon.c ****       x2 = u8g2_GetDisplayWidth(u8g2);
+ 231:user/drivers/u8g2/u8g2_polygon.c ****     u8g2_DrawHLine(u8g2, x1, y, x2 - x1);
+ 232:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 233:user/drivers/u8g2/u8g2_polygon.c ****   else
+ 234:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 235:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 < 0 )
+ 236:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 237:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 238:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 239:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 < 0 )
+ 240:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 241:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 242:user/drivers/u8g2/u8g2_polygon.c ****       x1 = u8g2_GetDisplayWidth(u8g2);
+ 243:user/drivers/u8g2/u8g2_polygon.c ****     u8g2_DrawHLine(u8g2, x2, y, x1 - x2);
+ 244:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 245:user/drivers/u8g2/u8g2_polygon.c **** }
+ 246:user/drivers/u8g2/u8g2_polygon.c **** 
+ 247:user/drivers/u8g2/u8g2_polygon.c **** static void pg_line_init(pg_struct * const pg, uint8_t pge_index)
+ 248:user/drivers/u8g2/u8g2_polygon.c **** {
+ 547              		.loc 1 248 1 is_stmt 1 view -0
+ 548              		.cfi_startproc
+ 549              		@ args = 0, pretend = 0, frame = 0
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551              		.loc 1 248 1 is_stmt 0 view .LVU176
+ 552 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 553              	.LCFI3:
+ 554              		.cfi_def_cfa_offset 20
+ 555              		.cfi_offset 4, -20
+ 556              		.cfi_offset 5, -16
+ 557              		.cfi_offset 6, -12
+ 558              		.cfi_offset 7, -8
+ 559              		.cfi_offset 14, -4
+ 560 0002 83B0     		sub	sp, sp, #12
+ 561              	.LCFI4:
+ 562              		.cfi_def_cfa_offset 32
+ 563 0004 0446     		mov	r4, r0
+ 249:user/drivers/u8g2/u8g2_polygon.c ****   struct pg_edge_struct  *pge = pg->pge+pge_index;
+ 564              		.loc 1 249 3 is_stmt 1 view .LVU177
+ 565              		.loc 1 249 33 is_stmt 0 view .LVU178
+ 566 0006 00F11C05 		add	r5, r0, #28
+ 567              		.loc 1 249 40 view .LVU179
+ 568 000a 01EB4101 		add	r1, r1, r1, lsl #1
+ 569              	.LVL48:
+ 570              		.loc 1 249 27 view .LVU180
+ 571 000e 05EBC105 		add	r5, r5, r1, lsl #3
+ 572              	.LVL49:
+ 250:user/drivers/u8g2/u8g2_polygon.c ****   uint8_t idx;  
+ 573              		.loc 1 250 3 is_stmt 1 view .LVU181
+ 251:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x1;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 16
+
+
+ 574              		.loc 1 251 3 view .LVU182
+ 252:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t y1;
+ 575              		.loc 1 252 3 view .LVU183
+ 253:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x2;
+ 576              		.loc 1 253 3 view .LVU184
+ 254:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t y2;
+ 577              		.loc 1 254 3 view .LVU185
+ 255:user/drivers/u8g2/u8g2_polygon.c **** 
+ 256:user/drivers/u8g2/u8g2_polygon.c ****   idx = pge->curr_idx;  
+ 578              		.loc 1 256 3 view .LVU186
+ 579              		.loc 1 256 7 is_stmt 0 view .LVU187
+ 580 0012 297D     		ldrb	r1, [r5, #20]	@ zero_extendqisi2
+ 581              	.LVL50:
+ 257:user/drivers/u8g2/u8g2_polygon.c ****   y1 = pg->list[idx].y;
+ 582              		.loc 1 257 3 is_stmt 1 view .LVU188
+ 583              		.loc 1 257 6 is_stmt 0 view .LVU189
+ 584 0014 00EB8103 		add	r3, r0, r1, lsl #2
+ 585 0018 B3F90270 		ldrsh	r7, [r3, #2]
+ 586              	.LVL51:
+ 258:user/drivers/u8g2/u8g2_polygon.c ****   x1 = pg->list[idx].x;
+ 587              		.loc 1 258 3 is_stmt 1 view .LVU190
+ 588              		.loc 1 258 6 is_stmt 0 view .LVU191
+ 589 001c 30F92160 		ldrsh	r6, [r0, r1, lsl #2]
+ 590              	.LVL52:
+ 259:user/drivers/u8g2/u8g2_polygon.c ****   idx = pge->next_idx_fn(pg, idx);
+ 591              		.loc 1 259 3 is_stmt 1 view .LVU192
+ 592              		.loc 1 259 12 is_stmt 0 view .LVU193
+ 593 0020 2B69     		ldr	r3, [r5, #16]
+ 594              	.LVL53:
+ 595              		.loc 1 259 9 view .LVU194
+ 596 0022 9847     		blx	r3
+ 597              	.LVL54:
+ 260:user/drivers/u8g2/u8g2_polygon.c ****   y2 = pg->list[idx].y;
+ 598              		.loc 1 260 3 is_stmt 1 view .LVU195
+ 599              		.loc 1 260 6 is_stmt 0 view .LVU196
+ 600 0024 04EB8003 		add	r3, r4, r0, lsl #2
+ 601 0028 B3F90220 		ldrsh	r2, [r3, #2]
+ 602              	.LVL55:
+ 261:user/drivers/u8g2/u8g2_polygon.c ****   x2 = pg->list[idx].x; 
+ 603              		.loc 1 261 3 is_stmt 1 view .LVU197
+ 604              		.loc 1 261 6 is_stmt 0 view .LVU198
+ 605 002c 34F92030 		ldrsh	r3, [r4, r0, lsl #2]
+ 606              	.LVL56:
+ 262:user/drivers/u8g2/u8g2_polygon.c ****   pge->curr_idx = idx;
+ 607              		.loc 1 262 3 is_stmt 1 view .LVU199
+ 608              		.loc 1 262 17 is_stmt 0 view .LVU200
+ 609 0030 2875     		strb	r0, [r5, #20]
+ 610              	.LVL57:
+ 263:user/drivers/u8g2/u8g2_polygon.c ****   
+ 264:user/drivers/u8g2/u8g2_polygon.c ****   pge_Init(pge, x1, y1, x2, y2);
+ 611              		.loc 1 264 3 is_stmt 1 view .LVU201
+ 612 0032 0092     		str	r2, [sp]
+ 613 0034 3A46     		mov	r2, r7
+ 614 0036 3146     		mov	r1, r6
+ 615 0038 2846     		mov	r0, r5
+ 616              	.LVL58:
+ 617              		.loc 1 264 3 is_stmt 0 view .LVU202
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 17
+
+
+ 618 003a FFF7FEFF 		bl	pge_Init
+ 619              	.LVL59:
+ 265:user/drivers/u8g2/u8g2_polygon.c **** }
+ 620              		.loc 1 265 1 view .LVU203
+ 621 003e 03B0     		add	sp, sp, #12
+ 622              	.LCFI5:
+ 623              		.cfi_def_cfa_offset 20
+ 624              		@ sp needed
+ 625 0040 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 626              		.loc 1 265 1 view .LVU204
+ 627              		.cfi_endproc
+ 628              	.LFE7:
+ 630              		.section	.text.pg_ClearPolygonXY,"ax",%progbits
+ 631              		.align	1
+ 632              		.syntax unified
+ 633              		.thumb
+ 634              		.thumb_func
+ 636              	pg_ClearPolygonXY:
+ 637              	.LVL60:
+ 638              	.LFB9:
+ 266:user/drivers/u8g2/u8g2_polygon.c **** 
+ 267:user/drivers/u8g2/u8g2_polygon.c **** static void pg_exec(pg_struct *pg, u8g2_t *u8g2)
+ 268:user/drivers/u8g2/u8g2_polygon.c **** {
+ 269:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t i = pg->total_scan_line_cnt;
+ 270:user/drivers/u8g2/u8g2_polygon.c **** 
+ 271:user/drivers/u8g2/u8g2_polygon.c ****   /* first line is skipped if the min y line is not flat */
+ 272:user/drivers/u8g2/u8g2_polygon.c ****   pg_line_init(pg, PG_LEFT);		
+ 273:user/drivers/u8g2/u8g2_polygon.c ****   pg_line_init(pg, PG_RIGHT);
+ 274:user/drivers/u8g2/u8g2_polygon.c ****   
+ 275:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->is_min_y_not_flat != 0 )
+ 276:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 277:user/drivers/u8g2/u8g2_polygon.c ****     pge_Next(&(pg->pge[PG_LEFT])); 
+ 278:user/drivers/u8g2/u8g2_polygon.c ****     pge_Next(&(pg->pge[PG_RIGHT]));
+ 279:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 280:user/drivers/u8g2/u8g2_polygon.c **** 
+ 281:user/drivers/u8g2/u8g2_polygon.c ****   do
+ 282:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 283:user/drivers/u8g2/u8g2_polygon.c ****     pg_hline(pg, u8g2);
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     while ( pge_Next(&(pg->pge[PG_LEFT])) == 0 )
+ 285:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 286:user/drivers/u8g2/u8g2_polygon.c ****       pg_line_init(pg, PG_LEFT);
+ 287:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 288:user/drivers/u8g2/u8g2_polygon.c ****     while ( pge_Next(&(pg->pge[PG_RIGHT])) == 0 )
+ 289:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 290:user/drivers/u8g2/u8g2_polygon.c ****       pg_line_init(pg, PG_RIGHT);
+ 291:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 292:user/drivers/u8g2/u8g2_polygon.c ****     i--;
+ 293:user/drivers/u8g2/u8g2_polygon.c ****   } while( i > 0 );
+ 294:user/drivers/u8g2/u8g2_polygon.c **** }
+ 295:user/drivers/u8g2/u8g2_polygon.c **** 
+ 296:user/drivers/u8g2/u8g2_polygon.c **** /*===========================================*/
+ 297:user/drivers/u8g2/u8g2_polygon.c **** /* API procedures */
+ 298:user/drivers/u8g2/u8g2_polygon.c **** 
+ 299:user/drivers/u8g2/u8g2_polygon.c **** static void pg_ClearPolygonXY(pg_struct *pg)
+ 300:user/drivers/u8g2/u8g2_polygon.c **** {
+ 639              		.loc 1 300 1 is_stmt 1 view -0
+ 640              		.cfi_startproc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 18
+
+
+ 641              		@ args = 0, pretend = 0, frame = 0
+ 642              		@ frame_needed = 0, uses_anonymous_args = 0
+ 643              		@ link register save eliminated.
+ 301:user/drivers/u8g2/u8g2_polygon.c ****   pg->cnt = 0;
+ 644              		.loc 1 301 3 view .LVU206
+ 645              		.loc 1 301 11 is_stmt 0 view .LVU207
+ 646 0000 0023     		movs	r3, #0
+ 647 0002 0376     		strb	r3, [r0, #24]
+ 302:user/drivers/u8g2/u8g2_polygon.c **** }
+ 648              		.loc 1 302 1 view .LVU208
+ 649 0004 7047     		bx	lr
+ 650              		.cfi_endproc
+ 651              	.LFE9:
+ 653              		.section	.text.pg_AddPolygonXY,"ax",%progbits
+ 654              		.align	1
+ 655              		.syntax unified
+ 656              		.thumb
+ 657              		.thumb_func
+ 659              	pg_AddPolygonXY:
+ 660              	.LVL61:
+ 661              	.LFB10:
+ 303:user/drivers/u8g2/u8g2_polygon.c **** 
+ 304:user/drivers/u8g2/u8g2_polygon.c **** static void pg_AddPolygonXY(pg_struct *pg, int16_t x, int16_t y)
+ 305:user/drivers/u8g2/u8g2_polygon.c **** {
+ 662              		.loc 1 305 1 is_stmt 1 view -0
+ 663              		.cfi_startproc
+ 664              		@ args = 0, pretend = 0, frame = 0
+ 665              		@ frame_needed = 0, uses_anonymous_args = 0
+ 666              		@ link register save eliminated.
+ 306:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg->cnt < PG_MAX_POINTS )
+ 667              		.loc 1 306 3 view .LVU210
+ 668              		.loc 1 306 10 is_stmt 0 view .LVU211
+ 669 0000 037E     		ldrb	r3, [r0, #24]	@ zero_extendqisi2
+ 670              		.loc 1 306 6 view .LVU212
+ 671 0002 052B     		cmp	r3, #5
+ 672 0004 06D8     		bhi	.L37
+ 307:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 308:user/drivers/u8g2/u8g2_polygon.c ****     pg->list[pg->cnt].x = x;
+ 673              		.loc 1 308 5 is_stmt 1 view .LVU213
+ 674              		.loc 1 308 25 is_stmt 0 view .LVU214
+ 675 0006 20F82310 		strh	r1, [r0, r3, lsl #2]	@ movhi
+ 309:user/drivers/u8g2/u8g2_polygon.c ****     pg->list[pg->cnt].y = y;
+ 676              		.loc 1 309 5 is_stmt 1 view .LVU215
+ 677              		.loc 1 309 25 is_stmt 0 view .LVU216
+ 678 000a 00EB8301 		add	r1, r0, r3, lsl #2
+ 679              	.LVL62:
+ 680              		.loc 1 309 25 view .LVU217
+ 681 000e 4A80     		strh	r2, [r1, #2]	@ movhi
+ 682              	.LVL63:
+ 310:user/drivers/u8g2/u8g2_polygon.c ****     pg->cnt++;
+ 683              		.loc 1 310 5 is_stmt 1 view .LVU218
+ 684              		.loc 1 310 12 is_stmt 0 view .LVU219
+ 685 0010 0133     		adds	r3, r3, #1
+ 686 0012 0376     		strb	r3, [r0, #24]
+ 687              	.L37:
+ 311:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 312:user/drivers/u8g2/u8g2_polygon.c **** }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 19
+
+
+ 688              		.loc 1 312 1 view .LVU220
+ 689 0014 7047     		bx	lr
+ 690              		.cfi_endproc
+ 691              	.LFE10:
+ 693              		.section	.text.pg_hline,"ax",%progbits
+ 694              		.align	1
+ 695              		.syntax unified
+ 696              		.thumb
+ 697              		.thumb_func
+ 699              	pg_hline:
+ 700              	.LVL64:
+ 701              	.LFB6:
+ 211:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x1, x2, y;
+ 702              		.loc 1 211 1 is_stmt 1 view -0
+ 703              		.cfi_startproc
+ 704              		@ args = 0, pretend = 0, frame = 0
+ 705              		@ frame_needed = 0, uses_anonymous_args = 0
+ 211:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t x1, x2, y;
+ 706              		.loc 1 211 1 is_stmt 0 view .LVU222
+ 707 0000 08B5     		push	{r3, lr}
+ 708              	.LCFI6:
+ 709              		.cfi_def_cfa_offset 8
+ 710              		.cfi_offset 3, -8
+ 711              		.cfi_offset 14, -4
+ 712 0002 0346     		mov	r3, r0
+ 713 0004 0846     		mov	r0, r1
+ 714              	.LVL65:
+ 212:user/drivers/u8g2/u8g2_polygon.c ****   x1 = pg->pge[PG_LEFT].current_x;
+ 715              		.loc 1 212 3 is_stmt 1 view .LVU223
+ 213:user/drivers/u8g2/u8g2_polygon.c ****   x2 = pg->pge[PG_RIGHT].current_x;
+ 716              		.loc 1 213 3 view .LVU224
+ 213:user/drivers/u8g2/u8g2_polygon.c ****   x2 = pg->pge[PG_RIGHT].current_x;
+ 717              		.loc 1 213 6 is_stmt 0 view .LVU225
+ 718 0006 B3F92810 		ldrsh	r1, [r3, #40]
+ 719              	.LVL66:
+ 214:user/drivers/u8g2/u8g2_polygon.c ****   y = pg->pge[PG_RIGHT].current_y;
+ 720              		.loc 1 214 3 is_stmt 1 view .LVU226
+ 214:user/drivers/u8g2/u8g2_polygon.c ****   y = pg->pge[PG_RIGHT].current_y;
+ 721              		.loc 1 214 6 is_stmt 0 view .LVU227
+ 722 000a B3F940C0 		ldrsh	ip, [r3, #64]
+ 723              	.LVL67:
+ 215:user/drivers/u8g2/u8g2_polygon.c ****   
+ 724              		.loc 1 215 3 is_stmt 1 view .LVU228
+ 215:user/drivers/u8g2/u8g2_polygon.c ****   
+ 725              		.loc 1 215 5 is_stmt 0 view .LVU229
+ 726 000e B3F93C20 		ldrsh	r2, [r3, #60]
+ 727              	.LVL68:
+ 217:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 728              		.loc 1 217 3 is_stmt 1 view .LVU230
+ 217:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 729              		.loc 1 217 6 is_stmt 0 view .LVU231
+ 730 0012 002A     		cmp	r2, #0
+ 731 0014 17DB     		blt	.L39
+ 219:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 732              		.loc 1 219 3 is_stmt 1 view .LVU232
+ 219:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 733              		.loc 1 219 24 is_stmt 0 view .LVU233
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 20
+
+
+ 734 0016 B0F94630 		ldrsh	r3, [r0, #70]
+ 735              	.LVL69:
+ 219:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 736              		.loc 1 219 6 view .LVU234
+ 737 001a 9342     		cmp	r3, r2
+ 738 001c 13DD     		ble	.L39
+ 221:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 739              		.loc 1 221 3 is_stmt 1 view .LVU235
+ 221:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 740              		.loc 1 221 6 is_stmt 0 view .LVU236
+ 741 001e 6145     		cmp	r1, ip
+ 742 0020 14DA     		bge	.L41
+ 223:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 743              		.loc 1 223 5 is_stmt 1 view .LVU237
+ 223:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 744              		.loc 1 223 8 is_stmt 0 view .LVU238
+ 745 0022 BCF1000F 		cmp	ip, #0
+ 746 0026 0EDB     		blt	.L39
+ 225:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 747              		.loc 1 225 5 is_stmt 1 view .LVU239
+ 225:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 748              		.loc 1 225 27 is_stmt 0 view .LVU240
+ 749 0028 B0F94430 		ldrsh	r3, [r0, #68]
+ 225:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 750              		.loc 1 225 8 view .LVU241
+ 751 002c 8B42     		cmp	r3, r1
+ 752 002e 0ADD     		ble	.L39
+ 227:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 753              		.loc 1 227 5 is_stmt 1 view .LVU242
+ 227:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 754              		.loc 1 227 8 is_stmt 0 view .LVU243
+ 755 0030 0029     		cmp	r1, #0
+ 756 0032 09DB     		blt	.L49
+ 757              	.LVL70:
+ 758              	.L42:
+ 229:user/drivers/u8g2/u8g2_polygon.c ****       x2 = u8g2_GetDisplayWidth(u8g2);
+ 759              		.loc 1 229 5 is_stmt 1 view .LVU244
+ 229:user/drivers/u8g2/u8g2_polygon.c ****       x2 = u8g2_GetDisplayWidth(u8g2);
+ 760              		.loc 1 229 8 is_stmt 0 view .LVU245
+ 761 0034 6345     		cmp	r3, ip
+ 762 0036 00DD     		ble	.L43
+ 214:user/drivers/u8g2/u8g2_polygon.c ****   y = pg->pge[PG_RIGHT].current_y;
+ 763              		.loc 1 214 6 view .LVU246
+ 764 0038 6346     		mov	r3, ip
+ 765              	.L43:
+ 766              	.LVL71:
+ 231:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 767              		.loc 1 231 5 is_stmt 1 view .LVU247
+ 768 003a 89B2     		uxth	r1, r1
+ 231:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 769              		.loc 1 231 5 is_stmt 0 view .LVU248
+ 770 003c 5B1A     		subs	r3, r3, r1
+ 771              	.LVL72:
+ 231:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 772              		.loc 1 231 5 view .LVU249
+ 773 003e 9BB2     		uxth	r3, r3
+ 774 0040 92B2     		uxth	r2, r2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 21
+
+
+ 231:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 775              		.loc 1 231 5 view .LVU250
+ 776 0042 FFF7FEFF 		bl	u8g2_DrawHLine
+ 777              	.LVL73:
+ 778              	.L39:
+ 245:user/drivers/u8g2/u8g2_polygon.c **** 
+ 779              		.loc 1 245 1 view .LVU251
+ 780 0046 08BD     		pop	{r3, pc}
+ 781              	.LVL74:
+ 782              	.L49:
+ 228:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 783              		.loc 1 228 10 view .LVU252
+ 784 0048 0021     		movs	r1, #0
+ 785              	.LVL75:
+ 228:user/drivers/u8g2/u8g2_polygon.c ****     if ( x2 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 786              		.loc 1 228 10 view .LVU253
+ 787 004a F3E7     		b	.L42
+ 788              	.LVL76:
+ 789              	.L41:
+ 235:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 790              		.loc 1 235 5 is_stmt 1 view .LVU254
+ 235:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 791              		.loc 1 235 8 is_stmt 0 view .LVU255
+ 792 004c 0029     		cmp	r1, #0
+ 793 004e FADB     		blt	.L39
+ 237:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 794              		.loc 1 237 5 is_stmt 1 view .LVU256
+ 237:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 795              		.loc 1 237 27 is_stmt 0 view .LVU257
+ 796 0050 B0F94430 		ldrsh	r3, [r0, #68]
+ 237:user/drivers/u8g2/u8g2_polygon.c ****       return;
+ 797              		.loc 1 237 8 view .LVU258
+ 798 0054 6345     		cmp	r3, ip
+ 799 0056 F6DD     		ble	.L39
+ 239:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 800              		.loc 1 239 5 is_stmt 1 view .LVU259
+ 239:user/drivers/u8g2/u8g2_polygon.c ****       x1 = 0;
+ 801              		.loc 1 239 8 is_stmt 0 view .LVU260
+ 802 0058 BCF1000F 		cmp	ip, #0
+ 803 005c 0ADB     		blt	.L50
+ 804              	.LVL77:
+ 805              	.L44:
+ 241:user/drivers/u8g2/u8g2_polygon.c ****       x1 = u8g2_GetDisplayWidth(u8g2);
+ 806              		.loc 1 241 5 is_stmt 1 view .LVU261
+ 241:user/drivers/u8g2/u8g2_polygon.c ****       x1 = u8g2_GetDisplayWidth(u8g2);
+ 807              		.loc 1 241 8 is_stmt 0 view .LVU262
+ 808 005e 8B42     		cmp	r3, r1
+ 809 0060 00DD     		ble	.L45
+ 810 0062 0B46     		mov	r3, r1
+ 811              	.L45:
+ 812              	.LVL78:
+ 243:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 813              		.loc 1 243 5 is_stmt 1 view .LVU263
+ 814 0064 1FFA8CF1 		uxth	r1, ip
+ 815 0068 5B1A     		subs	r3, r3, r1
+ 816              	.LVL79:
+ 243:user/drivers/u8g2/u8g2_polygon.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 22
+
+
+ 817              		.loc 1 243 5 is_stmt 0 view .LVU264
+ 818 006a 9BB2     		uxth	r3, r3
+ 819 006c 92B2     		uxth	r2, r2
+ 243:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 820              		.loc 1 243 5 view .LVU265
+ 821 006e FFF7FEFF 		bl	u8g2_DrawHLine
+ 822              	.LVL80:
+ 243:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 823              		.loc 1 243 5 view .LVU266
+ 824 0072 E8E7     		b	.L39
+ 825              	.LVL81:
+ 826              	.L50:
+ 240:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 827              		.loc 1 240 10 view .LVU267
+ 828 0074 0021     		movs	r1, #0
+ 829              	.LVL82:
+ 240:user/drivers/u8g2/u8g2_polygon.c ****     if ( x1 >= (pg_word_t)u8g2_GetDisplayWidth(u8g2) )
+ 830              		.loc 1 240 10 view .LVU268
+ 831 0076 F2E7     		b	.L44
+ 832              		.cfi_endproc
+ 833              	.LFE6:
+ 835              		.section	.text.pg_exec,"ax",%progbits
+ 836              		.align	1
+ 837              		.syntax unified
+ 838              		.thumb
+ 839              		.thumb_func
+ 841              	pg_exec:
+ 842              	.LVL83:
+ 843              	.LFB8:
+ 268:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t i = pg->total_scan_line_cnt;
+ 844              		.loc 1 268 1 is_stmt 1 view -0
+ 845              		.cfi_startproc
+ 846              		@ args = 0, pretend = 0, frame = 0
+ 847              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268:user/drivers/u8g2/u8g2_polygon.c ****   pg_word_t i = pg->total_scan_line_cnt;
+ 848              		.loc 1 268 1 is_stmt 0 view .LVU270
+ 849 0000 70B5     		push	{r4, r5, r6, lr}
+ 850              	.LCFI7:
+ 851              		.cfi_def_cfa_offset 16
+ 852              		.cfi_offset 4, -16
+ 853              		.cfi_offset 5, -12
+ 854              		.cfi_offset 6, -8
+ 855              		.cfi_offset 14, -4
+ 856 0002 0446     		mov	r4, r0
+ 857 0004 0E46     		mov	r6, r1
+ 269:user/drivers/u8g2/u8g2_polygon.c **** 
+ 858              		.loc 1 269 3 is_stmt 1 view .LVU271
+ 269:user/drivers/u8g2/u8g2_polygon.c **** 
+ 859              		.loc 1 269 13 is_stmt 0 view .LVU272
+ 860 0006 B0F91A50 		ldrsh	r5, [r0, #26]
+ 861              	.LVL84:
+ 272:user/drivers/u8g2/u8g2_polygon.c ****   pg_line_init(pg, PG_RIGHT);
+ 862              		.loc 1 272 3 is_stmt 1 view .LVU273
+ 863 000a 0021     		movs	r1, #0
+ 864              	.LVL85:
+ 272:user/drivers/u8g2/u8g2_polygon.c ****   pg_line_init(pg, PG_RIGHT);
+ 865              		.loc 1 272 3 is_stmt 0 view .LVU274
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 23
+
+
+ 866 000c FFF7FEFF 		bl	pg_line_init
+ 867              	.LVL86:
+ 273:user/drivers/u8g2/u8g2_polygon.c ****   
+ 868              		.loc 1 273 3 is_stmt 1 view .LVU275
+ 869 0010 0121     		movs	r1, #1
+ 870 0012 2046     		mov	r0, r4
+ 871 0014 FFF7FEFF 		bl	pg_line_init
+ 872              	.LVL87:
+ 275:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 873              		.loc 1 275 3 view .LVU276
+ 275:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 874              		.loc 1 275 10 is_stmt 0 view .LVU277
+ 875 0018 637E     		ldrb	r3, [r4, #25]	@ zero_extendqisi2
+ 275:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 876              		.loc 1 275 6 view .LVU278
+ 877 001a 0BB3     		cbz	r3, .L57
+ 277:user/drivers/u8g2/u8g2_polygon.c ****     pge_Next(&(pg->pge[PG_RIGHT]));
+ 878              		.loc 1 277 5 is_stmt 1 view .LVU279
+ 879 001c 04F11C00 		add	r0, r4, #28
+ 880 0020 FFF7FEFF 		bl	pge_Next
+ 881              	.LVL88:
+ 278:user/drivers/u8g2/u8g2_polygon.c ****   }
+ 882              		.loc 1 278 5 view .LVU280
+ 883 0024 04F13400 		add	r0, r4, #52
+ 884 0028 FFF7FEFF 		bl	pge_Next
+ 885              	.LVL89:
+ 886 002c 18E0     		b	.L57
+ 887              	.L54:
+ 286:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 888              		.loc 1 286 7 view .LVU281
+ 889 002e 0021     		movs	r1, #0
+ 890 0030 2046     		mov	r0, r4
+ 891 0032 FFF7FEFF 		bl	pg_line_init
+ 892              	.LVL90:
+ 893              	.L53:
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 894              		.loc 1 284 43 view .LVU282
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 895              		.loc 1 284 13 is_stmt 0 view .LVU283
+ 896 0036 04F11C00 		add	r0, r4, #28
+ 897 003a FFF7FEFF 		bl	pge_Next
+ 898              	.LVL91:
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 899              		.loc 1 284 43 view .LVU284
+ 900 003e 0028     		cmp	r0, #0
+ 901 0040 F5D0     		beq	.L54
+ 902 0042 03E0     		b	.L55
+ 903              	.L56:
+ 290:user/drivers/u8g2/u8g2_polygon.c ****     }
+ 904              		.loc 1 290 7 is_stmt 1 view .LVU285
+ 905 0044 0121     		movs	r1, #1
+ 906 0046 2046     		mov	r0, r4
+ 907 0048 FFF7FEFF 		bl	pg_line_init
+ 908              	.LVL92:
+ 909              	.L55:
+ 288:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 910              		.loc 1 288 44 view .LVU286
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 24
+
+
+ 288:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 911              		.loc 1 288 13 is_stmt 0 view .LVU287
+ 912 004c 04F13400 		add	r0, r4, #52
+ 913 0050 FFF7FEFF 		bl	pge_Next
+ 914              	.LVL93:
+ 288:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 915              		.loc 1 288 44 view .LVU288
+ 916 0054 0028     		cmp	r0, #0
+ 917 0056 F5D0     		beq	.L56
+ 292:user/drivers/u8g2/u8g2_polygon.c ****   } while( i > 0 );
+ 918              		.loc 1 292 5 is_stmt 1 view .LVU289
+ 292:user/drivers/u8g2/u8g2_polygon.c ****   } while( i > 0 );
+ 919              		.loc 1 292 6 is_stmt 0 view .LVU290
+ 920 0058 013D     		subs	r5, r5, #1
+ 921              	.LVL94:
+ 292:user/drivers/u8g2/u8g2_polygon.c ****   } while( i > 0 );
+ 922              		.loc 1 292 6 view .LVU291
+ 923 005a 2DB2     		sxth	r5, r5
+ 924              	.LVL95:
+ 293:user/drivers/u8g2/u8g2_polygon.c **** }
+ 925              		.loc 1 293 14 is_stmt 1 view .LVU292
+ 926 005c 002D     		cmp	r5, #0
+ 927 005e 04DD     		ble	.L59
+ 928              	.L57:
+ 281:user/drivers/u8g2/u8g2_polygon.c ****   {
+ 929              		.loc 1 281 3 view .LVU293
+ 283:user/drivers/u8g2/u8g2_polygon.c ****     while ( pge_Next(&(pg->pge[PG_LEFT])) == 0 )
+ 930              		.loc 1 283 5 view .LVU294
+ 931 0060 3146     		mov	r1, r6
+ 932 0062 2046     		mov	r0, r4
+ 933 0064 FFF7FEFF 		bl	pg_hline
+ 934              	.LVL96:
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 935              		.loc 1 284 5 view .LVU295
+ 284:user/drivers/u8g2/u8g2_polygon.c ****     {
+ 936              		.loc 1 284 11 is_stmt 0 view .LVU296
+ 937 0068 E5E7     		b	.L53
+ 938              	.L59:
+ 294:user/drivers/u8g2/u8g2_polygon.c **** 
+ 939              		.loc 1 294 1 view .LVU297
+ 940 006a 70BD     		pop	{r4, r5, r6, pc}
+ 294:user/drivers/u8g2/u8g2_polygon.c **** 
+ 941              		.loc 1 294 1 view .LVU298
+ 942              		.cfi_endproc
+ 943              	.LFE8:
+ 945              		.section	.text.pg_DrawPolygon,"ax",%progbits
+ 946              		.align	1
+ 947              		.syntax unified
+ 948              		.thumb
+ 949              		.thumb_func
+ 951              	pg_DrawPolygon:
+ 952              	.LVL97:
+ 953              	.LFB11:
+ 313:user/drivers/u8g2/u8g2_polygon.c **** 
+ 314:user/drivers/u8g2/u8g2_polygon.c **** static void pg_DrawPolygon(pg_struct *pg, u8g2_t *u8g2)
+ 315:user/drivers/u8g2/u8g2_polygon.c **** {
+ 954              		.loc 1 315 1 is_stmt 1 view -0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 25
+
+
+ 955              		.cfi_startproc
+ 956              		@ args = 0, pretend = 0, frame = 0
+ 957              		@ frame_needed = 0, uses_anonymous_args = 0
+ 958              		.loc 1 315 1 is_stmt 0 view .LVU300
+ 959 0000 38B5     		push	{r3, r4, r5, lr}
+ 960              	.LCFI8:
+ 961              		.cfi_def_cfa_offset 16
+ 962              		.cfi_offset 3, -16
+ 963              		.cfi_offset 4, -12
+ 964              		.cfi_offset 5, -8
+ 965              		.cfi_offset 14, -4
+ 966 0002 0446     		mov	r4, r0
+ 967 0004 0D46     		mov	r5, r1
+ 316:user/drivers/u8g2/u8g2_polygon.c ****   if ( pg_prepare(pg) == 0 )
+ 968              		.loc 1 316 3 is_stmt 1 view .LVU301
+ 969              		.loc 1 316 8 is_stmt 0 view .LVU302
+ 970 0006 FFF7FEFF 		bl	pg_prepare
+ 971              	.LVL98:
+ 972              		.loc 1 316 6 view .LVU303
+ 973 000a 00B9     		cbnz	r0, .L63
+ 974              	.L60:
+ 317:user/drivers/u8g2/u8g2_polygon.c ****     return;
+ 318:user/drivers/u8g2/u8g2_polygon.c ****   pg_exec(pg, u8g2);
+ 319:user/drivers/u8g2/u8g2_polygon.c **** }
+ 975              		.loc 1 319 1 view .LVU304
+ 976 000c 38BD     		pop	{r3, r4, r5, pc}
+ 977              	.LVL99:
+ 978              	.L63:
+ 318:user/drivers/u8g2/u8g2_polygon.c **** }
+ 979              		.loc 1 318 3 is_stmt 1 view .LVU305
+ 980 000e 2946     		mov	r1, r5
+ 981 0010 2046     		mov	r0, r4
+ 982 0012 FFF7FEFF 		bl	pg_exec
+ 983              	.LVL100:
+ 984 0016 F9E7     		b	.L60
+ 985              		.cfi_endproc
+ 986              	.LFE11:
+ 988              		.section	.text.u8g2_ClearPolygonXY,"ax",%progbits
+ 989              		.align	1
+ 990              		.global	u8g2_ClearPolygonXY
+ 991              		.syntax unified
+ 992              		.thumb
+ 993              		.thumb_func
+ 995              	u8g2_ClearPolygonXY:
+ 996              	.LFB12:
+ 320:user/drivers/u8g2/u8g2_polygon.c **** 
+ 321:user/drivers/u8g2/u8g2_polygon.c **** pg_struct u8g2_pg;
+ 322:user/drivers/u8g2/u8g2_polygon.c **** 
+ 323:user/drivers/u8g2/u8g2_polygon.c **** void u8g2_ClearPolygonXY(void)
+ 324:user/drivers/u8g2/u8g2_polygon.c **** {
+ 997              		.loc 1 324 1 view -0
+ 998              		.cfi_startproc
+ 999              		@ args = 0, pretend = 0, frame = 0
+ 1000              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1001 0000 08B5     		push	{r3, lr}
+ 1002              	.LCFI9:
+ 1003              		.cfi_def_cfa_offset 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 26
+
+
+ 1004              		.cfi_offset 3, -8
+ 1005              		.cfi_offset 14, -4
+ 325:user/drivers/u8g2/u8g2_polygon.c ****   pg_ClearPolygonXY(&u8g2_pg);
+ 1006              		.loc 1 325 3 view .LVU307
+ 1007 0002 0248     		ldr	r0, .L66
+ 1008 0004 FFF7FEFF 		bl	pg_ClearPolygonXY
+ 1009              	.LVL101:
+ 326:user/drivers/u8g2/u8g2_polygon.c **** }
+ 1010              		.loc 1 326 1 is_stmt 0 view .LVU308
+ 1011 0008 08BD     		pop	{r3, pc}
+ 1012              	.L67:
+ 1013 000a 00BF     		.align	2
+ 1014              	.L66:
+ 1015 000c 00000000 		.word	u8g2_pg
+ 1016              		.cfi_endproc
+ 1017              	.LFE12:
+ 1019              		.section	.text.u8g2_AddPolygonXY,"ax",%progbits
+ 1020              		.align	1
+ 1021              		.global	u8g2_AddPolygonXY
+ 1022              		.syntax unified
+ 1023              		.thumb
+ 1024              		.thumb_func
+ 1026              	u8g2_AddPolygonXY:
+ 1027              	.LVL102:
+ 1028              	.LFB13:
+ 327:user/drivers/u8g2/u8g2_polygon.c **** 
+ 328:user/drivers/u8g2/u8g2_polygon.c **** void u8g2_AddPolygonXY(U8X8_UNUSED u8g2_t *u8g2, int16_t x, int16_t y)
+ 329:user/drivers/u8g2/u8g2_polygon.c **** {
+ 1029              		.loc 1 329 1 is_stmt 1 view -0
+ 1030              		.cfi_startproc
+ 1031              		@ args = 0, pretend = 0, frame = 0
+ 1032              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1033              		.loc 1 329 1 is_stmt 0 view .LVU310
+ 1034 0000 08B5     		push	{r3, lr}
+ 1035              	.LCFI10:
+ 1036              		.cfi_def_cfa_offset 8
+ 1037              		.cfi_offset 3, -8
+ 1038              		.cfi_offset 14, -4
+ 330:user/drivers/u8g2/u8g2_polygon.c ****   pg_AddPolygonXY(&u8g2_pg, x, y);
+ 1039              		.loc 1 330 3 is_stmt 1 view .LVU311
+ 1040 0002 0248     		ldr	r0, .L70
+ 1041              	.LVL103:
+ 1042              		.loc 1 330 3 is_stmt 0 view .LVU312
+ 1043 0004 FFF7FEFF 		bl	pg_AddPolygonXY
+ 1044              	.LVL104:
+ 331:user/drivers/u8g2/u8g2_polygon.c **** }
+ 1045              		.loc 1 331 1 view .LVU313
+ 1046 0008 08BD     		pop	{r3, pc}
+ 1047              	.L71:
+ 1048 000a 00BF     		.align	2
+ 1049              	.L70:
+ 1050 000c 00000000 		.word	u8g2_pg
+ 1051              		.cfi_endproc
+ 1052              	.LFE13:
+ 1054              		.section	.text.u8g2_DrawPolygon,"ax",%progbits
+ 1055              		.align	1
+ 1056              		.global	u8g2_DrawPolygon
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 27
+
+
+ 1057              		.syntax unified
+ 1058              		.thumb
+ 1059              		.thumb_func
+ 1061              	u8g2_DrawPolygon:
+ 1062              	.LVL105:
+ 1063              	.LFB14:
+ 332:user/drivers/u8g2/u8g2_polygon.c **** 
+ 333:user/drivers/u8g2/u8g2_polygon.c **** void u8g2_DrawPolygon(u8g2_t *u8g2)
+ 334:user/drivers/u8g2/u8g2_polygon.c **** {
+ 1064              		.loc 1 334 1 is_stmt 1 view -0
+ 1065              		.cfi_startproc
+ 1066              		@ args = 0, pretend = 0, frame = 0
+ 1067              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1068              		.loc 1 334 1 is_stmt 0 view .LVU315
+ 1069 0000 08B5     		push	{r3, lr}
+ 1070              	.LCFI11:
+ 1071              		.cfi_def_cfa_offset 8
+ 1072              		.cfi_offset 3, -8
+ 1073              		.cfi_offset 14, -4
+ 1074 0002 0146     		mov	r1, r0
+ 335:user/drivers/u8g2/u8g2_polygon.c ****   pg_DrawPolygon(&u8g2_pg, u8g2);
+ 1075              		.loc 1 335 3 is_stmt 1 view .LVU316
+ 1076 0004 0148     		ldr	r0, .L74
+ 1077              	.LVL106:
+ 1078              		.loc 1 335 3 is_stmt 0 view .LVU317
+ 1079 0006 FFF7FEFF 		bl	pg_DrawPolygon
+ 1080              	.LVL107:
+ 336:user/drivers/u8g2/u8g2_polygon.c **** }
+ 1081              		.loc 1 336 1 view .LVU318
+ 1082 000a 08BD     		pop	{r3, pc}
+ 1083              	.L75:
+ 1084              		.align	2
+ 1085              	.L74:
+ 1086 000c 00000000 		.word	u8g2_pg
+ 1087              		.cfi_endproc
+ 1088              	.LFE14:
+ 1090              		.section	.text.u8g2_DrawTriangle,"ax",%progbits
+ 1091              		.align	1
+ 1092              		.global	u8g2_DrawTriangle
+ 1093              		.syntax unified
+ 1094              		.thumb
+ 1095              		.thumb_func
+ 1097              	u8g2_DrawTriangle:
+ 1098              	.LVL108:
+ 1099              	.LFB15:
+ 337:user/drivers/u8g2/u8g2_polygon.c **** 
+ 338:user/drivers/u8g2/u8g2_polygon.c **** void u8g2_DrawTriangle(u8g2_t *u8g2, int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
+ 339:user/drivers/u8g2/u8g2_polygon.c **** {
+ 1100              		.loc 1 339 1 is_stmt 1 view -0
+ 1101              		.cfi_startproc
+ 1102              		@ args = 12, pretend = 0, frame = 0
+ 1103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1104              		.loc 1 339 1 is_stmt 0 view .LVU320
+ 1105 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1106              	.LCFI12:
+ 1107              		.cfi_def_cfa_offset 24
+ 1108              		.cfi_offset 3, -24
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 28
+
+
+ 1109              		.cfi_offset 4, -20
+ 1110              		.cfi_offset 5, -16
+ 1111              		.cfi_offset 6, -12
+ 1112              		.cfi_offset 7, -8
+ 1113              		.cfi_offset 14, -4
+ 1114 0002 0446     		mov	r4, r0
+ 1115 0004 0E46     		mov	r6, r1
+ 1116 0006 1746     		mov	r7, r2
+ 1117 0008 1D46     		mov	r5, r3
+ 340:user/drivers/u8g2/u8g2_polygon.c ****   u8g2_ClearPolygonXY();
+ 1118              		.loc 1 340 3 is_stmt 1 view .LVU321
+ 1119 000a FFF7FEFF 		bl	u8g2_ClearPolygonXY
+ 1120              	.LVL109:
+ 341:user/drivers/u8g2/u8g2_polygon.c ****   u8g2_AddPolygonXY(u8g2, x0, y0);
+ 1121              		.loc 1 341 3 view .LVU322
+ 1122 000e 3A46     		mov	r2, r7
+ 1123 0010 3146     		mov	r1, r6
+ 1124 0012 2046     		mov	r0, r4
+ 1125 0014 FFF7FEFF 		bl	u8g2_AddPolygonXY
+ 1126              	.LVL110:
+ 342:user/drivers/u8g2/u8g2_polygon.c ****   u8g2_AddPolygonXY(u8g2, x1, y1);
+ 1127              		.loc 1 342 3 view .LVU323
+ 1128 0018 BDF91820 		ldrsh	r2, [sp, #24]
+ 1129 001c 2946     		mov	r1, r5
+ 1130 001e 2046     		mov	r0, r4
+ 1131 0020 FFF7FEFF 		bl	u8g2_AddPolygonXY
+ 1132              	.LVL111:
+ 343:user/drivers/u8g2/u8g2_polygon.c ****   u8g2_AddPolygonXY(u8g2, x2, y2);
+ 1133              		.loc 1 343 3 view .LVU324
+ 1134 0024 BDF92020 		ldrsh	r2, [sp, #32]
+ 1135 0028 BDF91C10 		ldrsh	r1, [sp, #28]
+ 1136 002c 2046     		mov	r0, r4
+ 1137 002e FFF7FEFF 		bl	u8g2_AddPolygonXY
+ 1138              	.LVL112:
+ 344:user/drivers/u8g2/u8g2_polygon.c ****   u8g2_DrawPolygon(u8g2);
+ 1139              		.loc 1 344 3 view .LVU325
+ 1140 0032 2046     		mov	r0, r4
+ 1141 0034 FFF7FEFF 		bl	u8g2_DrawPolygon
+ 1142              	.LVL113:
+ 345:user/drivers/u8g2/u8g2_polygon.c **** }
+ 1143              		.loc 1 345 1 is_stmt 0 view .LVU326
+ 1144 0038 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1145              		.loc 1 345 1 view .LVU327
+ 1146              		.cfi_endproc
+ 1147              	.LFE15:
+ 1149              		.global	u8g2_pg
+ 1150              		.section	.bss.u8g2_pg,"aw",%nobits
+ 1151              		.align	2
+ 1154              	u8g2_pg:
+ 1155 0000 00000000 		.space	76
+ 1155      00000000 
+ 1155      00000000 
+ 1155      00000000 
+ 1155      00000000 
+ 1156              		.text
+ 1157              	.Letext0:
+ 1158              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 29
+
+
+ 1159              		.file 3 "/usr/local/include/sys/_types/_int16_t.h"
+ 1160              		.file 4 "/usr/local/include/_types/_uint8_t.h"
+ 1161              		.file 5 "/usr/local/include/_types/_uint16_t.h"
+ 1162              		.file 6 "/usr/local/include/_types/_uint32_t.h"
+ 1163              		.file 7 "user/drivers/u8g2/u8x8.h"
+ 1164              		.file 8 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s 			page 30
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_polygon.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:21     .text.pge_Next:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:26     .text.pge_Next:00000000 pge_Next
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:99     .text.pge_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:104    .text.pge_Init:00000000 pge_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:207    .text.pg_inc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:212    .text.pg_inc:00000000 pg_inc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:247    .text.pg_dec:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:252    .text.pg_dec:00000000 pg_dec
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:289    .text.pg_expand_min_y:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:294    .text.pg_expand_min_y:00000000 pg_expand_min_y
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:357    .text.pg_prepare:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:362    .text.pg_prepare:00000000 pg_prepare
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:533    .text.pg_prepare:000000a0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:539    .text.pg_line_init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:544    .text.pg_line_init:00000000 pg_line_init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:631    .text.pg_ClearPolygonXY:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:636    .text.pg_ClearPolygonXY:00000000 pg_ClearPolygonXY
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:654    .text.pg_AddPolygonXY:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:659    .text.pg_AddPolygonXY:00000000 pg_AddPolygonXY
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:694    .text.pg_hline:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:699    .text.pg_hline:00000000 pg_hline
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:836    .text.pg_exec:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:841    .text.pg_exec:00000000 pg_exec
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:946    .text.pg_DrawPolygon:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:951    .text.pg_DrawPolygon:00000000 pg_DrawPolygon
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:989    .text.u8g2_ClearPolygonXY:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:995    .text.u8g2_ClearPolygonXY:00000000 u8g2_ClearPolygonXY
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1015   .text.u8g2_ClearPolygonXY:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1154   .bss.u8g2_pg:00000000 u8g2_pg
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1020   .text.u8g2_AddPolygonXY:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1026   .text.u8g2_AddPolygonXY:00000000 u8g2_AddPolygonXY
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1050   .text.u8g2_AddPolygonXY:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1055   .text.u8g2_DrawPolygon:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1061   .text.u8g2_DrawPolygon:00000000 u8g2_DrawPolygon
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1086   .text.u8g2_DrawPolygon:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1091   .text.u8g2_DrawTriangle:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1097   .text.u8g2_DrawTriangle:00000000 u8g2_DrawTriangle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccdZKGOh.s:1151   .bss.u8g2_pg:00000000 $d
+
+UNDEFINED SYMBOLS
+u8g2_DrawHLine

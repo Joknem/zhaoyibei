@@ -40,7 +40,8 @@ build/app_freertos.o: Core/Src/app_freertos.c \
  Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  user/Inc/mpu.h user/drivers/DMP/driver/eMPL/inv_mpu.h user/Inc/oled.h \
- Core/Inc/i2c.h Core/Inc/main.h user/Inc/fonts.h
+ user/Inc/fonts.h Core/Inc/i2c.h Core/Inc/main.h user/drivers/u8g2/u8g2.h \
+ user/drivers/u8g2/u8x8.h
 Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 Core/Inc/FreeRTOSConfig.h:
 Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -87,6 +88,8 @@ Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 user/Inc/mpu.h:
 user/drivers/DMP/driver/eMPL/inv_mpu.h:
 user/Inc/oled.h:
+user/Inc/fonts.h:
 Core/Inc/i2c.h:
 Core/Inc/main.h:
-user/Inc/fonts.h:
+user/drivers/u8g2/u8g2.h:
+user/drivers/u8g2/u8x8.h:

@@ -1,0 +1,818 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_ll_hvline.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_ll_hvline.c"
+  20              		.section	.text.u8g2_ll_hvline_vertical_top_lsb,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_ll_hvline_vertical_top_lsb
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_ll_hvline_vertical_top_lsb:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+   2:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+   3:user/drivers/u8g2/u8g2_ll_hvline.c ****   u8g2_ll_hvline.c
+   4:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+   5:user/drivers/u8g2/u8g2_ll_hvline.c ****   low level hvline
+   6:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+   7:user/drivers/u8g2/u8g2_ll_hvline.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+   9:user/drivers/u8g2/u8g2_ll_hvline.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:user/drivers/u8g2/u8g2_ll_hvline.c ****   All rights reserved.
+  11:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  12:user/drivers/u8g2/u8g2_ll_hvline.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:user/drivers/u8g2/u8g2_ll_hvline.c ****   are permitted provided that the following conditions are met:
+  14:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  15:user/drivers/u8g2/u8g2_ll_hvline.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:user/drivers/u8g2/u8g2_ll_hvline.c ****     of conditions and the following disclaimer.
+  17:user/drivers/u8g2/u8g2_ll_hvline.c ****     
+  18:user/drivers/u8g2/u8g2_ll_hvline.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:user/drivers/u8g2/u8g2_ll_hvline.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:user/drivers/u8g2/u8g2_ll_hvline.c ****     materials provided with the distribution.
+  21:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  22:user/drivers/u8g2/u8g2_ll_hvline.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:user/drivers/u8g2/u8g2_ll_hvline.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:user/drivers/u8g2/u8g2_ll_hvline.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:user/drivers/u8g2/u8g2_ll_hvline.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:user/drivers/u8g2/u8g2_ll_hvline.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:user/drivers/u8g2/u8g2_ll_hvline.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:user/drivers/u8g2/u8g2_ll_hvline.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:user/drivers/u8g2/u8g2_ll_hvline.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 2
+
+
+  30:user/drivers/u8g2/u8g2_ll_hvline.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  31:user/drivers/u8g2/u8g2_ll_hvline.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:user/drivers/u8g2/u8g2_ll_hvline.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:user/drivers/u8g2/u8g2_ll_hvline.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:user/drivers/u8g2/u8g2_ll_hvline.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  35:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  36:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  37:user/drivers/u8g2/u8g2_ll_hvline.c ****   *ptr |= or_mask
+  38:user/drivers/u8g2/u8g2_ll_hvline.c ****   *ptr ^= xor_mask
+  39:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+  40:user/drivers/u8g2/u8g2_ll_hvline.c ****   color = 0:   or_mask = 1, xor_mask = 1
+  41:user/drivers/u8g2/u8g2_ll_hvline.c ****   color = 1:   or_mask = 1, xor_mask = 0
+  42:user/drivers/u8g2/u8g2_ll_hvline.c ****   color = 2:   or_mask = 0, xor_mask = 1
+  43:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  44:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( color <= 1 )
+  45:user/drivers/u8g2/u8g2_ll_hvline.c ****     or_mask  = mask;
+  46:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( color != 1 )
+  47:user/drivers/u8g2/u8g2_ll_hvline.c ****     xor_mask = mask;
+  48:user/drivers/u8g2/u8g2_ll_hvline.c ****     
+  49:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+  50:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  51:user/drivers/u8g2/u8g2_ll_hvline.c **** #include "u8g2.h"
+  52:user/drivers/u8g2/u8g2_ll_hvline.c **** #include <assert.h>
+  53:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  54:user/drivers/u8g2/u8g2_ll_hvline.c **** /*=================================================*/
+  55:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+  56:user/drivers/u8g2/u8g2_ll_hvline.c ****   u8g2_ll_hvline_vertical_top_lsb
+  57:user/drivers/u8g2/u8g2_ll_hvline.c ****     SSD13xx
+  58:user/drivers/u8g2/u8g2_ll_hvline.c ****     UC1701    
+  59:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+  60:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  61:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  62:user/drivers/u8g2/u8g2_ll_hvline.c **** #ifdef U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
+  63:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  64:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+  65:user/drivers/u8g2/u8g2_ll_hvline.c ****   x,y		Upper left position of the line within the local buffer (not the display!)
+  66:user/drivers/u8g2/u8g2_ll_hvline.c ****   len		length of the line in pixel, len must not be 0
+  67:user/drivers/u8g2/u8g2_ll_hvline.c ****   dir		0: horizontal line (left to right)
+  68:user/drivers/u8g2/u8g2_ll_hvline.c **** 		1: vertical line (top to bottom)
+  69:user/drivers/u8g2/u8g2_ll_hvline.c ****   asumption: 
+  70:user/drivers/u8g2/u8g2_ll_hvline.c ****     all clipping done
+  71:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+  72:user/drivers/u8g2/u8g2_ll_hvline.c **** void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, u
+  73:user/drivers/u8g2/u8g2_ll_hvline.c **** {
+  30              		.loc 1 73 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 73 1 is_stmt 0 view .LVU1
+  35 0000 70B5     		push	{r4, r5, r6, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 4, -16
+  39              		.cfi_offset 5, -12
+  40              		.cfi_offset 6, -8
+  41              		.cfi_offset 14, -4
+  42 0002 9DF81050 		ldrb	r5, [sp, #16]	@ zero_extendqisi2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 3
+
+
+  74:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint16_t offset;
+  43              		.loc 1 74 3 is_stmt 1 view .LVU2
+  75:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t *ptr;
+  44              		.loc 1 75 3 view .LVU3
+  76:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t bit_pos, mask;
+  45              		.loc 1 76 3 view .LVU4
+  77:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t or_mask, xor_mask;
+  46              		.loc 1 77 3 view .LVU5
+  78:user/drivers/u8g2/u8g2_ll_hvline.c **** #ifdef __unix
+  79:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t *max_ptr = u8g2->tile_buf_ptr + u8g2_GetU8x8(u8g2)->display_info->tile_width*u8g2->tile_b
+  80:user/drivers/u8g2/u8g2_ll_hvline.c **** #endif
+  81:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  82:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(x >= u8g2->buf_x0);
+  83:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+  84:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(y >= u8g2->buf_y0);
+  85:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+  86:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+  87:user/drivers/u8g2/u8g2_ll_hvline.c ****   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
+  88:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos = y;		/* overflow truncate is ok here... */
+  47              		.loc 1 88 3 view .LVU6
+  48              	.LVL1:
+  89:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
+  49              		.loc 1 89 3 view .LVU7
+  50              		.loc 1 89 11 is_stmt 0 view .LVU8
+  51 0006 02F0070E 		and	lr, r2, #7
+  52              	.LVL2:
+  90:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask = 1;
+  53              		.loc 1 90 3 is_stmt 1 view .LVU9
+  91:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask <<= bit_pos;
+  54              		.loc 1 91 3 view .LVU10
+  55              		.loc 1 91 8 is_stmt 0 view .LVU11
+  56 000a 4FF0010C 		mov	ip, #1
+  57 000e 0CFA0EFC 		lsl	ip, ip, lr
+  58 0012 5FFA8CFC 		uxtb	ip, ip
+  59              	.LVL3:
+  92:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+  93:user/drivers/u8g2/u8g2_ll_hvline.c ****   or_mask = 0;
+  60              		.loc 1 93 3 is_stmt 1 view .LVU12
+  94:user/drivers/u8g2/u8g2_ll_hvline.c ****   xor_mask = 0;
+  61              		.loc 1 94 3 view .LVU13
+  95:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color <= 1 )
+  62              		.loc 1 95 3 view .LVU14
+  63              		.loc 1 95 12 is_stmt 0 view .LVU15
+  64 0016 90F89260 		ldrb	r6, [r0, #146]	@ zero_extendqisi2
+  65              		.loc 1 95 6 view .LVU16
+  66 001a 012E     		cmp	r6, #1
+  67 001c 1BD9     		bls	.L10
+  93:user/drivers/u8g2/u8g2_ll_hvline.c ****   xor_mask = 0;
+  68              		.loc 1 93 11 view .LVU17
+  69 001e 0024     		movs	r4, #0
+  70              	.L2:
+  71              	.LVL4:
+  96:user/drivers/u8g2/u8g2_ll_hvline.c ****     or_mask  = mask;
+  97:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color != 1 )
+  72              		.loc 1 97 3 is_stmt 1 view .LVU18
+  73              		.loc 1 97 6 is_stmt 0 view .LVU19
+  74 0020 012E     		cmp	r6, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 4
+
+
+  75 0022 1AD0     		beq	.L14
+  76              	.LVL5:
+  77              	.L3:
+  98:user/drivers/u8g2/u8g2_ll_hvline.c ****     xor_mask = mask;
+  99:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 100:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 101:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
+  78              		.loc 1 101 3 is_stmt 1 view .LVU20
+ 102:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset &= ~7;
+  79              		.loc 1 102 3 view .LVU21
+  80              		.loc 1 102 10 is_stmt 0 view .LVU22
+  81 0024 22F00702 		bic	r2, r2, #7
+  82              	.LVL6:
+  83              		.loc 1 102 10 view .LVU23
+  84 0028 92B2     		uxth	r2, r2
+  85              	.LVL7:
+ 103:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
+  86              		.loc 1 103 3 is_stmt 1 view .LVU24
+  87              		.loc 1 103 45 is_stmt 0 view .LVU25
+  88 002a 0668     		ldr	r6, [r0]
+  89 002c 367C     		ldrb	r6, [r6, #16]	@ zero_extendqisi2
+  90              		.loc 1 103 10 view .LVU26
+  91 002e 16FB02F2 		smulbb	r2, r6, r2
+  92              	.LVL8:
+  93              		.loc 1 103 10 view .LVU27
+  94 0032 92B2     		uxth	r2, r2
+  95              	.LVL9:
+ 104:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr = u8g2->tile_buf_ptr;
+  96              		.loc 1 104 3 is_stmt 1 view .LVU28
+ 105:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr += offset;
+  97              		.loc 1 105 3 view .LVU29
+ 106:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr += x;
+  98              		.loc 1 106 3 view .LVU30
+  99              		.loc 1 106 7 is_stmt 0 view .LVU31
+ 100 0034 0A44     		add	r2, r2, r1
+ 101              	.LVL10:
+ 102              		.loc 1 106 7 view .LVU32
+ 103 0036 416B     		ldr	r1, [r0, #52]
+ 104              	.LVL11:
+ 105              		.loc 1 106 7 view .LVU33
+ 106 0038 1144     		add	r1, r1, r2
+ 107              	.LVL12:
+ 107:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+ 108:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( dir == 0 )
+ 108              		.loc 1 108 3 is_stmt 1 view .LVU34
+ 109              		.loc 1 108 6 is_stmt 0 view .LVU35
+ 110 003a DDB9     		cbnz	r5, .L4
+ 111              	.L5:
+ 109:user/drivers/u8g2/u8g2_ll_hvline.c ****   {
+ 110:user/drivers/u8g2/u8g2_ll_hvline.c ****       do
+ 112              		.loc 1 110 7 is_stmt 1 discriminator 1 view .LVU36
+ 111:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 112:user/drivers/u8g2/u8g2_ll_hvline.c **** #ifdef __unix
+ 113:user/drivers/u8g2/u8g2_ll_hvline.c **** 	assert(ptr < max_ptr);
+ 114:user/drivers/u8g2/u8g2_ll_hvline.c **** #endif
+ 115:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= or_mask;
+ 113              		.loc 1 115 2 discriminator 1 view .LVU37
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 5
+
+
+ 114 003c 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 115              		.loc 1 115 7 is_stmt 0 discriminator 1 view .LVU38
+ 116 003e 2243     		orrs	r2, r2, r4
+ 117 0040 D2B2     		uxtb	r2, r2
+ 118 0042 0A70     		strb	r2, [r1]
+ 116:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= xor_mask;
+ 119              		.loc 1 116 2 is_stmt 1 discriminator 1 view .LVU39
+ 120              		.loc 1 116 7 is_stmt 0 discriminator 1 view .LVU40
+ 121 0044 82EA0C02 		eor	r2, r2, ip
+ 122 0048 01F8012B 		strb	r2, [r1], #1
+ 123              	.LVL13:
+ 117:user/drivers/u8g2/u8g2_ll_hvline.c **** 	ptr++;
+ 124              		.loc 1 117 2 is_stmt 1 discriminator 1 view .LVU41
+ 118:user/drivers/u8g2/u8g2_ll_hvline.c **** 	len--;
+ 125              		.loc 1 118 2 discriminator 1 view .LVU42
+ 126              		.loc 1 118 5 is_stmt 0 discriminator 1 view .LVU43
+ 127 004c 013B     		subs	r3, r3, #1
+ 128              	.LVL14:
+ 129              		.loc 1 118 5 discriminator 1 view .LVU44
+ 130 004e 9BB2     		uxth	r3, r3
+ 131              	.LVL15:
+ 119:user/drivers/u8g2/u8g2_ll_hvline.c ****       } while( len != 0 );
+ 132              		.loc 1 119 20 is_stmt 1 discriminator 1 view .LVU45
+ 133 0050 002B     		cmp	r3, #0
+ 134 0052 F3D1     		bne	.L5
+ 135              	.LVL16:
+ 136              	.L1:
+ 120:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 121:user/drivers/u8g2/u8g2_ll_hvline.c ****   else
+ 122:user/drivers/u8g2/u8g2_ll_hvline.c ****   {    
+ 123:user/drivers/u8g2/u8g2_ll_hvline.c ****     do
+ 124:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 125:user/drivers/u8g2/u8g2_ll_hvline.c **** #ifdef __unix
+ 126:user/drivers/u8g2/u8g2_ll_hvline.c ****       assert(ptr < max_ptr);
+ 127:user/drivers/u8g2/u8g2_ll_hvline.c **** #endif
+ 128:user/drivers/u8g2/u8g2_ll_hvline.c ****       *ptr |= or_mask;
+ 129:user/drivers/u8g2/u8g2_ll_hvline.c ****       *ptr ^= xor_mask;
+ 130:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 131:user/drivers/u8g2/u8g2_ll_hvline.c ****       bit_pos++;
+ 132:user/drivers/u8g2/u8g2_ll_hvline.c ****       bit_pos &= 7;
+ 133:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 134:user/drivers/u8g2/u8g2_ll_hvline.c ****       len--;
+ 135:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 136:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( bit_pos == 0 )
+ 137:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 138:user/drivers/u8g2/u8g2_ll_hvline.c **** 	ptr+=u8g2->pixel_buf_width;	/* 6 Jan 17: Changed u8g2->width to u8g2->pixel_buf_width, issue #148 
+ 139:user/drivers/u8g2/u8g2_ll_hvline.c **** 		
+ 140:user/drivers/u8g2/u8g2_ll_hvline.c **** 	if ( u8g2->draw_color <= 1 )
+ 141:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  or_mask  = 1;
+ 142:user/drivers/u8g2/u8g2_ll_hvline.c **** 	if ( u8g2->draw_color != 1 )
+ 143:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  xor_mask = 1;
+ 144:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 145:user/drivers/u8g2/u8g2_ll_hvline.c ****       else
+ 146:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 147:user/drivers/u8g2/u8g2_ll_hvline.c **** 	or_mask <<= 1;
+ 148:user/drivers/u8g2/u8g2_ll_hvline.c **** 	xor_mask <<= 1;
+ 149:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 6
+
+
+ 150:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
+ 151:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 152:user/drivers/u8g2/u8g2_ll_hvline.c **** }
+ 137              		.loc 1 152 1 is_stmt 0 view .LVU46
+ 138 0054 70BD     		pop	{r4, r5, r6, pc}
+ 139              	.LVL17:
+ 140              	.L10:
+  96:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color != 1 )
+ 141              		.loc 1 96 14 view .LVU47
+ 142 0056 6446     		mov	r4, ip
+ 143 0058 E2E7     		b	.L2
+ 144              	.LVL18:
+ 145              	.L14:
+  94:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color <= 1 )
+ 146              		.loc 1 94 12 view .LVU48
+ 147 005a 4FF0000C 		mov	ip, #0
+ 148              	.LVL19:
+  94:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color <= 1 )
+ 149              		.loc 1 94 12 view .LVU49
+ 150 005e E1E7     		b	.L3
+ 151              	.LVL20:
+ 152              	.L15:
+ 141:user/drivers/u8g2/u8g2_ll_hvline.c **** 	if ( u8g2->draw_color != 1 )
+ 153              		.loc 1 141 13 view .LVU50
+ 154 0060 0124     		movs	r4, #1
+ 155              	.LVL21:
+ 141:user/drivers/u8g2/u8g2_ll_hvline.c **** 	if ( u8g2->draw_color != 1 )
+ 156              		.loc 1 141 13 view .LVU51
+ 157 0062 1BE0     		b	.L8
+ 158              	.LVL22:
+ 159              	.L7:
+ 147:user/drivers/u8g2/u8g2_ll_hvline.c **** 	xor_mask <<= 1;
+ 160              		.loc 1 147 2 is_stmt 1 view .LVU52
+ 147:user/drivers/u8g2/u8g2_ll_hvline.c **** 	xor_mask <<= 1;
+ 161              		.loc 1 147 10 is_stmt 0 view .LVU53
+ 162 0064 6400     		lsls	r4, r4, #1
+ 163              	.LVL23:
+ 147:user/drivers/u8g2/u8g2_ll_hvline.c **** 	xor_mask <<= 1;
+ 164              		.loc 1 147 10 view .LVU54
+ 165 0066 E4B2     		uxtb	r4, r4
+ 166              	.LVL24:
+ 148:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 167              		.loc 1 148 2 is_stmt 1 view .LVU55
+ 148:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 168              		.loc 1 148 11 is_stmt 0 view .LVU56
+ 169 0068 4FEA4C0C 		lsl	ip, ip, #1
+ 170              	.LVL25:
+ 148:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 171              		.loc 1 148 11 view .LVU57
+ 172 006c 5FFA8CFC 		uxtb	ip, ip
+ 173              	.LVL26:
+ 174              	.L9:
+ 150:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 175              		.loc 1 150 18 is_stmt 1 view .LVU58
+ 176 0070 002B     		cmp	r3, #0
+ 177 0072 EFD0     		beq	.L1
+ 178              	.LVL27:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 7
+
+
+ 179              	.L4:
+ 123:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 180              		.loc 1 123 5 view .LVU59
+ 128:user/drivers/u8g2/u8g2_ll_hvline.c ****       *ptr ^= xor_mask;
+ 181              		.loc 1 128 7 view .LVU60
+ 182 0074 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 128:user/drivers/u8g2/u8g2_ll_hvline.c ****       *ptr ^= xor_mask;
+ 183              		.loc 1 128 12 is_stmt 0 view .LVU61
+ 184 0076 2243     		orrs	r2, r2, r4
+ 185 0078 D2B2     		uxtb	r2, r2
+ 186 007a 0A70     		strb	r2, [r1]
+ 129:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 187              		.loc 1 129 7 is_stmt 1 view .LVU62
+ 129:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 188              		.loc 1 129 12 is_stmt 0 view .LVU63
+ 189 007c 82EA0C02 		eor	r2, r2, ip
+ 190 0080 0A70     		strb	r2, [r1]
+ 131:user/drivers/u8g2/u8g2_ll_hvline.c ****       bit_pos &= 7;
+ 191              		.loc 1 131 7 is_stmt 1 view .LVU64
+ 131:user/drivers/u8g2/u8g2_ll_hvline.c ****       bit_pos &= 7;
+ 192              		.loc 1 131 14 is_stmt 0 view .LVU65
+ 193 0082 0EF10102 		add	r2, lr, #1
+ 194              	.LVL28:
+ 132:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 195              		.loc 1 132 7 is_stmt 1 view .LVU66
+ 134:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 196              		.loc 1 134 7 view .LVU67
+ 134:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 197              		.loc 1 134 10 is_stmt 0 view .LVU68
+ 198 0086 013B     		subs	r3, r3, #1
+ 199              	.LVL29:
+ 134:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 200              		.loc 1 134 10 view .LVU69
+ 201 0088 9BB2     		uxth	r3, r3
+ 202              	.LVL30:
+ 136:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 203              		.loc 1 136 7 is_stmt 1 view .LVU70
+ 136:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 204              		.loc 1 136 10 is_stmt 0 view .LVU71
+ 205 008a 12F0070E 		ands	lr, r2, #7
+ 206 008e E9D1     		bne	.L7
+ 138:user/drivers/u8g2/u8g2_ll_hvline.c **** 		
+ 207              		.loc 1 138 2 is_stmt 1 view .LVU72
+ 138:user/drivers/u8g2/u8g2_ll_hvline.c **** 		
+ 208              		.loc 1 138 11 is_stmt 0 view .LVU73
+ 209 0090 428F     		ldrh	r2, [r0, #58]
+ 210              	.LVL31:
+ 138:user/drivers/u8g2/u8g2_ll_hvline.c **** 		
+ 211              		.loc 1 138 5 view .LVU74
+ 212 0092 1144     		add	r1, r1, r2
+ 213              	.LVL32:
+ 140:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  or_mask  = 1;
+ 214              		.loc 1 140 2 is_stmt 1 view .LVU75
+ 140:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  or_mask  = 1;
+ 215              		.loc 1 140 11 is_stmt 0 view .LVU76
+ 216 0094 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+ 140:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  or_mask  = 1;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 8
+
+
+ 217              		.loc 1 140 5 view .LVU77
+ 218 0098 012A     		cmp	r2, #1
+ 219 009a E1D9     		bls	.L15
+ 220              	.LVL33:
+ 221              	.L8:
+ 142:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  xor_mask = 1;
+ 222              		.loc 1 142 2 is_stmt 1 view .LVU78
+ 142:user/drivers/u8g2/u8g2_ll_hvline.c **** 	  xor_mask = 1;
+ 223              		.loc 1 142 5 is_stmt 0 view .LVU79
+ 224 009c 012A     		cmp	r2, #1
+ 225 009e E7D0     		beq	.L9
+ 143:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 226              		.loc 1 143 13 view .LVU80
+ 227 00a0 4FF0010C 		mov	ip, #1
+ 228              	.LVL34:
+ 143:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 229              		.loc 1 143 13 view .LVU81
+ 230 00a4 E4E7     		b	.L9
+ 231              		.cfi_endproc
+ 232              	.LFE0:
+ 234              		.section	.text.u8g2_ll_hvline_horizontal_right_lsb,"ax",%progbits
+ 235              		.align	1
+ 236              		.global	u8g2_ll_hvline_horizontal_right_lsb
+ 237              		.syntax unified
+ 238              		.thumb
+ 239              		.thumb_func
+ 241              	u8g2_ll_hvline_horizontal_right_lsb:
+ 242              	.LVL35:
+ 243              	.LFB1:
+ 153:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 154:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 155:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 156:user/drivers/u8g2/u8g2_ll_hvline.c **** #else /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
+ 157:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 158:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+ 159:user/drivers/u8g2/u8g2_ll_hvline.c ****   x,y position within the buffer
+ 160:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+ 161:user/drivers/u8g2/u8g2_ll_hvline.c **** static void u8g2_draw_pixel_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
+ 162:user/drivers/u8g2/u8g2_ll_hvline.c **** {
+ 163:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint16_t offset;
+ 164:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t *ptr;
+ 165:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t bit_pos, mask;
+ 166:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+ 167:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(x >= u8g2->buf_x0);
+ 168:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
+ 169:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(y >= u8g2->buf_y0);
+ 170:user/drivers/u8g2/u8g2_ll_hvline.c ****   //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
+ 171:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+ 172:user/drivers/u8g2/u8g2_ll_hvline.c ****   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
+ 173:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos = y;		/* overflow truncate is ok here... */
+ 174:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
+ 175:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask = 1;
+ 176:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask <<= bit_pos;
+ 177:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 178:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
+ 179:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset &= ~7;
+ 180:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 9
+
+
+ 181:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr = u8g2->tile_buf_ptr;
+ 182:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr += offset;
+ 183:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr += x;
+ 184:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 185:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 186:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color <= 1 )
+ 187:user/drivers/u8g2/u8g2_ll_hvline.c ****     *ptr |= mask;
+ 188:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( u8g2->draw_color != 1 )
+ 189:user/drivers/u8g2/u8g2_ll_hvline.c ****     *ptr ^= mask;
+ 190:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 191:user/drivers/u8g2/u8g2_ll_hvline.c **** }
+ 192:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 193:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+ 194:user/drivers/u8g2/u8g2_ll_hvline.c ****   x,y		Upper left position of the line within the local buffer (not the display!)
+ 195:user/drivers/u8g2/u8g2_ll_hvline.c ****   len		length of the line in pixel, len must not be 0
+ 196:user/drivers/u8g2/u8g2_ll_hvline.c ****   dir		0: horizontal line (left to right)
+ 197:user/drivers/u8g2/u8g2_ll_hvline.c **** 		1: vertical line (top to bottom)
+ 198:user/drivers/u8g2/u8g2_ll_hvline.c ****   asumption: 
+ 199:user/drivers/u8g2/u8g2_ll_hvline.c ****     all clipping done
+ 200:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+ 201:user/drivers/u8g2/u8g2_ll_hvline.c **** void u8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, u
+ 202:user/drivers/u8g2/u8g2_ll_hvline.c **** {
+ 203:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( dir == 0 )
+ 204:user/drivers/u8g2/u8g2_ll_hvline.c ****   {
+ 205:user/drivers/u8g2/u8g2_ll_hvline.c ****     do
+ 206:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 207:user/drivers/u8g2/u8g2_ll_hvline.c ****       u8g2_draw_pixel_vertical_top_lsb(u8g2, x, y);
+ 208:user/drivers/u8g2/u8g2_ll_hvline.c ****       x++;
+ 209:user/drivers/u8g2/u8g2_ll_hvline.c ****       len--;
+ 210:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
+ 211:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 212:user/drivers/u8g2/u8g2_ll_hvline.c ****   else
+ 213:user/drivers/u8g2/u8g2_ll_hvline.c ****   {
+ 214:user/drivers/u8g2/u8g2_ll_hvline.c ****     do
+ 215:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 216:user/drivers/u8g2/u8g2_ll_hvline.c ****       u8g2_draw_pixel_vertical_top_lsb(u8g2, x, y);
+ 217:user/drivers/u8g2/u8g2_ll_hvline.c ****       y++;
+ 218:user/drivers/u8g2/u8g2_ll_hvline.c ****       len--;
+ 219:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
+ 220:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 221:user/drivers/u8g2/u8g2_ll_hvline.c **** }
+ 222:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 223:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 224:user/drivers/u8g2/u8g2_ll_hvline.c **** #endif /* U8G2_WITH_HVLINE_SPEED_OPTIMIZATION */
+ 225:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 226:user/drivers/u8g2/u8g2_ll_hvline.c **** /*=================================================*/
+ 227:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+ 228:user/drivers/u8g2/u8g2_ll_hvline.c ****   u8g2_ll_hvline_horizontal_right_lsb
+ 229:user/drivers/u8g2/u8g2_ll_hvline.c ****     ST7920
+ 230:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+ 231:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 232:user/drivers/u8g2/u8g2_ll_hvline.c **** #ifdef U8G2_WITH_HVLINE_SPEED_OPTIMIZATION
+ 233:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 234:user/drivers/u8g2/u8g2_ll_hvline.c **** /*
+ 235:user/drivers/u8g2/u8g2_ll_hvline.c ****   x,y		Upper left position of the line within the local buffer (not the display!)
+ 236:user/drivers/u8g2/u8g2_ll_hvline.c ****   len		length of the line in pixel, len must not be 0
+ 237:user/drivers/u8g2/u8g2_ll_hvline.c ****   dir		0: horizontal line (left to right)
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 10
+
+
+ 238:user/drivers/u8g2/u8g2_ll_hvline.c **** 		1: vertical line (top to bottom)
+ 239:user/drivers/u8g2/u8g2_ll_hvline.c ****   asumption: 
+ 240:user/drivers/u8g2/u8g2_ll_hvline.c ****     all clipping done
+ 241:user/drivers/u8g2/u8g2_ll_hvline.c **** */
+ 242:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 243:user/drivers/u8g2/u8g2_ll_hvline.c **** /* SH1122, LD7032, ST7920, ST7986, LC7981, T6963, SED1330, RA8835, MAX7219, LS0 */ 
+ 244:user/drivers/u8g2/u8g2_ll_hvline.c **** void u8g2_ll_hvline_horizontal_right_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t le
+ 245:user/drivers/u8g2/u8g2_ll_hvline.c **** {
+ 244              		.loc 1 245 1 is_stmt 1 view -0
+ 245              		.cfi_startproc
+ 246              		@ args = 4, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              		.loc 1 245 1 is_stmt 0 view .LVU83
+ 249 0000 30B5     		push	{r4, r5, lr}
+ 250              	.LCFI1:
+ 251              		.cfi_def_cfa_offset 12
+ 252              		.cfi_offset 4, -12
+ 253              		.cfi_offset 5, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 9DF80C40 		ldrb	r4, [sp, #12]	@ zero_extendqisi2
+ 246:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint16_t offset;
+ 256              		.loc 1 246 3 is_stmt 1 view .LVU84
+ 247:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t *ptr;
+ 257              		.loc 1 247 3 view .LVU85
+ 248:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t bit_pos;
+ 258              		.loc 1 248 3 view .LVU86
+ 249:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t mask;
+ 259              		.loc 1 249 3 view .LVU87
+ 250:user/drivers/u8g2/u8g2_ll_hvline.c ****   uint8_t tile_width = u8g2_GetU8x8(u8g2)->display_info->tile_width;
+ 260              		.loc 1 250 3 view .LVU88
+ 261              		.loc 1 250 42 is_stmt 0 view .LVU89
+ 262 0006 0568     		ldr	r5, [r0]
+ 263              		.loc 1 250 11 view .LVU90
+ 264 0008 95F810E0 		ldrb	lr, [r5, #16]	@ zero_extendqisi2
+ 265              	.LVL36:
+ 251:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 252:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos = x;		/* overflow truncate is ok here... */
+ 266              		.loc 1 252 3 is_stmt 1 view .LVU91
+ 253:user/drivers/u8g2/u8g2_ll_hvline.c ****   bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
+ 267              		.loc 1 253 3 view .LVU92
+ 268              		.loc 1 253 11 is_stmt 0 view .LVU93
+ 269 000c 01F00705 		and	r5, r1, #7
+ 270              	.LVL37:
+ 254:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask = 128;
+ 271              		.loc 1 254 3 is_stmt 1 view .LVU94
+ 255:user/drivers/u8g2/u8g2_ll_hvline.c ****   mask >>= bit_pos;
+ 272              		.loc 1 255 3 view .LVU95
+ 273              		.loc 1 255 8 is_stmt 0 view .LVU96
+ 274 0010 4FF0800C 		mov	ip, #128
+ 275 0014 4CFA05FC 		asr	ip, ip, r5
+ 276 0018 5FFA8CFC 		uxtb	ip, ip
+ 277              	.LVL38:
+ 256:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 257:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
+ 278              		.loc 1 257 3 is_stmt 1 view .LVU97
+ 258:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset *= tile_width;
+ 279              		.loc 1 258 3 view .LVU98
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 11
+
+
+ 280              		.loc 1 258 10 is_stmt 0 view .LVU99
+ 281 001c 1EFB02F2 		smulbb	r2, lr, r2
+ 282              	.LVL39:
+ 259:user/drivers/u8g2/u8g2_ll_hvline.c ****   offset += x>>3;
+ 283              		.loc 1 259 3 is_stmt 1 view .LVU100
+ 284              		.loc 1 259 10 is_stmt 0 view .LVU101
+ 285 0020 C908     		lsrs	r1, r1, #3
+ 286              	.LVL40:
+ 287              		.loc 1 259 10 view .LVU102
+ 288 0022 11FA82F1 		uxtah	r1, r1, r2
+ 289              	.LVL41:
+ 260:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr = u8g2->tile_buf_ptr;
+ 290              		.loc 1 260 3 is_stmt 1 view .LVU103
+ 291              		.loc 1 260 7 is_stmt 0 view .LVU104
+ 292 0026 426B     		ldr	r2, [r0, #52]
+ 293              	.LVL42:
+ 261:user/drivers/u8g2/u8g2_ll_hvline.c ****   ptr += offset;
+ 294              		.loc 1 261 3 is_stmt 1 view .LVU105
+ 295              		.loc 1 261 7 is_stmt 0 view .LVU106
+ 296 0028 12FA81F1 		uxtah	r1, r2, r1
+ 297              	.LVL43:
+ 262:user/drivers/u8g2/u8g2_ll_hvline.c ****   
+ 263:user/drivers/u8g2/u8g2_ll_hvline.c ****   if ( dir == 0 )
+ 298              		.loc 1 263 3 is_stmt 1 view .LVU107
+ 299              		.loc 1 263 6 is_stmt 0 view .LVU108
+ 300 002c 3CBB     		cbnz	r4, .L17
+ 301 002e 0AE0     		b	.L21
+ 302              	.L26:
+ 264:user/drivers/u8g2/u8g2_ll_hvline.c ****   {
+ 265:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 266:user/drivers/u8g2/u8g2_ll_hvline.c ****     do
+ 267:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 268:user/drivers/u8g2/u8g2_ll_hvline.c **** 
+ 269:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color <= 1 )
+ 270:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 303              		.loc 1 270 2 is_stmt 1 view .LVU109
+ 304 0030 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 305              		.loc 1 270 7 is_stmt 0 view .LVU110
+ 306 0032 42EA0C02 		orr	r2, r2, ip
+ 307 0036 0A70     		strb	r2, [r1]
+ 308 0038 09E0     		b	.L18
+ 309              	.LVL44:
+ 310              	.L27:
+ 271:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color != 1 )
+ 272:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= mask;
+ 273:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 274:user/drivers/u8g2/u8g2_ll_hvline.c ****       mask >>= 1;
+ 275:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( mask == 0 )
+ 276:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 277:user/drivers/u8g2/u8g2_ll_hvline.c **** 	mask = 128;
+ 311              		.loc 1 277 2 is_stmt 1 view .LVU111
+ 278:user/drivers/u8g2/u8g2_ll_hvline.c ****         ptr++;
+ 312              		.loc 1 278 9 view .LVU112
+ 313              		.loc 1 278 12 is_stmt 0 view .LVU113
+ 314 003a 0131     		adds	r1, r1, #1
+ 315              	.LVL45:
+ 277:user/drivers/u8g2/u8g2_ll_hvline.c ****         ptr++;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 12
+
+
+ 316              		.loc 1 277 7 view .LVU114
+ 317 003c 4FF0800C 		mov	ip, #128
+ 318              	.LVL46:
+ 319              	.L20:
+ 279:user/drivers/u8g2/u8g2_ll_hvline.c ****       }
+ 280:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 281:user/drivers/u8g2/u8g2_ll_hvline.c ****       //x++;
+ 282:user/drivers/u8g2/u8g2_ll_hvline.c ****       len--;
+ 320              		.loc 1 282 7 is_stmt 1 view .LVU115
+ 321              		.loc 1 282 10 is_stmt 0 view .LVU116
+ 322 0040 013B     		subs	r3, r3, #1
+ 323              	.LVL47:
+ 324              		.loc 1 282 10 view .LVU117
+ 325 0042 9BB2     		uxth	r3, r3
+ 326              	.LVL48:
+ 283:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
+ 327              		.loc 1 283 18 is_stmt 1 view .LVU118
+ 328 0044 23B3     		cbz	r3, .L16
+ 329              	.L21:
+ 266:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 330              		.loc 1 266 5 view .LVU119
+ 269:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 331              		.loc 1 269 7 view .LVU120
+ 269:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 332              		.loc 1 269 16 is_stmt 0 view .LVU121
+ 333 0046 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+ 269:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 334              		.loc 1 269 10 view .LVU122
+ 335 004a 012A     		cmp	r2, #1
+ 336 004c F0D9     		bls	.L26
+ 337              	.L18:
+ 271:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= mask;
+ 338              		.loc 1 271 7 is_stmt 1 view .LVU123
+ 271:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= mask;
+ 339              		.loc 1 271 16 is_stmt 0 view .LVU124
+ 340 004e 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+ 271:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= mask;
+ 341              		.loc 1 271 10 view .LVU125
+ 342 0052 012A     		cmp	r2, #1
+ 343 0054 03D0     		beq	.L19
+ 272:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 344              		.loc 1 272 2 is_stmt 1 view .LVU126
+ 345 0056 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 272:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 346              		.loc 1 272 7 is_stmt 0 view .LVU127
+ 347 0058 82EA0C02 		eor	r2, r2, ip
+ 348 005c 0A70     		strb	r2, [r1]
+ 349              	.L19:
+ 274:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( mask == 0 )
+ 350              		.loc 1 274 7 is_stmt 1 view .LVU128
+ 351              	.LVL49:
+ 275:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 352              		.loc 1 275 7 view .LVU129
+ 275:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 353              		.loc 1 275 10 is_stmt 0 view .LVU130
+ 354 005e 5FEA5C0C 		lsrs	ip, ip, #1
+ 355              	.LVL50:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 13
+
+
+ 275:user/drivers/u8g2/u8g2_ll_hvline.c ****       {
+ 356              		.loc 1 275 10 view .LVU131
+ 357 0062 EDD1     		bne	.L20
+ 358 0064 E9E7     		b	.L27
+ 359              	.LVL51:
+ 360              	.L23:
+ 284:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 285:user/drivers/u8g2/u8g2_ll_hvline.c ****   else
+ 286:user/drivers/u8g2/u8g2_ll_hvline.c ****   {
+ 287:user/drivers/u8g2/u8g2_ll_hvline.c ****     do
+ 288:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 289:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color <= 1 )
+ 290:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 291:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color != 1 )
+ 361              		.loc 1 291 7 is_stmt 1 view .LVU132
+ 362              		.loc 1 291 16 is_stmt 0 view .LVU133
+ 363 0066 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+ 364              		.loc 1 291 10 view .LVU134
+ 365 006a 012A     		cmp	r2, #1
+ 366 006c 03D0     		beq	.L24
+ 292:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr ^= mask;
+ 367              		.loc 1 292 2 is_stmt 1 view .LVU135
+ 368 006e 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 369              		.loc 1 292 7 is_stmt 0 view .LVU136
+ 370 0070 82EA0C02 		eor	r2, r2, ip
+ 371 0074 0A70     		strb	r2, [r1]
+ 372              	.L24:
+ 293:user/drivers/u8g2/u8g2_ll_hvline.c ****       
+ 294:user/drivers/u8g2/u8g2_ll_hvline.c ****       ptr += tile_width;
+ 373              		.loc 1 294 7 is_stmt 1 view .LVU137
+ 374              		.loc 1 294 11 is_stmt 0 view .LVU138
+ 375 0076 7144     		add	r1, r1, lr
+ 376              	.LVL52:
+ 295:user/drivers/u8g2/u8g2_ll_hvline.c ****       //y++;
+ 296:user/drivers/u8g2/u8g2_ll_hvline.c ****       len--;
+ 377              		.loc 1 296 7 is_stmt 1 view .LVU139
+ 378              		.loc 1 296 10 is_stmt 0 view .LVU140
+ 379 0078 013B     		subs	r3, r3, #1
+ 380              	.LVL53:
+ 381              		.loc 1 296 10 view .LVU141
+ 382 007a 9BB2     		uxth	r3, r3
+ 383              	.LVL54:
+ 297:user/drivers/u8g2/u8g2_ll_hvline.c ****     } while( len != 0 );
+ 384              		.loc 1 297 18 is_stmt 1 view .LVU142
+ 385 007c 43B1     		cbz	r3, .L16
+ 386              	.L17:
+ 287:user/drivers/u8g2/u8g2_ll_hvline.c ****     {
+ 387              		.loc 1 287 5 view .LVU143
+ 289:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 388              		.loc 1 289 7 view .LVU144
+ 289:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 389              		.loc 1 289 16 is_stmt 0 view .LVU145
+ 390 007e 90F89220 		ldrb	r2, [r0, #146]	@ zero_extendqisi2
+ 289:user/drivers/u8g2/u8g2_ll_hvline.c **** 	*ptr |= mask;
+ 391              		.loc 1 289 10 view .LVU146
+ 392 0082 012A     		cmp	r2, #1
+ 393 0084 EFD8     		bhi	.L23
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 14
+
+
+ 290:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color != 1 )
+ 394              		.loc 1 290 2 is_stmt 1 view .LVU147
+ 395 0086 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
+ 290:user/drivers/u8g2/u8g2_ll_hvline.c ****       if ( u8g2->draw_color != 1 )
+ 396              		.loc 1 290 7 is_stmt 0 view .LVU148
+ 397 0088 42EA0C02 		orr	r2, r2, ip
+ 398 008c 0A70     		strb	r2, [r1]
+ 399 008e EAE7     		b	.L23
+ 400              	.L16:
+ 298:user/drivers/u8g2/u8g2_ll_hvline.c ****   }
+ 299:user/drivers/u8g2/u8g2_ll_hvline.c **** }
+ 401              		.loc 1 299 1 view .LVU149
+ 402 0090 30BD     		pop	{r4, r5, pc}
+ 403              		.loc 1 299 1 view .LVU150
+ 404              		.cfi_endproc
+ 405              	.LFE1:
+ 407              		.text
+ 408              	.Letext0:
+ 409              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 410              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 411              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 412              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 413              		.file 6 "user/drivers/u8g2/u8x8.h"
+ 414              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_ll_hvline.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:21     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:27     .text.u8g2_ll_hvline_vertical_top_lsb:00000000 u8g2_ll_hvline_vertical_top_lsb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:235    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0rhatx.s:241    .text.u8g2_ll_hvline_horizontal_right_lsb:00000000 u8g2_ll_hvline_horizontal_right_lsb
+
+NO UNDEFINED SYMBOLS

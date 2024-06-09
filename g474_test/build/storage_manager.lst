@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
   28:user/drivers/DMP/mllite/storage_manager.c **** typedef inv_error_t (*load_func_t)(const unsigned char *data);
   29:user/drivers/DMP/mllite/storage_manager.c **** typedef inv_error_t (*save_func_t)(unsigned char *data);
   30:user/drivers/DMP/mllite/storage_manager.c **** /** Max number of entites that can be stored */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 2
 
 
   31:user/drivers/DMP/mllite/storage_manager.c **** #define NUM_STORAGE_BOXES 20
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
   85:user/drivers/DMP/mllite/storage_manager.c ****     ds.total_size += size + sizeof(struct data_header_t);
   86:user/drivers/DMP/mllite/storage_manager.c ****     ds.num++;
   87:user/drivers/DMP/mllite/storage_manager.c **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 3
 
 
   88:user/drivers/DMP/mllite/storage_manager.c ****     return INV_SUCCESS;
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
   61 0016 03EB8203 		add	r3, r3, r2, lsl #2
   62 001a D3F8B030 		ldr	r3, [r3, #176]
   63              		.loc 1 109 12 view .LVU12
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 4
 
 
   64 001e 8B42     		cmp	r3, r1
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  110              		.loc 1 54 1 view .LVU19
  111 0014 10BD     		pop	{r4, pc}
  112              	.L12:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 5
 
 
  113 0016 00BF     		.align	2
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  159 0012 0ADD     		ble	.L20
   72:user/drivers/DMP/mllite/storage_manager.c ****             return INV_ERROR_INVALID_PARAMETER;
  160              		.loc 1 72 9 is_stmt 1 view .LVU30
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 6
 
 
   72:user/drivers/DMP/mllite/storage_manager.c ****             return INV_ERROR_INVALID_PARAMETER;
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  199              		.loc 1 84 21 is_stmt 0 view .LVU46
  200 0046 04F11603 		add	r3, r4, #22
  201 004a 45F82310 		str	r1, [r5, r3, lsl #2]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 7
 
 
   85:user/drivers/DMP/mllite/storage_manager.c ****     ds.num++;
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  247              		@ link register save eliminated.
   97:user/drivers/DMP/mllite/storage_manager.c ****     return INV_SUCCESS;
  248              		.loc 1 97 5 view .LVU58
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 8
 
 
   97:user/drivers/DMP/mllite/storage_manager.c ****     return INV_SUCCESS;
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  285              		.loc 1 129 5 view .LVU69
  130:user/drivers/DMP/mllite/storage_manager.c ****     if (len < sizeof(struct data_header_t))
  286              		.loc 1 130 5 view .LVU70
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 9
 
 
  287              		.loc 1 130 8 is_stmt 0 view .LVU71
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  157:user/drivers/DMP/mllite/storage_manager.c ****         }
  158:user/drivers/DMP/mllite/storage_manager.c ****         len -= hd->size;
  159:user/drivers/DMP/mllite/storage_manager.c ****         if (len >= 0)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 10
 
 
  160:user/drivers/DMP/mllite/storage_manager.c ****             data = data + hd->size;
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  348              		.loc 1 141 16 view .LVU93
  349 002e F1E7     		b	.L27
  350              	.LVL30:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 11
 
 
  351              	.L30:
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  388 004a F1DB     		blt	.L30
  148:user/drivers/DMP/mllite/storage_manager.c ****             if (hd->size == ds.hd[entry].size) {
  389              		.loc 1 148 36 discriminator 1 view .LVU111
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 12
 
 
  390 004c 2168     		ldr	r1, [r4]
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  163:user/drivers/DMP/mllite/storage_manager.c **** }
  430              		.loc 1 163 12 view .LVU126
  431 007e 0020     		movs	r0, #0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 13
 
 
  432 0080 C8E7     		b	.L27
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  482              		.thumb_func
  484              	inv_save_mpl_states:
  485              	.LVL49:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 14
 
 
  486              	.LFB39:
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  523              		.loc 1 180 9 view .LVU146
  524 0016 1CE0     		b	.L47
  525              	.LVL51:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 15
 
 
  526              	.L48:
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  572              	.L47:
  180:user/drivers/DMP/mllite/storage_manager.c ****             hd = (struct data_header_t *)cur;
  573              		.loc 1 180 25 discriminator 1 view .LVU167
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 16
 
 
  180:user/drivers/DMP/mllite/storage_manager.c ****             hd = (struct data_header_t *)cur;
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  190:user/drivers/DMP/mllite/storage_manager.c ****     }
  611              		.loc 1 190 16 view .LVU183
  612 007e 6B20     		movs	r0, #107
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 17
 
 
  613              	.LVL62:
@@ -987,31 +987,31 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 1
  634              		.file 5 "user/drivers/DMP/driver/include/mltypes.h"
  635              		.file 6 "user/drivers/DMP/mllite/ml_math_func.h"
  636              		.file 7 "<built-in>"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 storage_manager.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:21     .text.inv_find_entry:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:26     .text.inv_find_entry:00000000 inv_find_entry
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:77     .text.inv_find_entry:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:627    .bss.ds:00000000 ds
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:82     .text.inv_init_storage_manager:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:88     .text.inv_init_storage_manager:00000000 inv_init_storage_manager
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:115    .text.inv_init_storage_manager:00000018 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:120    .text.inv_register_load_store:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:126    .text.inv_register_load_store:00000000 inv_register_load_store
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:229    .text.inv_register_load_store:00000064 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:234    .text.inv_get_mpl_state_size:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:240    .text.inv_get_mpl_state_size:00000000 inv_get_mpl_state_size
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:263    .text.inv_get_mpl_state_size:0000000c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:268    .text.inv_load_mpl_states:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:274    .text.inv_load_mpl_states:00000000 inv_load_mpl_states
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:473    .text.inv_load_mpl_states:00000090 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:478    .text.inv_save_mpl_states:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:484    .text.inv_save_mpl_states:00000000 inv_save_mpl_states
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:619    .text.inv_save_mpl_states:00000084 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccPFg9Zi.s:624    .bss.ds:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:21     .text.inv_find_entry:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:26     .text.inv_find_entry:00000000 inv_find_entry
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:77     .text.inv_find_entry:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:627    .bss.ds:00000000 ds
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:82     .text.inv_init_storage_manager:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:88     .text.inv_init_storage_manager:00000000 inv_init_storage_manager
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:115    .text.inv_init_storage_manager:00000018 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:120    .text.inv_register_load_store:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:126    .text.inv_register_load_store:00000000 inv_register_load_store
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:229    .text.inv_register_load_store:00000064 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:234    .text.inv_get_mpl_state_size:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:240    .text.inv_get_mpl_state_size:00000000 inv_get_mpl_state_size
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:263    .text.inv_get_mpl_state_size:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:268    .text.inv_load_mpl_states:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:274    .text.inv_load_mpl_states:00000000 inv_load_mpl_states
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:473    .text.inv_load_mpl_states:00000090 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:478    .text.inv_save_mpl_states:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:484    .text.inv_save_mpl_states:00000000 inv_save_mpl_states
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:619    .text.inv_save_mpl_states:00000084 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrRcLl4.s:624    .bss.ds:00000000 $d
 
 UNDEFINED SYMBOLS
 memset

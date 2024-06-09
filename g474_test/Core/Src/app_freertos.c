@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "mpu.h"
 #include "oled.h"
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 static float angle;
+extern u8g2_t u8g2;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -140,7 +142,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
@@ -156,11 +158,17 @@ void StartDefaultTask(void *argument)
 void Get_Angle_Task(void *argument)
 {
   /* USER CODE BEGIN Get_Angle_Task */
+      // if (mpu_dmp_get_data(&pitch, &roll, &yaw) == 0) {
+    //   uart_printf("pitch:%4.1f\n", -pitch);
+    //   ssd1306_printf(Font_11x18, "ang:%3.1f", -pitch);
+    //   ssd1306_SetCursor(0, 0);
+    //   HAL_Delay(50);
+    // }
   /* Infinite loop */
   for(;;)
   {
     angle = Angle_Get();
-    osDelay(50);
+    osDelay(30);
   }
   /* USER CODE END Get_Angle_Task */
 }
@@ -174,13 +182,27 @@ void Get_Angle_Task(void *argument)
 /* USER CODE END Header_Oled_Display_Task */
 void Oled_Display_Task(void *argument)
 {
-  /* USER CODE BEGIN Oled_Display_Task */
+  /* USER CODE BEGIN Oled_Display_Task */ 
+  u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R2, STM32_byte_i2c, STM32_gpio_and_delay);
+  u8g2_InitDisplay(&u8g2);
+  u8g2_SetPowerSave(&u8g2, 0);
+  u8g2_ClearDisplay(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_wqy16_t_chinese1);
   /* Infinite loop */
+  int x1, y1, x2, y2;
   for(;;)
   {
-    ssd1306_printf(Font_11x18, "ang:%3.1f", angle);
-    ssd1306_SetCursor(0, 0);
-    osDelay(50);
+    // u8g2_ClearBuffer(&u8g2);
+    u8g2_ClearBuffer(&u8g2);
+    u8g2_printf(&u8g2, 0, 30, "ang:%3.1f", angle);
+    x1 = 95 - 25 * cos(angle / 57.3);
+    y1 = 30 + 25 * sin(angle / 57.3);
+    x2 = 95 + 25 * cos(angle / 57.3);
+    y2 = 30 - 25 * sin(angle / 57.3);
+    u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+    u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+    u8g2_SendBuffer(&u8g2);
+    osDelay(10);
   }
   /* USER CODE END Oled_Display_Task */
 }

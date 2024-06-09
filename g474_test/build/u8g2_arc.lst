@@ -1,0 +1,845 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_arc.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_arc.c"
+  20              		.section	.text.u8g2_draw_arc,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_draw_arc:
+  27              	.LVL0:
+  28              	.LFB0:
+   1:user/drivers/u8g2/u8g2_arc.c **** /*
+   2:user/drivers/u8g2/u8g2_arc.c **** 
+   3:user/drivers/u8g2/u8g2_arc.c ****   u8g2_arc.c
+   4:user/drivers/u8g2/u8g2_arc.c **** 
+   5:user/drivers/u8g2/u8g2_arc.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_arc.c **** 
+   7:user/drivers/u8g2/u8g2_arc.c ****   Copyright (c) 2023, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_arc.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_arc.c **** 
+  10:user/drivers/u8g2/u8g2_arc.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_arc.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_arc.c **** 
+  13:user/drivers/u8g2/u8g2_arc.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_arc.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_arc.c ****     
+  16:user/drivers/u8g2/u8g2_arc.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_arc.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_arc.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_arc.c **** 
+  20:user/drivers/u8g2/u8g2_arc.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_arc.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_arc.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_arc.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_arc.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_arc.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_arc.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_arc.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_arc.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_arc.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:user/drivers/u8g2/u8g2_arc.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 2
+
+
+  31:user/drivers/u8g2/u8g2_arc.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_arc.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_arc.c **** 
+  34:user/drivers/u8g2/u8g2_arc.c **** */
+  35:user/drivers/u8g2/u8g2_arc.c **** 
+  36:user/drivers/u8g2/u8g2_arc.c **** #include "u8g2.h"
+  37:user/drivers/u8g2/u8g2_arc.c **** 
+  38:user/drivers/u8g2/u8g2_arc.c **** 
+  39:user/drivers/u8g2/u8g2_arc.c **** static void u8g2_draw_arc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t st
+  40:user/drivers/u8g2/u8g2_arc.c **** {
+  29              		.loc 1 40 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 8, pretend = 0, frame = 32
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 40 1 is_stmt 0 view .LVU1
+  34 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 36
+  37              		.cfi_offset 4, -36
+  38              		.cfi_offset 5, -32
+  39              		.cfi_offset 6, -28
+  40              		.cfi_offset 7, -24
+  41              		.cfi_offset 8, -20
+  42              		.cfi_offset 9, -16
+  43              		.cfi_offset 10, -12
+  44              		.cfi_offset 11, -8
+  45              		.cfi_offset 14, -4
+  46 0004 89B0     		sub	sp, sp, #36
+  47              	.LCFI1:
+  48              		.cfi_def_cfa_offset 72
+  49 0006 0190     		str	r0, [sp, #4]
+  50 0008 8A46     		mov	r10, r1
+  51 000a 9346     		mov	fp, r2
+  52 000c 0793     		str	r3, [sp, #28]
+  53 000e 9DF84870 		ldrb	r7, [sp, #72]	@ zero_extendqisi2
+  54 0012 9DF84C80 		ldrb	r8, [sp, #76]	@ zero_extendqisi2
+  41:user/drivers/u8g2/u8g2_arc.c ****   // Manage angle inputs
+  42:user/drivers/u8g2/u8g2_arc.c ****   uint8_t full = (start == end);
+  55              		.loc 1 42 3 is_stmt 1 view .LVU2
+  56              	.LVL1:
+  43:user/drivers/u8g2/u8g2_arc.c ****   uint8_t inverted = (start > end);
+  57              		.loc 1 43 3 view .LVU3
+  58              		.loc 1 43 29 is_stmt 0 view .LVU4
+  59 0016 4745     		cmp	r7, r8
+  60 0018 8CBF     		ite	hi
+  61 001a 4FF00109 		movhi	r9, #1
+  62 001e 4FF00009 		movls	r9, #0
+  63              	.LVL2:
+  44:user/drivers/u8g2/u8g2_arc.c ****   uint8_t a_start = inverted ? end : start;
+  64              		.loc 1 44 3 is_stmt 1 view .LVU5
+  65              		.loc 1 44 11 is_stmt 0 view .LVU6
+  66 0022 0BD9     		bls	.L33
+  67 0024 CDF80880 		str	r8, [sp, #8]
+  68              	.L2:
+  69              	.LVL3:
+  45:user/drivers/u8g2/u8g2_arc.c ****   uint8_t a_end = inverted ? start : end;
+  70              		.loc 1 45 3 is_stmt 1 discriminator 4 view .LVU7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 3
+
+
+  71              		.loc 1 45 11 is_stmt 0 discriminator 4 view .LVU8
+  72 0028 4745     		cmp	r7, r8
+  73 002a 09D9     		bls	.L34
+  74              		.loc 1 45 11 view .LVU9
+  75 002c 0397     		str	r7, [sp, #12]
+  76              	.L3:
+  77              	.LVL4:
+  46:user/drivers/u8g2/u8g2_arc.c **** 
+  47:user/drivers/u8g2/u8g2_arc.c ****   // Initialize variables
+  48:user/drivers/u8g2/u8g2_arc.c ****   uint32_t ratio;
+  78              		.loc 1 48 3 is_stmt 1 discriminator 4 view .LVU10
+  49:user/drivers/u8g2/u8g2_arc.c ****   u8g2_int_t x = 0;
+  79              		.loc 1 49 3 discriminator 4 view .LVU11
+  50:user/drivers/u8g2/u8g2_arc.c ****   u8g2_int_t y = rad;
+  80              		.loc 1 50 3 discriminator 4 view .LVU12
+  81              		.loc 1 50 14 is_stmt 0 discriminator 4 view .LVU13
+  82 002e 079B     		ldr	r3, [sp, #28]
+  83              	.LVL5:
+  84              		.loc 1 50 14 discriminator 4 view .LVU14
+  85 0030 1EB2     		sxth	r6, r3
+  86              	.LVL6:
+  51:user/drivers/u8g2/u8g2_arc.c ****   u8g2_int_t d = rad - 1;
+  87              		.loc 1 51 3 is_stmt 1 discriminator 4 view .LVU15
+  88              		.loc 1 51 22 is_stmt 0 discriminator 4 view .LVU16
+  89 0032 013B     		subs	r3, r3, #1
+  90              		.loc 1 51 14 discriminator 4 view .LVU17
+  91 0034 1BB2     		sxth	r3, r3
+  92 0036 0493     		str	r3, [sp, #16]
+  93              	.LVL7:
+  52:user/drivers/u8g2/u8g2_arc.c **** 
+  53:user/drivers/u8g2/u8g2_arc.c ****   // Trace arc radius with the Andres circle algorithm (process each pixel of a 1/8th circle of rad
+  54:user/drivers/u8g2/u8g2_arc.c ****   while (y >= x)
+  94              		.loc 1 54 3 is_stmt 1 discriminator 4 view .LVU18
+  49:user/drivers/u8g2/u8g2_arc.c ****   u8g2_int_t y = rad;
+  95              		.loc 1 49 14 is_stmt 0 discriminator 4 view .LVU19
+  96 0038 0025     		movs	r5, #0
+  97              		.loc 1 54 9 discriminator 4 view .LVU20
+  98 003a D5E0     		b	.L4
+  99              	.LVL8:
+ 100              	.L33:
+  44:user/drivers/u8g2/u8g2_arc.c ****   uint8_t a_end = inverted ? start : end;
+ 101              		.loc 1 44 11 view .LVU21
+ 102 003c 0297     		str	r7, [sp, #8]
+ 103 003e F3E7     		b	.L2
+ 104              	.LVL9:
+ 105              	.L34:
+  45:user/drivers/u8g2/u8g2_arc.c **** 
+ 106              		.loc 1 45 11 view .LVU22
+ 107 0040 CDF80C80 		str	r8, [sp, #12]
+ 108 0044 F3E7     		b	.L3
+ 109              	.LVL10:
+ 110              	.L35:
+  55:user/drivers/u8g2/u8g2_arc.c ****   {
+  56:user/drivers/u8g2/u8g2_arc.c ****     // Get the percentage of 1/8th circle drawn with a fast approximation of arctan(x/y)
+  57:user/drivers/u8g2/u8g2_arc.c ****     ratio = x * 255 / y; // x/y [0..255]
+  58:user/drivers/u8g2/u8g2_arc.c ****     ratio = ratio * (770195 - (ratio - 255) * (ratio + 941)) / 6137491; // arctan(x/y) [0..32]
+  59:user/drivers/u8g2/u8g2_arc.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 4
+
+
+  60:user/drivers/u8g2/u8g2_arc.c ****     // Fill the pixels of the 8 sections of the circle, but only on the arc defined by the angles (
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || ((ratio >= a_start && ratio < a_end) ^ inverted)) u8g2_DrawPixel(u8g2, x0 + y, y0 - 
+ 111              		.loc 1 61 35 view .LVU23
+ 112 0046 0023     		movs	r3, #0
+ 113              	.L6:
+ 114              		.loc 1 61 13 discriminator 8 view .LVU24
+ 115 0048 9945     		cmp	r9, r3
+ 116 004a 08D0     		beq	.L7
+ 117              	.L5:
+ 118              		.loc 1 61 66 is_stmt 1 discriminator 9 view .LVU25
+ 119 004c ABEB0502 		sub	r2, fp, r5
+ 120 0050 0AEB0601 		add	r1, r10, r6
+ 121 0054 92B2     		uxth	r2, r2
+ 122 0056 89B2     		uxth	r1, r1
+ 123 0058 0198     		ldr	r0, [sp, #4]
+ 124 005a FFF7FEFF 		bl	u8g2_DrawPixel
+ 125              	.LVL11:
+ 126              	.L7:
+  62:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 127              		.loc 1 62 5 view .LVU26
+ 128              		.loc 1 62 7 is_stmt 0 view .LVU27
+ 129 005e 4745     		cmp	r7, r8
+ 130 0060 0ED0     		beq	.L8
+ 131              		.loc 1 62 25 discriminator 2 view .LVU28
+ 132 0062 039B     		ldr	r3, [sp, #12]
+ 133 0064 2344     		add	r3, r3, r4
+ 134              		.loc 1 62 39 discriminator 2 view .LVU29
+ 135 0066 3F2B     		cmp	r3, #63
+ 136 0068 07D9     		bls	.L37
+ 137              		.loc 1 62 49 discriminator 3 view .LVU30
+ 138 006a 029B     		ldr	r3, [sp, #8]
+ 139 006c 2344     		add	r3, r3, r4
+ 140              		.loc 1 62 39 discriminator 3 view .LVU31
+ 141 006e 3F2B     		cmp	r3, #63
+ 142 0070 1BD9     		bls	.L38
+ 143              		.loc 1 62 39 view .LVU32
+ 144 0072 0023     		movs	r3, #0
+ 145 0074 02E0     		b	.L9
+ 146              	.L36:
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 147              		.loc 1 61 35 view .LVU33
+ 148 0076 0123     		movs	r3, #1
+ 149 0078 E6E7     		b	.L6
+ 150              	.L37:
+ 151              		.loc 1 62 39 view .LVU34
+ 152 007a 0023     		movs	r3, #0
+ 153              	.L9:
+ 154              		.loc 1 62 13 discriminator 8 view .LVU35
+ 155 007c 9945     		cmp	r9, r3
+ 156 007e 08D0     		beq	.L10
+ 157              	.L8:
+ 158              		.loc 1 62 80 is_stmt 1 discriminator 9 view .LVU36
+ 159 0080 ABEB0602 		sub	r2, fp, r6
+ 160 0084 0AEB0501 		add	r1, r10, r5
+ 161 0088 92B2     		uxth	r2, r2
+ 162 008a 89B2     		uxth	r1, r1
+ 163 008c 0198     		ldr	r0, [sp, #4]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 5
+
+
+ 164 008e FFF7FEFF 		bl	u8g2_DrawPixel
+ 165              	.LVL12:
+ 166              	.L10:
+  63:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 64) >= a_start && (ratio + 64) < a_end) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 167              		.loc 1 63 5 view .LVU37
+ 168              		.loc 1 63 7 is_stmt 0 view .LVU38
+ 169 0092 4745     		cmp	r7, r8
+ 170 0094 0ED0     		beq	.L11
+ 171              		.loc 1 63 25 discriminator 2 view .LVU39
+ 172 0096 04F14003 		add	r3, r4, #64
+ 173              		.loc 1 63 42 discriminator 2 view .LVU40
+ 174 009a 029A     		ldr	r2, [sp, #8]
+ 175 009c 9342     		cmp	r3, r2
+ 176 009e 06D3     		bcc	.L39
+ 177              		.loc 1 63 42 discriminator 3 view .LVU41
+ 178 00a0 039A     		ldr	r2, [sp, #12]
+ 179 00a2 9342     		cmp	r3, r2
+ 180 00a4 1BD3     		bcc	.L40
+ 181              		.loc 1 63 42 view .LVU42
+ 182 00a6 0023     		movs	r3, #0
+ 183 00a8 02E0     		b	.L12
+ 184              	.L38:
+  62:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 185              		.loc 1 62 39 view .LVU43
+ 186 00aa 0123     		movs	r3, #1
+ 187 00ac E6E7     		b	.L9
+ 188              	.L39:
+ 189              		.loc 1 63 42 view .LVU44
+ 190 00ae 0023     		movs	r3, #0
+ 191              	.L12:
+ 192              		.loc 1 63 13 discriminator 8 view .LVU45
+ 193 00b0 9945     		cmp	r9, r3
+ 194 00b2 08D0     		beq	.L13
+ 195              	.L11:
+ 196              		.loc 1 63 80 is_stmt 1 discriminator 9 view .LVU46
+ 197 00b4 ABEB0602 		sub	r2, fp, r6
+ 198 00b8 AAEB0501 		sub	r1, r10, r5
+ 199 00bc 92B2     		uxth	r2, r2
+ 200 00be 89B2     		uxth	r1, r1
+ 201 00c0 0198     		ldr	r0, [sp, #4]
+ 202 00c2 FFF7FEFF 		bl	u8g2_DrawPixel
+ 203              	.LVL13:
+ 204              	.L13:
+  64:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 127 && (ratio + a_start) <= 127) ^ inverted)) u8g2_DrawPixel(u8g
+ 205              		.loc 1 64 5 view .LVU47
+ 206              		.loc 1 64 7 is_stmt 0 view .LVU48
+ 207 00c6 4745     		cmp	r7, r8
+ 208 00c8 0ED0     		beq	.L14
+ 209              		.loc 1 64 25 discriminator 2 view .LVU49
+ 210 00ca 039B     		ldr	r3, [sp, #12]
+ 211 00cc 2344     		add	r3, r3, r4
+ 212              		.loc 1 64 40 discriminator 2 view .LVU50
+ 213 00ce 7F2B     		cmp	r3, #127
+ 214 00d0 07D9     		bls	.L41
+ 215              		.loc 1 64 50 discriminator 3 view .LVU51
+ 216 00d2 029B     		ldr	r3, [sp, #8]
+ 217 00d4 2344     		add	r3, r3, r4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 6
+
+
+ 218              		.loc 1 64 40 discriminator 3 view .LVU52
+ 219 00d6 7F2B     		cmp	r3, #127
+ 220 00d8 1BD9     		bls	.L42
+ 221              		.loc 1 64 40 view .LVU53
+ 222 00da 0023     		movs	r3, #0
+ 223 00dc 02E0     		b	.L15
+ 224              	.L40:
+  63:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 64) >= a_start && (ratio + 64) < a_end) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 225              		.loc 1 63 42 view .LVU54
+ 226 00de 0123     		movs	r3, #1
+ 227 00e0 E6E7     		b	.L12
+ 228              	.L41:
+ 229              		.loc 1 64 40 view .LVU55
+ 230 00e2 0023     		movs	r3, #0
+ 231              	.L15:
+ 232              		.loc 1 64 13 discriminator 8 view .LVU56
+ 233 00e4 9945     		cmp	r9, r3
+ 234 00e6 08D0     		beq	.L16
+ 235              	.L14:
+ 236              		.loc 1 64 82 is_stmt 1 discriminator 9 view .LVU57
+ 237 00e8 ABEB0502 		sub	r2, fp, r5
+ 238 00ec AAEB0601 		sub	r1, r10, r6
+ 239 00f0 92B2     		uxth	r2, r2
+ 240 00f2 89B2     		uxth	r1, r1
+ 241 00f4 0198     		ldr	r0, [sp, #4]
+ 242 00f6 FFF7FEFF 		bl	u8g2_DrawPixel
+ 243              	.LVL14:
+ 244              	.L16:
+  65:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 128) >= a_start && (ratio + 128) < a_end) ^ inverted)) u8g2_DrawPixel(u8g
+ 245              		.loc 1 65 5 view .LVU58
+ 246              		.loc 1 65 7 is_stmt 0 view .LVU59
+ 247 00fa 4745     		cmp	r7, r8
+ 248 00fc 0ED0     		beq	.L17
+ 249              		.loc 1 65 25 discriminator 2 view .LVU60
+ 250 00fe 04F18003 		add	r3, r4, #128
+ 251              		.loc 1 65 43 discriminator 2 view .LVU61
+ 252 0102 029A     		ldr	r2, [sp, #8]
+ 253 0104 9342     		cmp	r3, r2
+ 254 0106 06D3     		bcc	.L43
+ 255              		.loc 1 65 43 discriminator 3 view .LVU62
+ 256 0108 039A     		ldr	r2, [sp, #12]
+ 257 010a 9342     		cmp	r3, r2
+ 258 010c 1BD3     		bcc	.L44
+ 259              		.loc 1 65 43 view .LVU63
+ 260 010e 0023     		movs	r3, #0
+ 261 0110 02E0     		b	.L18
+ 262              	.L42:
+  64:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 127 && (ratio + a_start) <= 127) ^ inverted)) u8g2_DrawPixel(u8g
+ 263              		.loc 1 64 40 view .LVU64
+ 264 0112 0123     		movs	r3, #1
+ 265 0114 E6E7     		b	.L15
+ 266              	.L43:
+ 267              		.loc 1 65 43 view .LVU65
+ 268 0116 0023     		movs	r3, #0
+ 269              	.L18:
+ 270              		.loc 1 65 13 discriminator 8 view .LVU66
+ 271 0118 9945     		cmp	r9, r3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 7
+
+
+ 272 011a 08D0     		beq	.L19
+ 273              	.L17:
+ 274              		.loc 1 65 82 is_stmt 1 discriminator 9 view .LVU67
+ 275 011c 0BEB0502 		add	r2, fp, r5
+ 276 0120 AAEB0601 		sub	r1, r10, r6
+ 277 0124 92B2     		uxth	r2, r2
+ 278 0126 89B2     		uxth	r1, r1
+ 279 0128 0198     		ldr	r0, [sp, #4]
+ 280 012a FFF7FEFF 		bl	u8g2_DrawPixel
+ 281              	.LVL15:
+ 282              	.L19:
+  66:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 191 && (ratio + a_start) <= 191) ^ inverted)) u8g2_DrawPixel(u8g
+ 283              		.loc 1 66 5 view .LVU68
+ 284              		.loc 1 66 7 is_stmt 0 view .LVU69
+ 285 012e 4745     		cmp	r7, r8
+ 286 0130 0ED0     		beq	.L20
+ 287              		.loc 1 66 25 discriminator 2 view .LVU70
+ 288 0132 039B     		ldr	r3, [sp, #12]
+ 289 0134 2344     		add	r3, r3, r4
+ 290              		.loc 1 66 40 discriminator 2 view .LVU71
+ 291 0136 BF2B     		cmp	r3, #191
+ 292 0138 07D9     		bls	.L45
+ 293              		.loc 1 66 50 discriminator 3 view .LVU72
+ 294 013a 029B     		ldr	r3, [sp, #8]
+ 295 013c 2344     		add	r3, r3, r4
+ 296              		.loc 1 66 40 discriminator 3 view .LVU73
+ 297 013e BF2B     		cmp	r3, #191
+ 298 0140 1BD9     		bls	.L46
+ 299              		.loc 1 66 40 view .LVU74
+ 300 0142 0023     		movs	r3, #0
+ 301 0144 02E0     		b	.L21
+ 302              	.L44:
+  65:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 128) >= a_start && (ratio + 128) < a_end) ^ inverted)) u8g2_DrawPixel(u8g
+ 303              		.loc 1 65 43 view .LVU75
+ 304 0146 0123     		movs	r3, #1
+ 305 0148 E6E7     		b	.L18
+ 306              	.L45:
+ 307              		.loc 1 66 40 view .LVU76
+ 308 014a 0023     		movs	r3, #0
+ 309              	.L21:
+ 310              		.loc 1 66 13 discriminator 8 view .LVU77
+ 311 014c 9945     		cmp	r9, r3
+ 312 014e 08D0     		beq	.L22
+ 313              	.L20:
+ 314              		.loc 1 66 82 is_stmt 1 discriminator 9 view .LVU78
+ 315 0150 0BEB0602 		add	r2, fp, r6
+ 316 0154 AAEB0501 		sub	r1, r10, r5
+ 317 0158 92B2     		uxth	r2, r2
+ 318 015a 89B2     		uxth	r1, r1
+ 319 015c 0198     		ldr	r0, [sp, #4]
+ 320 015e FFF7FEFF 		bl	u8g2_DrawPixel
+ 321              	.LVL16:
+ 322              	.L22:
+  67:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 192) >= a_start && (ratio + 192) < a_end) ^ inverted)) u8g2_DrawPixel(u8g
+ 323              		.loc 1 67 5 view .LVU79
+ 324              		.loc 1 67 7 is_stmt 0 view .LVU80
+ 325 0162 4745     		cmp	r7, r8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 8
+
+
+ 326 0164 0ED0     		beq	.L23
+ 327              		.loc 1 67 25 discriminator 2 view .LVU81
+ 328 0166 04F1C003 		add	r3, r4, #192
+ 329              		.loc 1 67 43 discriminator 2 view .LVU82
+ 330 016a 029A     		ldr	r2, [sp, #8]
+ 331 016c 9342     		cmp	r3, r2
+ 332 016e 06D3     		bcc	.L47
+ 333              		.loc 1 67 43 discriminator 3 view .LVU83
+ 334 0170 039A     		ldr	r2, [sp, #12]
+ 335 0172 9342     		cmp	r3, r2
+ 336 0174 1BD3     		bcc	.L48
+ 337              		.loc 1 67 43 view .LVU84
+ 338 0176 0023     		movs	r3, #0
+ 339 0178 02E0     		b	.L24
+ 340              	.L46:
+  66:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 191 && (ratio + a_start) <= 191) ^ inverted)) u8g2_DrawPixel(u8g
+ 341              		.loc 1 66 40 view .LVU85
+ 342 017a 0123     		movs	r3, #1
+ 343 017c E6E7     		b	.L21
+ 344              	.L47:
+ 345              		.loc 1 67 43 view .LVU86
+ 346 017e 0023     		movs	r3, #0
+ 347              	.L24:
+ 348              		.loc 1 67 13 discriminator 8 view .LVU87
+ 349 0180 9945     		cmp	r9, r3
+ 350 0182 08D0     		beq	.L25
+ 351              	.L23:
+ 352              		.loc 1 67 82 is_stmt 1 discriminator 9 view .LVU88
+ 353 0184 0BEB0602 		add	r2, fp, r6
+ 354 0188 0AEB0501 		add	r1, r10, r5
+ 355 018c 92B2     		uxth	r2, r2
+ 356 018e 89B2     		uxth	r1, r1
+ 357 0190 0198     		ldr	r0, [sp, #4]
+ 358 0192 FFF7FEFF 		bl	u8g2_DrawPixel
+ 359              	.LVL17:
+ 360              	.L25:
+  68:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 255 && (ratio + a_start) <= 255) ^ inverted)) u8g2_DrawPixel(u8g
+ 361              		.loc 1 68 5 view .LVU89
+ 362              		.loc 1 68 7 is_stmt 0 view .LVU90
+ 363 0196 4745     		cmp	r7, r8
+ 364 0198 0ED0     		beq	.L26
+ 365              		.loc 1 68 25 discriminator 2 view .LVU91
+ 366 019a 039B     		ldr	r3, [sp, #12]
+ 367 019c 2344     		add	r3, r3, r4
+ 368              		.loc 1 68 40 discriminator 2 view .LVU92
+ 369 019e FF2B     		cmp	r3, #255
+ 370 01a0 07D9     		bls	.L49
+ 371              		.loc 1 68 50 discriminator 3 view .LVU93
+ 372 01a2 029B     		ldr	r3, [sp, #8]
+ 373 01a4 1C44     		add	r4, r4, r3
+ 374              	.LVL18:
+ 375              		.loc 1 68 40 discriminator 3 view .LVU94
+ 376 01a6 FF2C     		cmp	r4, #255
+ 377 01a8 42D9     		bls	.L50
+ 378              		.loc 1 68 40 view .LVU95
+ 379 01aa 0023     		movs	r3, #0
+ 380 01ac 02E0     		b	.L27
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 9
+
+
+ 381              	.LVL19:
+ 382              	.L48:
+  67:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + 192) >= a_start && (ratio + 192) < a_end) ^ inverted)) u8g2_DrawPixel(u8g
+ 383              		.loc 1 67 43 view .LVU96
+ 384 01ae 0123     		movs	r3, #1
+ 385 01b0 E6E7     		b	.L24
+ 386              	.L49:
+ 387              		.loc 1 68 40 view .LVU97
+ 388 01b2 0023     		movs	r3, #0
+ 389              	.LVL20:
+ 390              	.L27:
+ 391              		.loc 1 68 13 discriminator 8 view .LVU98
+ 392 01b4 9945     		cmp	r9, r3
+ 393 01b6 08D0     		beq	.L28
+ 394              	.L26:
+ 395              		.loc 1 68 82 is_stmt 1 discriminator 9 view .LVU99
+ 396 01b8 0BEB0502 		add	r2, fp, r5
+ 397 01bc 0AEB0601 		add	r1, r10, r6
+ 398 01c0 92B2     		uxth	r2, r2
+ 399 01c2 89B2     		uxth	r1, r1
+ 400 01c4 0198     		ldr	r0, [sp, #4]
+ 401 01c6 FFF7FEFF 		bl	u8g2_DrawPixel
+ 402              	.LVL21:
+ 403              	.L28:
+  69:user/drivers/u8g2/u8g2_arc.c **** 
+  70:user/drivers/u8g2/u8g2_arc.c ****     // Run Andres circle algorithm to get to the next pixel
+  71:user/drivers/u8g2/u8g2_arc.c ****     if (d >= 2 * x)
+ 404              		.loc 1 71 5 view .LVU100
+ 405              		.loc 1 71 8 is_stmt 0 view .LVU101
+ 406 01ca 049A     		ldr	r2, [sp, #16]
+ 407 01cc 059B     		ldr	r3, [sp, #20]
+ 408 01ce B2EB430F 		cmp	r2, r3, lsl #1
+ 409 01d2 2FDB     		blt	.L29
+  72:user/drivers/u8g2/u8g2_arc.c ****     {
+  73:user/drivers/u8g2/u8g2_arc.c ****       d = d - 2 * x - 1;
+ 410              		.loc 1 73 7 is_stmt 1 view .LVU102
+ 411              		.loc 1 73 17 is_stmt 0 view .LVU103
+ 412 01d4 ADB2     		uxth	r5, r5
+ 413              	.LVL22:
+ 414              		.loc 1 73 17 view .LVU104
+ 415 01d6 6B00     		lsls	r3, r5, #1
+ 416 01d8 9BB2     		uxth	r3, r3
+ 417              		.loc 1 73 13 view .LVU105
+ 418 01da D31A     		subs	r3, r2, r3
+ 419 01dc 9BB2     		uxth	r3, r3
+ 420              		.loc 1 73 21 view .LVU106
+ 421 01de 013B     		subs	r3, r3, #1
+ 422              		.loc 1 73 9 view .LVU107
+ 423 01e0 1BB2     		sxth	r3, r3
+ 424 01e2 0493     		str	r3, [sp, #16]
+ 425              	.LVL23:
+  74:user/drivers/u8g2/u8g2_arc.c ****       x = x + 1;
+ 426              		.loc 1 74 7 is_stmt 1 view .LVU108
+ 427              		.loc 1 74 13 is_stmt 0 view .LVU109
+ 428 01e4 0135     		adds	r5, r5, #1
+ 429              	.LVL24:
+ 430              		.loc 1 74 9 view .LVU110
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 10
+
+
+ 431 01e6 2DB2     		sxth	r5, r5
+ 432              	.LVL25:
+ 433              	.L4:
+  54:user/drivers/u8g2/u8g2_arc.c ****   {
+ 434              		.loc 1 54 12 is_stmt 1 view .LVU111
+ 435 01e8 B542     		cmp	r5, r6
+ 436 01ea 43DC     		bgt	.L52
+  57:user/drivers/u8g2/u8g2_arc.c ****     ratio = ratio * (770195 - (ratio - 255) * (ratio + 941)) / 6137491; // arctan(x/y) [0..32]
+ 437              		.loc 1 57 5 view .LVU112
+  57:user/drivers/u8g2/u8g2_arc.c ****     ratio = ratio * (770195 - (ratio - 255) * (ratio + 941)) / 6137491; // arctan(x/y) [0..32]
+ 438              		.loc 1 57 15 is_stmt 0 view .LVU113
+ 439 01ec 0595     		str	r5, [sp, #20]
+ 440 01ee C5EB0523 		rsb	r3, r5, r5, lsl #8
+  57:user/drivers/u8g2/u8g2_arc.c ****     ratio = ratio * (770195 - (ratio - 255) * (ratio + 941)) / 6137491; // arctan(x/y) [0..32]
+ 441              		.loc 1 57 21 view .LVU114
+ 442 01f2 0696     		str	r6, [sp, #24]
+ 443 01f4 93FBF6F3 		sdiv	r3, r3, r6
+ 444              	.LVL26:
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 445              		.loc 1 58 5 is_stmt 1 view .LVU115
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 446              		.loc 1 58 38 is_stmt 0 view .LVU116
+ 447 01f8 A3F1FF04 		sub	r4, r3, #255
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 448              		.loc 1 58 54 view .LVU117
+ 449 01fc 03F2AD32 		addw	r2, r3, #941
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 450              		.loc 1 58 45 view .LVU118
+ 451 0200 02FB04F4 		mul	r4, r2, r4
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 452              		.loc 1 58 29 view .LVU119
+ 453 0204 C4F53C24 		rsb	r4, r4, #770048
+ 454 0208 9334     		adds	r4, r4, #147
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 455              		.loc 1 58 19 view .LVU120
+ 456 020a 03FB04F4 		mul	r4, r3, r4
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 457              		.loc 1 58 11 view .LVU121
+ 458 020e 1B4B     		ldr	r3, .L53
+ 459              	.LVL27:
+  58:user/drivers/u8g2/u8g2_arc.c **** 
+ 460              		.loc 1 58 11 view .LVU122
+ 461 0210 A3FB0434 		umull	r3, r4, r3, r4
+ 462 0214 640D     		lsrs	r4, r4, #21
+ 463              	.LVL28:
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 464              		.loc 1 61 5 is_stmt 1 view .LVU123
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 465              		.loc 1 61 7 is_stmt 0 view .LVU124
+ 466 0216 4745     		cmp	r7, r8
+ 467 0218 3FF418AF 		beq	.L5
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 468              		.loc 1 61 35 discriminator 2 view .LVU125
+ 469 021c 029B     		ldr	r3, [sp, #8]
+ 470 021e A342     		cmp	r3, r4
+ 471 0220 3FF611AF 		bhi	.L35
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 11
+
+
+ 472              		.loc 1 61 35 discriminator 3 view .LVU126
+ 473 0224 039B     		ldr	r3, [sp, #12]
+ 474 0226 A342     		cmp	r3, r4
+ 475 0228 3FF625AF 		bhi	.L36
+  61:user/drivers/u8g2/u8g2_arc.c ****     if(full || (((ratio + a_end) > 63 && (ratio + a_start) <= 63) ^ inverted)) u8g2_DrawPixel(u8g2,
+ 476              		.loc 1 61 35 view .LVU127
+ 477 022c 0023     		movs	r3, #0
+ 478 022e 0BE7     		b	.L6
+ 479              	.LVL29:
+ 480              	.L50:
+  68:user/drivers/u8g2/u8g2_arc.c **** 
+ 481              		.loc 1 68 40 view .LVU128
+ 482 0230 0123     		movs	r3, #1
+ 483 0232 BFE7     		b	.L27
+ 484              	.L29:
+  75:user/drivers/u8g2/u8g2_arc.c ****     }
+  76:user/drivers/u8g2/u8g2_arc.c ****     else if (d < 2 * (rad - y))
+ 485              		.loc 1 76 10 is_stmt 1 view .LVU129
+ 486              		.loc 1 76 27 is_stmt 0 view .LVU130
+ 487 0234 079B     		ldr	r3, [sp, #28]
+ 488 0236 069A     		ldr	r2, [sp, #24]
+ 489 0238 9B1A     		subs	r3, r3, r2
+ 490              		.loc 1 76 13 view .LVU131
+ 491 023a 049A     		ldr	r2, [sp, #16]
+ 492 023c B2EB430F 		cmp	r2, r3, lsl #1
+ 493 0240 0ADA     		bge	.L31
+  77:user/drivers/u8g2/u8g2_arc.c ****     {
+  78:user/drivers/u8g2/u8g2_arc.c ****       d = d + 2 * y - 1;
+ 494              		.loc 1 78 7 is_stmt 1 view .LVU132
+ 495              		.loc 1 78 17 is_stmt 0 view .LVU133
+ 496 0242 B6B2     		uxth	r6, r6
+ 497              	.LVL30:
+ 498              		.loc 1 78 17 view .LVU134
+ 499 0244 7300     		lsls	r3, r6, #1
+ 500 0246 9BB2     		uxth	r3, r3
+ 501              		.loc 1 78 13 view .LVU135
+ 502 0248 1344     		add	r3, r3, r2
+ 503 024a 9BB2     		uxth	r3, r3
+ 504              		.loc 1 78 21 view .LVU136
+ 505 024c 013B     		subs	r3, r3, #1
+ 506              		.loc 1 78 9 view .LVU137
+ 507 024e 1BB2     		sxth	r3, r3
+ 508 0250 0493     		str	r3, [sp, #16]
+ 509              	.LVL31:
+  79:user/drivers/u8g2/u8g2_arc.c ****       y = y - 1;
+ 510              		.loc 1 79 7 is_stmt 1 view .LVU138
+ 511              		.loc 1 79 13 is_stmt 0 view .LVU139
+ 512 0252 013E     		subs	r6, r6, #1
+ 513              	.LVL32:
+ 514              		.loc 1 79 9 view .LVU140
+ 515 0254 36B2     		sxth	r6, r6
+ 516              	.LVL33:
+ 517              		.loc 1 79 9 view .LVU141
+ 518 0256 C7E7     		b	.L4
+ 519              	.LVL34:
+ 520              	.L31:
+  80:user/drivers/u8g2/u8g2_arc.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 12
+
+
+  81:user/drivers/u8g2/u8g2_arc.c ****     else
+  82:user/drivers/u8g2/u8g2_arc.c ****     {
+  83:user/drivers/u8g2/u8g2_arc.c ****       d = d + 2 * (y - x - 1);
+ 521              		.loc 1 83 7 is_stmt 1 view .LVU142
+ 522              		.loc 1 83 22 is_stmt 0 view .LVU143
+ 523 0258 069B     		ldr	r3, [sp, #24]
+ 524 025a 059A     		ldr	r2, [sp, #20]
+ 525 025c 9B1A     		subs	r3, r3, r2
+ 526              		.loc 1 83 26 view .LVU144
+ 527 025e 013B     		subs	r3, r3, #1
+ 528              		.loc 1 83 13 view .LVU145
+ 529 0260 049A     		ldr	r2, [sp, #16]
+ 530 0262 02EB4303 		add	r3, r2, r3, lsl #1
+ 531              		.loc 1 83 9 view .LVU146
+ 532 0266 1BB2     		sxth	r3, r3
+ 533 0268 0493     		str	r3, [sp, #16]
+ 534              	.LVL35:
+  84:user/drivers/u8g2/u8g2_arc.c ****       y = y - 1;
+ 535              		.loc 1 84 7 is_stmt 1 view .LVU147
+ 536              		.loc 1 84 13 is_stmt 0 view .LVU148
+ 537 026a 013E     		subs	r6, r6, #1
+ 538              	.LVL36:
+ 539              		.loc 1 84 9 view .LVU149
+ 540 026c 36B2     		sxth	r6, r6
+ 541              	.LVL37:
+  85:user/drivers/u8g2/u8g2_arc.c ****       x = x + 1;
+ 542              		.loc 1 85 7 is_stmt 1 view .LVU150
+ 543              		.loc 1 85 13 is_stmt 0 view .LVU151
+ 544 026e 0135     		adds	r5, r5, #1
+ 545              	.LVL38:
+ 546              		.loc 1 85 9 view .LVU152
+ 547 0270 2DB2     		sxth	r5, r5
+ 548              	.LVL39:
+ 549              		.loc 1 85 9 view .LVU153
+ 550 0272 B9E7     		b	.L4
+ 551              	.LVL40:
+ 552              	.L52:
+  86:user/drivers/u8g2/u8g2_arc.c ****     }
+  87:user/drivers/u8g2/u8g2_arc.c ****   }
+  88:user/drivers/u8g2/u8g2_arc.c **** }
+ 553              		.loc 1 88 1 view .LVU154
+ 554 0274 09B0     		add	sp, sp, #36
+ 555              	.LCFI2:
+ 556              		.cfi_def_cfa_offset 36
+ 557              		@ sp needed
+ 558 0276 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 559              	.LVL41:
+ 560              	.L54:
+ 561              		.loc 1 88 1 view .LVU155
+ 562 027a 00BF     		.align	2
+ 563              	.L53:
+ 564 027c 53587957 		.word	1467570259
+ 565              		.cfi_endproc
+ 566              	.LFE0:
+ 568              		.section	.text.u8g2_DrawArc,"ax",%progbits
+ 569              		.align	1
+ 570              		.global	u8g2_DrawArc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 13
+
+
+ 571              		.syntax unified
+ 572              		.thumb
+ 573              		.thumb_func
+ 575              	u8g2_DrawArc:
+ 576              	.LVL42:
+ 577              	.LFB1:
+  89:user/drivers/u8g2/u8g2_arc.c **** 
+  90:user/drivers/u8g2/u8g2_arc.c **** void u8g2_DrawArc(u8g2_t *u8g2, u8g2_uint_t x0, u8g2_uint_t y0, u8g2_uint_t rad, uint8_t start, uin
+  91:user/drivers/u8g2/u8g2_arc.c **** {
+ 578              		.loc 1 91 1 is_stmt 1 view -0
+ 579              		.cfi_startproc
+ 580              		@ args = 8, pretend = 0, frame = 0
+ 581              		@ frame_needed = 0, uses_anonymous_args = 0
+ 582              		.loc 1 91 1 is_stmt 0 view .LVU157
+ 583 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 584              	.LCFI3:
+ 585              		.cfi_def_cfa_offset 24
+ 586              		.cfi_offset 4, -24
+ 587              		.cfi_offset 5, -20
+ 588              		.cfi_offset 6, -16
+ 589              		.cfi_offset 7, -12
+ 590              		.cfi_offset 8, -8
+ 591              		.cfi_offset 14, -4
+ 592 0004 82B0     		sub	sp, sp, #8
+ 593              	.LCFI4:
+ 594              		.cfi_def_cfa_offset 32
+ 595 0006 8046     		mov	r8, r0
+ 596 0008 0E46     		mov	r6, r1
+ 597 000a 1746     		mov	r7, r2
+ 598 000c 1D46     		mov	r5, r3
+  92:user/drivers/u8g2/u8g2_arc.c ****   /* check for bounding box */
+  93:user/drivers/u8g2/u8g2_arc.c **** #ifdef U8G2_WITH_INTERSECTION
+  94:user/drivers/u8g2/u8g2_arc.c ****   {
+  95:user/drivers/u8g2/u8g2_arc.c ****     if ( u8g2_IsIntersection(u8g2, x0-rad, y0-rad, x0+rad+1, y0+rad+1) == 0 ) 
+ 599              		.loc 1 95 5 is_stmt 1 view .LVU158
+ 600              		.loc 1 95 54 is_stmt 0 view .LVU159
+ 601 000e CB18     		adds	r3, r1, r3
+ 602              	.LVL43:
+ 603              		.loc 1 95 54 view .LVU160
+ 604 0010 9BB2     		uxth	r3, r3
+ 605              		.loc 1 95 64 view .LVU161
+ 606 0012 AC18     		adds	r4, r5, r2
+ 607 0014 A4B2     		uxth	r4, r4
+ 608              		.loc 1 95 10 view .LVU162
+ 609 0016 0133     		adds	r3, r3, #1
+ 610 0018 521B     		subs	r2, r2, r5
+ 611              	.LVL44:
+ 612              		.loc 1 95 10 view .LVU163
+ 613 001a 491B     		subs	r1, r1, r5
+ 614              	.LVL45:
+ 615              		.loc 1 95 10 view .LVU164
+ 616 001c 0134     		adds	r4, r4, #1
+ 617 001e A4B2     		uxth	r4, r4
+ 618 0020 0094     		str	r4, [sp]
+ 619 0022 9BB2     		uxth	r3, r3
+ 620 0024 92B2     		uxth	r2, r2
+ 621 0026 89B2     		uxth	r1, r1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 14
+
+
+ 622 0028 FFF7FEFF 		bl	u8g2_IsIntersection
+ 623              	.LVL46:
+ 624              		.loc 1 95 8 view .LVU165
+ 625 002c 10B9     		cbnz	r0, .L58
+ 626              	.L55:
+  96:user/drivers/u8g2/u8g2_arc.c ****       return;
+  97:user/drivers/u8g2/u8g2_arc.c ****   }
+  98:user/drivers/u8g2/u8g2_arc.c **** #endif /* U8G2_WITH_INTERSECTION */
+  99:user/drivers/u8g2/u8g2_arc.c ****   
+ 100:user/drivers/u8g2/u8g2_arc.c ****   
+ 101:user/drivers/u8g2/u8g2_arc.c ****   /* draw arc */
+ 102:user/drivers/u8g2/u8g2_arc.c ****   u8g2_draw_arc(u8g2, x0, y0, rad, start, end);
+ 103:user/drivers/u8g2/u8g2_arc.c **** }
+ 627              		.loc 1 103 1 view .LVU166
+ 628 002e 02B0     		add	sp, sp, #8
+ 629              	.LCFI5:
+ 630              		.cfi_remember_state
+ 631              		.cfi_def_cfa_offset 24
+ 632              		@ sp needed
+ 633 0030 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 634              	.LVL47:
+ 635              	.L58:
+ 636              	.LCFI6:
+ 637              		.cfi_restore_state
+ 102:user/drivers/u8g2/u8g2_arc.c **** }
+ 638              		.loc 1 102 3 is_stmt 1 view .LVU167
+ 639 0034 9DF82430 		ldrb	r3, [sp, #36]	@ zero_extendqisi2
+ 640 0038 0193     		str	r3, [sp, #4]
+ 641 003a 9DF82030 		ldrb	r3, [sp, #32]	@ zero_extendqisi2
+ 642 003e 0093     		str	r3, [sp]
+ 643 0040 2B46     		mov	r3, r5
+ 644 0042 3A46     		mov	r2, r7
+ 645 0044 3146     		mov	r1, r6
+ 646 0046 4046     		mov	r0, r8
+ 647 0048 FFF7FEFF 		bl	u8g2_draw_arc
+ 648              	.LVL48:
+ 649 004c EFE7     		b	.L55
+ 650              		.cfi_endproc
+ 651              	.LFE1:
+ 653              		.text
+ 654              	.Letext0:
+ 655              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 656              		.file 3 "/usr/local/include/sys/_types/_int16_t.h"
+ 657              		.file 4 "/usr/local/include/_types/_uint8_t.h"
+ 658              		.file 5 "/usr/local/include/_types/_uint16_t.h"
+ 659              		.file 6 "/usr/local/include/_types/_uint32_t.h"
+ 660              		.file 7 "user/drivers/u8g2/u8x8.h"
+ 661              		.file 8 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_arc.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:21     .text.u8g2_draw_arc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:26     .text.u8g2_draw_arc:00000000 u8g2_draw_arc
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:564    .text.u8g2_draw_arc:0000027c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:569    .text.u8g2_DrawArc:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccyEtr7t.s:575    .text.u8g2_DrawArc:00000000 u8g2_DrawArc
+
+UNDEFINED SYMBOLS
+u8g2_DrawPixel
+u8g2_IsIntersection
