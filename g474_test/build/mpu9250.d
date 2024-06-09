@@ -28,8 +28,8 @@ build/mpu9250.o: user/Src/mpu9250.c user/Inc/mpu9250.h Core/Inc/main.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h Core/Inc/i2c.h \
- Core/Inc/main.h DMP/driver/eMPL/inv_mpu.h \
- DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h
+ Core/Inc/main.h user/drivers/DMP/driver/eMPL/inv_mpu.h \
+ user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h
 user/Inc/mpu9250.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
@@ -65,5 +65,5 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
 Core/Inc/i2c.h:
 Core/Inc/main.h:
-DMP/driver/eMPL/inv_mpu.h:
-DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
+user/drivers/DMP/driver/eMPL/inv_mpu.h:
+user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:

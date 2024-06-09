@@ -1,5 +1,6 @@
-build/inv_mpu.o: DMP/driver/eMPL/inv_mpu.c DMP/driver/eMPL/inv_mpu.h \
- Core/Inc/main.h Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
+build/inv_mpu.o: user/drivers/DMP/driver/eMPL/inv_mpu.c \
+ user/drivers/DMP/driver/eMPL/inv_mpu.h Core/Inc/main.h \
+ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
  Core/Inc/stm32g4xx_hal_conf.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rcc.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h \
@@ -28,23 +29,37 @@ build/inv_mpu.o: DMP/driver/eMPL/inv_mpu.c DMP/driver/eMPL/inv_mpu.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
- DMP/mllite/data_builder.h DMP/driver/include/mltypes.h \
- DMP/driver/include/stdint_invensense.h DMP/eMPL-hal/eMPL_outputs.h \
- DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h DMP/mllite/invensense.h \
- DMP/mllite/data_builder.h DMP/mllite/hal_outputs.h \
- DMP/mllite/message_layer.h DMP/driver/include/mlmath.h \
- DMP/mllite/ml_math_func.h DMP/mllite/mpl.h DMP/mllite/results_holder.h \
- DMP/mllite/start_manager.h DMP/mllite/storage_manager.h \
- DMP/driver/include/log.h DMP/driver/include/mlinclude.h \
- DMP/mpl/invensense_adv.h DMP/mpl/accel_auto_cal.h \
- DMP/mpl/compass_vec_cal.h DMP/mpl/fast_no_motion.h \
- DMP/mpl/fusion_9axis.h DMP/mpl/gyro_tc.h DMP/mpl/heading_from_gyro.h \
- DMP/mpl/mag_disturb.h DMP/mpl/motion_no_motion.h \
- DMP/mpl/no_gyro_fusion.h DMP/mpl/quaternion_supervisor.h \
- DMP/mllite/mpl.h user/Inc/mpu.h DMP/driver/eMPL/inv_mpu.h \
- DMP/driver/stm32L/packet.h user/Inc/mpu9250.h Core/Inc/usart.h \
- Core/Inc/main.h
-DMP/driver/eMPL/inv_mpu.h:
+ user/drivers/DMP/mllite/data_builder.h \
+ user/drivers/DMP/driver/include/mltypes.h \
+ user/drivers/DMP/driver/include/stdint_invensense.h \
+ user/drivers/DMP/eMPL-hal/eMPL_outputs.h \
+ user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h \
+ user/drivers/DMP/mllite/invensense.h \
+ user/drivers/DMP/mllite/data_builder.h \
+ user/drivers/DMP/mllite/hal_outputs.h \
+ user/drivers/DMP/mllite/message_layer.h \
+ user/drivers/DMP/driver/include/mlmath.h \
+ user/drivers/DMP/mllite/ml_math_func.h user/drivers/DMP/mllite/mpl.h \
+ user/drivers/DMP/mllite/results_holder.h \
+ user/drivers/DMP/mllite/start_manager.h \
+ user/drivers/DMP/mllite/storage_manager.h \
+ user/drivers/DMP/driver/include/log.h \
+ user/drivers/DMP/driver/include/mlinclude.h \
+ user/drivers/DMP/mpl/invensense_adv.h \
+ user/drivers/DMP/mpl/accel_auto_cal.h \
+ user/drivers/DMP/mpl/compass_vec_cal.h \
+ user/drivers/DMP/mpl/fast_no_motion.h \
+ user/drivers/DMP/mpl/fusion_9axis.h user/drivers/DMP/mpl/gyro_tc.h \
+ user/drivers/DMP/mpl/heading_from_gyro.h \
+ user/drivers/DMP/mpl/mag_disturb.h \
+ user/drivers/DMP/mpl/motion_no_motion.h \
+ user/drivers/DMP/mpl/no_gyro_fusion.h \
+ user/drivers/DMP/mpl/quaternion_supervisor.h \
+ user/drivers/DMP/mllite/mpl.h user/Inc/mpu.h \
+ user/drivers/DMP/driver/eMPL/inv_mpu.h \
+ user/drivers/DMP/driver/stm32L/packet.h user/Inc/mpu9250.h \
+ Core/Inc/usart.h Core/Inc/main.h
+user/drivers/DMP/driver/eMPL/inv_mpu.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 Core/Inc/stm32g4xx_hal_conf.h:
@@ -77,38 +92,38 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
-DMP/mllite/data_builder.h:
-DMP/driver/include/mltypes.h:
-DMP/driver/include/stdint_invensense.h:
-DMP/eMPL-hal/eMPL_outputs.h:
-DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
-DMP/mllite/invensense.h:
-DMP/mllite/data_builder.h:
-DMP/mllite/hal_outputs.h:
-DMP/mllite/message_layer.h:
-DMP/driver/include/mlmath.h:
-DMP/mllite/ml_math_func.h:
-DMP/mllite/mpl.h:
-DMP/mllite/results_holder.h:
-DMP/mllite/start_manager.h:
-DMP/mllite/storage_manager.h:
-DMP/driver/include/log.h:
-DMP/driver/include/mlinclude.h:
-DMP/mpl/invensense_adv.h:
-DMP/mpl/accel_auto_cal.h:
-DMP/mpl/compass_vec_cal.h:
-DMP/mpl/fast_no_motion.h:
-DMP/mpl/fusion_9axis.h:
-DMP/mpl/gyro_tc.h:
-DMP/mpl/heading_from_gyro.h:
-DMP/mpl/mag_disturb.h:
-DMP/mpl/motion_no_motion.h:
-DMP/mpl/no_gyro_fusion.h:
-DMP/mpl/quaternion_supervisor.h:
-DMP/mllite/mpl.h:
+user/drivers/DMP/mllite/data_builder.h:
+user/drivers/DMP/driver/include/mltypes.h:
+user/drivers/DMP/driver/include/stdint_invensense.h:
+user/drivers/DMP/eMPL-hal/eMPL_outputs.h:
+user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
+user/drivers/DMP/mllite/invensense.h:
+user/drivers/DMP/mllite/data_builder.h:
+user/drivers/DMP/mllite/hal_outputs.h:
+user/drivers/DMP/mllite/message_layer.h:
+user/drivers/DMP/driver/include/mlmath.h:
+user/drivers/DMP/mllite/ml_math_func.h:
+user/drivers/DMP/mllite/mpl.h:
+user/drivers/DMP/mllite/results_holder.h:
+user/drivers/DMP/mllite/start_manager.h:
+user/drivers/DMP/mllite/storage_manager.h:
+user/drivers/DMP/driver/include/log.h:
+user/drivers/DMP/driver/include/mlinclude.h:
+user/drivers/DMP/mpl/invensense_adv.h:
+user/drivers/DMP/mpl/accel_auto_cal.h:
+user/drivers/DMP/mpl/compass_vec_cal.h:
+user/drivers/DMP/mpl/fast_no_motion.h:
+user/drivers/DMP/mpl/fusion_9axis.h:
+user/drivers/DMP/mpl/gyro_tc.h:
+user/drivers/DMP/mpl/heading_from_gyro.h:
+user/drivers/DMP/mpl/mag_disturb.h:
+user/drivers/DMP/mpl/motion_no_motion.h:
+user/drivers/DMP/mpl/no_gyro_fusion.h:
+user/drivers/DMP/mpl/quaternion_supervisor.h:
+user/drivers/DMP/mllite/mpl.h:
 user/Inc/mpu.h:
-DMP/driver/eMPL/inv_mpu.h:
-DMP/driver/stm32L/packet.h:
+user/drivers/DMP/driver/eMPL/inv_mpu.h:
+user/drivers/DMP/driver/stm32L/packet.h:
 user/Inc/mpu9250.h:
 Core/Inc/usart.h:
 Core/Inc/main.h:

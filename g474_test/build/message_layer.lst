@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -19,7 +19,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.file 1 "DMP/mllite/message_layer.c"
+  19              		.file 1 "user/drivers/DMP/mllite/message_layer.c"
   20              		.section	.text.inv_set_message,"ax",%progbits
   21              		.align	1
   22              		.global	inv_set_message
@@ -29,53 +29,53 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
   27              	inv_set_message:
   28              	.LVL0:
   29              	.LFB10:
-   1:DMP/mllite/message_layer.c **** /*
-   2:DMP/mllite/message_layer.c ****  $License:
-   3:DMP/mllite/message_layer.c ****     Copyright (C) 2011-2012 InvenSense Corporation, All Rights Reserved.
-   4:DMP/mllite/message_layer.c ****     See included License.txt for License information.
-   5:DMP/mllite/message_layer.c ****  $
-   6:DMP/mllite/message_layer.c ****  */
-   7:DMP/mllite/message_layer.c **** /**
-   8:DMP/mllite/message_layer.c ****  *   @defgroup  Message_Layer message_layer
-   9:DMP/mllite/message_layer.c ****  *   @brief     Motion Library - Message Layer
-  10:DMP/mllite/message_layer.c ****  *              Holds Low Occurance messages
-  11:DMP/mllite/message_layer.c ****  *
-  12:DMP/mllite/message_layer.c ****  *   @{
-  13:DMP/mllite/message_layer.c ****  *       @file message_layer.c
-  14:DMP/mllite/message_layer.c ****  *       @brief Holds Low Occurance Messages.
-  15:DMP/mllite/message_layer.c ****  */
-  16:DMP/mllite/message_layer.c **** #include "message_layer.h"
-  17:DMP/mllite/message_layer.c **** #include "log.h"
-  18:DMP/mllite/message_layer.c **** 
-  19:DMP/mllite/message_layer.c **** struct message_holder_t {
-  20:DMP/mllite/message_layer.c ****     long message;
-  21:DMP/mllite/message_layer.c **** };
-  22:DMP/mllite/message_layer.c **** 
-  23:DMP/mllite/message_layer.c **** static struct message_holder_t mh;
-  24:DMP/mllite/message_layer.c **** 
-  25:DMP/mllite/message_layer.c **** /** Sets a message.
-  26:DMP/mllite/message_layer.c **** * @param[in] set The flags to set.
-  27:DMP/mllite/message_layer.c **** * @param[in] clear Before setting anything this will clear these messages,
-  28:DMP/mllite/message_layer.c **** *                  which is useful for mutually exclusive messages such
-  29:DMP/mllite/message_layer.c **** *                  a motion or no motion message.
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 2
+   1:user/drivers/DMP/mllite/message_layer.c **** /*
+   2:user/drivers/DMP/mllite/message_layer.c ****  $License:
+   3:user/drivers/DMP/mllite/message_layer.c ****     Copyright (C) 2011-2012 InvenSense Corporation, All Rights Reserved.
+   4:user/drivers/DMP/mllite/message_layer.c ****     See included License.txt for License information.
+   5:user/drivers/DMP/mllite/message_layer.c ****  $
+   6:user/drivers/DMP/mllite/message_layer.c ****  */
+   7:user/drivers/DMP/mllite/message_layer.c **** /**
+   8:user/drivers/DMP/mllite/message_layer.c ****  *   @defgroup  Message_Layer message_layer
+   9:user/drivers/DMP/mllite/message_layer.c ****  *   @brief     Motion Library - Message Layer
+  10:user/drivers/DMP/mllite/message_layer.c ****  *              Holds Low Occurance messages
+  11:user/drivers/DMP/mllite/message_layer.c ****  *
+  12:user/drivers/DMP/mllite/message_layer.c ****  *   @{
+  13:user/drivers/DMP/mllite/message_layer.c ****  *       @file message_layer.c
+  14:user/drivers/DMP/mllite/message_layer.c ****  *       @brief Holds Low Occurance Messages.
+  15:user/drivers/DMP/mllite/message_layer.c ****  */
+  16:user/drivers/DMP/mllite/message_layer.c **** #include "message_layer.h"
+  17:user/drivers/DMP/mllite/message_layer.c **** #include "log.h"
+  18:user/drivers/DMP/mllite/message_layer.c **** 
+  19:user/drivers/DMP/mllite/message_layer.c **** struct message_holder_t {
+  20:user/drivers/DMP/mllite/message_layer.c ****     long message;
+  21:user/drivers/DMP/mllite/message_layer.c **** };
+  22:user/drivers/DMP/mllite/message_layer.c **** 
+  23:user/drivers/DMP/mllite/message_layer.c **** static struct message_holder_t mh;
+  24:user/drivers/DMP/mllite/message_layer.c **** 
+  25:user/drivers/DMP/mllite/message_layer.c **** /** Sets a message.
+  26:user/drivers/DMP/mllite/message_layer.c **** * @param[in] set The flags to set.
+  27:user/drivers/DMP/mllite/message_layer.c **** * @param[in] clear Before setting anything this will clear these messages,
+  28:user/drivers/DMP/mllite/message_layer.c **** *                  which is useful for mutually exclusive messages such
+  29:user/drivers/DMP/mllite/message_layer.c **** *                  a motion or no motion message.
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s 			page 2
 
 
-  30:DMP/mllite/message_layer.c **** * @param[in] level Level of the messages. It starts at 0, and may increase
-  31:DMP/mllite/message_layer.c **** *            in the future to allow more messages if the bit storage runs out.
-  32:DMP/mllite/message_layer.c **** */
-  33:DMP/mllite/message_layer.c **** void inv_set_message(long set, long clear, int level)
-  34:DMP/mllite/message_layer.c **** {
+  30:user/drivers/DMP/mllite/message_layer.c **** * @param[in] level Level of the messages. It starts at 0, and may increase
+  31:user/drivers/DMP/mllite/message_layer.c **** *            in the future to allow more messages if the bit storage runs out.
+  32:user/drivers/DMP/mllite/message_layer.c **** */
+  33:user/drivers/DMP/mllite/message_layer.c **** void inv_set_message(long set, long clear, int level)
+  34:user/drivers/DMP/mllite/message_layer.c **** {
   30              		.loc 1 34 1 view -0
   31              		.cfi_startproc
   32              		@ args = 0, pretend = 0, frame = 0
   33              		@ frame_needed = 0, uses_anonymous_args = 0
   34              		@ link register save eliminated.
-  35:DMP/mllite/message_layer.c ****     if (level == 0) {
+  35:user/drivers/DMP/mllite/message_layer.c ****     if (level == 0) {
   35              		.loc 1 35 5 view .LVU1
   36              		.loc 1 35 8 is_stmt 0 view .LVU2
   37 0000 32B9     		cbnz	r2, .L1
-  36:DMP/mllite/message_layer.c ****         mh.message &= ~clear;
+  36:user/drivers/DMP/mllite/message_layer.c ****         mh.message &= ~clear;
   38              		.loc 1 36 9 is_stmt 1 view .LVU3
   39              		.loc 1 36 11 is_stmt 0 view .LVU4
   40 0002 044A     		ldr	r2, .L3
@@ -87,7 +87,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
   46              	.LVL2:
   47              		.loc 1 36 20 view .LVU7
   48 000a 1160     		str	r1, [r2]
-  37:DMP/mllite/message_layer.c ****         mh.message |= set;
+  37:user/drivers/DMP/mllite/message_layer.c ****         mh.message |= set;
   49              		.loc 1 37 9 is_stmt 1 view .LVU8
   50              		.loc 1 37 20 is_stmt 0 view .LVU9
   51 000c 0843     		orrs	r0, r0, r1
@@ -95,8 +95,8 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
   53              		.loc 1 37 20 view .LVU10
   54 000e 1060     		str	r0, [r2]
   55              	.L1:
-  38:DMP/mllite/message_layer.c ****     }
-  39:DMP/mllite/message_layer.c **** }
+  38:user/drivers/DMP/mllite/message_layer.c ****     }
+  39:user/drivers/DMP/mllite/message_layer.c **** }
   56              		.loc 1 39 1 view .LVU11
   57 0010 7047     		bx	lr
   58              	.L4:
@@ -114,46 +114,46 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
   72              	inv_get_message_level_0:
   73              	.LVL4:
   74              	.LFB11:
-  40:DMP/mllite/message_layer.c **** 
-  41:DMP/mllite/message_layer.c **** /** Returns Message Flags for Level 0 Messages.
-  42:DMP/mllite/message_layer.c **** * Levels are to allow expansion of more messages in the future.
-  43:DMP/mllite/message_layer.c **** * @param[in] clear If set, will clear the message. Typically this will be set
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 3
+  40:user/drivers/DMP/mllite/message_layer.c **** 
+  41:user/drivers/DMP/mllite/message_layer.c **** /** Returns Message Flags for Level 0 Messages.
+  42:user/drivers/DMP/mllite/message_layer.c **** * Levels are to allow expansion of more messages in the future.
+  43:user/drivers/DMP/mllite/message_layer.c **** * @param[in] clear If set, will clear the message. Typically this will be set
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s 			page 3
 
 
-  44:DMP/mllite/message_layer.c **** *  for one reader, so that you don't get the same message over and over.
-  45:DMP/mllite/message_layer.c **** * @return bit field to corresponding message.
-  46:DMP/mllite/message_layer.c **** */
-  47:DMP/mllite/message_layer.c **** long inv_get_message_level_0(int clear)
-  48:DMP/mllite/message_layer.c **** {
+  44:user/drivers/DMP/mllite/message_layer.c **** *  for one reader, so that you don't get the same message over and over.
+  45:user/drivers/DMP/mllite/message_layer.c **** * @return bit field to corresponding message.
+  46:user/drivers/DMP/mllite/message_layer.c **** */
+  47:user/drivers/DMP/mllite/message_layer.c **** long inv_get_message_level_0(int clear)
+  48:user/drivers/DMP/mllite/message_layer.c **** {
   75              		.loc 1 48 1 is_stmt 1 view -0
   76              		.cfi_startproc
   77              		@ args = 0, pretend = 0, frame = 0
   78              		@ frame_needed = 0, uses_anonymous_args = 0
   79              		@ link register save eliminated.
-  49:DMP/mllite/message_layer.c ****     long msg;
+  49:user/drivers/DMP/mllite/message_layer.c ****     long msg;
   80              		.loc 1 49 5 view .LVU13
-  50:DMP/mllite/message_layer.c ****     msg = mh.message;
+  50:user/drivers/DMP/mllite/message_layer.c ****     msg = mh.message;
   81              		.loc 1 50 5 view .LVU14
   82              		.loc 1 50 9 is_stmt 0 view .LVU15
   83 0000 034B     		ldr	r3, .L7
   84 0002 1B68     		ldr	r3, [r3]
   85              	.LVL5:
-  51:DMP/mllite/message_layer.c ****     if (clear) {
+  51:user/drivers/DMP/mllite/message_layer.c ****     if (clear) {
   86              		.loc 1 51 5 is_stmt 1 view .LVU16
   87              		.loc 1 51 8 is_stmt 0 view .LVU17
   88 0004 10B1     		cbz	r0, .L5
-  52:DMP/mllite/message_layer.c ****         mh.message = 0;
+  52:user/drivers/DMP/mllite/message_layer.c ****         mh.message = 0;
   89              		.loc 1 52 9 is_stmt 1 view .LVU18
   90              		.loc 1 52 20 is_stmt 0 view .LVU19
   91 0006 024A     		ldr	r2, .L7
   92 0008 0021     		movs	r1, #0
   93 000a 1160     		str	r1, [r2]
-  53:DMP/mllite/message_layer.c ****     }
-  54:DMP/mllite/message_layer.c ****     return msg;
+  53:user/drivers/DMP/mllite/message_layer.c ****     }
+  54:user/drivers/DMP/mllite/message_layer.c ****     return msg;
   94              		.loc 1 54 5 is_stmt 1 view .LVU20
   95              	.L5:
-  55:DMP/mllite/message_layer.c **** }
+  55:user/drivers/DMP/mllite/message_layer.c **** }
   96              		.loc 1 55 1 is_stmt 0 view .LVU21
   97 000c 1846     		mov	r0, r3
   98              	.LVL6:
@@ -171,18 +171,18 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 1
  113 0000 00000000 		.space	4
  114              		.text
  115              	.Letext0:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 message_layer.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:21     .text.inv_set_message:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:27     .text.inv_set_message:00000000 inv_set_message
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:61     .text.inv_set_message:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:112    .bss.mh:00000000 mh
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:66     .text.inv_get_message_level_0:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:72     .text.inv_get_message_level_0:00000000 inv_get_message_level_0
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:104    .text.inv_get_message_level_0:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOUY0xW.s:109    .bss.mh:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:21     .text.inv_set_message:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:27     .text.inv_set_message:00000000 inv_set_message
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:61     .text.inv_set_message:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:112    .bss.mh:00000000 mh
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:66     .text.inv_get_message_level_0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:72     .text.inv_get_message_level_0:00000000 inv_get_message_level_0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:104    .text.inv_get_message_level_0:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckvmPND.s:109    .bss.mh:00000000 $d
 
 NO UNDEFINED SYMBOLS

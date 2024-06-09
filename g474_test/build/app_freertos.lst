@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
   28:Core/Src/app_freertos.c **** #include "mpu.h"
   29:Core/Src/app_freertos.c **** #include "oled.h"
   30:Core/Src/app_freertos.c **** /* USER CODE END Includes */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 2
 
 
   31:Core/Src/app_freertos.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
   85:Core/Src/app_freertos.c ****   * @brief  FreeRTOS initialization
   86:Core/Src/app_freertos.c ****   * @param  None
   87:Core/Src/app_freertos.c ****   * @retval None
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 3
 
 
   88:Core/Src/app_freertos.c ****   */
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
   32              		@ args = 0, pretend = 0, frame = 0
   33              		@ frame_needed = 0, uses_anonymous_args = 0
   34              	.LVL0:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 4
 
 
   35              		.loc 1 138 1 is_stmt 0 view .LVU1
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
   71              		@ frame_needed = 0, uses_anonymous_args = 0
   72              	.LVL4:
   73              		.loc 1 157 1 is_stmt 0 view .LVU7
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 5
 
 
   74 0000 08B5     		push	{r3, lr}
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
  169:Core/Src/app_freertos.c **** /**
  170:Core/Src/app_freertos.c **** * @brief Function implementing the Oled_Display thread.
  171:Core/Src/app_freertos.c **** * @param argument: Not used
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 6
 
 
  172:Core/Src/app_freertos.c **** * @retval None
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
  157              	.L12:
  158 002c 00000000 		.word	Font_11x18
  159 0030 00000000 		.word	angle
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 7
 
 
  160 0034 00000000 		.word	.LC0
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
  207 0024 FFF7FEFF 		bl	osThreadNew
  208              	.LVL16:
  118:Core/Src/app_freertos.c **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 8
 
 
  209              		.loc 1 118 22 view .LVU30
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
  260              	Get_Angle_attributes:
  261 0000 10000000 		.word	.LC2
  262 0004 00000000 		.space	16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 9
 
 
  262      00000000 
@@ -532,38 +532,38 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 1
  309              		.file 8 "user/Inc/oled.h"
  310              		.file 9 "user/Inc/mpu.h"
  311              		.file 10 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_gpio.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 app_freertos.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:21     .text.StartDefaultTask:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:27     .text.StartDefaultTask:00000000 StartDefaultTask
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:59     .text.Get_Angle_Task:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:65     .text.Get_Angle_Task:00000000 Get_Angle_Task
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:98     .text.Get_Angle_Task:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:299    .bss.angle:00000000 angle
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:103    .rodata.Oled_Display_Task.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:108    .text.Oled_Display_Task:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:114    .text.Oled_Display_Task:00000000 Oled_Display_Task
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:158    .text.Oled_Display_Task:0000002c $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:165    .text.MX_FREERTOS_Init:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:171    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:217    .text.MX_FREERTOS_Init:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:282    .rodata.defaultTask_attributes:00000000 defaultTask_attributes
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:293    .bss.defaultTaskHandle:00000000 defaultTaskHandle
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:260    .rodata.Get_Angle_attributes:00000000 Get_Angle_attributes
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:271    .bss.Get_AngleHandle:00000000 Get_AngleHandle
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:238    .rodata.Oled_Display_attributes:00000000 Oled_Display_attributes
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:249    .bss.Oled_DisplayHandle:00000000 Oled_DisplayHandle
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:231    .rodata.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:235    .rodata.Oled_Display_attributes:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:246    .bss.Oled_DisplayHandle:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:257    .rodata.Get_Angle_attributes:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:268    .bss.Get_AngleHandle:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:279    .rodata.defaultTask_attributes:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:290    .bss.defaultTaskHandle:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccfCrcyw.s:296    .bss.angle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:21     .text.StartDefaultTask:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:27     .text.StartDefaultTask:00000000 StartDefaultTask
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:59     .text.Get_Angle_Task:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:65     .text.Get_Angle_Task:00000000 Get_Angle_Task
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:98     .text.Get_Angle_Task:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:299    .bss.angle:00000000 angle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:103    .rodata.Oled_Display_Task.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:108    .text.Oled_Display_Task:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:114    .text.Oled_Display_Task:00000000 Oled_Display_Task
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:158    .text.Oled_Display_Task:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:165    .text.MX_FREERTOS_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:171    .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:217    .text.MX_FREERTOS_Init:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:282    .rodata.defaultTask_attributes:00000000 defaultTask_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:293    .bss.defaultTaskHandle:00000000 defaultTaskHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:260    .rodata.Get_Angle_attributes:00000000 Get_Angle_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:271    .bss.Get_AngleHandle:00000000 Get_AngleHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:238    .rodata.Oled_Display_attributes:00000000 Oled_Display_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:249    .bss.Oled_DisplayHandle:00000000 Oled_DisplayHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:231    .rodata.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:235    .rodata.Oled_Display_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:246    .bss.Oled_DisplayHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:257    .rodata.Get_Angle_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:268    .bss.Get_AngleHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:279    .rodata.defaultTask_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:290    .bss.defaultTaskHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccUf1asg.s:296    .bss.angle:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_TogglePin

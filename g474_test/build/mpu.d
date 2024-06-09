@@ -28,7 +28,7 @@ build/mpu.o: user/Src/mpu.c user/Inc/mpu.h Core/Inc/main.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
- DMP/driver/eMPL/inv_mpu.h Core/Inc/i2c.h Core/Inc/main.h
+ user/drivers/DMP/driver/eMPL/inv_mpu.h Core/Inc/i2c.h Core/Inc/main.h
 user/Inc/mpu.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
@@ -62,6 +62,6 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
-DMP/driver/eMPL/inv_mpu.h:
+user/drivers/DMP/driver/eMPL/inv_mpu.h:
 Core/Inc/i2c.h:
 Core/Inc/main.h:

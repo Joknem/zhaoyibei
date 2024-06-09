@@ -1,6 +1,8 @@
-build/log_stm32.o: DMP/driver/stm32L/log_stm32.c DMP/driver/include/log.h \
- DMP/driver/stm32L/packet.h DMP/driver/include/mltypes.h \
- DMP/driver/include/stdint_invensense.h \
+build/log_stm32.o: user/drivers/DMP/driver/stm32L/log_stm32.c \
+ user/drivers/DMP/driver/include/log.h \
+ user/drivers/DMP/driver/stm32L/packet.h \
+ user/drivers/DMP/driver/include/mltypes.h \
+ user/drivers/DMP/driver/include/stdint_invensense.h \
  Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h \
  Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h \
  Drivers/CMSIS/Include/core_cm4.h Drivers/CMSIS/Include/cmsis_version.h \
@@ -30,10 +32,10 @@ build/log_stm32.o: DMP/driver/stm32L/log_stm32.c DMP/driver/include/log.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
-DMP/driver/include/log.h:
-DMP/driver/stm32L/packet.h:
-DMP/driver/include/mltypes.h:
-DMP/driver/include/stdint_invensense.h:
+user/drivers/DMP/driver/include/log.h:
+user/drivers/DMP/driver/stm32L/packet.h:
+user/drivers/DMP/driver/include/mltypes.h:
+user/drivers/DMP/driver/include/stdint_invensense.h:
 Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h:
 Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h:
 Drivers/CMSIS/Include/core_cm4.h:

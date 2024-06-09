@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -19,18 +19,18 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.file 1 "DMP/mllite/mpl.c"
+  19              		.file 1 "user/drivers/DMP/mllite/mpl.c"
   20              		.section	.rodata.inv_init_mpl.str1.4,"aMS",%progbits,1
   21              		.align	2
   22              	.LC0:
-  23 0000 444D502F 		.ascii	"DMP/mllite/mpl.c\000"
-  23      6D6C6C69 
-  23      74652F6D 
-  23      706C2E63 
-  23      00
-  24 0011 000000   		.align	2
+  23 0000 75736572 		.ascii	"user/drivers/DMP/mllite/mpl.c\000"
+  23      2F647269 
+  23      76657273 
+  23      2F444D50 
+  23      2F6D6C6C 
+  24 001e 0000     		.align	2
   25              	.LC1:
-  26 0014 25737C25 		.ascii	"%s|%s|%d returning %d\012\000"
+  26 0020 25737C25 		.ascii	"%s|%s|%d returning %d\012\000"
   26      737C2564 
   26      20726574 
   26      75726E69 
@@ -43,39 +43,39 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
   32              		.thumb_func
   34              	inv_init_mpl:
   35              	.LFB10:
-   1:DMP/mllite/mpl.c **** /*
-   2:DMP/mllite/mpl.c ****  $License:
-   3:DMP/mllite/mpl.c ****     Copyright (C) 2011-2012 InvenSense Corporation, All Rights Reserved.
-   4:DMP/mllite/mpl.c ****     See included License.txt for License information.
-   5:DMP/mllite/mpl.c ****  $
-   6:DMP/mllite/mpl.c ****  */
-   7:DMP/mllite/mpl.c **** /**
-   8:DMP/mllite/mpl.c ****  *   @defgroup  MPL mpl
-   9:DMP/mllite/mpl.c ****  *   @brief     Motion Library - Start Point
-  10:DMP/mllite/mpl.c ****  *              Initializes MPL.
-  11:DMP/mllite/mpl.c ****  *
-  12:DMP/mllite/mpl.c ****  *   @{
-  13:DMP/mllite/mpl.c ****  *       @file  mpl.c
-  14:DMP/mllite/mpl.c ****  *       @brief MPL start point.
-  15:DMP/mllite/mpl.c ****  */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 2
+   1:user/drivers/DMP/mllite/mpl.c **** /*
+   2:user/drivers/DMP/mllite/mpl.c ****  $License:
+   3:user/drivers/DMP/mllite/mpl.c ****     Copyright (C) 2011-2012 InvenSense Corporation, All Rights Reserved.
+   4:user/drivers/DMP/mllite/mpl.c ****     See included License.txt for License information.
+   5:user/drivers/DMP/mllite/mpl.c ****  $
+   6:user/drivers/DMP/mllite/mpl.c ****  */
+   7:user/drivers/DMP/mllite/mpl.c **** /**
+   8:user/drivers/DMP/mllite/mpl.c ****  *   @defgroup  MPL mpl
+   9:user/drivers/DMP/mllite/mpl.c ****  *   @brief     Motion Library - Start Point
+  10:user/drivers/DMP/mllite/mpl.c ****  *              Initializes MPL.
+  11:user/drivers/DMP/mllite/mpl.c ****  *
+  12:user/drivers/DMP/mllite/mpl.c ****  *   @{
+  13:user/drivers/DMP/mllite/mpl.c ****  *       @file  mpl.c
+  14:user/drivers/DMP/mllite/mpl.c ****  *       @brief MPL start point.
+  15:user/drivers/DMP/mllite/mpl.c ****  */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 2
 
 
-  16:DMP/mllite/mpl.c **** 
-  17:DMP/mllite/mpl.c **** #include "storage_manager.h"
-  18:DMP/mllite/mpl.c **** #include "log.h"
-  19:DMP/mllite/mpl.c **** #include "mpl.h"
-  20:DMP/mllite/mpl.c **** #include "start_manager.h"
-  21:DMP/mllite/mpl.c **** #include "data_builder.h"
-  22:DMP/mllite/mpl.c **** #include "results_holder.h"
-  23:DMP/mllite/mpl.c **** #include "mlinclude.h"
-  24:DMP/mllite/mpl.c **** 
-  25:DMP/mllite/mpl.c **** /**
-  26:DMP/mllite/mpl.c ****  * @brief  Initializes the MPL. Should be called first and once 
-  27:DMP/mllite/mpl.c ****  * @return Returns INV_SUCCESS if successful or an error code if not.
-  28:DMP/mllite/mpl.c ****  */
-  29:DMP/mllite/mpl.c **** inv_error_t inv_init_mpl(void)
-  30:DMP/mllite/mpl.c **** {
+  16:user/drivers/DMP/mllite/mpl.c **** 
+  17:user/drivers/DMP/mllite/mpl.c **** #include "storage_manager.h"
+  18:user/drivers/DMP/mllite/mpl.c **** #include "log.h"
+  19:user/drivers/DMP/mllite/mpl.c **** #include "mpl.h"
+  20:user/drivers/DMP/mllite/mpl.c **** #include "start_manager.h"
+  21:user/drivers/DMP/mllite/mpl.c **** #include "data_builder.h"
+  22:user/drivers/DMP/mllite/mpl.c **** #include "results_holder.h"
+  23:user/drivers/DMP/mllite/mpl.c **** #include "mlinclude.h"
+  24:user/drivers/DMP/mllite/mpl.c **** 
+  25:user/drivers/DMP/mllite/mpl.c **** /**
+  26:user/drivers/DMP/mllite/mpl.c ****  * @brief  Initializes the MPL. Should be called first and once 
+  27:user/drivers/DMP/mllite/mpl.c ****  * @return Returns INV_SUCCESS if successful or an error code if not.
+  28:user/drivers/DMP/mllite/mpl.c ****  */
+  29:user/drivers/DMP/mllite/mpl.c **** inv_error_t inv_init_mpl(void)
+  30:user/drivers/DMP/mllite/mpl.c **** {
   36              		.loc 1 30 1 view -0
   37              		.cfi_startproc
   38              		@ args = 0, pretend = 0, frame = 0
@@ -87,38 +87,38 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
   44 0002 85B0     		sub	sp, sp, #20
   45              	.LCFI1:
   46              		.cfi_def_cfa_offset 24
-  31:DMP/mllite/mpl.c ****     inv_init_storage_manager();
+  31:user/drivers/DMP/mllite/mpl.c ****     inv_init_storage_manager();
   47              		.loc 1 31 5 view .LVU1
   48 0004 FFF7FEFF 		bl	inv_init_storage_manager
   49              	.LVL0:
-  32:DMP/mllite/mpl.c **** 
-  33:DMP/mllite/mpl.c ****     /* initialize the start callback manager */
-  34:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_init_start_manager());
+  32:user/drivers/DMP/mllite/mpl.c **** 
+  33:user/drivers/DMP/mllite/mpl.c ****     /* initialize the start callback manager */
+  34:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_init_start_manager());
   50              		.loc 1 34 5 view .LVU2
   51 0008 FFF7FEFF 		bl	inv_init_start_manager
   52              	.LVL1:
   53 000c 40B9     		cbnz	r0, .L6
   54              		.loc 1 34 46 discriminator 2 view .LVU3
-  35:DMP/mllite/mpl.c **** 
-  36:DMP/mllite/mpl.c ****     /* initialize the data builder */
-  37:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_init_data_builder());
+  35:user/drivers/DMP/mllite/mpl.c **** 
+  36:user/drivers/DMP/mllite/mpl.c ****     /* initialize the data builder */
+  37:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_init_data_builder());
   55              		.loc 1 37 5 discriminator 2 view .LVU4
   56 000e FFF7FEFF 		bl	inv_init_data_builder
   57              	.LVL2:
   58 0012 A8B9     		cbnz	r0, .L7
   59              		.loc 1 37 45 discriminator 2 view .LVU5
-  38:DMP/mllite/mpl.c **** 
-  39:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_enable_results_holder());
+  38:user/drivers/DMP/mllite/mpl.c **** 
+  39:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_enable_results_holder());
   60              		.loc 1 39 5 discriminator 2 view .LVU6
   61 0014 FFF7FEFF 		bl	inv_enable_results_holder
   62              	.LVL3:
   63 0018 10BB     		cbnz	r0, .L8
   64              	.L1:
-  40:DMP/mllite/mpl.c **** 
-  41:DMP/mllite/mpl.c ****     return INV_SUCCESS;
-  42:DMP/mllite/mpl.c **** }
+  40:user/drivers/DMP/mllite/mpl.c **** 
+  41:user/drivers/DMP/mllite/mpl.c ****     return INV_SUCCESS;
+  42:user/drivers/DMP/mllite/mpl.c **** }
   65              		.loc 1 42 1 is_stmt 0 view .LVU7
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 3
 
 
   66 001a 05B0     		add	sp, sp, #20
@@ -130,378 +130,378 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
   72              	.L6:
   73              	.LCFI3:
   74              		.cfi_restore_state
-  34:DMP/mllite/mpl.c **** 
+  34:user/drivers/DMP/mllite/mpl.c **** 
   75              		.loc 1 34 5 is_stmt 1 discriminator 1 view .LVU8
-  34:DMP/mllite/mpl.c **** 
+  34:user/drivers/DMP/mllite/mpl.c **** 
   76              		.loc 1 34 5 discriminator 1 view .LVU9
   77 0020 FFF7FEFF 		bl	inv_init_start_manager
   78              	.LVL4:
   79              	.LBB10:
   80              	.LBI10:
-  81              		.file 2 "DMP/driver/include/log.h"
-   1:DMP/driver/include/log.h **** /*
-   2:DMP/driver/include/log.h ****  $License:
-   3:DMP/driver/include/log.h ****     Copyright (C) 2011 InvenSense Corporation, All Rights Reserved.
-   4:DMP/driver/include/log.h ****  $
-   5:DMP/driver/include/log.h ****  */
-   6:DMP/driver/include/log.h **** 
-   7:DMP/driver/include/log.h **** /*
-   8:DMP/driver/include/log.h ****  * This file incorporates work covered by the following copyright and
-   9:DMP/driver/include/log.h ****  * permission notice:
-  10:DMP/driver/include/log.h ****  *
-  11:DMP/driver/include/log.h ****  * Copyright (C) 2005 The Android Open Source Project
-  12:DMP/driver/include/log.h ****  *
-  13:DMP/driver/include/log.h ****  * Licensed under the Apache License, Version 2.0 (the "License");
-  14:DMP/driver/include/log.h ****  * you may not use this file except in compliance with the License.
-  15:DMP/driver/include/log.h ****  * You may obtain a copy of the License at
-  16:DMP/driver/include/log.h ****  *
-  17:DMP/driver/include/log.h ****  *      http://www.apache.org/licenses/LICENSE-2.0
-  18:DMP/driver/include/log.h ****  *
-  19:DMP/driver/include/log.h ****  * Unless required by applicable law or agreed to in writing, software
-  20:DMP/driver/include/log.h ****  * distributed under the License is distributed on an "AS IS" BASIS,
-  21:DMP/driver/include/log.h ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  22:DMP/driver/include/log.h ****  * See the License for the specific language governing permissions and
-  23:DMP/driver/include/log.h ****  * limitations under the License.
-  24:DMP/driver/include/log.h ****  */
-  25:DMP/driver/include/log.h **** 
-  26:DMP/driver/include/log.h **** /*
-  27:DMP/driver/include/log.h ****  * C/C++ logging functions.  See the logging documentation for API details.
-  28:DMP/driver/include/log.h ****  *
-  29:DMP/driver/include/log.h ****  * We'd like these to be available from C code (in case we import some from
-  30:DMP/driver/include/log.h ****  * somewhere), so this has a C interface.
-  31:DMP/driver/include/log.h ****  *
-  32:DMP/driver/include/log.h ****  * The output will be correct when the log file is shared between multiple
-  33:DMP/driver/include/log.h ****  * threads and/or multiple processes so long as the operating system
-  34:DMP/driver/include/log.h ****  * supports O_APPEND.  These calls have mutex-protected data structures
-  35:DMP/driver/include/log.h ****  * and so are NOT reentrant.  Do not use MPL_LOG in a signal handler.
-  36:DMP/driver/include/log.h ****  */
-  37:DMP/driver/include/log.h **** #ifndef _LIBS_CUTILS_MPL_LOG_H
-  38:DMP/driver/include/log.h **** #define _LIBS_CUTILS_MPL_LOG_H
-  39:DMP/driver/include/log.h **** 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 4
+  81              		.file 2 "user/drivers/DMP/driver/include/log.h"
+   1:user/drivers/DMP/driver/include/log.h **** /*
+   2:user/drivers/DMP/driver/include/log.h ****  $License:
+   3:user/drivers/DMP/driver/include/log.h ****     Copyright (C) 2011 InvenSense Corporation, All Rights Reserved.
+   4:user/drivers/DMP/driver/include/log.h ****  $
+   5:user/drivers/DMP/driver/include/log.h ****  */
+   6:user/drivers/DMP/driver/include/log.h **** 
+   7:user/drivers/DMP/driver/include/log.h **** /*
+   8:user/drivers/DMP/driver/include/log.h ****  * This file incorporates work covered by the following copyright and
+   9:user/drivers/DMP/driver/include/log.h ****  * permission notice:
+  10:user/drivers/DMP/driver/include/log.h ****  *
+  11:user/drivers/DMP/driver/include/log.h ****  * Copyright (C) 2005 The Android Open Source Project
+  12:user/drivers/DMP/driver/include/log.h ****  *
+  13:user/drivers/DMP/driver/include/log.h ****  * Licensed under the Apache License, Version 2.0 (the "License");
+  14:user/drivers/DMP/driver/include/log.h ****  * you may not use this file except in compliance with the License.
+  15:user/drivers/DMP/driver/include/log.h ****  * You may obtain a copy of the License at
+  16:user/drivers/DMP/driver/include/log.h ****  *
+  17:user/drivers/DMP/driver/include/log.h ****  *      http://www.apache.org/licenses/LICENSE-2.0
+  18:user/drivers/DMP/driver/include/log.h ****  *
+  19:user/drivers/DMP/driver/include/log.h ****  * Unless required by applicable law or agreed to in writing, software
+  20:user/drivers/DMP/driver/include/log.h ****  * distributed under the License is distributed on an "AS IS" BASIS,
+  21:user/drivers/DMP/driver/include/log.h ****  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  22:user/drivers/DMP/driver/include/log.h ****  * See the License for the specific language governing permissions and
+  23:user/drivers/DMP/driver/include/log.h ****  * limitations under the License.
+  24:user/drivers/DMP/driver/include/log.h ****  */
+  25:user/drivers/DMP/driver/include/log.h **** 
+  26:user/drivers/DMP/driver/include/log.h **** /*
+  27:user/drivers/DMP/driver/include/log.h ****  * C/C++ logging functions.  See the logging documentation for API details.
+  28:user/drivers/DMP/driver/include/log.h ****  *
+  29:user/drivers/DMP/driver/include/log.h ****  * We'd like these to be available from C code (in case we import some from
+  30:user/drivers/DMP/driver/include/log.h ****  * somewhere), so this has a C interface.
+  31:user/drivers/DMP/driver/include/log.h ****  *
+  32:user/drivers/DMP/driver/include/log.h ****  * The output will be correct when the log file is shared between multiple
+  33:user/drivers/DMP/driver/include/log.h ****  * threads and/or multiple processes so long as the operating system
+  34:user/drivers/DMP/driver/include/log.h ****  * supports O_APPEND.  These calls have mutex-protected data structures
+  35:user/drivers/DMP/driver/include/log.h ****  * and so are NOT reentrant.  Do not use MPL_LOG in a signal handler.
+  36:user/drivers/DMP/driver/include/log.h ****  */
+  37:user/drivers/DMP/driver/include/log.h **** #ifndef _LIBS_CUTILS_MPL_LOG_H
+  38:user/drivers/DMP/driver/include/log.h **** #define _LIBS_CUTILS_MPL_LOG_H
+  39:user/drivers/DMP/driver/include/log.h **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 4
 
 
-  40:DMP/driver/include/log.h **** #include <stdlib.h>
-  41:DMP/driver/include/log.h **** #include <stdarg.h>
-  42:DMP/driver/include/log.h **** 
-  43:DMP/driver/include/log.h **** #ifdef ANDROID
-  44:DMP/driver/include/log.h **** #ifdef NDK_BUILD
-  45:DMP/driver/include/log.h **** #include "log_macros.h"
-  46:DMP/driver/include/log.h **** #else
-  47:DMP/driver/include/log.h **** #include <utils/Log.h>		/* For the LOG macro */
-  48:DMP/driver/include/log.h **** #endif
-  49:DMP/driver/include/log.h **** #endif
-  50:DMP/driver/include/log.h **** 
-  51:DMP/driver/include/log.h **** #ifdef __KERNEL__
-  52:DMP/driver/include/log.h **** #include <linux/kernel.h>
-  53:DMP/driver/include/log.h **** #endif
-  54:DMP/driver/include/log.h **** 
-  55:DMP/driver/include/log.h **** #ifdef __cplusplus
-  56:DMP/driver/include/log.h **** extern "C" {
-  57:DMP/driver/include/log.h **** #endif
-  58:DMP/driver/include/log.h **** 
-  59:DMP/driver/include/log.h **** #if defined ANDROID_JELLYBEAN
-  60:DMP/driver/include/log.h **** #define LOG ALOG
-  61:DMP/driver/include/log.h **** #define LOG_ERRROR ANDROID_LOG_ERROR
-  62:DMP/driver/include/log.h **** #endif
-  63:DMP/driver/include/log.h **** 
-  64:DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
-  65:DMP/driver/include/log.h **** 
-  66:DMP/driver/include/log.h **** /*
-  67:DMP/driver/include/log.h ****  * Normally we strip MPL_LOGV (VERBOSE messages) from release builds.
-  68:DMP/driver/include/log.h ****  * You can modify this (for example with "#define MPL_LOG_NDEBUG 0"
-  69:DMP/driver/include/log.h ****  * at the top of your source file) to change that behavior.
-  70:DMP/driver/include/log.h ****  */
-  71:DMP/driver/include/log.h **** #ifndef MPL_LOG_NDEBUG
-  72:DMP/driver/include/log.h **** #ifdef NDEBUG
-  73:DMP/driver/include/log.h **** #define MPL_LOG_NDEBUG 1
-  74:DMP/driver/include/log.h **** #else
-  75:DMP/driver/include/log.h **** #define MPL_LOG_NDEBUG 0
-  76:DMP/driver/include/log.h **** #endif
-  77:DMP/driver/include/log.h **** #endif
-  78:DMP/driver/include/log.h **** 
-  79:DMP/driver/include/log.h **** #ifdef __KERNEL__
-  80:DMP/driver/include/log.h **** #define MPL_LOG_UNKNOWN MPL_LOG_VERBOSE
-  81:DMP/driver/include/log.h **** #define MPL_LOG_DEFAULT KERN_DEFAULT
-  82:DMP/driver/include/log.h **** #define MPL_LOG_VERBOSE KERN_CONT
-  83:DMP/driver/include/log.h **** #define MPL_LOG_DEBUG   KERN_NOTICE
-  84:DMP/driver/include/log.h **** #define MPL_LOG_INFO    KERN_INFO
-  85:DMP/driver/include/log.h **** #define MPL_LOG_WARN    KERN_WARNING
-  86:DMP/driver/include/log.h **** #define MPL_LOG_ERROR   KERN_ERR
-  87:DMP/driver/include/log.h **** #define MPL_LOG_SILENT  MPL_LOG_VERBOSE
-  88:DMP/driver/include/log.h **** 
-  89:DMP/driver/include/log.h **** #else
-  90:DMP/driver/include/log.h **** 	/* Based off the log priorities in android
-  91:DMP/driver/include/log.h **** 	   /system/core/include/android/log.h */
-  92:DMP/driver/include/log.h **** #define MPL_LOG_UNKNOWN		(0)
-  93:DMP/driver/include/log.h **** #define MPL_LOG_DEFAULT		(1)
-  94:DMP/driver/include/log.h **** #define MPL_LOG_VERBOSE		(2)
-  95:DMP/driver/include/log.h **** #define MPL_LOG_DEBUG		(3)
-  96:DMP/driver/include/log.h **** #define MPL_LOG_INFO		(4)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 5
+  40:user/drivers/DMP/driver/include/log.h **** #include <stdlib.h>
+  41:user/drivers/DMP/driver/include/log.h **** #include <stdarg.h>
+  42:user/drivers/DMP/driver/include/log.h **** 
+  43:user/drivers/DMP/driver/include/log.h **** #ifdef ANDROID
+  44:user/drivers/DMP/driver/include/log.h **** #ifdef NDK_BUILD
+  45:user/drivers/DMP/driver/include/log.h **** #include "log_macros.h"
+  46:user/drivers/DMP/driver/include/log.h **** #else
+  47:user/drivers/DMP/driver/include/log.h **** #include <utils/Log.h>		/* For the LOG macro */
+  48:user/drivers/DMP/driver/include/log.h **** #endif
+  49:user/drivers/DMP/driver/include/log.h **** #endif
+  50:user/drivers/DMP/driver/include/log.h **** 
+  51:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+  52:user/drivers/DMP/driver/include/log.h **** #include <linux/kernel.h>
+  53:user/drivers/DMP/driver/include/log.h **** #endif
+  54:user/drivers/DMP/driver/include/log.h **** 
+  55:user/drivers/DMP/driver/include/log.h **** #ifdef __cplusplus
+  56:user/drivers/DMP/driver/include/log.h **** extern "C" {
+  57:user/drivers/DMP/driver/include/log.h **** #endif
+  58:user/drivers/DMP/driver/include/log.h **** 
+  59:user/drivers/DMP/driver/include/log.h **** #if defined ANDROID_JELLYBEAN
+  60:user/drivers/DMP/driver/include/log.h **** #define LOG ALOG
+  61:user/drivers/DMP/driver/include/log.h **** #define LOG_ERRROR ANDROID_LOG_ERROR
+  62:user/drivers/DMP/driver/include/log.h **** #endif
+  63:user/drivers/DMP/driver/include/log.h **** 
+  64:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
+  65:user/drivers/DMP/driver/include/log.h **** 
+  66:user/drivers/DMP/driver/include/log.h **** /*
+  67:user/drivers/DMP/driver/include/log.h ****  * Normally we strip MPL_LOGV (VERBOSE messages) from release builds.
+  68:user/drivers/DMP/driver/include/log.h ****  * You can modify this (for example with "#define MPL_LOG_NDEBUG 0"
+  69:user/drivers/DMP/driver/include/log.h ****  * at the top of your source file) to change that behavior.
+  70:user/drivers/DMP/driver/include/log.h ****  */
+  71:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOG_NDEBUG
+  72:user/drivers/DMP/driver/include/log.h **** #ifdef NDEBUG
+  73:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_NDEBUG 1
+  74:user/drivers/DMP/driver/include/log.h **** #else
+  75:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_NDEBUG 0
+  76:user/drivers/DMP/driver/include/log.h **** #endif
+  77:user/drivers/DMP/driver/include/log.h **** #endif
+  78:user/drivers/DMP/driver/include/log.h **** 
+  79:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+  80:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_UNKNOWN MPL_LOG_VERBOSE
+  81:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_DEFAULT KERN_DEFAULT
+  82:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_VERBOSE KERN_CONT
+  83:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_DEBUG   KERN_NOTICE
+  84:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_INFO    KERN_INFO
+  85:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_WARN    KERN_WARNING
+  86:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_ERROR   KERN_ERR
+  87:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_SILENT  MPL_LOG_VERBOSE
+  88:user/drivers/DMP/driver/include/log.h **** 
+  89:user/drivers/DMP/driver/include/log.h **** #else
+  90:user/drivers/DMP/driver/include/log.h **** 	/* Based off the log priorities in android
+  91:user/drivers/DMP/driver/include/log.h **** 	   /system/core/include/android/log.h */
+  92:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_UNKNOWN		(0)
+  93:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_DEFAULT		(1)
+  94:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_VERBOSE		(2)
+  95:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_DEBUG		(3)
+  96:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_INFO		(4)
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 5
 
 
-  97:DMP/driver/include/log.h **** #define MPL_LOG_WARN		(5)
-  98:DMP/driver/include/log.h **** #define MPL_LOG_ERROR		(6)
-  99:DMP/driver/include/log.h **** #define MPL_LOG_SILENT		(8)
- 100:DMP/driver/include/log.h **** #endif
- 101:DMP/driver/include/log.h **** 
- 102:DMP/driver/include/log.h **** 
- 103:DMP/driver/include/log.h **** /*
- 104:DMP/driver/include/log.h ****  * This is the local tag used for the following simplified
- 105:DMP/driver/include/log.h ****  * logging macros.  You can change this preprocessor definition
- 106:DMP/driver/include/log.h ****  * before using the other macros to change the tag.
- 107:DMP/driver/include/log.h ****  */
- 108:DMP/driver/include/log.h **** #ifndef MPL_LOG_TAG
- 109:DMP/driver/include/log.h **** #ifdef __KERNEL__
- 110:DMP/driver/include/log.h **** #define MPL_LOG_TAG
- 111:DMP/driver/include/log.h **** #else
- 112:DMP/driver/include/log.h **** #define MPL_LOG_TAG NULL
- 113:DMP/driver/include/log.h **** #endif
- 114:DMP/driver/include/log.h **** #endif
- 115:DMP/driver/include/log.h **** 
- 116:DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
- 117:DMP/driver/include/log.h **** 
- 118:DMP/driver/include/log.h **** /*
- 119:DMP/driver/include/log.h ****  * Simplified macro to send a verbose log message using the current MPL_LOG_TAG.
- 120:DMP/driver/include/log.h ****  */
- 121:DMP/driver/include/log.h **** #ifndef MPL_LOGV
- 122:DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
- 123:DMP/driver/include/log.h **** #ifdef _WIN32
- 124:DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...)						\
- 125:DMP/driver/include/log.h **** 	do {								\
- 126:DMP/driver/include/log.h ****         __pragma (warning(suppress : 4127 )) \
- 127:DMP/driver/include/log.h **** 		if (0)							\
- 128:DMP/driver/include/log.h **** 			MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__);\
- 129:DMP/driver/include/log.h ****             __pragma (warning(suppress : 4127 )) \
- 130:DMP/driver/include/log.h ****     } while (0)
- 131:DMP/driver/include/log.h **** #else
- 132:DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...)						\
- 133:DMP/driver/include/log.h **** 	do {								\
- 134:DMP/driver/include/log.h **** 		if (0)							\
- 135:DMP/driver/include/log.h **** 			MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__);\
- 136:DMP/driver/include/log.h ****     } while (0)
- 137:DMP/driver/include/log.h **** #endif
- 138:DMP/driver/include/log.h **** 
- 139:DMP/driver/include/log.h **** #else
- 140:DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...) MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
- 141:DMP/driver/include/log.h **** #endif
- 142:DMP/driver/include/log.h **** #endif
- 143:DMP/driver/include/log.h **** 
- 144:DMP/driver/include/log.h **** #ifndef CONDITION
- 145:DMP/driver/include/log.h **** #define CONDITION(cond)     ((cond) != 0)
- 146:DMP/driver/include/log.h **** #endif
- 147:DMP/driver/include/log.h **** 
- 148:DMP/driver/include/log.h **** #ifndef MPL_LOGV_IF
- 149:DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
- 150:DMP/driver/include/log.h **** #define MPL_LOGV_IF(cond, fmt, ...)  \
- 151:DMP/driver/include/log.h **** 	do { if (0) MPL_LOG(fmt, ##__VA_ARGS__); } while (0)
- 152:DMP/driver/include/log.h **** #else
- 153:DMP/driver/include/log.h **** #define MPL_LOGV_IF(cond, fmt, ...) \
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 6
+  97:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_WARN		(5)
+  98:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_ERROR		(6)
+  99:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_SILENT		(8)
+ 100:user/drivers/DMP/driver/include/log.h **** #endif
+ 101:user/drivers/DMP/driver/include/log.h **** 
+ 102:user/drivers/DMP/driver/include/log.h **** 
+ 103:user/drivers/DMP/driver/include/log.h **** /*
+ 104:user/drivers/DMP/driver/include/log.h ****  * This is the local tag used for the following simplified
+ 105:user/drivers/DMP/driver/include/log.h ****  * logging macros.  You can change this preprocessor definition
+ 106:user/drivers/DMP/driver/include/log.h ****  * before using the other macros to change the tag.
+ 107:user/drivers/DMP/driver/include/log.h ****  */
+ 108:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOG_TAG
+ 109:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+ 110:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_TAG
+ 111:user/drivers/DMP/driver/include/log.h **** #else
+ 112:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_TAG NULL
+ 113:user/drivers/DMP/driver/include/log.h **** #endif
+ 114:user/drivers/DMP/driver/include/log.h **** #endif
+ 115:user/drivers/DMP/driver/include/log.h **** 
+ 116:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
+ 117:user/drivers/DMP/driver/include/log.h **** 
+ 118:user/drivers/DMP/driver/include/log.h **** /*
+ 119:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send a verbose log message using the current MPL_LOG_TAG.
+ 120:user/drivers/DMP/driver/include/log.h ****  */
+ 121:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGV
+ 122:user/drivers/DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
+ 123:user/drivers/DMP/driver/include/log.h **** #ifdef _WIN32
+ 124:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...)						\
+ 125:user/drivers/DMP/driver/include/log.h **** 	do {								\
+ 126:user/drivers/DMP/driver/include/log.h ****         __pragma (warning(suppress : 4127 )) \
+ 127:user/drivers/DMP/driver/include/log.h **** 		if (0)							\
+ 128:user/drivers/DMP/driver/include/log.h **** 			MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__);\
+ 129:user/drivers/DMP/driver/include/log.h ****             __pragma (warning(suppress : 4127 )) \
+ 130:user/drivers/DMP/driver/include/log.h ****     } while (0)
+ 131:user/drivers/DMP/driver/include/log.h **** #else
+ 132:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...)						\
+ 133:user/drivers/DMP/driver/include/log.h **** 	do {								\
+ 134:user/drivers/DMP/driver/include/log.h **** 		if (0)							\
+ 135:user/drivers/DMP/driver/include/log.h **** 			MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__);\
+ 136:user/drivers/DMP/driver/include/log.h ****     } while (0)
+ 137:user/drivers/DMP/driver/include/log.h **** #endif
+ 138:user/drivers/DMP/driver/include/log.h **** 
+ 139:user/drivers/DMP/driver/include/log.h **** #else
+ 140:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV(fmt, ...) MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
+ 141:user/drivers/DMP/driver/include/log.h **** #endif
+ 142:user/drivers/DMP/driver/include/log.h **** #endif
+ 143:user/drivers/DMP/driver/include/log.h **** 
+ 144:user/drivers/DMP/driver/include/log.h **** #ifndef CONDITION
+ 145:user/drivers/DMP/driver/include/log.h **** #define CONDITION(cond)     ((cond) != 0)
+ 146:user/drivers/DMP/driver/include/log.h **** #endif
+ 147:user/drivers/DMP/driver/include/log.h **** 
+ 148:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGV_IF
+ 149:user/drivers/DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
+ 150:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV_IF(cond, fmt, ...)  \
+ 151:user/drivers/DMP/driver/include/log.h **** 	do { if (0) MPL_LOG(fmt, ##__VA_ARGS__); } while (0)
+ 152:user/drivers/DMP/driver/include/log.h **** #else
+ 153:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGV_IF(cond, fmt, ...) \
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 6
 
 
- 154:DMP/driver/include/log.h **** 	((CONDITION(cond))						\
- 155:DMP/driver/include/log.h **** 		? MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__) \
- 156:DMP/driver/include/log.h **** 		: (void)0)
- 157:DMP/driver/include/log.h **** #endif
- 158:DMP/driver/include/log.h **** #endif
- 159:DMP/driver/include/log.h **** 
- 160:DMP/driver/include/log.h **** /*
- 161:DMP/driver/include/log.h ****  * Simplified macro to send a debug log message using the current MPL_LOG_TAG.
- 162:DMP/driver/include/log.h ****  */
- 163:DMP/driver/include/log.h **** #ifndef MPL_LOGD
- 164:DMP/driver/include/log.h **** #define MPL_LOGD(fmt, ...) MPL_LOG(LOG_DEBUG, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
- 165:DMP/driver/include/log.h **** #endif
- 166:DMP/driver/include/log.h **** 
- 167:DMP/driver/include/log.h **** #ifndef MPL_LOGD_IF
- 168:DMP/driver/include/log.h **** #define MPL_LOGD_IF(cond, fmt, ...) \
- 169:DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
- 170:DMP/driver/include/log.h **** 		? MPL_LOG(LOG_DEBUG, MPL_LOG_TAG, fmt, ##__VA_ARGS__)  \
- 171:DMP/driver/include/log.h **** 		: (void)0)
- 172:DMP/driver/include/log.h **** #endif
- 173:DMP/driver/include/log.h **** 
- 174:DMP/driver/include/log.h **** /*
- 175:DMP/driver/include/log.h ****  * Simplified macro to send an info log message using the current MPL_LOG_TAG.
- 176:DMP/driver/include/log.h ****  */
- 177:DMP/driver/include/log.h **** #ifndef MPL_LOGI
- 178:DMP/driver/include/log.h **** #ifdef __KERNEL__
- 179:DMP/driver/include/log.h **** #define MPL_LOGI(fmt, ...) pr_info(KERN_INFO MPL_LOG_TAG fmt, ##__VA_ARGS__)
- 180:DMP/driver/include/log.h **** #else
- 181:DMP/driver/include/log.h **** #define MPL_LOGI(fmt, ...) MPL_LOG(LOG_INFO, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
- 182:DMP/driver/include/log.h **** #endif
- 183:DMP/driver/include/log.h **** #endif
- 184:DMP/driver/include/log.h **** 
- 185:DMP/driver/include/log.h **** #ifndef MPL_LOGI_IF
- 186:DMP/driver/include/log.h **** #define MPL_LOGI_IF(cond, fmt, ...) \
- 187:DMP/driver/include/log.h **** 	((CONDITION(cond))                                              \
- 188:DMP/driver/include/log.h **** 		? MPL_LOG(LOG_INFO, MPL_LOG_TAG, fmt, ##__VA_ARGS__)   \
- 189:DMP/driver/include/log.h **** 		: (void)0)
- 190:DMP/driver/include/log.h **** #endif
- 191:DMP/driver/include/log.h **** 
- 192:DMP/driver/include/log.h **** /*
- 193:DMP/driver/include/log.h ****  * Simplified macro to send a warning log message using the current MPL_LOG_TAG.
- 194:DMP/driver/include/log.h ****  */
- 195:DMP/driver/include/log.h **** #ifndef MPL_LOGW
- 196:DMP/driver/include/log.h **** #ifdef __KERNEL__
- 197:DMP/driver/include/log.h **** #define MPL_LOGW(fmt, ...) printk(KERN_WARNING MPL_LOG_TAG fmt, ##__VA_ARGS__)
- 198:DMP/driver/include/log.h **** #else
- 199:DMP/driver/include/log.h **** #define MPL_LOGW(fmt, ...) MPL_LOG(LOG_WARN, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
- 200:DMP/driver/include/log.h **** #endif
- 201:DMP/driver/include/log.h **** #endif
- 202:DMP/driver/include/log.h **** 
- 203:DMP/driver/include/log.h **** #ifndef MPL_LOGW_IF
- 204:DMP/driver/include/log.h **** #define MPL_LOGW_IF(cond, fmt, ...) \
- 205:DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
- 206:DMP/driver/include/log.h **** 		? MPL_LOG(LOG_WARN, MPL_LOG_TAG, fmt, ##__VA_ARGS__)   \
- 207:DMP/driver/include/log.h **** 		: (void)0)
- 208:DMP/driver/include/log.h **** #endif
- 209:DMP/driver/include/log.h **** 
- 210:DMP/driver/include/log.h **** /*
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 7
+ 154:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))						\
+ 155:user/drivers/DMP/driver/include/log.h **** 		? MPL_LOG(LOG_VERBOSE, MPL_LOG_TAG, fmt, ##__VA_ARGS__) \
+ 156:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 157:user/drivers/DMP/driver/include/log.h **** #endif
+ 158:user/drivers/DMP/driver/include/log.h **** #endif
+ 159:user/drivers/DMP/driver/include/log.h **** 
+ 160:user/drivers/DMP/driver/include/log.h **** /*
+ 161:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send a debug log message using the current MPL_LOG_TAG.
+ 162:user/drivers/DMP/driver/include/log.h ****  */
+ 163:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGD
+ 164:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGD(fmt, ...) MPL_LOG(LOG_DEBUG, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
+ 165:user/drivers/DMP/driver/include/log.h **** #endif
+ 166:user/drivers/DMP/driver/include/log.h **** 
+ 167:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGD_IF
+ 168:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGD_IF(cond, fmt, ...) \
+ 169:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
+ 170:user/drivers/DMP/driver/include/log.h **** 		? MPL_LOG(LOG_DEBUG, MPL_LOG_TAG, fmt, ##__VA_ARGS__)  \
+ 171:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 172:user/drivers/DMP/driver/include/log.h **** #endif
+ 173:user/drivers/DMP/driver/include/log.h **** 
+ 174:user/drivers/DMP/driver/include/log.h **** /*
+ 175:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send an info log message using the current MPL_LOG_TAG.
+ 176:user/drivers/DMP/driver/include/log.h ****  */
+ 177:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGI
+ 178:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+ 179:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGI(fmt, ...) pr_info(KERN_INFO MPL_LOG_TAG fmt, ##__VA_ARGS__)
+ 180:user/drivers/DMP/driver/include/log.h **** #else
+ 181:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGI(fmt, ...) MPL_LOG(LOG_INFO, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
+ 182:user/drivers/DMP/driver/include/log.h **** #endif
+ 183:user/drivers/DMP/driver/include/log.h **** #endif
+ 184:user/drivers/DMP/driver/include/log.h **** 
+ 185:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGI_IF
+ 186:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGI_IF(cond, fmt, ...) \
+ 187:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))                                              \
+ 188:user/drivers/DMP/driver/include/log.h **** 		? MPL_LOG(LOG_INFO, MPL_LOG_TAG, fmt, ##__VA_ARGS__)   \
+ 189:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 190:user/drivers/DMP/driver/include/log.h **** #endif
+ 191:user/drivers/DMP/driver/include/log.h **** 
+ 192:user/drivers/DMP/driver/include/log.h **** /*
+ 193:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send a warning log message using the current MPL_LOG_TAG.
+ 194:user/drivers/DMP/driver/include/log.h ****  */
+ 195:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGW
+ 196:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+ 197:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGW(fmt, ...) printk(KERN_WARNING MPL_LOG_TAG fmt, ##__VA_ARGS__)
+ 198:user/drivers/DMP/driver/include/log.h **** #else
+ 199:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGW(fmt, ...) MPL_LOG(LOG_WARN, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
+ 200:user/drivers/DMP/driver/include/log.h **** #endif
+ 201:user/drivers/DMP/driver/include/log.h **** #endif
+ 202:user/drivers/DMP/driver/include/log.h **** 
+ 203:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGW_IF
+ 204:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGW_IF(cond, fmt, ...) \
+ 205:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
+ 206:user/drivers/DMP/driver/include/log.h **** 		? MPL_LOG(LOG_WARN, MPL_LOG_TAG, fmt, ##__VA_ARGS__)   \
+ 207:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 208:user/drivers/DMP/driver/include/log.h **** #endif
+ 209:user/drivers/DMP/driver/include/log.h **** 
+ 210:user/drivers/DMP/driver/include/log.h **** /*
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 7
 
 
- 211:DMP/driver/include/log.h ****  * Simplified macro to send an error log message using the current MPL_LOG_TAG.
- 212:DMP/driver/include/log.h ****  */
- 213:DMP/driver/include/log.h **** #ifndef MPL_LOGE
- 214:DMP/driver/include/log.h **** #ifdef __KERNEL__
- 215:DMP/driver/include/log.h **** #define MPL_LOGE(fmt, ...) printk(KERN_ERR MPL_LOG_TAG fmt, ##__VA_ARGS__)
- 216:DMP/driver/include/log.h **** #else
- 217:DMP/driver/include/log.h **** #define MPL_LOGE(fmt, ...) MPL_LOG(LOG_ERROR, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
- 218:DMP/driver/include/log.h **** #endif
- 219:DMP/driver/include/log.h **** #endif
- 220:DMP/driver/include/log.h **** 
- 221:DMP/driver/include/log.h **** #ifndef MPL_LOGE_IF
- 222:DMP/driver/include/log.h **** #define MPL_LOGE_IF(cond, fmt, ...) \
- 223:DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
- 224:DMP/driver/include/log.h **** 		? MPL_LOG(LOG_ERROR, MPL_LOG_TAG, fmt, ##__VA_ARGS__)  \
- 225:DMP/driver/include/log.h **** 		: (void)0)
- 226:DMP/driver/include/log.h **** #endif
- 227:DMP/driver/include/log.h **** 
- 228:DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
- 229:DMP/driver/include/log.h **** 
- 230:DMP/driver/include/log.h **** /*
- 231:DMP/driver/include/log.h ****  * Log a fatal error.  If the given condition fails, this stops program
- 232:DMP/driver/include/log.h ****  * execution like a normal assertion, but also generating the given message.
- 233:DMP/driver/include/log.h ****  * It is NOT stripped from release builds.  Note that the condition test
- 234:DMP/driver/include/log.h ****  * is -inverted- from the normal assert() semantics.
- 235:DMP/driver/include/log.h ****  */
- 236:DMP/driver/include/log.h **** #define MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ...) \
- 237:DMP/driver/include/log.h **** 	((CONDITION(cond))					   \
- 238:DMP/driver/include/log.h **** 		? ((void)android_printAssert(#cond, MPL_LOG_TAG,   \
- 239:DMP/driver/include/log.h **** 						fmt, ##__VA_ARGS__))	\
- 240:DMP/driver/include/log.h **** 		: (void)0)
- 241:DMP/driver/include/log.h **** 
- 242:DMP/driver/include/log.h **** #define MPL_LOG_ALWAYS_FATAL(fmt, ...) \
- 243:DMP/driver/include/log.h **** 	(((void)android_printAssert(NULL, MPL_LOG_TAG, fmt, ##__VA_ARGS__)))
- 244:DMP/driver/include/log.h **** 
- 245:DMP/driver/include/log.h **** /*
- 246:DMP/driver/include/log.h ****  * Versions of MPL_LOG_ALWAYS_FATAL_IF and MPL_LOG_ALWAYS_FATAL that
- 247:DMP/driver/include/log.h ****  * are stripped out of release builds.
- 248:DMP/driver/include/log.h ****  */
- 249:DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
- 250:DMP/driver/include/log.h **** #define MPL_LOG_FATAL_IF(cond, fmt, ...)				\
- 251:DMP/driver/include/log.h **** 	do {								\
- 252:DMP/driver/include/log.h **** 		if (0)							\
- 253:DMP/driver/include/log.h **** 			MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ##__VA_ARGS__); \
- 254:DMP/driver/include/log.h **** 	} while (0)
- 255:DMP/driver/include/log.h **** #define MPL_LOG_FATAL(fmt, ...)						\
- 256:DMP/driver/include/log.h **** 	do {								\
- 257:DMP/driver/include/log.h **** 		if (0)							\
- 258:DMP/driver/include/log.h **** 			MPL_LOG_ALWAYS_FATAL(fmt, ##__VA_ARGS__)	\
- 259:DMP/driver/include/log.h **** 	} while (0)
- 260:DMP/driver/include/log.h **** #else
- 261:DMP/driver/include/log.h **** #define MPL_LOG_FATAL_IF(cond, fmt, ...) \
- 262:DMP/driver/include/log.h **** 	MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ##__VA_ARGS__)
- 263:DMP/driver/include/log.h **** #define MPL_LOG_FATAL(fmt, ...) \
- 264:DMP/driver/include/log.h **** 	MPL_LOG_ALWAYS_FATAL(fmt, ##__VA_ARGS__)
- 265:DMP/driver/include/log.h **** #endif
- 266:DMP/driver/include/log.h **** 
- 267:DMP/driver/include/log.h **** /*
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 8
+ 211:user/drivers/DMP/driver/include/log.h ****  * Simplified macro to send an error log message using the current MPL_LOG_TAG.
+ 212:user/drivers/DMP/driver/include/log.h ****  */
+ 213:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGE
+ 214:user/drivers/DMP/driver/include/log.h **** #ifdef __KERNEL__
+ 215:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGE(fmt, ...) printk(KERN_ERR MPL_LOG_TAG fmt, ##__VA_ARGS__)
+ 216:user/drivers/DMP/driver/include/log.h **** #else
+ 217:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGE(fmt, ...) MPL_LOG(LOG_ERROR, MPL_LOG_TAG, fmt, ##__VA_ARGS__)
+ 218:user/drivers/DMP/driver/include/log.h **** #endif
+ 219:user/drivers/DMP/driver/include/log.h **** #endif
+ 220:user/drivers/DMP/driver/include/log.h **** 
+ 221:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOGE_IF
+ 222:user/drivers/DMP/driver/include/log.h **** #define MPL_LOGE_IF(cond, fmt, ...) \
+ 223:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))					       \
+ 224:user/drivers/DMP/driver/include/log.h **** 		? MPL_LOG(LOG_ERROR, MPL_LOG_TAG, fmt, ##__VA_ARGS__)  \
+ 225:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 226:user/drivers/DMP/driver/include/log.h **** #endif
+ 227:user/drivers/DMP/driver/include/log.h **** 
+ 228:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
+ 229:user/drivers/DMP/driver/include/log.h **** 
+ 230:user/drivers/DMP/driver/include/log.h **** /*
+ 231:user/drivers/DMP/driver/include/log.h ****  * Log a fatal error.  If the given condition fails, this stops program
+ 232:user/drivers/DMP/driver/include/log.h ****  * execution like a normal assertion, but also generating the given message.
+ 233:user/drivers/DMP/driver/include/log.h ****  * It is NOT stripped from release builds.  Note that the condition test
+ 234:user/drivers/DMP/driver/include/log.h ****  * is -inverted- from the normal assert() semantics.
+ 235:user/drivers/DMP/driver/include/log.h ****  */
+ 236:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ...) \
+ 237:user/drivers/DMP/driver/include/log.h **** 	((CONDITION(cond))					   \
+ 238:user/drivers/DMP/driver/include/log.h **** 		? ((void)android_printAssert(#cond, MPL_LOG_TAG,   \
+ 239:user/drivers/DMP/driver/include/log.h **** 						fmt, ##__VA_ARGS__))	\
+ 240:user/drivers/DMP/driver/include/log.h **** 		: (void)0)
+ 241:user/drivers/DMP/driver/include/log.h **** 
+ 242:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_ALWAYS_FATAL(fmt, ...) \
+ 243:user/drivers/DMP/driver/include/log.h **** 	(((void)android_printAssert(NULL, MPL_LOG_TAG, fmt, ##__VA_ARGS__)))
+ 244:user/drivers/DMP/driver/include/log.h **** 
+ 245:user/drivers/DMP/driver/include/log.h **** /*
+ 246:user/drivers/DMP/driver/include/log.h ****  * Versions of MPL_LOG_ALWAYS_FATAL_IF and MPL_LOG_ALWAYS_FATAL that
+ 247:user/drivers/DMP/driver/include/log.h ****  * are stripped out of release builds.
+ 248:user/drivers/DMP/driver/include/log.h ****  */
+ 249:user/drivers/DMP/driver/include/log.h **** #if MPL_LOG_NDEBUG
+ 250:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_FATAL_IF(cond, fmt, ...)				\
+ 251:user/drivers/DMP/driver/include/log.h **** 	do {								\
+ 252:user/drivers/DMP/driver/include/log.h **** 		if (0)							\
+ 253:user/drivers/DMP/driver/include/log.h **** 			MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ##__VA_ARGS__); \
+ 254:user/drivers/DMP/driver/include/log.h **** 	} while (0)
+ 255:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_FATAL(fmt, ...)						\
+ 256:user/drivers/DMP/driver/include/log.h **** 	do {								\
+ 257:user/drivers/DMP/driver/include/log.h **** 		if (0)							\
+ 258:user/drivers/DMP/driver/include/log.h **** 			MPL_LOG_ALWAYS_FATAL(fmt, ##__VA_ARGS__)	\
+ 259:user/drivers/DMP/driver/include/log.h **** 	} while (0)
+ 260:user/drivers/DMP/driver/include/log.h **** #else
+ 261:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_FATAL_IF(cond, fmt, ...) \
+ 262:user/drivers/DMP/driver/include/log.h **** 	MPL_LOG_ALWAYS_FATAL_IF(cond, fmt, ##__VA_ARGS__)
+ 263:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_FATAL(fmt, ...) \
+ 264:user/drivers/DMP/driver/include/log.h **** 	MPL_LOG_ALWAYS_FATAL(fmt, ##__VA_ARGS__)
+ 265:user/drivers/DMP/driver/include/log.h **** #endif
+ 266:user/drivers/DMP/driver/include/log.h **** 
+ 267:user/drivers/DMP/driver/include/log.h **** /*
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 8
 
 
- 268:DMP/driver/include/log.h ****  * Assertion that generates a log message when the assertion fails.
- 269:DMP/driver/include/log.h ****  * Stripped out of release builds.  Uses the current MPL_LOG_TAG.
- 270:DMP/driver/include/log.h ****  */
- 271:DMP/driver/include/log.h **** #define MPL_LOG_ASSERT(cond, fmt, ...)			\
- 272:DMP/driver/include/log.h **** 	MPL_LOG_FATAL_IF(!(cond), fmt, ##__VA_ARGS__)
- 273:DMP/driver/include/log.h **** 
- 274:DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
- 275:DMP/driver/include/log.h **** 
- 276:DMP/driver/include/log.h **** /*
- 277:DMP/driver/include/log.h ****  * Basic log message macro.
- 278:DMP/driver/include/log.h ****  *
- 279:DMP/driver/include/log.h ****  * Example:
- 280:DMP/driver/include/log.h ****  *  MPL_LOG(MPL_LOG_WARN, NULL, "Failed with error %d", errno);
- 281:DMP/driver/include/log.h ****  *
- 282:DMP/driver/include/log.h ****  * The second argument may be NULL or "" to indicate the "global" tag.
- 283:DMP/driver/include/log.h ****  */
- 284:DMP/driver/include/log.h **** #ifndef MPL_LOG
- 285:DMP/driver/include/log.h **** #ifdef REMOVE_LOGGING
- 286:DMP/driver/include/log.h **** #define MPL_LOG(priority, tag, fmt, ...) do {} while (0)
- 287:DMP/driver/include/log.h **** #else
- 288:DMP/driver/include/log.h **** #define MPL_LOG(priority, tag, fmt, ...)		\
- 289:DMP/driver/include/log.h **** 	MPL_LOG_PRI(priority, tag, fmt, ##__VA_ARGS__)
- 290:DMP/driver/include/log.h **** #endif
- 291:DMP/driver/include/log.h **** #endif
- 292:DMP/driver/include/log.h **** 
- 293:DMP/driver/include/log.h **** /*
- 294:DMP/driver/include/log.h ****  * Log macro that allows you to specify a number for the priority.
- 295:DMP/driver/include/log.h ****  */
- 296:DMP/driver/include/log.h **** #ifndef MPL_LOG_PRI
- 297:DMP/driver/include/log.h **** #ifdef ANDROID
- 298:DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
- 299:DMP/driver/include/log.h **** 	LOG(priority, tag, fmt, ##__VA_ARGS__)
- 300:DMP/driver/include/log.h **** #elif defined __KERNEL__
- 301:DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
- 302:DMP/driver/include/log.h **** 	pr_debug(MPL_##priority tag fmt, ##__VA_ARGS__)
- 303:DMP/driver/include/log.h **** #else
- 304:DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
- 305:DMP/driver/include/log.h **** 	_MLPrintLog(MPL_##priority, tag, fmt, ##__VA_ARGS__)
- 306:DMP/driver/include/log.h **** #endif
- 307:DMP/driver/include/log.h **** #endif
- 308:DMP/driver/include/log.h **** 
- 309:DMP/driver/include/log.h **** /*
- 310:DMP/driver/include/log.h ****  * Log macro that allows you to pass in a varargs ("args" is a va_list).
- 311:DMP/driver/include/log.h ****  */
- 312:DMP/driver/include/log.h **** #ifndef MPL_LOG_PRI_VA
- 313:DMP/driver/include/log.h **** #ifdef ANDROID
- 314:DMP/driver/include/log.h **** #define MPL_LOG_PRI_VA(priority, tag, fmt, args) \
- 315:DMP/driver/include/log.h **** 	android_vprintLog(priority, NULL, tag, fmt, args)
- 316:DMP/driver/include/log.h **** #elif defined __KERNEL__
- 317:DMP/driver/include/log.h **** /* not allowed in the Kernel because there is no dev_dbg that takes a va_list */
- 318:DMP/driver/include/log.h **** #else
- 319:DMP/driver/include/log.h **** #define MPL_LOG_PRI_VA(priority, tag, fmt, args) \
- 320:DMP/driver/include/log.h **** 	_MLPrintVaLog(priority, NULL, tag, fmt, args)
- 321:DMP/driver/include/log.h **** #endif
- 322:DMP/driver/include/log.h **** #endif
- 323:DMP/driver/include/log.h **** 
- 324:DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 9
+ 268:user/drivers/DMP/driver/include/log.h ****  * Assertion that generates a log message when the assertion fails.
+ 269:user/drivers/DMP/driver/include/log.h ****  * Stripped out of release builds.  Uses the current MPL_LOG_TAG.
+ 270:user/drivers/DMP/driver/include/log.h ****  */
+ 271:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_ASSERT(cond, fmt, ...)			\
+ 272:user/drivers/DMP/driver/include/log.h **** 	MPL_LOG_FATAL_IF(!(cond), fmt, ##__VA_ARGS__)
+ 273:user/drivers/DMP/driver/include/log.h **** 
+ 274:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
+ 275:user/drivers/DMP/driver/include/log.h **** 
+ 276:user/drivers/DMP/driver/include/log.h **** /*
+ 277:user/drivers/DMP/driver/include/log.h ****  * Basic log message macro.
+ 278:user/drivers/DMP/driver/include/log.h ****  *
+ 279:user/drivers/DMP/driver/include/log.h ****  * Example:
+ 280:user/drivers/DMP/driver/include/log.h ****  *  MPL_LOG(MPL_LOG_WARN, NULL, "Failed with error %d", errno);
+ 281:user/drivers/DMP/driver/include/log.h ****  *
+ 282:user/drivers/DMP/driver/include/log.h ****  * The second argument may be NULL or "" to indicate the "global" tag.
+ 283:user/drivers/DMP/driver/include/log.h ****  */
+ 284:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOG
+ 285:user/drivers/DMP/driver/include/log.h **** #ifdef REMOVE_LOGGING
+ 286:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG(priority, tag, fmt, ...) do {} while (0)
+ 287:user/drivers/DMP/driver/include/log.h **** #else
+ 288:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG(priority, tag, fmt, ...)		\
+ 289:user/drivers/DMP/driver/include/log.h **** 	MPL_LOG_PRI(priority, tag, fmt, ##__VA_ARGS__)
+ 290:user/drivers/DMP/driver/include/log.h **** #endif
+ 291:user/drivers/DMP/driver/include/log.h **** #endif
+ 292:user/drivers/DMP/driver/include/log.h **** 
+ 293:user/drivers/DMP/driver/include/log.h **** /*
+ 294:user/drivers/DMP/driver/include/log.h ****  * Log macro that allows you to specify a number for the priority.
+ 295:user/drivers/DMP/driver/include/log.h ****  */
+ 296:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOG_PRI
+ 297:user/drivers/DMP/driver/include/log.h **** #ifdef ANDROID
+ 298:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
+ 299:user/drivers/DMP/driver/include/log.h **** 	LOG(priority, tag, fmt, ##__VA_ARGS__)
+ 300:user/drivers/DMP/driver/include/log.h **** #elif defined __KERNEL__
+ 301:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
+ 302:user/drivers/DMP/driver/include/log.h **** 	pr_debug(MPL_##priority tag fmt, ##__VA_ARGS__)
+ 303:user/drivers/DMP/driver/include/log.h **** #else
+ 304:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_PRI(priority, tag, fmt, ...) \
+ 305:user/drivers/DMP/driver/include/log.h **** 	_MLPrintLog(MPL_##priority, tag, fmt, ##__VA_ARGS__)
+ 306:user/drivers/DMP/driver/include/log.h **** #endif
+ 307:user/drivers/DMP/driver/include/log.h **** #endif
+ 308:user/drivers/DMP/driver/include/log.h **** 
+ 309:user/drivers/DMP/driver/include/log.h **** /*
+ 310:user/drivers/DMP/driver/include/log.h ****  * Log macro that allows you to pass in a varargs ("args" is a va_list).
+ 311:user/drivers/DMP/driver/include/log.h ****  */
+ 312:user/drivers/DMP/driver/include/log.h **** #ifndef MPL_LOG_PRI_VA
+ 313:user/drivers/DMP/driver/include/log.h **** #ifdef ANDROID
+ 314:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_PRI_VA(priority, tag, fmt, args) \
+ 315:user/drivers/DMP/driver/include/log.h **** 	android_vprintLog(priority, NULL, tag, fmt, args)
+ 316:user/drivers/DMP/driver/include/log.h **** #elif defined __KERNEL__
+ 317:user/drivers/DMP/driver/include/log.h **** /* not allowed in the Kernel because there is no dev_dbg that takes a va_list */
+ 318:user/drivers/DMP/driver/include/log.h **** #else
+ 319:user/drivers/DMP/driver/include/log.h **** #define MPL_LOG_PRI_VA(priority, tag, fmt, args) \
+ 320:user/drivers/DMP/driver/include/log.h **** 	_MLPrintVaLog(priority, NULL, tag, fmt, args)
+ 321:user/drivers/DMP/driver/include/log.h **** #endif
+ 322:user/drivers/DMP/driver/include/log.h **** #endif
+ 323:user/drivers/DMP/driver/include/log.h **** 
+ 324:user/drivers/DMP/driver/include/log.h **** /* --------------------------------------------------------------------- */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 9
 
 
- 325:DMP/driver/include/log.h **** 
- 326:DMP/driver/include/log.h **** /*
- 327:DMP/driver/include/log.h ****  * ===========================================================================
- 328:DMP/driver/include/log.h ****  *
- 329:DMP/driver/include/log.h ****  * The stuff in the rest of this file should not be used directly.
- 330:DMP/driver/include/log.h ****  */
- 331:DMP/driver/include/log.h **** 
- 332:DMP/driver/include/log.h **** #ifndef ANDROID
- 333:DMP/driver/include/log.h **** int _MLPrintLog(int priority, const char *tag, const char *fmt,	...);
- 334:DMP/driver/include/log.h **** int _MLPrintVaLog(int priority, const char *tag, const char *fmt, va_list args);
- 335:DMP/driver/include/log.h **** /* Final implementation of actual writing to a character device */
- 336:DMP/driver/include/log.h **** int _MLWriteLog(const char *buf, int buflen);
- 337:DMP/driver/include/log.h **** #endif
- 338:DMP/driver/include/log.h **** 
- 339:DMP/driver/include/log.h **** static inline void __print_result_location(int result,
+ 325:user/drivers/DMP/driver/include/log.h **** 
+ 326:user/drivers/DMP/driver/include/log.h **** /*
+ 327:user/drivers/DMP/driver/include/log.h ****  * ===========================================================================
+ 328:user/drivers/DMP/driver/include/log.h ****  *
+ 329:user/drivers/DMP/driver/include/log.h ****  * The stuff in the rest of this file should not be used directly.
+ 330:user/drivers/DMP/driver/include/log.h ****  */
+ 331:user/drivers/DMP/driver/include/log.h **** 
+ 332:user/drivers/DMP/driver/include/log.h **** #ifndef ANDROID
+ 333:user/drivers/DMP/driver/include/log.h **** int _MLPrintLog(int priority, const char *tag, const char *fmt,	...);
+ 334:user/drivers/DMP/driver/include/log.h **** int _MLPrintVaLog(int priority, const char *tag, const char *fmt, va_list args);
+ 335:user/drivers/DMP/driver/include/log.h **** /* Final implementation of actual writing to a character device */
+ 336:user/drivers/DMP/driver/include/log.h **** int _MLWriteLog(const char *buf, int buflen);
+ 337:user/drivers/DMP/driver/include/log.h **** #endif
+ 338:user/drivers/DMP/driver/include/log.h **** 
+ 339:user/drivers/DMP/driver/include/log.h **** static inline void __print_result_location(int result,
   82              		.loc 2 339 20 discriminator 1 view .LVU10
   83              	.LBB11:
- 340:DMP/driver/include/log.h **** 					   const char *file,
- 341:DMP/driver/include/log.h **** 					   const char *func, int line)
- 342:DMP/driver/include/log.h **** {
- 343:DMP/driver/include/log.h **** 	MPL_LOGE("%s|%s|%d returning %d\n", file, func, line, result);
+ 340:user/drivers/DMP/driver/include/log.h **** 					   const char *file,
+ 341:user/drivers/DMP/driver/include/log.h **** 					   const char *func, int line)
+ 342:user/drivers/DMP/driver/include/log.h **** {
+ 343:user/drivers/DMP/driver/include/log.h **** 	MPL_LOGE("%s|%s|%d returning %d\n", file, func, line, result);
   84              		.loc 2 343 2 discriminator 1 view .LVU11
   85 0024 0290     		str	r0, [sp, #8]
   86 0026 2223     		movs	r3, #34
@@ -519,26 +519,26 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
   98              		.loc 2 343 2 discriminator 1 view .LVU13
   99              	.LBE11:
  100              	.LBE10:
-  34:DMP/mllite/mpl.c **** 
+  34:user/drivers/DMP/mllite/mpl.c **** 
  101              		.loc 1 34 5 is_stmt 1 discriminator 1 view .LVU14
-  34:DMP/mllite/mpl.c **** 
+  34:user/drivers/DMP/mllite/mpl.c **** 
  102              		.loc 1 34 5 discriminator 1 view .LVU15
  103 003a FFF7FEFF 		bl	inv_init_start_manager
  104              	.LVL7:
  105 003e ECE7     		b	.L1
  106              	.L7:
-  37:DMP/mllite/mpl.c **** 
+  37:user/drivers/DMP/mllite/mpl.c **** 
  107              		.loc 1 37 5 discriminator 1 view .LVU16
-  37:DMP/mllite/mpl.c **** 
+  37:user/drivers/DMP/mllite/mpl.c **** 
  108              		.loc 1 37 5 discriminator 1 view .LVU17
  109 0040 FFF7FEFF 		bl	inv_init_data_builder
  110              	.LVL8:
  111              	.LBB12:
  112              	.LBI12:
- 339:DMP/driver/include/log.h **** 					   const char *file,
+ 339:user/drivers/DMP/driver/include/log.h **** 					   const char *file,
  113              		.loc 2 339 20 discriminator 1 view .LVU18
  114              	.LBB13:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 10
 
 
  115              		.loc 2 343 2 discriminator 1 view .LVU19
@@ -558,23 +558,23 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  129              		.loc 2 343 2 discriminator 1 view .LVU21
  130              	.LBE13:
  131              	.LBE12:
-  37:DMP/mllite/mpl.c **** 
+  37:user/drivers/DMP/mllite/mpl.c **** 
  132              		.loc 1 37 5 is_stmt 1 discriminator 1 view .LVU22
-  37:DMP/mllite/mpl.c **** 
+  37:user/drivers/DMP/mllite/mpl.c **** 
  133              		.loc 1 37 5 discriminator 1 view .LVU23
  134 005a FFF7FEFF 		bl	inv_init_data_builder
  135              	.LVL11:
  136 005e DCE7     		b	.L1
  137              	.L8:
-  39:DMP/mllite/mpl.c **** 
+  39:user/drivers/DMP/mllite/mpl.c **** 
  138              		.loc 1 39 5 discriminator 1 view .LVU24
-  39:DMP/mllite/mpl.c **** 
+  39:user/drivers/DMP/mllite/mpl.c **** 
  139              		.loc 1 39 5 discriminator 1 view .LVU25
  140 0060 FFF7FEFF 		bl	inv_enable_results_holder
  141              	.LVL12:
  142              	.LBB14:
  143              	.LBI14:
- 339:DMP/driver/include/log.h **** 					   const char *file,
+ 339:user/drivers/DMP/driver/include/log.h **** 					   const char *file,
  144              		.loc 2 339 20 discriminator 1 view .LVU26
  145              	.LBB15:
  146              		.loc 2 343 2 discriminator 1 view .LVU27
@@ -594,11 +594,11 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  160              		.loc 2 343 2 discriminator 1 view .LVU29
  161              	.LBE15:
  162              	.LBE14:
-  39:DMP/mllite/mpl.c **** 
+  39:user/drivers/DMP/mllite/mpl.c **** 
  163              		.loc 1 39 5 is_stmt 1 discriminator 1 view .LVU30
-  39:DMP/mllite/mpl.c **** 
+  39:user/drivers/DMP/mllite/mpl.c **** 
  164              		.loc 1 39 5 discriminator 1 view .LVU31
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 11
 
 
  165 007a FFF7FEFF 		bl	inv_enable_results_holder
@@ -609,7 +609,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  170              	.L9:
  171 0080 00000000 		.word	__func__.1
  172 0084 00000000 		.word	.LC0
- 173 0088 14000000 		.word	.LC1
+ 173 0088 20000000 		.word	.LC1
  174              		.cfi_endproc
  175              	.LFE10:
  177              		.section	.text.inv_get_version,"ax",%progbits
@@ -621,32 +621,32 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  184              	inv_get_version:
  185              	.LVL16:
  186              	.LFB11:
-  43:DMP/mllite/mpl.c **** 
-  44:DMP/mllite/mpl.c **** const char ml_ver[] = "InvenSense MA 5.1.2";
-  45:DMP/mllite/mpl.c **** 
-  46:DMP/mllite/mpl.c **** /**
-  47:DMP/mllite/mpl.c ****  *  @brief  used to get the MPL version.
-  48:DMP/mllite/mpl.c ****  *  @param  version     a string where the MPL version gets stored.
-  49:DMP/mllite/mpl.c ****  *  @return INV_SUCCESS if successful or a non-zero error code otherwise.
-  50:DMP/mllite/mpl.c ****  */
-  51:DMP/mllite/mpl.c **** inv_error_t inv_get_version(char **version)
-  52:DMP/mllite/mpl.c **** {
+  43:user/drivers/DMP/mllite/mpl.c **** 
+  44:user/drivers/DMP/mllite/mpl.c **** const char ml_ver[] = "InvenSense MA 5.1.2";
+  45:user/drivers/DMP/mllite/mpl.c **** 
+  46:user/drivers/DMP/mllite/mpl.c **** /**
+  47:user/drivers/DMP/mllite/mpl.c ****  *  @brief  used to get the MPL version.
+  48:user/drivers/DMP/mllite/mpl.c ****  *  @param  version     a string where the MPL version gets stored.
+  49:user/drivers/DMP/mllite/mpl.c ****  *  @return INV_SUCCESS if successful or a non-zero error code otherwise.
+  50:user/drivers/DMP/mllite/mpl.c ****  */
+  51:user/drivers/DMP/mllite/mpl.c **** inv_error_t inv_get_version(char **version)
+  52:user/drivers/DMP/mllite/mpl.c **** {
  187              		.loc 1 52 1 view -0
  188              		.cfi_startproc
  189              		@ args = 0, pretend = 0, frame = 0
  190              		@ frame_needed = 0, uses_anonymous_args = 0
  191              		@ link register save eliminated.
-  53:DMP/mllite/mpl.c ****     INVENSENSE_FUNC_START;
+  53:user/drivers/DMP/mllite/mpl.c ****     INVENSENSE_FUNC_START;
  192              		.loc 1 53 5 view .LVU33
-  54:DMP/mllite/mpl.c ****     /* cast out the const */
-  55:DMP/mllite/mpl.c ****     *version = (char *)&ml_ver;
+  54:user/drivers/DMP/mllite/mpl.c ****     /* cast out the const */
+  55:user/drivers/DMP/mllite/mpl.c ****     *version = (char *)&ml_ver;
  193              		.loc 1 55 5 view .LVU34
  194              		.loc 1 55 14 is_stmt 0 view .LVU35
  195 0000 014B     		ldr	r3, .L12
  196 0002 0360     		str	r3, [r0]
-  56:DMP/mllite/mpl.c ****     return INV_SUCCESS;
+  56:user/drivers/DMP/mllite/mpl.c ****     return INV_SUCCESS;
  197              		.loc 1 56 5 is_stmt 1 view .LVU36
-  57:DMP/mllite/mpl.c **** }
+  57:user/drivers/DMP/mllite/mpl.c **** }
  198              		.loc 1 57 1 is_stmt 0 view .LVU37
  199 0004 0020     		movs	r0, #0
  200              	.LVL17:
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  206 0008 00000000 		.word	ml_ver
  207              		.cfi_endproc
  208              	.LFE11:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 12
 
 
  210              		.section	.text.inv_start_mpl,"ax",%progbits
@@ -669,14 +669,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  215              		.thumb_func
  217              	inv_start_mpl:
  218              	.LFB12:
-  58:DMP/mllite/mpl.c **** 
-  59:DMP/mllite/mpl.c **** /** 
-  60:DMP/mllite/mpl.c ****  *  @brief  Starts the MPL. Typically called after inv_init_mpl() or after a
-  61:DMP/mllite/mpl.c ****  *          inv_stop_mpl() to start the MPL back up an running.
-  62:DMP/mllite/mpl.c ****  *  @return INV_SUCCESS if successful or a non-zero error code otherwise.
-  63:DMP/mllite/mpl.c ****  */
-  64:DMP/mllite/mpl.c **** inv_error_t inv_start_mpl(void)
-  65:DMP/mllite/mpl.c **** {
+  58:user/drivers/DMP/mllite/mpl.c **** 
+  59:user/drivers/DMP/mllite/mpl.c **** /** 
+  60:user/drivers/DMP/mllite/mpl.c ****  *  @brief  Starts the MPL. Typically called after inv_init_mpl() or after a
+  61:user/drivers/DMP/mllite/mpl.c ****  *          inv_stop_mpl() to start the MPL back up an running.
+  62:user/drivers/DMP/mllite/mpl.c ****  *  @return INV_SUCCESS if successful or a non-zero error code otherwise.
+  63:user/drivers/DMP/mllite/mpl.c ****  */
+  64:user/drivers/DMP/mllite/mpl.c **** inv_error_t inv_start_mpl(void)
+  65:user/drivers/DMP/mllite/mpl.c **** {
  219              		.loc 1 65 1 is_stmt 1 view -0
  220              		.cfi_startproc
  221              		@ args = 0, pretend = 0, frame = 0
@@ -688,14 +688,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  227 0002 85B0     		sub	sp, sp, #20
  228              	.LCFI5:
  229              		.cfi_def_cfa_offset 24
-  66:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
+  66:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
  230              		.loc 1 66 5 view .LVU40
  231 0004 FFF7FEFF 		bl	inv_execute_mpl_start_notification
  232              	.LVL18:
  233 0008 10B9     		cbnz	r0, .L17
  234              	.L14:
-  67:DMP/mllite/mpl.c ****     return INV_SUCCESS;
-  68:DMP/mllite/mpl.c **** }
+  67:user/drivers/DMP/mllite/mpl.c ****     return INV_SUCCESS;
+  68:user/drivers/DMP/mllite/mpl.c **** }
  235              		.loc 1 68 1 is_stmt 0 view .LVU41
  236 000a 05B0     		add	sp, sp, #20
  237              	.LCFI6:
@@ -706,19 +706,19 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  242              	.L17:
  243              	.LCFI7:
  244              		.cfi_restore_state
-  66:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
+  66:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
  245              		.loc 1 66 5 is_stmt 1 discriminator 1 view .LVU42
-  66:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
+  66:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
  246              		.loc 1 66 5 discriminator 1 view .LVU43
  247 0010 FFF7FEFF 		bl	inv_execute_mpl_start_notification
  248              	.LVL19:
  249              	.LBB16:
  250              	.LBI16:
- 339:DMP/driver/include/log.h **** 					   const char *file,
+ 339:user/drivers/DMP/driver/include/log.h **** 					   const char *file,
  251              		.loc 2 339 20 discriminator 1 view .LVU44
  252              	.LBB17:
  253              		.loc 2 343 2 discriminator 1 view .LVU45
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 13
 
 
  254 0014 0290     		str	r0, [sp, #8]
@@ -737,9 +737,9 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  267              		.loc 2 343 2 discriminator 1 view .LVU47
  268              	.LBE17:
  269              	.LBE16:
-  66:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
+  66:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
  270              		.loc 1 66 5 is_stmt 1 discriminator 1 view .LVU48
-  66:DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
+  66:user/drivers/DMP/mllite/mpl.c ****     INV_ERROR_CHECK(inv_execute_mpl_start_notification());
  271              		.loc 1 66 5 discriminator 1 view .LVU49
  272 002a FFF7FEFF 		bl	inv_execute_mpl_start_notification
  273              	.LVL22:
@@ -749,7 +749,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  277              	.L18:
  278 0030 00000000 		.word	__func__.0
  279 0034 00000000 		.word	.LC0
- 280 0038 14000000 		.word	.LC1
+ 280 0038 20000000 		.word	.LC1
  281              		.cfi_endproc
  282              	.LFE12:
  284              		.section	.rodata.__func__.0,"a"
@@ -777,35 +777,35 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 1
  302      312E3200 
  303              		.text
  304              	.Letext0:
- 305              		.file 3 "DMP/mllite/start_manager.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 14
+ 305              		.file 3 "user/drivers/DMP/mllite/start_manager.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 14
 
 
- 306              		.file 4 "DMP/mllite/results_holder.h"
- 307              		.file 5 "DMP/mllite/data_builder.h"
- 308              		.file 6 "DMP/driver/include/mltypes.h"
- 309              		.file 7 "DMP/mllite/storage_manager.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s 			page 15
+ 306              		.file 4 "user/drivers/DMP/mllite/results_holder.h"
+ 307              		.file 5 "user/drivers/DMP/mllite/data_builder.h"
+ 308              		.file 6 "user/drivers/DMP/driver/include/mltypes.h"
+ 309              		.file 7 "user/drivers/DMP/mllite/storage_manager.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 mpl.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:21     .rodata.inv_init_mpl.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:28     .text.inv_init_mpl:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:34     .text.inv_init_mpl:00000000 inv_init_mpl
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:171    .text.inv_init_mpl:00000080 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:294    .rodata.__func__.1:00000000 __func__.1
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:178    .text.inv_get_version:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:184    .text.inv_get_version:00000000 inv_get_version
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:206    .text.inv_get_version:00000008 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:301    .rodata.ml_ver:00000000 ml_ver
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:211    .text.inv_start_mpl:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:217    .text.inv_start_mpl:00000000 inv_start_mpl
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:278    .text.inv_start_mpl:00000030 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:288    .rodata.__func__.0:00000000 __func__.0
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:285    .rodata.__func__.0:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:291    .rodata.__func__.1:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJpDRN1.s:298    .rodata.ml_ver:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:21     .rodata.inv_init_mpl.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:28     .text.inv_init_mpl:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:34     .text.inv_init_mpl:00000000 inv_init_mpl
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:171    .text.inv_init_mpl:00000080 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:294    .rodata.__func__.1:00000000 __func__.1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:178    .text.inv_get_version:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:184    .text.inv_get_version:00000000 inv_get_version
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:206    .text.inv_get_version:00000008 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:301    .rodata.ml_ver:00000000 ml_ver
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:211    .text.inv_start_mpl:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:217    .text.inv_start_mpl:00000000 inv_start_mpl
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:278    .text.inv_start_mpl:00000030 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:288    .rodata.__func__.0:00000000 __func__.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:285    .rodata.__func__.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:291    .rodata.__func__.1:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc0MaZT7.s:298    .rodata.ml_ver:00000000 $d
 
 UNDEFINED SYMBOLS
 inv_init_storage_manager

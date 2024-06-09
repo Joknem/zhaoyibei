@@ -1,1 +1,1 @@
-build/mlmath.o: DMP/mllite/mlmath.c
+build/mlmath.o: user/drivers/DMP/mllite/mlmath.c

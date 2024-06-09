@@ -1,6 +1,8 @@
 build/inv_mpu_dmp_motion_driver.o: \
- DMP/driver/eMPL/inv_mpu_dmp_motion_driver.c DMP/driver/eMPL/dmpKey.h \
- DMP/driver/eMPL/dmpmap.h DMP/driver/eMPL/inv_mpu.h Core/Inc/main.h \
+ user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.c \
+ user/drivers/DMP/driver/eMPL/dmpKey.h \
+ user/drivers/DMP/driver/eMPL/dmpmap.h \
+ user/drivers/DMP/driver/eMPL/inv_mpu.h Core/Inc/main.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h \
  Core/Inc/stm32g4xx_hal_conf.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rcc.h \
@@ -30,10 +32,11 @@ build/inv_mpu_dmp_motion_driver.o: \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h \
  Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
- DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h user/Inc/mpu9250.h
-DMP/driver/eMPL/dmpKey.h:
-DMP/driver/eMPL/dmpmap.h:
-DMP/driver/eMPL/inv_mpu.h:
+ user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h \
+ user/Inc/mpu9250.h
+user/drivers/DMP/driver/eMPL/dmpKey.h:
+user/drivers/DMP/driver/eMPL/dmpmap.h:
+user/drivers/DMP/driver/eMPL/inv_mpu.h:
 Core/Inc/main.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 Core/Inc/stm32g4xx_hal_conf.h:
@@ -66,5 +69,5 @@ Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h:
 Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h:
-DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
+user/drivers/DMP/driver/eMPL/inv_mpu_dmp_motion_driver.h:
 user/Inc/mpu9250.h:
