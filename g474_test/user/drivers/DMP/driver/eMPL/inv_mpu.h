@@ -147,4 +147,5 @@ u8 run_self_test(void);
 u8 mpu_dmp_init(void);
 u8 mpu_dmp_get_data(float *pitch,float *roll,float *yaw);
 u8 mpu_mpl_get_data(float *pitch,float *roll,float *yaw);
+void switch_dev(uint8_t dev);
 #endif  /* #ifndef _INV_MPU_H_ */

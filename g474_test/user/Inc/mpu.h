@@ -1,8 +1,9 @@
-#ifndef MPU_H_
-#define MPU_H_
+#ifndef __MPU_H_
+#define __MPU_H_
 
 #include "main.h"
 #include <stdint.h>
+#include "i2c.h"
 #include "inv_mpu.h"
 
 #define MPU_ADDR 0xd0
@@ -20,4 +21,8 @@ typedef struct {
 void MPU_Init();
 void MPU_ReadMulBytes(uint8_t reg, uint8_t length, uint8_t *buf);
 float Angle_Get();
+uint8_t MPU_Write_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf);
+uint8_t MPU_Read_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf);
+uint8_t MPU_Write_Byte(uint8_t addr, uint8_t reg, uint8_t data);
+uint8_t MPU_Read_Byte(uint8_t addr, uint8_t reg);
 #endif

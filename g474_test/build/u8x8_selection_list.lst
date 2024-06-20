@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
   23:user/drivers/u8g2/u8x8_selection_list.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
   24:user/drivers/u8g2/u8x8_selection_list.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
   25:user/drivers/u8g2/u8x8_selection_list.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 2
 
 
   26:user/drivers/u8g2/u8x8_selection_list.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
   80:user/drivers/u8g2/u8x8_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
   81:user/drivers/u8g2/u8x8_selection_list.c ****   {
   82:user/drivers/u8g2/u8x8_selection_list.c ****     sl_cb(u8x8, u8sl, i+u8sl->first_pos, aux);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 3
 
 
   83:user/drivers/u8g2/u8x8_selection_list.c ****   }
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
   74              		.loc 1 96 7 view .LVU12
   75 0016 E4B2     		uxtb	r4, r4
   76              	.LVL7:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 4
 
 
   97:user/drivers/u8g2/u8x8_selection_list.c ****   
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  115              	.LCFI2:
  116              		.cfi_remember_state
  117              		.cfi_def_cfa_offset 16
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 5
 
 
  118              		@ sp needed
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  165              		.loc 1 46 6 view .LVU35
  166 000a 9342     		cmp	r3, r2
  167 000c 03D3     		bcc	.L12
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 6
 
 
   48:user/drivers/u8g2/u8x8_selection_list.c ****     u8sl->first_pos = 0;
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  208              		.thumb_func
  210              	u8sl_Prev:
  211              	.LVL15:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 7
 
 
  212              	.LFB1:
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  248              		.loc 1 71 22 is_stmt 0 view .LVU68
  249 001a 013B     		subs	r3, r3, #1
  250 001c DBB2     		uxtb	r3, r3
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 8
 
 
  251 001e C370     		strb	r3, [r0, #3]
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  297              	.LVL17:
   80:user/drivers/u8g2/u8x8_selection_list.c ****   {
  298              		.loc 1 80 10 is_stmt 0 view .LVU79
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 9
 
 
  299 000c 0024     		movs	r4, #0
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  113:user/drivers/u8g2/u8x8_selection_list.c **** 
  114:user/drivers/u8g2/u8x8_selection_list.c **** /*
  115:user/drivers/u8g2/u8x8_selection_list.c ****   title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 10
 
 
  116:user/drivers/u8g2/u8x8_selection_list.c ****   start_pos: 	default position for the cursor (starts with 1)
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  383 0016 8DF80830 		strb	r3, [sp, #8]
  131:user/drivers/u8g2/u8x8_selection_list.c ****   u8sl.total = u8x8_GetStringLineCnt(sl);
  384              		.loc 1 131 3 is_stmt 1 view .LVU104
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 11
 
 
  385              		.loc 1 131 16 is_stmt 0 view .LVU105
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  426 0050 0344     		add	r3, r3, r0
  427 0052 8DF80D30 		strb	r3, [sp, #13]
  145:user/drivers/u8g2/u8x8_selection_list.c ****     u8sl.visible-=title_lines;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 12
 
 
  428              		.loc 1 145 5 is_stmt 1 view .LVU125
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  468              		.loc 1 159 10 is_stmt 1 view .LVU141
  469 0088 5138     		subs	r0, r0, #81
  470              	.LVL31:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 13
 
 
  471              		.loc 1 159 10 is_stmt 0 view .LVU142
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  512 00be 044A     		ldr	r2, .L37
  513 00c0 02A9     		add	r1, sp, #8
  514 00c2 2046     		mov	r0, r4
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 14
 
 
  515 00c4 FFF7FEFF 		bl	u8x8_DrawSelectionList
@@ -812,27 +812,27 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 1
  540              		.file 3 "/usr/local/include/_types/_uint16_t.h"
  541              		.file 4 "/usr/local/include/_types/_uint32_t.h"
  542              		.file 5 "user/drivers/u8g2/u8x8.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8x8_selection_list.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:21     .rodata.u8x8_sl_string_line_cb.str1.4:00000000 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:25     .text.u8x8_sl_string_line_cb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:31     .text.u8x8_sl_string_line_cb:00000000 u8x8_sl_string_line_cb
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:136    .text.u8x8_sl_string_line_cb:00000054 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:141    .text.u8sl_Next:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:147    .text.u8sl_Next:00000000 u8sl_Next
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:204    .text.u8sl_Prev:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:210    .text.u8sl_Prev:00000000 u8sl_Prev
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:268    .text.u8x8_DrawSelectionList:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:274    .text.u8x8_DrawSelectionList:00000000 u8x8_DrawSelectionList
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:335    .text.u8x8_UserInterfaceSelectionList:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:341    .text.u8x8_UserInterfaceSelectionList:00000000 u8x8_UserInterfaceSelectionList
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:476    .text.u8x8_UserInterfaceSelectionList:00000092 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:533    .text.u8x8_UserInterfaceSelectionList:000000d0 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:482    .text.u8x8_UserInterfaceSelectionList:00000097 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc3UH7iW.s:482    .text.u8x8_UserInterfaceSelectionList:00000098 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:21     .rodata.u8x8_sl_string_line_cb.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:25     .text.u8x8_sl_string_line_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:31     .text.u8x8_sl_string_line_cb:00000000 u8x8_sl_string_line_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:136    .text.u8x8_sl_string_line_cb:00000054 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:141    .text.u8sl_Next:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:147    .text.u8sl_Next:00000000 u8sl_Next
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:204    .text.u8sl_Prev:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:210    .text.u8sl_Prev:00000000 u8sl_Prev
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:268    .text.u8x8_DrawSelectionList:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:274    .text.u8x8_DrawSelectionList:00000000 u8x8_DrawSelectionList
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:335    .text.u8x8_UserInterfaceSelectionList:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:341    .text.u8x8_UserInterfaceSelectionList:00000000 u8x8_UserInterfaceSelectionList
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:476    .text.u8x8_UserInterfaceSelectionList:00000092 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:533    .text.u8x8_UserInterfaceSelectionList:000000d0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:482    .text.u8x8_UserInterfaceSelectionList:00000097 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc1vYSUK.s:482    .text.u8x8_UserInterfaceSelectionList:00000098 $t
 
 UNDEFINED SYMBOLS
 u8x8_GetStringLineStart

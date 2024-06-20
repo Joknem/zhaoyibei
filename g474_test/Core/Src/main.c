@@ -65,8 +65,6 @@ void uart_printf(char *fmt, ...) {
 
 extern void CmdProcessing(UART_HandleTypeDef *huart);
 extern char chcmd[64];
-extern uint8_t MPU_readbuf[128];
-extern SSD1306_t SSD1306;
 
 float angle = 0.0;
 u8g2_t u8g2;
@@ -127,15 +125,26 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_UART_RegisterCallback(&huart1, HAL_UART_RX_COMPLETE_CB_ID, CmdProcessing);
   HAL_UART_Receive_IT(&huart1, (uint8_t *)chcmd, 1);
-  HAL_GPIO_WritePin(AD0_GPIO_Port, AD0_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(AD0_GPIO_Port, AD0_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(AD1_GPIO_Port, AD1_Pin, GPIO_PIN_RESET);
-  float pitch, roll, yaw;
   int ret;
-  while (ret = mpu_dmp_init()) {
-    HAL_Delay(1000);
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-  }
-
+  // switch_dev(1);
+  // while (ret = mpu_dmp_init())
+  // {
+  //   uart_printf("Hello World!\n");
+  //   HAL_Delay(1000);
+  //   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  // }
+  
+  // while (ret = mpu_dmp_init()) {
+  //   HAL_Delay(1000);
+  //   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  // }
+  // switch_dev(0);
+  // while (ret = mpu_dmp_init()) {
+  //   HAL_Delay(2000);
+  //   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  // }
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -156,7 +165,6 @@ int main(void)
     // float angle = Angle_Get();
     // ssd1306_printf(Font_11x18, "ang:%3.1f", angle);
     // ssd1306_SetCursor(0, 0);
-    // HAL_Delay(30);
     // WS_WriteAll_RGB(0xff, 0xff, 0xff);
     // breathing();
   }
@@ -181,13 +189,7 @@ void SystemClock_Config(void)
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV2;
-  RCC_OscInitStruct.PLL.PLLN = 8;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV4;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -197,7 +199,7 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -212,8 +214,7 @@ void SystemClock_Config(void)
 uint8_t state = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
   if(GPIO_PIN == user_button_Pin){
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    state = (state + 1) % 3;
+    state = (state + 1) % 6;
   }
 }
 

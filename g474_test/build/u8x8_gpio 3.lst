@@ -1,0 +1,113 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSrdTZZ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_gpio.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_gpio.c"
+  20              		.section	.text.u8x8_gpio_call,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8x8_gpio_call
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8x8_gpio_call:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8x8_gpio.c **** /*
+   2:user/drivers/u8g2/u8x8_gpio.c **** 
+   3:user/drivers/u8g2/u8x8_gpio.c ****   u8x8_gpio.c
+   4:user/drivers/u8g2/u8x8_gpio.c ****   
+   5:user/drivers/u8g2/u8x8_gpio.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8x8_gpio.c **** 
+   7:user/drivers/u8g2/u8x8_gpio.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8x8_gpio.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8x8_gpio.c **** 
+  10:user/drivers/u8g2/u8x8_gpio.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8x8_gpio.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8x8_gpio.c **** 
+  13:user/drivers/u8g2/u8x8_gpio.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8x8_gpio.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8x8_gpio.c ****     
+  16:user/drivers/u8g2/u8x8_gpio.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8x8_gpio.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8x8_gpio.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8x8_gpio.c **** 
+  20:user/drivers/u8g2/u8x8_gpio.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8x8_gpio.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8x8_gpio.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8x8_gpio.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8x8_gpio.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8x8_gpio.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8x8_gpio.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8x8_gpio.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8x8_gpio.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8x8_gpio.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSrdTZZ.s 			page 2
+
+
+  30:user/drivers/u8g2/u8x8_gpio.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8x8_gpio.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8x8_gpio.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8x8_gpio.c **** 
+  34:user/drivers/u8g2/u8x8_gpio.c **** */
+  35:user/drivers/u8g2/u8x8_gpio.c **** 
+  36:user/drivers/u8g2/u8x8_gpio.c **** 
+  37:user/drivers/u8g2/u8x8_gpio.c **** #include "u8x8.h"
+  38:user/drivers/u8g2/u8x8_gpio.c **** 
+  39:user/drivers/u8g2/u8x8_gpio.c **** 
+  40:user/drivers/u8g2/u8x8_gpio.c **** void u8x8_gpio_call(u8x8_t *u8x8, uint8_t msg, uint8_t arg)
+  41:user/drivers/u8g2/u8x8_gpio.c **** {
+  30              		.loc 1 41 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 41 1 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  42:user/drivers/u8g2/u8x8_gpio.c ****   u8x8->gpio_and_delay_cb(u8x8, msg, arg, NULL);
+  40              		.loc 1 42 3 is_stmt 1 view .LVU2
+  41              		.loc 1 42 7 is_stmt 0 view .LVU3
+  42 0002 4469     		ldr	r4, [r0, #20]
+  43              		.loc 1 42 3 view .LVU4
+  44 0004 0023     		movs	r3, #0
+  45 0006 A047     		blx	r4
+  46              	.LVL1:
+  43:user/drivers/u8g2/u8x8_gpio.c **** }
+  47              		.loc 1 43 1 view .LVU5
+  48 0008 10BD     		pop	{r4, pc}
+  49              		.cfi_endproc
+  50              	.LFE0:
+  52              		.text
+  53              	.Letext0:
+  54              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+  55              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+  56              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+  57              		.file 5 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSrdTZZ.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_gpio.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSrdTZZ.s:21     .text.u8x8_gpio_call:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSrdTZZ.s:27     .text.u8x8_gpio_call:00000000 u8x8_gpio_call
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,1982 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"app_freertos.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/app_freertos.c"
+  20              		.section	.text.StartDefaultTask,"ax",%progbits
+  21              		.align	1
+  22              		.global	StartDefaultTask
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	StartDefaultTask:
+  28              	.LFB156:
+   1:Core/Src/app_freertos.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/app_freertos.c **** /**
+   3:Core/Src/app_freertos.c ****  ******************************************************************************
+   4:Core/Src/app_freertos.c ****  * File Name          : app_freertos.c
+   5:Core/Src/app_freertos.c ****  * Description        : Code for freertos applications
+   6:Core/Src/app_freertos.c ****  ******************************************************************************
+   7:Core/Src/app_freertos.c ****  * @attention
+   8:Core/Src/app_freertos.c ****  *
+   9:Core/Src/app_freertos.c ****  * Copyright (c) 2024 STMicroelectronics.
+  10:Core/Src/app_freertos.c ****  * All rights reserved.
+  11:Core/Src/app_freertos.c ****  *
+  12:Core/Src/app_freertos.c ****  * This software is licensed under terms that can be found in the LICENSE file
+  13:Core/Src/app_freertos.c ****  * in the root directory of this software component.
+  14:Core/Src/app_freertos.c ****  * If no LICENSE file comes with this software, it is provided AS-IS.
+  15:Core/Src/app_freertos.c ****  *
+  16:Core/Src/app_freertos.c ****  ******************************************************************************
+  17:Core/Src/app_freertos.c ****  */
+  18:Core/Src/app_freertos.c **** /* USER CODE END Header */
+  19:Core/Src/app_freertos.c **** 
+  20:Core/Src/app_freertos.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/app_freertos.c **** #include "FreeRTOS.h"
+  22:Core/Src/app_freertos.c **** #include "task.h"
+  23:Core/Src/app_freertos.c **** #include "main.h"
+  24:Core/Src/app_freertos.c **** #include "cmsis_os.h"
+  25:Core/Src/app_freertos.c **** 
+  26:Core/Src/app_freertos.c **** /* Private includes ----------------------------------------------------------*/
+  27:Core/Src/app_freertos.c **** /* USER CODE BEGIN Includes */
+  28:Core/Src/app_freertos.c **** #include "mpu.h"
+  29:Core/Src/app_freertos.c **** #include "oled.h"
+  30:Core/Src/app_freertos.c **** #include "ws2812.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 2
+
+
+  31:Core/Src/app_freertos.c **** #include <math.h>
+  32:Core/Src/app_freertos.c **** /* USER CODE END Includes */
+  33:Core/Src/app_freertos.c **** 
+  34:Core/Src/app_freertos.c **** /* Private typedef -----------------------------------------------------------*/
+  35:Core/Src/app_freertos.c **** /* USER CODE BEGIN PTD */
+  36:Core/Src/app_freertos.c **** 
+  37:Core/Src/app_freertos.c **** /* USER CODE END PTD */
+  38:Core/Src/app_freertos.c **** 
+  39:Core/Src/app_freertos.c **** /* Private define ------------------------------------------------------------*/
+  40:Core/Src/app_freertos.c **** /* USER CODE BEGIN PD */
+  41:Core/Src/app_freertos.c **** 
+  42:Core/Src/app_freertos.c **** /* USER CODE END PD */
+  43:Core/Src/app_freertos.c **** 
+  44:Core/Src/app_freertos.c **** /* Private macro -------------------------------------------------------------*/
+  45:Core/Src/app_freertos.c **** /* USER CODE BEGIN PM */
+  46:Core/Src/app_freertos.c **** 
+  47:Core/Src/app_freertos.c **** /* USER CODE END PM */
+  48:Core/Src/app_freertos.c **** 
+  49:Core/Src/app_freertos.c **** /* Private variables ---------------------------------------------------------*/
+  50:Core/Src/app_freertos.c **** /* USER CODE BEGIN Variables */
+  51:Core/Src/app_freertos.c **** static float angle;
+  52:Core/Src/app_freertos.c **** extern u8g2_t u8g2;
+  53:Core/Src/app_freertos.c **** extern uint8_t state;
+  54:Core/Src/app_freertos.c **** /* USER CODE END Variables */
+  55:Core/Src/app_freertos.c **** /* Definitions for defaultTask */
+  56:Core/Src/app_freertos.c **** osThreadId_t defaultTaskHandle;
+  57:Core/Src/app_freertos.c **** const osThreadAttr_t defaultTask_attributes = {
+  58:Core/Src/app_freertos.c ****   .name = "defaultTask",
+  59:Core/Src/app_freertos.c ****   .priority = (osPriority_t) osPriorityNormal,
+  60:Core/Src/app_freertos.c ****   .stack_size = 128 * 4
+  61:Core/Src/app_freertos.c **** };
+  62:Core/Src/app_freertos.c **** /* Definitions for Get_Angle */
+  63:Core/Src/app_freertos.c **** osThreadId_t Get_AngleHandle;
+  64:Core/Src/app_freertos.c **** const osThreadAttr_t Get_Angle_attributes = {
+  65:Core/Src/app_freertos.c ****   .name = "Get_Angle",
+  66:Core/Src/app_freertos.c ****   .priority = (osPriority_t) osPriorityNormal,
+  67:Core/Src/app_freertos.c ****   .stack_size = 256 * 4
+  68:Core/Src/app_freertos.c **** };
+  69:Core/Src/app_freertos.c **** /* Definitions for Oled_Display */
+  70:Core/Src/app_freertos.c **** osThreadId_t Oled_DisplayHandle;
+  71:Core/Src/app_freertos.c **** const osThreadAttr_t Oled_Display_attributes = {
+  72:Core/Src/app_freertos.c ****   .name = "Oled_Display",
+  73:Core/Src/app_freertos.c ****   .priority = (osPriority_t) osPriorityNormal,
+  74:Core/Src/app_freertos.c ****   .stack_size = 128 * 4
+  75:Core/Src/app_freertos.c **** };
+  76:Core/Src/app_freertos.c **** /* Definitions for RGB */
+  77:Core/Src/app_freertos.c **** osThreadId_t RGBHandle;
+  78:Core/Src/app_freertos.c **** const osThreadAttr_t RGB_attributes = {
+  79:Core/Src/app_freertos.c ****   .name = "RGB",
+  80:Core/Src/app_freertos.c ****   .priority = (osPriority_t) osPriorityNormal,
+  81:Core/Src/app_freertos.c ****   .stack_size = 128 * 4
+  82:Core/Src/app_freertos.c **** };
+  83:Core/Src/app_freertos.c **** 
+  84:Core/Src/app_freertos.c **** /* Private function prototypes -----------------------------------------------*/
+  85:Core/Src/app_freertos.c **** /* USER CODE BEGIN FunctionPrototypes */
+  86:Core/Src/app_freertos.c **** 
+  87:Core/Src/app_freertos.c **** /* USER CODE END FunctionPrototypes */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 3
+
+
+  88:Core/Src/app_freertos.c **** 
+  89:Core/Src/app_freertos.c **** void StartDefaultTask(void *argument);
+  90:Core/Src/app_freertos.c **** void Get_Angle_Task(void *argument);
+  91:Core/Src/app_freertos.c **** void Oled_Display_Task(void *argument);
+  92:Core/Src/app_freertos.c **** void RGB_Tack(void *argument);
+  93:Core/Src/app_freertos.c **** 
+  94:Core/Src/app_freertos.c **** void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+  95:Core/Src/app_freertos.c **** 
+  96:Core/Src/app_freertos.c **** /**
+  97:Core/Src/app_freertos.c ****   * @brief  FreeRTOS initialization
+  98:Core/Src/app_freertos.c ****   * @param  None
+  99:Core/Src/app_freertos.c ****   * @retval None
+ 100:Core/Src/app_freertos.c ****   */
+ 101:Core/Src/app_freertos.c **** void MX_FREERTOS_Init(void) {
+ 102:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Init */
+ 103:Core/Src/app_freertos.c **** 
+ 104:Core/Src/app_freertos.c ****   /* USER CODE END Init */
+ 105:Core/Src/app_freertos.c **** 
+ 106:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 107:Core/Src/app_freertos.c ****   /* add mutexes, ... */
+ 108:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_MUTEX */
+ 109:Core/Src/app_freertos.c **** 
+ 110:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 111:Core/Src/app_freertos.c ****   /* add semaphores, ... */
+ 112:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_SEMAPHORES */
+ 113:Core/Src/app_freertos.c **** 
+ 114:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 115:Core/Src/app_freertos.c ****   /* start timers, add new ones, ... */
+ 116:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_TIMERS */
+ 117:Core/Src/app_freertos.c **** 
+ 118:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 119:Core/Src/app_freertos.c ****   /* add queues, ... */
+ 120:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_QUEUES */
+ 121:Core/Src/app_freertos.c **** 
+ 122:Core/Src/app_freertos.c ****   /* Create the thread(s) */
+ 123:Core/Src/app_freertos.c ****   /* creation of defaultTask */
+ 124:Core/Src/app_freertos.c ****   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+ 125:Core/Src/app_freertos.c **** 
+ 126:Core/Src/app_freertos.c ****   /* creation of Get_Angle */
+ 127:Core/Src/app_freertos.c ****   // Get_AngleHandle = osThreadNew(Get_Angle_Task, NULL, &Get_Angle_attributes);
+ 128:Core/Src/app_freertos.c **** 
+ 129:Core/Src/app_freertos.c ****   /* creation of Oled_Display */
+ 130:Core/Src/app_freertos.c ****   Oled_DisplayHandle = osThreadNew(Oled_Display_Task, NULL, &Oled_Display_attributes);
+ 131:Core/Src/app_freertos.c **** 
+ 132:Core/Src/app_freertos.c ****   /* creation of RGB */
+ 133:Core/Src/app_freertos.c ****   // RGBHandle = osThreadNew(RGB_Tack, NULL, &RGB_attributes);
+ 134:Core/Src/app_freertos.c **** 
+ 135:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_THREADS */
+ 136:Core/Src/app_freertos.c ****   /* add threads, ... */
+ 137:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_THREADS */
+ 138:Core/Src/app_freertos.c **** 
+ 139:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RTOS_EVENTS */
+ 140:Core/Src/app_freertos.c ****   /* add events, ... */
+ 141:Core/Src/app_freertos.c ****   /* USER CODE END RTOS_EVENTS */
+ 142:Core/Src/app_freertos.c **** 
+ 143:Core/Src/app_freertos.c **** }
+ 144:Core/Src/app_freertos.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 4
+
+
+ 145:Core/Src/app_freertos.c **** /* USER CODE BEGIN Header_StartDefaultTask */
+ 146:Core/Src/app_freertos.c **** /**
+ 147:Core/Src/app_freertos.c ****  * @brief  Function implementing the defaultTask thread.
+ 148:Core/Src/app_freertos.c ****  * @param  argument: Not used
+ 149:Core/Src/app_freertos.c ****  * @retval None
+ 150:Core/Src/app_freertos.c ****  */
+ 151:Core/Src/app_freertos.c **** /* USER CODE END Header_StartDefaultTask */
+ 152:Core/Src/app_freertos.c **** void StartDefaultTask(void *argument)
+ 153:Core/Src/app_freertos.c **** {
+  29              		.loc 1 153 1 view -0
+  30              		.cfi_startproc
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              	.LVL0:
+  35              		.loc 1 153 1 is_stmt 0 view .LVU1
+  36 0000 08B5     		push	{r3, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 3, -8
+  40              		.cfi_offset 14, -4
+  41              	.LVL1:
+  42              	.L2:
+ 154:Core/Src/app_freertos.c ****   /* USER CODE BEGIN StartDefaultTask */
+ 155:Core/Src/app_freertos.c ****   /* Infinite loop */
+ 156:Core/Src/app_freertos.c ****   for (;;) {
+  43              		.loc 1 156 3 is_stmt 1 discriminator 1 view .LVU2
+ 157:Core/Src/app_freertos.c ****     // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+ 158:Core/Src/app_freertos.c ****     osDelay(1000);
+  44              		.loc 1 158 5 discriminator 1 view .LVU3
+  45 0002 4FF47A70 		mov	r0, #1000
+  46 0006 FFF7FEFF 		bl	osDelay
+  47              	.LVL2:
+ 156:Core/Src/app_freertos.c ****     // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  48              		.loc 1 156 3 discriminator 1 view .LVU4
+  49 000a FAE7     		b	.L2
+  50              		.cfi_endproc
+  51              	.LFE156:
+  53              		.section	.rodata.Oled_Display_Task.str1.4,"aMS",%progbits,1
+  54              		.align	2
+  55              	.LC0:
+  56 0000 616E673A 		.ascii	"ang:%d\000"
+  56      256400
+  57              		.global	__aeabi_i2d
+  58              		.global	__aeabi_ddiv
+  59              		.global	__aeabi_dmul
+  60              		.global	__aeabi_dsub
+  61              		.global	__aeabi_d2iz
+  62              		.global	__aeabi_dadd
+  63              		.section	.text.Oled_Display_Task,"ax",%progbits
+  64              		.align	1
+  65              		.global	Oled_Display_Task
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	Oled_Display_Task:
+  71              	.LVL3:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 5
+
+
+  72              	.LFB158:
+ 159:Core/Src/app_freertos.c ****   }
+ 160:Core/Src/app_freertos.c ****   /* USER CODE END StartDefaultTask */
+ 161:Core/Src/app_freertos.c **** }
+ 162:Core/Src/app_freertos.c **** 
+ 163:Core/Src/app_freertos.c **** /* USER CODE BEGIN Header_Get_Angle_Task */
+ 164:Core/Src/app_freertos.c **** /**
+ 165:Core/Src/app_freertos.c ****  * @brief Function implementing the Get_Angle thread.
+ 166:Core/Src/app_freertos.c ****  * @param argument: Not used
+ 167:Core/Src/app_freertos.c ****  * @retval None
+ 168:Core/Src/app_freertos.c ****  */
+ 169:Core/Src/app_freertos.c **** /* USER CODE END Header_Get_Angle_Task */
+ 170:Core/Src/app_freertos.c **** void Get_Angle_Task(void *argument)
+ 171:Core/Src/app_freertos.c **** {
+ 172:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Get_Angle_Task */
+ 173:Core/Src/app_freertos.c ****   float pitch, roll, yaw;
+ 174:Core/Src/app_freertos.c ****   if (mpu_dmp_get_data(&pitch, &roll, &yaw) == 0) {
+ 175:Core/Src/app_freertos.c ****     uart_printf("pitch:%4.1f\n", -pitch);
+ 176:Core/Src/app_freertos.c ****     ssd1306_printf(Font_11x18, "ang:%3.1f", -pitch);
+ 177:Core/Src/app_freertos.c ****     ssd1306_SetCursor(0, 0);
+ 178:Core/Src/app_freertos.c ****     HAL_Delay(50);
+ 179:Core/Src/app_freertos.c ****   }
+ 180:Core/Src/app_freertos.c ****   /* Infinite loop */
+ 181:Core/Src/app_freertos.c ****   for (;;) {
+ 182:Core/Src/app_freertos.c ****     angle = Angle_Get();
+ 183:Core/Src/app_freertos.c ****     osDelay(30);
+ 184:Core/Src/app_freertos.c ****   }
+ 185:Core/Src/app_freertos.c ****   /* USER CODE END Get_Angle_Task */
+ 186:Core/Src/app_freertos.c **** }
+ 187:Core/Src/app_freertos.c **** 
+ 188:Core/Src/app_freertos.c **** /* USER CODE BEGIN Header_Oled_Display_Task */
+ 189:Core/Src/app_freertos.c **** /**
+ 190:Core/Src/app_freertos.c ****  * @brief Function implementing the Oled_Display thread.
+ 191:Core/Src/app_freertos.c ****  * @param argument: Not used
+ 192:Core/Src/app_freertos.c ****  * @retval None
+ 193:Core/Src/app_freertos.c ****  */
+ 194:Core/Src/app_freertos.c **** /* USER CODE END Header_Oled_Display_Task */
+ 195:Core/Src/app_freertos.c **** void Oled_Display_Task(void *argument)
+ 196:Core/Src/app_freertos.c **** {
+  73              		.loc 1 196 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		.loc 1 196 1 is_stmt 0 view .LVU6
+  78 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 36
+  81              		.cfi_offset 4, -36
+  82              		.cfi_offset 5, -32
+  83              		.cfi_offset 6, -28
+  84              		.cfi_offset 7, -24
+  85              		.cfi_offset 8, -20
+  86              		.cfi_offset 9, -16
+  87              		.cfi_offset 10, -12
+  88              		.cfi_offset 11, -8
+  89              		.cfi_offset 14, -4
+  90 0004 2DED028B 		vpush.64	{d8}
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 6
+
+
+  91              	.LCFI2:
+  92              		.cfi_def_cfa_offset 44
+  93              		.cfi_offset 80, -44
+  94              		.cfi_offset 81, -40
+  95 0008 83B0     		sub	sp, sp, #12
+  96              	.LCFI3:
+  97              		.cfi_def_cfa_offset 56
+ 197:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Oled_Display_Task */
+ 198:Core/Src/app_freertos.c ****   u8g2_Setup_ssd1306_i2c_128x64_noname_f(&u8g2, U8G2_R2, STM32_byte_i2c,
+  98              		.loc 1 198 3 is_stmt 1 view .LVU7
+  99 000a BD4C     		ldr	r4, .L22+16
+ 100 000c BD4B     		ldr	r3, .L22+20
+ 101 000e BE4A     		ldr	r2, .L22+24
+ 102 0010 BE49     		ldr	r1, .L22+28
+ 103 0012 2046     		mov	r0, r4
+ 104              	.LVL4:
+ 105              		.loc 1 198 3 is_stmt 0 view .LVU8
+ 106 0014 FFF7FEFF 		bl	u8g2_Setup_ssd1306_i2c_128x64_noname_f
+ 107              	.LVL5:
+ 199:Core/Src/app_freertos.c ****                                          STM32_gpio_and_delay);
+ 200:Core/Src/app_freertos.c ****   u8g2_InitDisplay(&u8g2);
+ 108              		.loc 1 200 3 is_stmt 1 view .LVU9
+ 109 0018 2046     		mov	r0, r4
+ 110 001a FFF7FEFF 		bl	u8x8_InitDisplay
+ 111              	.LVL6:
+ 201:Core/Src/app_freertos.c ****   u8g2_SetPowerSave(&u8g2, 0);
+ 112              		.loc 1 201 3 view .LVU10
+ 113 001e 0021     		movs	r1, #0
+ 114 0020 2046     		mov	r0, r4
+ 115 0022 FFF7FEFF 		bl	u8x8_SetPowerSave
+ 116              	.LVL7:
+ 202:Core/Src/app_freertos.c ****   u8g2_ClearDisplay(&u8g2);
+ 117              		.loc 1 202 3 view .LVU11
+ 118 0026 2046     		mov	r0, r4
+ 119 0028 FFF7FEFF 		bl	u8g2_ClearDisplay
+ 120              	.LVL8:
+ 203:Core/Src/app_freertos.c ****   u8g2_SetFont(&u8g2, u8g2_font_wqy16_t_chinese1);
+ 121              		.loc 1 203 3 view .LVU12
+ 122 002c B849     		ldr	r1, .L22+32
+ 123 002e 2046     		mov	r0, r4
+ 124 0030 FFF7FEFF 		bl	u8g2_SetFont
+ 125              	.LVL9:
+ 204:Core/Src/app_freertos.c ****   /* Infinite loop */
+ 205:Core/Src/app_freertos.c ****   int x1, y1, x2, y2;
+ 126              		.loc 1 205 3 view .LVU13
+ 206:Core/Src/app_freertos.c ****   int fake_angle;
+ 127              		.loc 1 206 3 view .LVU14
+ 207:Core/Src/app_freertos.c ****   int cnt = 180;
+ 128              		.loc 1 207 3 view .LVU15
+ 129              		.loc 1 207 7 is_stmt 0 view .LVU16
+ 130 0034 B424     		movs	r4, #180
+ 131 0036 6CE0     		b	.L19
+ 132              	.LVL10:
+ 133              	.L12:
+ 208:Core/Src/app_freertos.c ****   for (;;) {
+ 209:Core/Src/app_freertos.c ****     u8g2_ClearBuffer(&u8g2);
+ 210:Core/Src/app_freertos.c ****     switch (state) {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 7
+
+
+ 211:Core/Src/app_freertos.c ****     case 0: {
+ 212:Core/Src/app_freertos.c ****       if(cnt != 90){
+ 134              		.loc 1 212 7 is_stmt 1 view .LVU17
+ 135              		.loc 1 212 9 is_stmt 0 view .LVU18
+ 136 0038 5A2C     		cmp	r4, #90
+ 137 003a 00D0     		beq	.L13
+ 213:Core/Src/app_freertos.c ****         cnt--;
+ 138              		.loc 1 213 9 is_stmt 1 view .LVU19
+ 139              		.loc 1 213 12 is_stmt 0 view .LVU20
+ 140 003c 013C     		subs	r4, r4, #1
+ 141              	.LVL11:
+ 142              	.L13:
+ 214:Core/Src/app_freertos.c ****       }
+ 215:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 143              		.loc 1 215 7 is_stmt 1 view .LVU21
+ 144 003e B04D     		ldr	r5, .L22+16
+ 145 0040 0094     		str	r4, [sp]
+ 146 0042 B44B     		ldr	r3, .L22+36
+ 147 0044 1E22     		movs	r2, #30
+ 148 0046 0021     		movs	r1, #0
+ 149 0048 2846     		mov	r0, r5
+ 150 004a FFF7FEFF 		bl	u8g2_printf
+ 151              	.LVL12:
+ 216:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 152              		.loc 1 216 7 view .LVU22
+ 153              		.loc 1 216 22 is_stmt 0 view .LVU23
+ 154 004e 2046     		mov	r0, r4
+ 155 0050 FFF7FEFF 		bl	__aeabi_i2d
+ 156              	.LVL13:
+ 157 0054 A6A3     		adr	r3, .L22
+ 158 0056 D3E90023 		ldrd	r2, [r3]
+ 159 005a FFF7FEFF 		bl	__aeabi_ddiv
+ 160              	.LVL14:
+ 161 005e 41EC180B 		vmov	d8, r0, r1
+ 162 0062 B0EE480A 		vmov.f32	s0, s16
+ 163 0066 F0EE680A 		vmov.f32	s1, s17
+ 164 006a FFF7FEFF 		bl	cos
+ 165              	.LVL15:
+ 166 006e 51EC100B 		vmov	r0, r1, d0
+ 167              		.loc 1 216 20 view .LVU24
+ 168 0072 0022     		movs	r2, #0
+ 169 0074 A84B     		ldr	r3, .L22+40
+ 170 0076 FFF7FEFF 		bl	__aeabi_dmul
+ 171              	.LVL16:
+ 172 007a 0646     		mov	r6, r0
+ 173 007c 0F46     		mov	r7, r1
+ 174              		.loc 1 216 15 view .LVU25
+ 175 007e 0246     		mov	r2, r0
+ 176 0080 0B46     		mov	r3, r1
+ 177 0082 9DA1     		adr	r1, .L22+8
+ 178 0084 D1E90001 		ldrd	r0, [r1]
+ 179 0088 FFF7FEFF 		bl	__aeabi_dsub
+ 180              	.LVL17:
+ 181              		.loc 1 216 10 view .LVU26
+ 182 008c FFF7FEFF 		bl	__aeabi_d2iz
+ 183              	.LVL18:
+ 184 0090 8246     		mov	r10, r0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 8
+
+
+ 185              	.LVL19:
+ 217:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 186              		.loc 1 217 7 is_stmt 1 view .LVU27
+ 187              		.loc 1 217 22 is_stmt 0 view .LVU28
+ 188 0092 B0EE480A 		vmov.f32	s0, s16
+ 189 0096 F0EE680A 		vmov.f32	s1, s17
+ 190 009a FFF7FEFF 		bl	sin
+ 191              	.LVL20:
+ 192              		.loc 1 217 22 view .LVU29
+ 193 009e 51EC100B 		vmov	r0, r1, d0
+ 194              		.loc 1 217 20 view .LVU30
+ 195 00a2 0022     		movs	r2, #0
+ 196 00a4 9C4B     		ldr	r3, .L22+40
+ 197 00a6 FFF7FEFF 		bl	__aeabi_dmul
+ 198              	.LVL21:
+ 199 00aa 8046     		mov	r8, r0
+ 200 00ac 8946     		mov	r9, r1
+ 201              		.loc 1 217 15 view .LVU31
+ 202 00ae 0022     		movs	r2, #0
+ 203 00b0 9A4B     		ldr	r3, .L22+44
+ 204 00b2 FFF7FEFF 		bl	__aeabi_dadd
+ 205              	.LVL22:
+ 206              		.loc 1 217 10 view .LVU32
+ 207 00b6 FFF7FEFF 		bl	__aeabi_d2iz
+ 208              	.LVL23:
+ 209 00ba 8346     		mov	fp, r0
+ 210              	.LVL24:
+ 218:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 211              		.loc 1 218 7 is_stmt 1 view .LVU33
+ 212              		.loc 1 218 15 is_stmt 0 view .LVU34
+ 213 00bc 8EA3     		adr	r3, .L22+8
+ 214 00be D3E90023 		ldrd	r2, [r3]
+ 215 00c2 3046     		mov	r0, r6
+ 216              	.LVL25:
+ 217              		.loc 1 218 15 view .LVU35
+ 218 00c4 3946     		mov	r1, r7
+ 219 00c6 FFF7FEFF 		bl	__aeabi_dadd
+ 220              	.LVL26:
+ 221              		.loc 1 218 10 view .LVU36
+ 222 00ca FFF7FEFF 		bl	__aeabi_d2iz
+ 223              	.LVL27:
+ 224 00ce 0746     		mov	r7, r0
+ 225              	.LVL28:
+ 219:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 226              		.loc 1 219 7 is_stmt 1 view .LVU37
+ 227              		.loc 1 219 15 is_stmt 0 view .LVU38
+ 228 00d0 4246     		mov	r2, r8
+ 229 00d2 4B46     		mov	r3, r9
+ 230 00d4 0020     		movs	r0, #0
+ 231              	.LVL29:
+ 232              		.loc 1 219 15 view .LVU39
+ 233 00d6 9149     		ldr	r1, .L22+44
+ 234 00d8 FFF7FEFF 		bl	__aeabi_dsub
+ 235              	.LVL30:
+ 236              		.loc 1 219 10 view .LVU40
+ 237 00dc FFF7FEFF 		bl	__aeabi_d2iz
+ 238              	.LVL31:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 9
+
+
+ 239 00e0 0646     		mov	r6, r0
+ 240              	.LVL32:
+ 220:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 241              		.loc 1 220 7 is_stmt 1 view .LVU41
+ 242 00e2 0F23     		movs	r3, #15
+ 243 00e4 0093     		str	r3, [sp]
+ 244 00e6 1923     		movs	r3, #25
+ 245 00e8 1E22     		movs	r2, #30
+ 246 00ea 5F21     		movs	r1, #95
+ 247 00ec 2846     		mov	r0, r5
+ 248              	.LVL33:
+ 249              		.loc 1 220 7 is_stmt 0 view .LVU42
+ 250 00ee FFF7FEFF 		bl	u8g2_DrawCircle
+ 251              	.LVL34:
+ 221:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 252              		.loc 1 221 7 is_stmt 1 view .LVU43
+ 253 00f2 B6B2     		uxth	r6, r6
+ 254              	.LVL35:
+ 255              		.loc 1 221 7 is_stmt 0 view .LVU44
+ 256 00f4 0096     		str	r6, [sp]
+ 257 00f6 BBB2     		uxth	r3, r7
+ 258 00f8 1FFA8BF2 		uxth	r2, fp
+ 259 00fc 1FFA8AF1 		uxth	r1, r10
+ 260 0100 2846     		mov	r0, r5
+ 261 0102 FFF7FEFF 		bl	u8g2_DrawLine
+ 262              	.LVL36:
+ 222:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 263              		.loc 1 222 7 is_stmt 1 view .LVU45
+ 264 0106 2846     		mov	r0, r5
+ 265 0108 FFF7FEFF 		bl	u8g2_SendBuffer
+ 266              	.LVL37:
+ 223:Core/Src/app_freertos.c ****     }break;
+ 267              		.loc 1 223 6 view .LVU46
+ 268              	.L5:
+ 224:Core/Src/app_freertos.c ****     case 1:{
+ 225:Core/Src/app_freertos.c ****       if(cnt != 67){
+ 226:Core/Src/app_freertos.c ****         cnt--;
+ 227:Core/Src/app_freertos.c ****       }
+ 228:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 229:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 230:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 231:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 232:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 233:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 234:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 235:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 236:Core/Src/app_freertos.c ****     }break;
+ 237:Core/Src/app_freertos.c ****     case 2:{
+ 238:Core/Src/app_freertos.c ****       if(cnt != 45){
+ 239:Core/Src/app_freertos.c ****         cnt--;
+ 240:Core/Src/app_freertos.c ****       }
+ 241:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 242:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 243:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 244:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 245:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 246:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 10
+
+
+ 247:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 248:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 249:Core/Src/app_freertos.c ****     }break;
+ 250:Core/Src/app_freertos.c ****     case 3:{
+ 251:Core/Src/app_freertos.c ****       if(cnt != 107){
+ 252:Core/Src/app_freertos.c ****         cnt++;
+ 253:Core/Src/app_freertos.c ****       }
+ 254:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 255:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 256:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 257:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 258:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 259:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 260:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 261:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 262:Core/Src/app_freertos.c ****     }break;
+ 263:Core/Src/app_freertos.c ****     case 4:{
+ 264:Core/Src/app_freertos.c ****       if(cnt != 136){
+ 265:Core/Src/app_freertos.c ****         cnt++;
+ 266:Core/Src/app_freertos.c ****       }
+ 267:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 268:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 269:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 270:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 271:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 272:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 273:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 274:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 275:Core/Src/app_freertos.c ****     }break;
+ 276:Core/Src/app_freertos.c ****     case 5:{
+ 277:Core/Src/app_freertos.c ****       if(cnt != 180){
+ 278:Core/Src/app_freertos.c ****         cnt++;
+ 279:Core/Src/app_freertos.c ****       }
+ 280:Core/Src/app_freertos.c ****       u8g2_printf(&u8g2, 0, 30, "ang:%d", cnt);
+ 281:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 282:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 283:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 284:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 285:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 286:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 287:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 288:Core/Src/app_freertos.c ****     }break;
+ 289:Core/Src/app_freertos.c ****     default:break;
+ 290:Core/Src/app_freertos.c ****     }
+ 291:Core/Src/app_freertos.c ****     osDelay(30);
+ 269              		.loc 1 291 5 view .LVU47
+ 270 010c 1E20     		movs	r0, #30
+ 271 010e FFF7FEFF 		bl	osDelay
+ 272              	.LVL38:
+ 208:Core/Src/app_freertos.c ****     u8g2_ClearBuffer(&u8g2);
+ 273              		.loc 1 208 3 view .LVU48
+ 274              	.L19:
+ 208:Core/Src/app_freertos.c ****     u8g2_ClearBuffer(&u8g2);
+ 275              		.loc 1 208 3 view .LVU49
+ 209:Core/Src/app_freertos.c ****     switch (state) {
+ 276              		.loc 1 209 5 view .LVU50
+ 277 0112 7B48     		ldr	r0, .L22+16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 11
+
+
+ 278 0114 FFF7FEFF 		bl	u8g2_ClearBuffer
+ 279              	.LVL39:
+ 210:Core/Src/app_freertos.c ****     case 0: {
+ 280              		.loc 1 210 5 view .LVU51
+ 281 0118 814B     		ldr	r3, .L22+48
+ 282 011a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 283 011c 052B     		cmp	r3, #5
+ 284 011e F5D8     		bhi	.L5
+ 285 0120 01A2     		adr	r2, .L7
+ 286 0122 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 287 0126 00BF     		.p2align 2
+ 288              	.L7:
+ 289 0128 39000000 		.word	.L12+1
+ 290 012c 41010000 		.word	.L11+1
+ 291 0130 17020000 		.word	.L10+1
+ 292 0134 25030000 		.word	.L9+1
+ 293 0138 FB030000 		.word	.L8+1
+ 294 013c D1040000 		.word	.L6+1
+ 295              		.p2align 1
+ 296              	.L11:
+ 225:Core/Src/app_freertos.c ****         cnt--;
+ 297              		.loc 1 225 7 view .LVU52
+ 225:Core/Src/app_freertos.c ****         cnt--;
+ 298              		.loc 1 225 9 is_stmt 0 view .LVU53
+ 299 0140 432C     		cmp	r4, #67
+ 300 0142 00D0     		beq	.L14
+ 226:Core/Src/app_freertos.c ****       }
+ 301              		.loc 1 226 9 is_stmt 1 view .LVU54
+ 226:Core/Src/app_freertos.c ****       }
+ 302              		.loc 1 226 12 is_stmt 0 view .LVU55
+ 303 0144 013C     		subs	r4, r4, #1
+ 304              	.LVL40:
+ 305              	.L14:
+ 228:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 306              		.loc 1 228 7 is_stmt 1 view .LVU56
+ 307 0146 6E4D     		ldr	r5, .L22+16
+ 308 0148 0094     		str	r4, [sp]
+ 309 014a 724B     		ldr	r3, .L22+36
+ 310 014c 1E22     		movs	r2, #30
+ 311 014e 0021     		movs	r1, #0
+ 312 0150 2846     		mov	r0, r5
+ 313 0152 FFF7FEFF 		bl	u8g2_printf
+ 314              	.LVL41:
+ 229:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 315              		.loc 1 229 7 view .LVU57
+ 229:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 316              		.loc 1 229 22 is_stmt 0 view .LVU58
+ 317 0156 2046     		mov	r0, r4
+ 318 0158 FFF7FEFF 		bl	__aeabi_i2d
+ 319              	.LVL42:
+ 320 015c 64A3     		adr	r3, .L22
+ 321 015e D3E90023 		ldrd	r2, [r3]
+ 322 0162 FFF7FEFF 		bl	__aeabi_ddiv
+ 323              	.LVL43:
+ 324 0166 41EC180B 		vmov	d8, r0, r1
+ 325 016a B0EE480A 		vmov.f32	s0, s16
+ 326 016e F0EE680A 		vmov.f32	s1, s17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 12
+
+
+ 327 0172 FFF7FEFF 		bl	cos
+ 328              	.LVL44:
+ 329 0176 51EC100B 		vmov	r0, r1, d0
+ 229:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 330              		.loc 1 229 20 view .LVU59
+ 331 017a 0022     		movs	r2, #0
+ 332 017c 664B     		ldr	r3, .L22+40
+ 333 017e FFF7FEFF 		bl	__aeabi_dmul
+ 334              	.LVL45:
+ 335 0182 0646     		mov	r6, r0
+ 336 0184 0F46     		mov	r7, r1
+ 229:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 337              		.loc 1 229 15 view .LVU60
+ 338 0186 0246     		mov	r2, r0
+ 339 0188 0B46     		mov	r3, r1
+ 340 018a 5BA1     		adr	r1, .L22+8
+ 341 018c D1E90001 		ldrd	r0, [r1]
+ 342 0190 FFF7FEFF 		bl	__aeabi_dsub
+ 343              	.LVL46:
+ 229:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 344              		.loc 1 229 10 view .LVU61
+ 345 0194 FFF7FEFF 		bl	__aeabi_d2iz
+ 346              	.LVL47:
+ 347 0198 8246     		mov	r10, r0
+ 348              	.LVL48:
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 349              		.loc 1 230 7 is_stmt 1 view .LVU62
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 350              		.loc 1 230 22 is_stmt 0 view .LVU63
+ 351 019a B0EE480A 		vmov.f32	s0, s16
+ 352 019e F0EE680A 		vmov.f32	s1, s17
+ 353 01a2 FFF7FEFF 		bl	sin
+ 354              	.LVL49:
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 355              		.loc 1 230 22 view .LVU64
+ 356 01a6 51EC100B 		vmov	r0, r1, d0
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 357              		.loc 1 230 20 view .LVU65
+ 358 01aa 0022     		movs	r2, #0
+ 359 01ac 5A4B     		ldr	r3, .L22+40
+ 360 01ae FFF7FEFF 		bl	__aeabi_dmul
+ 361              	.LVL50:
+ 362 01b2 8046     		mov	r8, r0
+ 363 01b4 8946     		mov	r9, r1
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 364              		.loc 1 230 15 view .LVU66
+ 365 01b6 0022     		movs	r2, #0
+ 366 01b8 584B     		ldr	r3, .L22+44
+ 367 01ba FFF7FEFF 		bl	__aeabi_dadd
+ 368              	.LVL51:
+ 230:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 369              		.loc 1 230 10 view .LVU67
+ 370 01be FFF7FEFF 		bl	__aeabi_d2iz
+ 371              	.LVL52:
+ 372 01c2 8346     		mov	fp, r0
+ 373              	.LVL53:
+ 231:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 13
+
+
+ 374              		.loc 1 231 7 is_stmt 1 view .LVU68
+ 231:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 375              		.loc 1 231 15 is_stmt 0 view .LVU69
+ 376 01c4 4CA3     		adr	r3, .L22+8
+ 377 01c6 D3E90023 		ldrd	r2, [r3]
+ 378 01ca 3046     		mov	r0, r6
+ 379              	.LVL54:
+ 231:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 380              		.loc 1 231 15 view .LVU70
+ 381 01cc 3946     		mov	r1, r7
+ 382 01ce FFF7FEFF 		bl	__aeabi_dadd
+ 383              	.LVL55:
+ 231:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 384              		.loc 1 231 10 view .LVU71
+ 385 01d2 FFF7FEFF 		bl	__aeabi_d2iz
+ 386              	.LVL56:
+ 387 01d6 0746     		mov	r7, r0
+ 388              	.LVL57:
+ 232:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 389              		.loc 1 232 7 is_stmt 1 view .LVU72
+ 232:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 390              		.loc 1 232 15 is_stmt 0 view .LVU73
+ 391 01d8 4246     		mov	r2, r8
+ 392 01da 4B46     		mov	r3, r9
+ 393 01dc 0020     		movs	r0, #0
+ 394              	.LVL58:
+ 232:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 395              		.loc 1 232 15 view .LVU74
+ 396 01de 4F49     		ldr	r1, .L22+44
+ 397 01e0 FFF7FEFF 		bl	__aeabi_dsub
+ 398              	.LVL59:
+ 232:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 399              		.loc 1 232 10 view .LVU75
+ 400 01e4 FFF7FEFF 		bl	__aeabi_d2iz
+ 401              	.LVL60:
+ 402 01e8 0646     		mov	r6, r0
+ 403              	.LVL61:
+ 233:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 404              		.loc 1 233 7 is_stmt 1 view .LVU76
+ 405 01ea 0F23     		movs	r3, #15
+ 406 01ec 0093     		str	r3, [sp]
+ 407 01ee 1923     		movs	r3, #25
+ 408 01f0 1E22     		movs	r2, #30
+ 409 01f2 5F21     		movs	r1, #95
+ 410 01f4 2846     		mov	r0, r5
+ 411              	.LVL62:
+ 233:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 412              		.loc 1 233 7 is_stmt 0 view .LVU77
+ 413 01f6 FFF7FEFF 		bl	u8g2_DrawCircle
+ 414              	.LVL63:
+ 234:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 415              		.loc 1 234 7 is_stmt 1 view .LVU78
+ 416 01fa B6B2     		uxth	r6, r6
+ 417              	.LVL64:
+ 234:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 418              		.loc 1 234 7 is_stmt 0 view .LVU79
+ 419 01fc 0096     		str	r6, [sp]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 14
+
+
+ 420 01fe BBB2     		uxth	r3, r7
+ 421 0200 1FFA8BF2 		uxth	r2, fp
+ 422 0204 1FFA8AF1 		uxth	r1, r10
+ 423 0208 2846     		mov	r0, r5
+ 424 020a FFF7FEFF 		bl	u8g2_DrawLine
+ 425              	.LVL65:
+ 235:Core/Src/app_freertos.c ****     }break;
+ 426              		.loc 1 235 7 is_stmt 1 view .LVU80
+ 427 020e 2846     		mov	r0, r5
+ 428 0210 FFF7FEFF 		bl	u8g2_SendBuffer
+ 429              	.LVL66:
+ 236:Core/Src/app_freertos.c ****     case 2:{
+ 430              		.loc 1 236 6 view .LVU81
+ 431 0214 7AE7     		b	.L5
+ 432              	.LVL67:
+ 433              	.L10:
+ 238:Core/Src/app_freertos.c ****         cnt--;
+ 434              		.loc 1 238 7 view .LVU82
+ 238:Core/Src/app_freertos.c ****         cnt--;
+ 435              		.loc 1 238 9 is_stmt 0 view .LVU83
+ 436 0216 2D2C     		cmp	r4, #45
+ 437 0218 00D0     		beq	.L15
+ 239:Core/Src/app_freertos.c ****       }
+ 438              		.loc 1 239 9 is_stmt 1 view .LVU84
+ 239:Core/Src/app_freertos.c ****       }
+ 439              		.loc 1 239 12 is_stmt 0 view .LVU85
+ 440 021a 013C     		subs	r4, r4, #1
+ 441              	.LVL68:
+ 442              	.L15:
+ 241:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 443              		.loc 1 241 7 is_stmt 1 view .LVU86
+ 444 021c 384D     		ldr	r5, .L22+16
+ 445 021e 0094     		str	r4, [sp]
+ 446 0220 3C4B     		ldr	r3, .L22+36
+ 447 0222 1E22     		movs	r2, #30
+ 448 0224 0021     		movs	r1, #0
+ 449 0226 2846     		mov	r0, r5
+ 450 0228 FFF7FEFF 		bl	u8g2_printf
+ 451              	.LVL69:
+ 242:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 452              		.loc 1 242 7 view .LVU87
+ 242:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 453              		.loc 1 242 22 is_stmt 0 view .LVU88
+ 454 022c 2046     		mov	r0, r4
+ 455 022e FFF7FEFF 		bl	__aeabi_i2d
+ 456              	.LVL70:
+ 457 0232 2FA3     		adr	r3, .L22
+ 458 0234 D3E90023 		ldrd	r2, [r3]
+ 459 0238 FFF7FEFF 		bl	__aeabi_ddiv
+ 460              	.LVL71:
+ 461 023c 41EC180B 		vmov	d8, r0, r1
+ 462 0240 B0EE480A 		vmov.f32	s0, s16
+ 463 0244 F0EE680A 		vmov.f32	s1, s17
+ 464 0248 FFF7FEFF 		bl	cos
+ 465              	.LVL72:
+ 466 024c 51EC100B 		vmov	r0, r1, d0
+ 242:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 15
+
+
+ 467              		.loc 1 242 20 view .LVU89
+ 468 0250 0022     		movs	r2, #0
+ 469 0252 314B     		ldr	r3, .L22+40
+ 470 0254 FFF7FEFF 		bl	__aeabi_dmul
+ 471              	.LVL73:
+ 472 0258 0646     		mov	r6, r0
+ 473 025a 0F46     		mov	r7, r1
+ 242:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 474              		.loc 1 242 15 view .LVU90
+ 475 025c 0246     		mov	r2, r0
+ 476 025e 0B46     		mov	r3, r1
+ 477 0260 25A1     		adr	r1, .L22+8
+ 478 0262 D1E90001 		ldrd	r0, [r1]
+ 479 0266 FFF7FEFF 		bl	__aeabi_dsub
+ 480              	.LVL74:
+ 242:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 481              		.loc 1 242 10 view .LVU91
+ 482 026a FFF7FEFF 		bl	__aeabi_d2iz
+ 483              	.LVL75:
+ 484 026e 8246     		mov	r10, r0
+ 485              	.LVL76:
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 486              		.loc 1 243 7 is_stmt 1 view .LVU92
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 487              		.loc 1 243 22 is_stmt 0 view .LVU93
+ 488 0270 B0EE480A 		vmov.f32	s0, s16
+ 489 0274 F0EE680A 		vmov.f32	s1, s17
+ 490 0278 FFF7FEFF 		bl	sin
+ 491              	.LVL77:
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 492              		.loc 1 243 22 view .LVU94
+ 493 027c 51EC100B 		vmov	r0, r1, d0
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 494              		.loc 1 243 20 view .LVU95
+ 495 0280 0022     		movs	r2, #0
+ 496 0282 254B     		ldr	r3, .L22+40
+ 497 0284 FFF7FEFF 		bl	__aeabi_dmul
+ 498              	.LVL78:
+ 499 0288 8046     		mov	r8, r0
+ 500 028a 8946     		mov	r9, r1
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 501              		.loc 1 243 15 view .LVU96
+ 502 028c 0022     		movs	r2, #0
+ 503 028e 234B     		ldr	r3, .L22+44
+ 504 0290 FFF7FEFF 		bl	__aeabi_dadd
+ 505              	.LVL79:
+ 243:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 506              		.loc 1 243 10 view .LVU97
+ 507 0294 FFF7FEFF 		bl	__aeabi_d2iz
+ 508              	.LVL80:
+ 509 0298 8346     		mov	fp, r0
+ 510              	.LVL81:
+ 244:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 511              		.loc 1 244 7 is_stmt 1 view .LVU98
+ 244:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 512              		.loc 1 244 15 is_stmt 0 view .LVU99
+ 513 029a 17A3     		adr	r3, .L22+8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 16
+
+
+ 514 029c D3E90023 		ldrd	r2, [r3]
+ 515 02a0 3046     		mov	r0, r6
+ 516              	.LVL82:
+ 244:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 517              		.loc 1 244 15 view .LVU100
+ 518 02a2 3946     		mov	r1, r7
+ 519 02a4 FFF7FEFF 		bl	__aeabi_dadd
+ 520              	.LVL83:
+ 244:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 521              		.loc 1 244 10 view .LVU101
+ 522 02a8 FFF7FEFF 		bl	__aeabi_d2iz
+ 523              	.LVL84:
+ 524 02ac 0746     		mov	r7, r0
+ 525              	.LVL85:
+ 245:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 526              		.loc 1 245 7 is_stmt 1 view .LVU102
+ 245:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 527              		.loc 1 245 15 is_stmt 0 view .LVU103
+ 528 02ae 4246     		mov	r2, r8
+ 529 02b0 4B46     		mov	r3, r9
+ 530 02b2 0020     		movs	r0, #0
+ 531              	.LVL86:
+ 245:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 532              		.loc 1 245 15 view .LVU104
+ 533 02b4 1949     		ldr	r1, .L22+44
+ 534 02b6 FFF7FEFF 		bl	__aeabi_dsub
+ 535              	.LVL87:
+ 245:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 536              		.loc 1 245 10 view .LVU105
+ 537 02ba FFF7FEFF 		bl	__aeabi_d2iz
+ 538              	.LVL88:
+ 539 02be 0646     		mov	r6, r0
+ 540              	.LVL89:
+ 246:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 541              		.loc 1 246 7 is_stmt 1 view .LVU106
+ 542 02c0 0F23     		movs	r3, #15
+ 543 02c2 0093     		str	r3, [sp]
+ 544 02c4 1923     		movs	r3, #25
+ 545 02c6 1E22     		movs	r2, #30
+ 546 02c8 5F21     		movs	r1, #95
+ 547 02ca 2846     		mov	r0, r5
+ 548              	.LVL90:
+ 246:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 549              		.loc 1 246 7 is_stmt 0 view .LVU107
+ 550 02cc FFF7FEFF 		bl	u8g2_DrawCircle
+ 551              	.LVL91:
+ 247:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 552              		.loc 1 247 7 is_stmt 1 view .LVU108
+ 553 02d0 B6B2     		uxth	r6, r6
+ 554              	.LVL92:
+ 247:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 555              		.loc 1 247 7 is_stmt 0 view .LVU109
+ 556 02d2 0096     		str	r6, [sp]
+ 557 02d4 BBB2     		uxth	r3, r7
+ 558 02d6 1FFA8BF2 		uxth	r2, fp
+ 559 02da 1FFA8AF1 		uxth	r1, r10
+ 560 02de 2846     		mov	r0, r5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 17
+
+
+ 561 02e0 FFF7FEFF 		bl	u8g2_DrawLine
+ 562              	.LVL93:
+ 248:Core/Src/app_freertos.c ****     }break;
+ 563              		.loc 1 248 7 is_stmt 1 view .LVU110
+ 564 02e4 2846     		mov	r0, r5
+ 565 02e6 FFF7FEFF 		bl	u8g2_SendBuffer
+ 566              	.LVL94:
+ 249:Core/Src/app_freertos.c ****     case 3:{
+ 567              		.loc 1 249 6 view .LVU111
+ 568 02ea 0FE7     		b	.L5
+ 569              	.L23:
+ 570 02ec AFF30080 		.align	3
+ 571              	.L22:
+ 572 02f0 66666666 		.word	1717986918
+ 573 02f4 66A64C40 		.word	1078765158
+ 574 02f8 00000000 		.word	0
+ 575 02fc 00C05740 		.word	1079492608
+ 576 0300 00000000 		.word	u8g2
+ 577 0304 00000000 		.word	STM32_gpio_and_delay
+ 578 0308 00000000 		.word	STM32_byte_i2c
+ 579 030c 00000000 		.word	u8g2_cb_r2
+ 580 0310 00000000 		.word	u8g2_font_wqy16_t_chinese1
+ 581 0314 00000000 		.word	.LC0
+ 582 0318 00003940 		.word	1077477376
+ 583 031c 00003E40 		.word	1077805056
+ 584 0320 00000000 		.word	state
+ 585              	.LVL95:
+ 586              	.L9:
+ 251:Core/Src/app_freertos.c ****         cnt++;
+ 587              		.loc 1 251 7 view .LVU112
+ 251:Core/Src/app_freertos.c ****         cnt++;
+ 588              		.loc 1 251 9 is_stmt 0 view .LVU113
+ 589 0324 6B2C     		cmp	r4, #107
+ 590 0326 00D0     		beq	.L16
+ 252:Core/Src/app_freertos.c ****       }
+ 591              		.loc 1 252 9 is_stmt 1 view .LVU114
+ 252:Core/Src/app_freertos.c ****       }
+ 592              		.loc 1 252 12 is_stmt 0 view .LVU115
+ 593 0328 0134     		adds	r4, r4, #1
+ 594              	.LVL96:
+ 595              	.L16:
+ 254:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 596              		.loc 1 254 7 is_stmt 1 view .LVU116
+ 597 032a A34D     		ldr	r5, .L24+16
+ 598 032c 0094     		str	r4, [sp]
+ 599 032e A34B     		ldr	r3, .L24+20
+ 600 0330 1E22     		movs	r2, #30
+ 601 0332 0021     		movs	r1, #0
+ 602 0334 2846     		mov	r0, r5
+ 603 0336 FFF7FEFF 		bl	u8g2_printf
+ 604              	.LVL97:
+ 255:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 605              		.loc 1 255 7 view .LVU117
+ 255:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 606              		.loc 1 255 22 is_stmt 0 view .LVU118
+ 607 033a 2046     		mov	r0, r4
+ 608 033c FFF7FEFF 		bl	__aeabi_i2d
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 18
+
+
+ 609              	.LVL98:
+ 610 0340 99A3     		adr	r3, .L24
+ 611 0342 D3E90023 		ldrd	r2, [r3]
+ 612 0346 FFF7FEFF 		bl	__aeabi_ddiv
+ 613              	.LVL99:
+ 614 034a 41EC180B 		vmov	d8, r0, r1
+ 615 034e B0EE480A 		vmov.f32	s0, s16
+ 616 0352 F0EE680A 		vmov.f32	s1, s17
+ 617 0356 FFF7FEFF 		bl	cos
+ 618              	.LVL100:
+ 619 035a 51EC100B 		vmov	r0, r1, d0
+ 255:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 620              		.loc 1 255 20 view .LVU119
+ 621 035e 0022     		movs	r2, #0
+ 622 0360 974B     		ldr	r3, .L24+24
+ 623 0362 FFF7FEFF 		bl	__aeabi_dmul
+ 624              	.LVL101:
+ 625 0366 0646     		mov	r6, r0
+ 626 0368 0F46     		mov	r7, r1
+ 255:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 627              		.loc 1 255 15 view .LVU120
+ 628 036a 0246     		mov	r2, r0
+ 629 036c 0B46     		mov	r3, r1
+ 630 036e 90A1     		adr	r1, .L24+8
+ 631 0370 D1E90001 		ldrd	r0, [r1]
+ 632 0374 FFF7FEFF 		bl	__aeabi_dsub
+ 633              	.LVL102:
+ 255:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 634              		.loc 1 255 10 view .LVU121
+ 635 0378 FFF7FEFF 		bl	__aeabi_d2iz
+ 636              	.LVL103:
+ 637 037c 8246     		mov	r10, r0
+ 638              	.LVL104:
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 639              		.loc 1 256 7 is_stmt 1 view .LVU122
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 640              		.loc 1 256 22 is_stmt 0 view .LVU123
+ 641 037e B0EE480A 		vmov.f32	s0, s16
+ 642 0382 F0EE680A 		vmov.f32	s1, s17
+ 643 0386 FFF7FEFF 		bl	sin
+ 644              	.LVL105:
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 645              		.loc 1 256 22 view .LVU124
+ 646 038a 51EC100B 		vmov	r0, r1, d0
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 647              		.loc 1 256 20 view .LVU125
+ 648 038e 0022     		movs	r2, #0
+ 649 0390 8B4B     		ldr	r3, .L24+24
+ 650 0392 FFF7FEFF 		bl	__aeabi_dmul
+ 651              	.LVL106:
+ 652 0396 8046     		mov	r8, r0
+ 653 0398 8946     		mov	r9, r1
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 654              		.loc 1 256 15 view .LVU126
+ 655 039a 0022     		movs	r2, #0
+ 656 039c 894B     		ldr	r3, .L24+28
+ 657 039e FFF7FEFF 		bl	__aeabi_dadd
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 19
+
+
+ 658              	.LVL107:
+ 256:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 659              		.loc 1 256 10 view .LVU127
+ 660 03a2 FFF7FEFF 		bl	__aeabi_d2iz
+ 661              	.LVL108:
+ 662 03a6 8346     		mov	fp, r0
+ 663              	.LVL109:
+ 257:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 664              		.loc 1 257 7 is_stmt 1 view .LVU128
+ 257:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 665              		.loc 1 257 15 is_stmt 0 view .LVU129
+ 666 03a8 81A3     		adr	r3, .L24+8
+ 667 03aa D3E90023 		ldrd	r2, [r3]
+ 668 03ae 3046     		mov	r0, r6
+ 669              	.LVL110:
+ 257:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 670              		.loc 1 257 15 view .LVU130
+ 671 03b0 3946     		mov	r1, r7
+ 672 03b2 FFF7FEFF 		bl	__aeabi_dadd
+ 673              	.LVL111:
+ 257:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 674              		.loc 1 257 10 view .LVU131
+ 675 03b6 FFF7FEFF 		bl	__aeabi_d2iz
+ 676              	.LVL112:
+ 677 03ba 0746     		mov	r7, r0
+ 678              	.LVL113:
+ 258:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 679              		.loc 1 258 7 is_stmt 1 view .LVU132
+ 258:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 680              		.loc 1 258 15 is_stmt 0 view .LVU133
+ 681 03bc 4246     		mov	r2, r8
+ 682 03be 4B46     		mov	r3, r9
+ 683 03c0 0020     		movs	r0, #0
+ 684              	.LVL114:
+ 258:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 685              		.loc 1 258 15 view .LVU134
+ 686 03c2 8049     		ldr	r1, .L24+28
+ 687 03c4 FFF7FEFF 		bl	__aeabi_dsub
+ 688              	.LVL115:
+ 258:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 689              		.loc 1 258 10 view .LVU135
+ 690 03c8 FFF7FEFF 		bl	__aeabi_d2iz
+ 691              	.LVL116:
+ 692 03cc 0646     		mov	r6, r0
+ 693              	.LVL117:
+ 259:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 694              		.loc 1 259 7 is_stmt 1 view .LVU136
+ 695 03ce 0F23     		movs	r3, #15
+ 696 03d0 0093     		str	r3, [sp]
+ 697 03d2 1923     		movs	r3, #25
+ 698 03d4 1E22     		movs	r2, #30
+ 699 03d6 5F21     		movs	r1, #95
+ 700 03d8 2846     		mov	r0, r5
+ 701              	.LVL118:
+ 259:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 702              		.loc 1 259 7 is_stmt 0 view .LVU137
+ 703 03da FFF7FEFF 		bl	u8g2_DrawCircle
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 20
+
+
+ 704              	.LVL119:
+ 260:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 705              		.loc 1 260 7 is_stmt 1 view .LVU138
+ 706 03de B6B2     		uxth	r6, r6
+ 707              	.LVL120:
+ 260:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 708              		.loc 1 260 7 is_stmt 0 view .LVU139
+ 709 03e0 0096     		str	r6, [sp]
+ 710 03e2 BBB2     		uxth	r3, r7
+ 711 03e4 1FFA8BF2 		uxth	r2, fp
+ 712 03e8 1FFA8AF1 		uxth	r1, r10
+ 713 03ec 2846     		mov	r0, r5
+ 714 03ee FFF7FEFF 		bl	u8g2_DrawLine
+ 715              	.LVL121:
+ 261:Core/Src/app_freertos.c ****     }break;
+ 716              		.loc 1 261 7 is_stmt 1 view .LVU140
+ 717 03f2 2846     		mov	r0, r5
+ 718 03f4 FFF7FEFF 		bl	u8g2_SendBuffer
+ 719              	.LVL122:
+ 262:Core/Src/app_freertos.c ****     case 4:{
+ 720              		.loc 1 262 6 view .LVU141
+ 721 03f8 88E6     		b	.L5
+ 722              	.LVL123:
+ 723              	.L8:
+ 264:Core/Src/app_freertos.c ****         cnt++;
+ 724              		.loc 1 264 7 view .LVU142
+ 264:Core/Src/app_freertos.c ****         cnt++;
+ 725              		.loc 1 264 9 is_stmt 0 view .LVU143
+ 726 03fa 882C     		cmp	r4, #136
+ 727 03fc 00D0     		beq	.L17
+ 265:Core/Src/app_freertos.c ****       }
+ 728              		.loc 1 265 9 is_stmt 1 view .LVU144
+ 265:Core/Src/app_freertos.c ****       }
+ 729              		.loc 1 265 12 is_stmt 0 view .LVU145
+ 730 03fe 0134     		adds	r4, r4, #1
+ 731              	.LVL124:
+ 732              	.L17:
+ 267:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 733              		.loc 1 267 7 is_stmt 1 view .LVU146
+ 734 0400 6D4D     		ldr	r5, .L24+16
+ 735 0402 0094     		str	r4, [sp]
+ 736 0404 6D4B     		ldr	r3, .L24+20
+ 737 0406 1E22     		movs	r2, #30
+ 738 0408 0021     		movs	r1, #0
+ 739 040a 2846     		mov	r0, r5
+ 740 040c FFF7FEFF 		bl	u8g2_printf
+ 741              	.LVL125:
+ 268:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 742              		.loc 1 268 7 view .LVU147
+ 268:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 743              		.loc 1 268 22 is_stmt 0 view .LVU148
+ 744 0410 2046     		mov	r0, r4
+ 745 0412 FFF7FEFF 		bl	__aeabi_i2d
+ 746              	.LVL126:
+ 747 0416 64A3     		adr	r3, .L24
+ 748 0418 D3E90023 		ldrd	r2, [r3]
+ 749 041c FFF7FEFF 		bl	__aeabi_ddiv
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 21
+
+
+ 750              	.LVL127:
+ 751 0420 41EC180B 		vmov	d8, r0, r1
+ 752 0424 B0EE480A 		vmov.f32	s0, s16
+ 753 0428 F0EE680A 		vmov.f32	s1, s17
+ 754 042c FFF7FEFF 		bl	cos
+ 755              	.LVL128:
+ 756 0430 51EC100B 		vmov	r0, r1, d0
+ 268:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 757              		.loc 1 268 20 view .LVU149
+ 758 0434 0022     		movs	r2, #0
+ 759 0436 624B     		ldr	r3, .L24+24
+ 760 0438 FFF7FEFF 		bl	__aeabi_dmul
+ 761              	.LVL129:
+ 762 043c 0646     		mov	r6, r0
+ 763 043e 0F46     		mov	r7, r1
+ 268:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 764              		.loc 1 268 15 view .LVU150
+ 765 0440 0246     		mov	r2, r0
+ 766 0442 0B46     		mov	r3, r1
+ 767 0444 5AA1     		adr	r1, .L24+8
+ 768 0446 D1E90001 		ldrd	r0, [r1]
+ 769 044a FFF7FEFF 		bl	__aeabi_dsub
+ 770              	.LVL130:
+ 268:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 771              		.loc 1 268 10 view .LVU151
+ 772 044e FFF7FEFF 		bl	__aeabi_d2iz
+ 773              	.LVL131:
+ 774 0452 8246     		mov	r10, r0
+ 775              	.LVL132:
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 776              		.loc 1 269 7 is_stmt 1 view .LVU152
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 777              		.loc 1 269 22 is_stmt 0 view .LVU153
+ 778 0454 B0EE480A 		vmov.f32	s0, s16
+ 779 0458 F0EE680A 		vmov.f32	s1, s17
+ 780 045c FFF7FEFF 		bl	sin
+ 781              	.LVL133:
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 782              		.loc 1 269 22 view .LVU154
+ 783 0460 51EC100B 		vmov	r0, r1, d0
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 784              		.loc 1 269 20 view .LVU155
+ 785 0464 0022     		movs	r2, #0
+ 786 0466 564B     		ldr	r3, .L24+24
+ 787 0468 FFF7FEFF 		bl	__aeabi_dmul
+ 788              	.LVL134:
+ 789 046c 8046     		mov	r8, r0
+ 790 046e 8946     		mov	r9, r1
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 791              		.loc 1 269 15 view .LVU156
+ 792 0470 0022     		movs	r2, #0
+ 793 0472 544B     		ldr	r3, .L24+28
+ 794 0474 FFF7FEFF 		bl	__aeabi_dadd
+ 795              	.LVL135:
+ 269:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 796              		.loc 1 269 10 view .LVU157
+ 797 0478 FFF7FEFF 		bl	__aeabi_d2iz
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 22
+
+
+ 798              	.LVL136:
+ 799 047c 8346     		mov	fp, r0
+ 800              	.LVL137:
+ 270:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 801              		.loc 1 270 7 is_stmt 1 view .LVU158
+ 270:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 802              		.loc 1 270 15 is_stmt 0 view .LVU159
+ 803 047e 4CA3     		adr	r3, .L24+8
+ 804 0480 D3E90023 		ldrd	r2, [r3]
+ 805 0484 3046     		mov	r0, r6
+ 806              	.LVL138:
+ 270:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 807              		.loc 1 270 15 view .LVU160
+ 808 0486 3946     		mov	r1, r7
+ 809 0488 FFF7FEFF 		bl	__aeabi_dadd
+ 810              	.LVL139:
+ 270:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 811              		.loc 1 270 10 view .LVU161
+ 812 048c FFF7FEFF 		bl	__aeabi_d2iz
+ 813              	.LVL140:
+ 814 0490 0746     		mov	r7, r0
+ 815              	.LVL141:
+ 271:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 816              		.loc 1 271 7 is_stmt 1 view .LVU162
+ 271:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 817              		.loc 1 271 15 is_stmt 0 view .LVU163
+ 818 0492 4246     		mov	r2, r8
+ 819 0494 4B46     		mov	r3, r9
+ 820 0496 0020     		movs	r0, #0
+ 821              	.LVL142:
+ 271:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 822              		.loc 1 271 15 view .LVU164
+ 823 0498 4A49     		ldr	r1, .L24+28
+ 824 049a FFF7FEFF 		bl	__aeabi_dsub
+ 825              	.LVL143:
+ 271:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 826              		.loc 1 271 10 view .LVU165
+ 827 049e FFF7FEFF 		bl	__aeabi_d2iz
+ 828              	.LVL144:
+ 829 04a2 0646     		mov	r6, r0
+ 830              	.LVL145:
+ 272:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 831              		.loc 1 272 7 is_stmt 1 view .LVU166
+ 832 04a4 0F23     		movs	r3, #15
+ 833 04a6 0093     		str	r3, [sp]
+ 834 04a8 1923     		movs	r3, #25
+ 835 04aa 1E22     		movs	r2, #30
+ 836 04ac 5F21     		movs	r1, #95
+ 837 04ae 2846     		mov	r0, r5
+ 838              	.LVL146:
+ 272:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 839              		.loc 1 272 7 is_stmt 0 view .LVU167
+ 840 04b0 FFF7FEFF 		bl	u8g2_DrawCircle
+ 841              	.LVL147:
+ 273:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 842              		.loc 1 273 7 is_stmt 1 view .LVU168
+ 843 04b4 B6B2     		uxth	r6, r6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 23
+
+
+ 844              	.LVL148:
+ 273:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 845              		.loc 1 273 7 is_stmt 0 view .LVU169
+ 846 04b6 0096     		str	r6, [sp]
+ 847 04b8 BBB2     		uxth	r3, r7
+ 848 04ba 1FFA8BF2 		uxth	r2, fp
+ 849 04be 1FFA8AF1 		uxth	r1, r10
+ 850 04c2 2846     		mov	r0, r5
+ 851 04c4 FFF7FEFF 		bl	u8g2_DrawLine
+ 852              	.LVL149:
+ 274:Core/Src/app_freertos.c ****     }break;
+ 853              		.loc 1 274 7 is_stmt 1 view .LVU170
+ 854 04c8 2846     		mov	r0, r5
+ 855 04ca FFF7FEFF 		bl	u8g2_SendBuffer
+ 856              	.LVL150:
+ 275:Core/Src/app_freertos.c ****     case 5:{
+ 857              		.loc 1 275 6 view .LVU171
+ 858 04ce 1DE6     		b	.L5
+ 859              	.LVL151:
+ 860              	.L6:
+ 277:Core/Src/app_freertos.c ****         cnt++;
+ 861              		.loc 1 277 7 view .LVU172
+ 277:Core/Src/app_freertos.c ****         cnt++;
+ 862              		.loc 1 277 9 is_stmt 0 view .LVU173
+ 863 04d0 B42C     		cmp	r4, #180
+ 864 04d2 00D0     		beq	.L18
+ 278:Core/Src/app_freertos.c ****       }
+ 865              		.loc 1 278 9 is_stmt 1 view .LVU174
+ 278:Core/Src/app_freertos.c ****       }
+ 866              		.loc 1 278 12 is_stmt 0 view .LVU175
+ 867 04d4 0134     		adds	r4, r4, #1
+ 868              	.LVL152:
+ 869              	.L18:
+ 280:Core/Src/app_freertos.c ****       x1 = 95 - 25 * cos(cnt / 57.3);
+ 870              		.loc 1 280 7 is_stmt 1 view .LVU176
+ 871 04d6 384D     		ldr	r5, .L24+16
+ 872 04d8 0094     		str	r4, [sp]
+ 873 04da 384B     		ldr	r3, .L24+20
+ 874 04dc 1E22     		movs	r2, #30
+ 875 04de 0021     		movs	r1, #0
+ 876 04e0 2846     		mov	r0, r5
+ 877 04e2 FFF7FEFF 		bl	u8g2_printf
+ 878              	.LVL153:
+ 281:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 879              		.loc 1 281 7 view .LVU177
+ 281:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 880              		.loc 1 281 22 is_stmt 0 view .LVU178
+ 881 04e6 2046     		mov	r0, r4
+ 882 04e8 FFF7FEFF 		bl	__aeabi_i2d
+ 883              	.LVL154:
+ 884 04ec 2EA3     		adr	r3, .L24
+ 885 04ee D3E90023 		ldrd	r2, [r3]
+ 886 04f2 FFF7FEFF 		bl	__aeabi_ddiv
+ 887              	.LVL155:
+ 888 04f6 41EC180B 		vmov	d8, r0, r1
+ 889 04fa B0EE480A 		vmov.f32	s0, s16
+ 890 04fe F0EE680A 		vmov.f32	s1, s17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 24
+
+
+ 891 0502 FFF7FEFF 		bl	cos
+ 892              	.LVL156:
+ 893 0506 51EC100B 		vmov	r0, r1, d0
+ 281:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 894              		.loc 1 281 20 view .LVU179
+ 895 050a 0022     		movs	r2, #0
+ 896 050c 2C4B     		ldr	r3, .L24+24
+ 897 050e FFF7FEFF 		bl	__aeabi_dmul
+ 898              	.LVL157:
+ 899 0512 0646     		mov	r6, r0
+ 900 0514 0F46     		mov	r7, r1
+ 281:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 901              		.loc 1 281 15 view .LVU180
+ 902 0516 0246     		mov	r2, r0
+ 903 0518 0B46     		mov	r3, r1
+ 904 051a 25A1     		adr	r1, .L24+8
+ 905 051c D1E90001 		ldrd	r0, [r1]
+ 906 0520 FFF7FEFF 		bl	__aeabi_dsub
+ 907              	.LVL158:
+ 281:Core/Src/app_freertos.c ****       y1 = 30 + 25 * sin(cnt / 57.3);
+ 908              		.loc 1 281 10 view .LVU181
+ 909 0524 FFF7FEFF 		bl	__aeabi_d2iz
+ 910              	.LVL159:
+ 911 0528 8246     		mov	r10, r0
+ 912              	.LVL160:
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 913              		.loc 1 282 7 is_stmt 1 view .LVU182
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 914              		.loc 1 282 22 is_stmt 0 view .LVU183
+ 915 052a B0EE480A 		vmov.f32	s0, s16
+ 916 052e F0EE680A 		vmov.f32	s1, s17
+ 917 0532 FFF7FEFF 		bl	sin
+ 918              	.LVL161:
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 919              		.loc 1 282 22 view .LVU184
+ 920 0536 51EC100B 		vmov	r0, r1, d0
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 921              		.loc 1 282 20 view .LVU185
+ 922 053a 0022     		movs	r2, #0
+ 923 053c 204B     		ldr	r3, .L24+24
+ 924 053e FFF7FEFF 		bl	__aeabi_dmul
+ 925              	.LVL162:
+ 926 0542 8046     		mov	r8, r0
+ 927 0544 8946     		mov	r9, r1
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 928              		.loc 1 282 15 view .LVU186
+ 929 0546 0022     		movs	r2, #0
+ 930 0548 1E4B     		ldr	r3, .L24+28
+ 931 054a FFF7FEFF 		bl	__aeabi_dadd
+ 932              	.LVL163:
+ 282:Core/Src/app_freertos.c ****       x2 = 95 + 25 * cos(cnt / 57.3);
+ 933              		.loc 1 282 10 view .LVU187
+ 934 054e FFF7FEFF 		bl	__aeabi_d2iz
+ 935              	.LVL164:
+ 936 0552 8346     		mov	fp, r0
+ 937              	.LVL165:
+ 283:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 25
+
+
+ 938              		.loc 1 283 7 is_stmt 1 view .LVU188
+ 283:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 939              		.loc 1 283 15 is_stmt 0 view .LVU189
+ 940 0554 16A3     		adr	r3, .L24+8
+ 941 0556 D3E90023 		ldrd	r2, [r3]
+ 942 055a 3046     		mov	r0, r6
+ 943              	.LVL166:
+ 283:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 944              		.loc 1 283 15 view .LVU190
+ 945 055c 3946     		mov	r1, r7
+ 946 055e FFF7FEFF 		bl	__aeabi_dadd
+ 947              	.LVL167:
+ 283:Core/Src/app_freertos.c ****       y2 = 30 - 25 * sin(cnt / 57.3);
+ 948              		.loc 1 283 10 view .LVU191
+ 949 0562 FFF7FEFF 		bl	__aeabi_d2iz
+ 950              	.LVL168:
+ 951 0566 0746     		mov	r7, r0
+ 952              	.LVL169:
+ 284:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 953              		.loc 1 284 7 is_stmt 1 view .LVU192
+ 284:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 954              		.loc 1 284 15 is_stmt 0 view .LVU193
+ 955 0568 4246     		mov	r2, r8
+ 956 056a 4B46     		mov	r3, r9
+ 957 056c 0020     		movs	r0, #0
+ 958              	.LVL170:
+ 284:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 959              		.loc 1 284 15 view .LVU194
+ 960 056e 1549     		ldr	r1, .L24+28
+ 961 0570 FFF7FEFF 		bl	__aeabi_dsub
+ 962              	.LVL171:
+ 284:Core/Src/app_freertos.c ****       u8g2_DrawCircle(&u8g2, 95, 30, 25, U8G2_DRAW_ALL);
+ 963              		.loc 1 284 10 view .LVU195
+ 964 0574 FFF7FEFF 		bl	__aeabi_d2iz
+ 965              	.LVL172:
+ 966 0578 0646     		mov	r6, r0
+ 967              	.LVL173:
+ 285:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 968              		.loc 1 285 7 is_stmt 1 view .LVU196
+ 969 057a 0F23     		movs	r3, #15
+ 970 057c 0093     		str	r3, [sp]
+ 971 057e 1923     		movs	r3, #25
+ 972 0580 1E22     		movs	r2, #30
+ 973 0582 5F21     		movs	r1, #95
+ 974 0584 2846     		mov	r0, r5
+ 975              	.LVL174:
+ 285:Core/Src/app_freertos.c ****       u8g2_DrawLine(&u8g2, x1, y1, x2, y2);
+ 976              		.loc 1 285 7 is_stmt 0 view .LVU197
+ 977 0586 FFF7FEFF 		bl	u8g2_DrawCircle
+ 978              	.LVL175:
+ 286:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 979              		.loc 1 286 7 is_stmt 1 view .LVU198
+ 980 058a B6B2     		uxth	r6, r6
+ 981              	.LVL176:
+ 286:Core/Src/app_freertos.c ****       u8g2_SendBuffer(&u8g2);
+ 982              		.loc 1 286 7 is_stmt 0 view .LVU199
+ 983 058c 0096     		str	r6, [sp]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 26
+
+
+ 984 058e BBB2     		uxth	r3, r7
+ 985 0590 1FFA8BF2 		uxth	r2, fp
+ 986 0594 1FFA8AF1 		uxth	r1, r10
+ 987 0598 2846     		mov	r0, r5
+ 988 059a FFF7FEFF 		bl	u8g2_DrawLine
+ 989              	.LVL177:
+ 287:Core/Src/app_freertos.c ****     }break;
+ 990              		.loc 1 287 7 is_stmt 1 view .LVU200
+ 991 059e 2846     		mov	r0, r5
+ 992 05a0 FFF7FEFF 		bl	u8g2_SendBuffer
+ 993              	.LVL178:
+ 288:Core/Src/app_freertos.c ****     default:break;
+ 994              		.loc 1 288 6 view .LVU201
+ 995 05a4 B2E5     		b	.L5
+ 996              	.L25:
+ 997 05a6 00BF     		.align	3
+ 998              	.L24:
+ 999 05a8 66666666 		.word	1717986918
+ 1000 05ac 66A64C40 		.word	1078765158
+ 1001 05b0 00000000 		.word	0
+ 1002 05b4 00C05740 		.word	1079492608
+ 1003 05b8 00000000 		.word	u8g2
+ 1004 05bc 00000000 		.word	.LC0
+ 1005 05c0 00003940 		.word	1077477376
+ 1006 05c4 00003E40 		.word	1077805056
+ 1007              		.cfi_endproc
+ 1008              	.LFE158:
+ 1010              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
+ 1011              		.align	1
+ 1012              		.global	MX_FREERTOS_Init
+ 1013              		.syntax unified
+ 1014              		.thumb
+ 1015              		.thumb_func
+ 1017              	MX_FREERTOS_Init:
+ 1018              	.LFB155:
+ 101:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Init */
+ 1019              		.loc 1 101 29 view -0
+ 1020              		.cfi_startproc
+ 1021              		@ args = 0, pretend = 0, frame = 0
+ 1022              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1023 0000 08B5     		push	{r3, lr}
+ 1024              	.LCFI4:
+ 1025              		.cfi_def_cfa_offset 8
+ 1026              		.cfi_offset 3, -8
+ 1027              		.cfi_offset 14, -4
+ 124:Core/Src/app_freertos.c **** 
+ 1028              		.loc 1 124 3 view .LVU203
+ 124:Core/Src/app_freertos.c **** 
+ 1029              		.loc 1 124 23 is_stmt 0 view .LVU204
+ 1030 0002 074A     		ldr	r2, .L28
+ 1031 0004 0021     		movs	r1, #0
+ 1032 0006 0748     		ldr	r0, .L28+4
+ 1033 0008 FFF7FEFF 		bl	osThreadNew
+ 1034              	.LVL179:
+ 124:Core/Src/app_freertos.c **** 
+ 1035              		.loc 1 124 21 view .LVU205
+ 1036 000c 064B     		ldr	r3, .L28+8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 27
+
+
+ 1037 000e 1860     		str	r0, [r3]
+ 130:Core/Src/app_freertos.c **** 
+ 1038              		.loc 1 130 3 is_stmt 1 view .LVU206
+ 130:Core/Src/app_freertos.c **** 
+ 1039              		.loc 1 130 24 is_stmt 0 view .LVU207
+ 1040 0010 064A     		ldr	r2, .L28+12
+ 1041 0012 0021     		movs	r1, #0
+ 1042 0014 0648     		ldr	r0, .L28+16
+ 1043 0016 FFF7FEFF 		bl	osThreadNew
+ 1044              	.LVL180:
+ 130:Core/Src/app_freertos.c **** 
+ 1045              		.loc 1 130 22 view .LVU208
+ 1046 001a 064B     		ldr	r3, .L28+20
+ 1047 001c 1860     		str	r0, [r3]
+ 143:Core/Src/app_freertos.c **** 
+ 1048              		.loc 1 143 1 view .LVU209
+ 1049 001e 08BD     		pop	{r3, pc}
+ 1050              	.L29:
+ 1051              		.align	2
+ 1052              	.L28:
+ 1053 0020 00000000 		.word	defaultTask_attributes
+ 1054 0024 00000000 		.word	StartDefaultTask
+ 1055 0028 00000000 		.word	defaultTaskHandle
+ 1056 002c 00000000 		.word	Oled_Display_attributes
+ 1057 0030 00000000 		.word	Oled_Display_Task
+ 1058 0034 00000000 		.word	Oled_DisplayHandle
+ 1059              		.cfi_endproc
+ 1060              	.LFE155:
+ 1062              		.global	__aeabi_f2d
+ 1063              		.section	.rodata.Get_Angle_Task.str1.4,"aMS",%progbits,1
+ 1064              		.align	2
+ 1065              	.LC1:
+ 1066 0000 70697463 		.ascii	"pitch:%4.1f\012\000"
+ 1066      683A2534 
+ 1066      2E31660A 
+ 1066      00
+ 1067 000d 000000   		.align	2
+ 1068              	.LC2:
+ 1069 0010 616E673A 		.ascii	"ang:%3.1f\000"
+ 1069      25332E31 
+ 1069      6600
+ 1070              		.section	.text.Get_Angle_Task,"ax",%progbits
+ 1071              		.align	1
+ 1072              		.global	Get_Angle_Task
+ 1073              		.syntax unified
+ 1074              		.thumb
+ 1075              		.thumb_func
+ 1077              	Get_Angle_Task:
+ 1078              	.LVL181:
+ 1079              	.LFB157:
+ 171:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Get_Angle_Task */
+ 1080              		.loc 1 171 1 is_stmt 1 view -0
+ 1081              		.cfi_startproc
+ 1082              		@ Volatile: function does not return.
+ 1083              		@ args = 0, pretend = 0, frame = 16
+ 1084              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171:Core/Src/app_freertos.c ****   /* USER CODE BEGIN Get_Angle_Task */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 28
+
+
+ 1085              		.loc 1 171 1 is_stmt 0 view .LVU211
+ 1086 0000 00B5     		push	{lr}
+ 1087              	.LCFI5:
+ 1088              		.cfi_def_cfa_offset 4
+ 1089              		.cfi_offset 14, -4
+ 1090 0002 87B0     		sub	sp, sp, #28
+ 1091              	.LCFI6:
+ 1092              		.cfi_def_cfa_offset 32
+ 173:Core/Src/app_freertos.c ****   if (mpu_dmp_get_data(&pitch, &roll, &yaw) == 0) {
+ 1093              		.loc 1 173 3 is_stmt 1 view .LVU212
+ 174:Core/Src/app_freertos.c ****     uart_printf("pitch:%4.1f\n", -pitch);
+ 1094              		.loc 1 174 3 view .LVU213
+ 174:Core/Src/app_freertos.c ****     uart_printf("pitch:%4.1f\n", -pitch);
+ 1095              		.loc 1 174 7 is_stmt 0 view .LVU214
+ 1096 0004 03AA     		add	r2, sp, #12
+ 1097 0006 04A9     		add	r1, sp, #16
+ 1098 0008 05A8     		add	r0, sp, #20
+ 1099              	.LVL182:
+ 174:Core/Src/app_freertos.c ****     uart_printf("pitch:%4.1f\n", -pitch);
+ 1100              		.loc 1 174 7 view .LVU215
+ 1101 000a FFF7FEFF 		bl	mpu_dmp_get_data
+ 1102              	.LVL183:
+ 174:Core/Src/app_freertos.c ****     uart_printf("pitch:%4.1f\n", -pitch);
+ 1103              		.loc 1 174 6 view .LVU216
+ 1104 000e 40B1     		cbz	r0, .L34
+ 1105              	.L32:
+ 181:Core/Src/app_freertos.c ****     angle = Angle_Get();
+ 1106              		.loc 1 181 3 is_stmt 1 discriminator 1 view .LVU217
+ 182:Core/Src/app_freertos.c ****     osDelay(30);
+ 1107              		.loc 1 182 5 discriminator 1 view .LVU218
+ 182:Core/Src/app_freertos.c ****     osDelay(30);
+ 1108              		.loc 1 182 13 is_stmt 0 discriminator 1 view .LVU219
+ 1109 0010 FFF7FEFF 		bl	Angle_Get
+ 1110              	.LVL184:
+ 182:Core/Src/app_freertos.c ****     osDelay(30);
+ 1111              		.loc 1 182 11 discriminator 1 view .LVU220
+ 1112 0014 124B     		ldr	r3, .L35
+ 1113 0016 83ED000A 		vstr.32	s0, [r3]
+ 183:Core/Src/app_freertos.c ****   }
+ 1114              		.loc 1 183 5 is_stmt 1 discriminator 1 view .LVU221
+ 1115 001a 1E20     		movs	r0, #30
+ 1116 001c FFF7FEFF 		bl	osDelay
+ 1117              	.LVL185:
+ 181:Core/Src/app_freertos.c ****     angle = Angle_Get();
+ 1118              		.loc 1 181 3 discriminator 1 view .LVU222
+ 1119 0020 F6E7     		b	.L32
+ 1120              	.L34:
+ 1121              	.LBB2:
+ 175:Core/Src/app_freertos.c ****     ssd1306_printf(Font_11x18, "ang:%3.1f", -pitch);
+ 1122              		.loc 1 175 5 view .LVU223
+ 1123 0022 0598     		ldr	r0, [sp, #20]	@ float
+ 1124 0024 80F00040 		eor	r0, r0, #-2147483648
+ 1125 0028 FFF7FEFF 		bl	__aeabi_f2d
+ 1126              	.LVL186:
+ 1127 002c 41EC100B 		vmov	d0, r0, r1
+ 1128 0030 0C48     		ldr	r0, .L35+4
+ 1129 0032 FFF7FEFF 		bl	uart_printf
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 29
+
+
+ 1130              	.LVL187:
+ 176:Core/Src/app_freertos.c ****     ssd1306_SetCursor(0, 0);
+ 1131              		.loc 1 176 5 view .LVU224
+ 1132 0036 0C4C     		ldr	r4, .L35+8
+ 1133 0038 0598     		ldr	r0, [sp, #20]	@ float
+ 1134 003a 80F00040 		eor	r0, r0, #-2147483648
+ 1135 003e FFF7FEFF 		bl	__aeabi_f2d
+ 1136              	.LVL188:
+ 1137 0042 CDE90001 		strd	r0, [sp]
+ 1138 0046 094A     		ldr	r2, .L35+12
+ 1139 0048 94E80300 		ldm	r4, {r0, r1}
+ 1140 004c FFF7FEFF 		bl	ssd1306_printf
+ 1141              	.LVL189:
+ 177:Core/Src/app_freertos.c ****     HAL_Delay(50);
+ 1142              		.loc 1 177 5 view .LVU225
+ 1143 0050 0021     		movs	r1, #0
+ 1144 0052 0846     		mov	r0, r1
+ 1145 0054 FFF7FEFF 		bl	ssd1306_SetCursor
+ 1146              	.LVL190:
+ 178:Core/Src/app_freertos.c ****   }
+ 1147              		.loc 1 178 5 view .LVU226
+ 1148 0058 3220     		movs	r0, #50
+ 1149 005a FFF7FEFF 		bl	HAL_Delay
+ 1150              	.LVL191:
+ 1151 005e D7E7     		b	.L32
+ 1152              	.L36:
+ 1153              		.align	2
+ 1154              	.L35:
+ 1155 0060 00000000 		.word	angle
+ 1156 0064 00000000 		.word	.LC1
+ 1157 0068 00000000 		.word	Font_11x18
+ 1158 006c 10000000 		.word	.LC2
+ 1159              	.LBE2:
+ 1160              		.cfi_endproc
+ 1161              	.LFE157:
+ 1163              		.section	.text.RGB_Tack,"ax",%progbits
+ 1164              		.align	1
+ 1165              		.global	RGB_Tack
+ 1166              		.syntax unified
+ 1167              		.thumb
+ 1168              		.thumb_func
+ 1170              	RGB_Tack:
+ 1171              	.LFB159:
+ 292:Core/Src/app_freertos.c ****   }
+ 293:Core/Src/app_freertos.c ****   /* USER CODE END Oled_Display_Task */
+ 294:Core/Src/app_freertos.c **** }
+ 295:Core/Src/app_freertos.c **** 
+ 296:Core/Src/app_freertos.c **** /* USER CODE BEGIN Header_RGB_Tack */
+ 297:Core/Src/app_freertos.c **** /**
+ 298:Core/Src/app_freertos.c **** * @brief Function implementing the RGB thread.
+ 299:Core/Src/app_freertos.c **** * @param argument: Not used
+ 300:Core/Src/app_freertos.c **** * @retval None
+ 301:Core/Src/app_freertos.c **** */
+ 302:Core/Src/app_freertos.c **** /* USER CODE END Header_RGB_Tack */
+ 303:Core/Src/app_freertos.c **** void RGB_Tack(void *argument)
+ 304:Core/Src/app_freertos.c **** {
+ 1172              		.loc 1 304 1 view -0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 30
+
+
+ 1173              		.cfi_startproc
+ 1174              		@ Volatile: function does not return.
+ 1175              		@ args = 0, pretend = 0, frame = 0
+ 1176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1177              	.LVL192:
+ 1178              		.loc 1 304 1 is_stmt 0 view .LVU228
+ 1179 0000 08B5     		push	{r3, lr}
+ 1180              	.LCFI7:
+ 1181              		.cfi_def_cfa_offset 8
+ 1182              		.cfi_offset 3, -8
+ 1183              		.cfi_offset 14, -4
+ 1184              	.LVL193:
+ 1185              	.L38:
+ 305:Core/Src/app_freertos.c ****   /* USER CODE BEGIN RGB_Tack */
+ 306:Core/Src/app_freertos.c ****   /* Infinite loop */
+ 307:Core/Src/app_freertos.c ****   for(;;)
+ 1186              		.loc 1 307 3 is_stmt 1 discriminator 1 view .LVU229
+ 308:Core/Src/app_freertos.c ****   {
+ 309:Core/Src/app_freertos.c ****     WS_WriteAll_RGB(0xff, 0, 0);
+ 1187              		.loc 1 309 5 discriminator 1 view .LVU230
+ 1188 0002 0022     		movs	r2, #0
+ 1189 0004 1146     		mov	r1, r2
+ 1190 0006 FF20     		movs	r0, #255
+ 1191 0008 FFF7FEFF 		bl	WS_WriteAll_RGB
+ 1192              	.LVL194:
+ 310:Core/Src/app_freertos.c ****     osDelay(50);
+ 1193              		.loc 1 310 5 discriminator 1 view .LVU231
+ 1194 000c 3220     		movs	r0, #50
+ 1195 000e FFF7FEFF 		bl	osDelay
+ 1196              	.LVL195:
+ 307:Core/Src/app_freertos.c ****   {
+ 1197              		.loc 1 307 3 discriminator 1 view .LVU232
+ 1198 0012 F6E7     		b	.L38
+ 1199              		.cfi_endproc
+ 1200              	.LFE159:
+ 1202              		.global	RGB_attributes
+ 1203              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1204              		.align	2
+ 1205              	.LC3:
+ 1206 0000 52474200 		.ascii	"RGB\000"
+ 1207              		.section	.rodata.RGB_attributes,"a"
+ 1208              		.align	2
+ 1211              	RGB_attributes:
+ 1212 0000 00000000 		.word	.LC3
+ 1213 0004 00000000 		.space	16
+ 1213      00000000 
+ 1213      00000000 
+ 1213      00000000 
+ 1214 0014 00020000 		.word	512
+ 1215 0018 18000000 		.word	24
+ 1216 001c 00000000 		.space	8
+ 1216      00000000 
+ 1217              		.global	RGBHandle
+ 1218              		.section	.bss.RGBHandle,"aw",%nobits
+ 1219              		.align	2
+ 1222              	RGBHandle:
+ 1223 0000 00000000 		.space	4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 31
+
+
+ 1224              		.global	Oled_Display_attributes
+ 1225              		.section	.rodata.str1.4
+ 1226              		.align	2
+ 1227              	.LC4:
+ 1228 0004 4F6C6564 		.ascii	"Oled_Display\000"
+ 1228      5F446973 
+ 1228      706C6179 
+ 1228      00
+ 1229              		.section	.rodata.Oled_Display_attributes,"a"
+ 1230              		.align	2
+ 1233              	Oled_Display_attributes:
+ 1234 0000 04000000 		.word	.LC4
+ 1235 0004 00000000 		.space	16
+ 1235      00000000 
+ 1235      00000000 
+ 1235      00000000 
+ 1236 0014 00020000 		.word	512
+ 1237 0018 18000000 		.word	24
+ 1238 001c 00000000 		.space	8
+ 1238      00000000 
+ 1239              		.global	Oled_DisplayHandle
+ 1240              		.section	.bss.Oled_DisplayHandle,"aw",%nobits
+ 1241              		.align	2
+ 1244              	Oled_DisplayHandle:
+ 1245 0000 00000000 		.space	4
+ 1246              		.global	Get_Angle_attributes
+ 1247              		.section	.rodata.str1.4
+ 1248 0011 000000   		.align	2
+ 1249              	.LC5:
+ 1250 0014 4765745F 		.ascii	"Get_Angle\000"
+ 1250      416E676C 
+ 1250      6500
+ 1251              		.section	.rodata.Get_Angle_attributes,"a"
+ 1252              		.align	2
+ 1255              	Get_Angle_attributes:
+ 1256 0000 14000000 		.word	.LC5
+ 1257 0004 00000000 		.space	16
+ 1257      00000000 
+ 1257      00000000 
+ 1257      00000000 
+ 1258 0014 00040000 		.word	1024
+ 1259 0018 18000000 		.word	24
+ 1260 001c 00000000 		.space	8
+ 1260      00000000 
+ 1261              		.global	Get_AngleHandle
+ 1262              		.section	.bss.Get_AngleHandle,"aw",%nobits
+ 1263              		.align	2
+ 1266              	Get_AngleHandle:
+ 1267 0000 00000000 		.space	4
+ 1268              		.global	defaultTask_attributes
+ 1269              		.section	.rodata.str1.4
+ 1270 001e 0000     		.align	2
+ 1271              	.LC6:
+ 1272 0020 64656661 		.ascii	"defaultTask\000"
+ 1272      756C7454 
+ 1272      61736B00 
+ 1273              		.section	.rodata.defaultTask_attributes,"a"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 32
+
+
+ 1274              		.align	2
+ 1277              	defaultTask_attributes:
+ 1278 0000 20000000 		.word	.LC6
+ 1279 0004 00000000 		.space	16
+ 1279      00000000 
+ 1279      00000000 
+ 1279      00000000 
+ 1280 0014 00020000 		.word	512
+ 1281 0018 18000000 		.word	24
+ 1282 001c 00000000 		.space	8
+ 1282      00000000 
+ 1283              		.global	defaultTaskHandle
+ 1284              		.section	.bss.defaultTaskHandle,"aw",%nobits
+ 1285              		.align	2
+ 1288              	defaultTaskHandle:
+ 1289 0000 00000000 		.space	4
+ 1290              		.section	.bss.angle,"aw",%nobits
+ 1291              		.align	2
+ 1294              	angle:
+ 1295 0000 00000000 		.space	4
+ 1296              		.text
+ 1297              	.Letext0:
+ 1298              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 1299              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 1300              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 1301              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 1302              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h"
+ 1303              		.file 7 "user/Inc/fonts.h"
+ 1304              		.file 8 "user/drivers/u8g2/u8x8.h"
+ 1305              		.file 9 "user/drivers/u8g2/u8g2.h"
+ 1306              		.file 10 "user/Inc/ws2812.h"
+ 1307              		.file 11 "/usr/local/include/math.h"
+ 1308              		.file 12 "user/Inc/oled.h"
+ 1309              		.file 13 "user/Inc/mpu.h"
+ 1310              		.file 14 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h"
+ 1311              		.file 15 "user/drivers/DMP/driver/eMPL/inv_mpu.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 33
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 app_freertos.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:21     .text.StartDefaultTask:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:27     .text.StartDefaultTask:00000000 StartDefaultTask
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:54     .rodata.Oled_Display_Task.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:64     .text.Oled_Display_Task:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:70     .text.Oled_Display_Task:00000000 Oled_Display_Task
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:289    .text.Oled_Display_Task:00000128 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:295    .text.Oled_Display_Task:00000140 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:572    .text.Oled_Display_Task:000002f0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:589    .text.Oled_Display_Task:00000324 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:999    .text.Oled_Display_Task:000005a8 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1011   .text.MX_FREERTOS_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1017   .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1053   .text.MX_FREERTOS_Init:00000020 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1277   .rodata.defaultTask_attributes:00000000 defaultTask_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1288   .bss.defaultTaskHandle:00000000 defaultTaskHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1233   .rodata.Oled_Display_attributes:00000000 Oled_Display_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1244   .bss.Oled_DisplayHandle:00000000 Oled_DisplayHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1064   .rodata.Get_Angle_Task.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1071   .text.Get_Angle_Task:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1077   .text.Get_Angle_Task:00000000 Get_Angle_Task
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1155   .text.Get_Angle_Task:00000060 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1294   .bss.angle:00000000 angle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1164   .text.RGB_Tack:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1170   .text.RGB_Tack:00000000 RGB_Tack
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1211   .rodata.RGB_attributes:00000000 RGB_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1204   .rodata.str1.4:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1208   .rodata.RGB_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1222   .bss.RGBHandle:00000000 RGBHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1219   .bss.RGBHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1230   .rodata.Oled_Display_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1241   .bss.Oled_DisplayHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1255   .rodata.Get_Angle_attributes:00000000 Get_Angle_attributes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1252   .rodata.Get_Angle_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1266   .bss.Get_AngleHandle:00000000 Get_AngleHandle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1263   .bss.Get_AngleHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1274   .rodata.defaultTask_attributes:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1285   .bss.defaultTaskHandle:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s:1291   .bss.angle:00000000 $d
+
+UNDEFINED SYMBOLS
+osDelay
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_dmul
+__aeabi_dsub
+__aeabi_d2iz
+__aeabi_dadd
+u8g2_Setup_ssd1306_i2c_128x64_noname_f
+u8x8_InitDisplay
+u8x8_SetPowerSave
+u8g2_ClearDisplay
+u8g2_SetFont
+u8g2_printf
+cos
+sin
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccJ3vreg.s 			page 34
+
+
+u8g2_DrawCircle
+u8g2_DrawLine
+u8g2_SendBuffer
+u8g2_ClearBuffer
+u8g2
+STM32_gpio_and_delay
+STM32_byte_i2c
+u8g2_cb_r2
+u8g2_font_wqy16_t_chinese1
+state
+osThreadNew
+__aeabi_f2d
+mpu_dmp_get_data
+Angle_Get
+uart_printf
+ssd1306_printf
+ssd1306_SetCursor
+HAL_Delay
+Font_11x18
+WS_WriteAll_RGB

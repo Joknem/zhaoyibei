@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
   27:user/drivers/u8g2/u8log_u8g2.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
   28:user/drivers/u8g2/u8log_u8g2.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   29:user/drivers/u8g2/u8log_u8g2.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 2
 
 
   30:user/drivers/u8g2/u8log_u8g2.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
   55              		.loc 1 58 3 view .LVU6
   56 000c 0021     		movs	r1, #0
   57              	.LVL2:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 3
 
 
   58              		.loc 1 58 3 is_stmt 0 view .LVU7
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
  100 0038 EDD8     		bhi	.L3
   66:user/drivers/u8g2/u8log_u8g2.c ****     }
   67:user/drivers/u8g2/u8log_u8g2.c ****     disp_y += u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 4
 
 
  101              		.loc 1 67 5 is_stmt 1 discriminator 2 view .LVU23
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
  146              		.section	.text.u8log_u8g2_cb,"ax",%progbits
  147              		.align	1
  148              		.global	u8log_u8g2_cb
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 5
 
 
  149              		.syntax unified
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
   94:user/drivers/u8g2/u8log_u8g2.c ****     }
   95:user/drivers/u8g2/u8log_u8g2.c ****     while( u8g2_NextPage(u8g2) );
   96:user/drivers/u8g2/u8log_u8g2.c ****   }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 6
 
 
   97:user/drivers/u8g2/u8log_u8g2.c **** }
@@ -350,15 +350,15 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 1
  220              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  221              		.file 6 "user/drivers/u8g2/u8x8.h"
  222              		.file 7 "user/drivers/u8g2/u8g2.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8log_u8g2.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s:21     .text.u8g2_DrawLog:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s:27     .text.u8g2_DrawLog:00000000 u8g2_DrawLog
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s:147    .text.u8log_u8g2_cb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccNNGw07.s:153    .text.u8log_u8g2_cb:00000000 u8log_u8g2_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s:21     .text.u8g2_DrawLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s:27     .text.u8g2_DrawLog:00000000 u8g2_DrawLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s:147    .text.u8log_u8g2_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc7i2kOv.s:153    .text.u8log_u8g2_cb:00000000 u8log_u8g2_cb
 
 UNDEFINED SYMBOLS
 u8g2_SetFontDirection

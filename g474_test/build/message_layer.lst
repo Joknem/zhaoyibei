@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 1
   27:user/drivers/DMP/mllite/message_layer.c **** * @param[in] clear Before setting anything this will clear these messages,
   28:user/drivers/DMP/mllite/message_layer.c **** *                  which is useful for mutually exclusive messages such
   29:user/drivers/DMP/mllite/message_layer.c **** *                  a motion or no motion message.
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s 			page 2
 
 
   30:user/drivers/DMP/mllite/message_layer.c **** * @param[in] level Level of the messages. It starts at 0, and may increase
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 1
   41:user/drivers/DMP/mllite/message_layer.c **** /** Returns Message Flags for Level 0 Messages.
   42:user/drivers/DMP/mllite/message_layer.c **** * Levels are to allow expansion of more messages in the future.
   43:user/drivers/DMP/mllite/message_layer.c **** * @param[in] clear If set, will clear the message. Typically this will be set
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s 			page 3
 
 
   44:user/drivers/DMP/mllite/message_layer.c **** *  for one reader, so that you don't get the same message over and over.
@@ -171,18 +171,18 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 1
  113 0000 00000000 		.space	4
  114              		.text
  115              	.Letext0:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 message_layer.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:21     .text.inv_set_message:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:27     .text.inv_set_message:00000000 inv_set_message
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:61     .text.inv_set_message:00000014 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:112    .bss.mh:00000000 mh
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:66     .text.inv_get_message_level_0:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:72     .text.inv_get_message_level_0:00000000 inv_get_message_level_0
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:104    .text.inv_get_message_level_0:00000010 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc2L7Sp4.s:109    .bss.mh:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:21     .text.inv_set_message:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:27     .text.inv_set_message:00000000 inv_set_message
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:61     .text.inv_set_message:00000014 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:112    .bss.mh:00000000 mh
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:66     .text.inv_get_message_level_0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:72     .text.inv_get_message_level_0:00000000 inv_get_message_level_0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:104    .text.inv_get_message_level_0:00000010 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczC0A75.s:109    .bss.mh:00000000 $d
 
 NO UNDEFINED SYMBOLS

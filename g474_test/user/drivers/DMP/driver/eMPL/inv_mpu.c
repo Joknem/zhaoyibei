@@ -35,20 +35,20 @@
 #include "mpu.h"
 #include "packet.h"
 
-#include "mpu9250.h"
+#include "mpu.h"
 #include "usart.h"
 
 // 重定向C库函数printf到串口，重定向后可使用printf函数
 
 void _sys_exit(int x) { x = x; }
 
-int fputc(int ch, FILE *f) {
-  /*发送一个字节数据到串口*/
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 1000);
-  /*等待发送完毕*/
+// int fputc(int ch, FILE *f) {
+//   /*发送一个字节数据到串口*/
+//   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 1000);
+//   /*等待发送完毕*/
 
-  return (ch);
-}
+//   return (ch);
+// }
 
 /* The following functions must be defined for this platform:
  * i2c_write(unsigned char slave_addr, unsigned char reg_addr,
@@ -67,10 +67,6 @@ int fputc(int ch, FILE *f) {
 // #include "main.h"
 // #include "log.h"
 // #include "board-st_discovery.h"
-//
-// #define i2c_write   Sensors_I2C_WriteRegister
-// #define i2c_read    Sensors_I2C_ReadRegister
-// #define delay_ms    mdelay
 // #define get_ms      get_tick_count
 // #define log_i       MPL_LOGI
 // #define log_e       MPL_LOGE
@@ -608,7 +604,7 @@ const struct gyro_reg_s reg = {.who_am_i = 0x75,
                                .i2c_delay_ctrl = 0x67
 #endif
 };
-const struct hw_s hw = {.addr = 0x68,
+struct hw_s hw = {.addr = 0x68,
                         .max_fifo = 1024,
                         .num_reg = 128,
                         .temp_sens = 321,
@@ -3480,6 +3476,16 @@ u8 mpu_mpl_get_data(float *pitch, float *roll, float *yaw) {
   *pitch = -(data[1] / q16);
   *yaw = -data[2] / q16;
   return 0;
+}
+
+//used for switch to another mpu
+void switch_dev(uint8_t dev){
+  if(dev == 0){
+    hw.addr = 0x68;
+  }
+  else{
+    hw.addr = 0x69;
+  }
 }
 
 /**

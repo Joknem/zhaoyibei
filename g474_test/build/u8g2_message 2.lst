@@ -1,0 +1,835 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_message.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_message.c"
+  20              		.section	.text.u8g2_draw_button_line,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_draw_button_line
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_draw_button_line:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8g2_message.c **** /*
+   2:user/drivers/u8g2/u8g2_message.c **** 
+   3:user/drivers/u8g2/u8g2_message.c ****   u8g2_message.c
+   4:user/drivers/u8g2/u8g2_message.c ****   
+   5:user/drivers/u8g2/u8g2_message.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_message.c **** 
+   7:user/drivers/u8g2/u8g2_message.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_message.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_message.c **** 
+  10:user/drivers/u8g2/u8g2_message.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_message.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_message.c **** 
+  13:user/drivers/u8g2/u8g2_message.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_message.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_message.c ****     
+  16:user/drivers/u8g2/u8g2_message.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_message.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_message.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_message.c **** 
+  20:user/drivers/u8g2/u8g2_message.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_message.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_message.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_message.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_message.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_message.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_message.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_message.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_message.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_message.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 2
+
+
+  30:user/drivers/u8g2/u8g2_message.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8g2_message.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_message.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_message.c ****   
+  34:user/drivers/u8g2/u8g2_message.c **** */
+  35:user/drivers/u8g2/u8g2_message.c **** 
+  36:user/drivers/u8g2/u8g2_message.c **** #include "u8g2.h"
+  37:user/drivers/u8g2/u8g2_message.c **** 
+  38:user/drivers/u8g2/u8g2_message.c **** #define SPACE_BETWEEN_BUTTONS_IN_PIXEL 6
+  39:user/drivers/u8g2/u8g2_message.c **** #define SPACE_BETWEEN_TEXT_AND_BUTTONS_IN_PIXEL 3
+  40:user/drivers/u8g2/u8g2_message.c **** 
+  41:user/drivers/u8g2/u8g2_message.c **** uint8_t u8g2_draw_button_line(u8g2_t *u8g2, u8g2_uint_t y, u8g2_uint_t w, uint8_t cursor, const cha
+  42:user/drivers/u8g2/u8g2_message.c **** {
+  30              		.loc 1 42 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 42 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 85B0     		sub	sp, sp, #20
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 56
+  50 0006 0546     		mov	r5, r0
+  51 0008 8846     		mov	r8, r1
+  52 000a 9246     		mov	r10, r2
+  53 000c 9946     		mov	r9, r3
+  54 000e 0E9E     		ldr	r6, [sp, #56]
+  43:user/drivers/u8g2/u8g2_message.c ****   u8g2_uint_t button_line_width;
+  55              		.loc 1 43 3 is_stmt 1 view .LVU2
+  44:user/drivers/u8g2/u8g2_message.c **** 	
+  45:user/drivers/u8g2/u8g2_message.c ****   uint8_t i;
+  56              		.loc 1 45 3 view .LVU3
+  46:user/drivers/u8g2/u8g2_message.c ****   uint8_t cnt;
+  57              		.loc 1 46 3 view .LVU4
+  47:user/drivers/u8g2/u8g2_message.c ****   uint8_t is_invert;
+  58              		.loc 1 47 3 view .LVU5
+  48:user/drivers/u8g2/u8g2_message.c **** 	
+  49:user/drivers/u8g2/u8g2_message.c ****   u8g2_uint_t d;
+  59              		.loc 1 49 3 view .LVU6
+  50:user/drivers/u8g2/u8g2_message.c ****   u8g2_uint_t x;
+  60              		.loc 1 50 3 view .LVU7
+  51:user/drivers/u8g2/u8g2_message.c **** 	
+  52:user/drivers/u8g2/u8g2_message.c ****   cnt = u8x8_GetStringLineCnt(s);
+  61              		.loc 1 52 3 view .LVU8
+  62              		.loc 1 52 9 is_stmt 0 view .LVU9
+  63 0010 3046     		mov	r0, r6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 3
+
+
+  64              	.LVL1:
+  65              		.loc 1 52 9 view .LVU10
+  66 0012 FFF7FEFF 		bl	u8x8_GetStringLineCnt
+  67              	.LVL2:
+  68              		.loc 1 52 9 view .LVU11
+  69 0016 0746     		mov	r7, r0
+  70              	.LVL3:
+  53:user/drivers/u8g2/u8g2_message.c ****   
+  54:user/drivers/u8g2/u8g2_message.c **** 	
+  55:user/drivers/u8g2/u8g2_message.c ****   /* calculate the width of the button line */
+  56:user/drivers/u8g2/u8g2_message.c ****   button_line_width = 0;
+  71              		.loc 1 56 3 is_stmt 1 view .LVU12
+  57:user/drivers/u8g2/u8g2_message.c ****   for( i = 0; i < cnt; i++ )
+  72              		.loc 1 57 3 view .LVU13
+  73              		.loc 1 57 10 is_stmt 0 view .LVU14
+  74 0018 0024     		movs	r4, #0
+  56:user/drivers/u8g2/u8g2_message.c ****   for( i = 0; i < cnt; i++ )
+  75              		.loc 1 56 21 view .LVU15
+  76 001a A346     		mov	fp, r4
+  77              		.loc 1 57 3 view .LVU16
+  78 001c 0CE0     		b	.L2
+  79              	.LVL4:
+  80              	.L3:
+  58:user/drivers/u8g2/u8g2_message.c ****   {
+  59:user/drivers/u8g2/u8g2_message.c ****     button_line_width += u8g2_GetUTF8Width(u8g2, u8x8_GetStringLineStart(i, s));
+  81              		.loc 1 59 5 is_stmt 1 discriminator 3 view .LVU17
+  82              		.loc 1 59 26 is_stmt 0 discriminator 3 view .LVU18
+  83 001e 3146     		mov	r1, r6
+  84 0020 2046     		mov	r0, r4
+  85 0022 FFF7FEFF 		bl	u8x8_GetStringLineStart
+  86              	.LVL5:
+  87 0026 0146     		mov	r1, r0
+  88 0028 2846     		mov	r0, r5
+  89 002a FFF7FEFF 		bl	u8g2_GetUTF8Width
+  90              	.LVL6:
+  91              		.loc 1 59 23 discriminator 3 view .LVU19
+  92 002e 5844     		add	r0, r0, fp
+  93 0030 1FFA80FB 		uxth	fp, r0
+  94              	.LVL7:
+  57:user/drivers/u8g2/u8g2_message.c ****   {
+  95              		.loc 1 57 25 is_stmt 1 discriminator 3 view .LVU20
+  96 0034 0134     		adds	r4, r4, #1
+  97              	.LVL8:
+  57:user/drivers/u8g2/u8g2_message.c ****   {
+  98              		.loc 1 57 25 is_stmt 0 discriminator 3 view .LVU21
+  99 0036 E4B2     		uxtb	r4, r4
+ 100              	.LVL9:
+ 101              	.L2:
+  57:user/drivers/u8g2/u8g2_message.c ****   {
+ 102              		.loc 1 57 17 is_stmt 1 discriminator 1 view .LVU22
+ 103 0038 BC42     		cmp	r4, r7
+ 104 003a F0D3     		bcc	.L3
+  60:user/drivers/u8g2/u8g2_message.c ****   }
+  61:user/drivers/u8g2/u8g2_message.c ****   button_line_width += (cnt-1)*SPACE_BETWEEN_BUTTONS_IN_PIXEL;	/* add some space between the button
+ 105              		.loc 1 61 3 view .LVU23
+ 106              		.loc 1 61 28 is_stmt 0 view .LVU24
+ 107 003c 7B1E     		subs	r3, r7, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 4
+
+
+ 108              		.loc 1 61 21 view .LVU25
+ 109 003e 03EB4303 		add	r3, r3, r3, lsl #1
+ 110 0042 0BEB430B 		add	fp, fp, r3, lsl #1
+ 111              	.LVL10:
+ 112              		.loc 1 61 21 view .LVU26
+ 113 0046 1FFA8BFB 		uxth	fp, fp
+ 114              	.LVL11:
+  62:user/drivers/u8g2/u8g2_message.c ****   
+  63:user/drivers/u8g2/u8g2_message.c ****   /* calculate the left offset */
+  64:user/drivers/u8g2/u8g2_message.c ****   d = 0;
+ 115              		.loc 1 64 3 is_stmt 1 view .LVU27
+  65:user/drivers/u8g2/u8g2_message.c ****   if ( button_line_width < w )
+ 116              		.loc 1 65 3 view .LVU28
+ 117              		.loc 1 65 6 is_stmt 0 view .LVU29
+ 118 004a D345     		cmp	fp, r10
+ 119 004c 05D2     		bcs	.L8
+  66:user/drivers/u8g2/u8g2_message.c ****   {
+  67:user/drivers/u8g2/u8g2_message.c ****     d = w;
+ 120              		.loc 1 67 5 is_stmt 1 view .LVU30
+ 121              	.LVL12:
+  68:user/drivers/u8g2/u8g2_message.c ****     d -= button_line_width;
+ 122              		.loc 1 68 5 view .LVU31
+ 123              		.loc 1 68 7 is_stmt 0 view .LVU32
+ 124 004e AAEB0B0A 		sub	r10, r10, fp
+ 125              	.LVL13:
+  69:user/drivers/u8g2/u8g2_message.c ****     d /= 2;
+ 126              		.loc 1 69 5 is_stmt 1 view .LVU33
+ 127              		.loc 1 69 7 is_stmt 0 view .LVU34
+ 128 0052 CAF34E0A 		ubfx	r10, r10, #1, #15
+ 129              	.LVL14:
+ 130              	.L4:
+  70:user/drivers/u8g2/u8g2_message.c ****   }
+  71:user/drivers/u8g2/u8g2_message.c ****   
+  72:user/drivers/u8g2/u8g2_message.c ****   /* draw the buttons */
+  73:user/drivers/u8g2/u8g2_message.c ****   x = d;
+  74:user/drivers/u8g2/u8g2_message.c ****   for( i = 0; i < cnt; i++ )
+  75:user/drivers/u8g2/u8g2_message.c ****   {
+  76:user/drivers/u8g2/u8g2_message.c ****     is_invert = 0;
+  77:user/drivers/u8g2/u8g2_message.c ****     if ( i == cursor )
+  78:user/drivers/u8g2/u8g2_message.c ****       is_invert = 1;
+ 131              		.loc 1 78 17 discriminator 1 view .LVU35
+ 132 0056 0024     		movs	r4, #0
+ 133              	.LVL15:
+ 134              		.loc 1 78 17 discriminator 1 view .LVU36
+ 135 0058 25E0     		b	.L5
+ 136              	.LVL16:
+ 137              	.L8:
+  64:user/drivers/u8g2/u8g2_message.c ****   if ( button_line_width < w )
+ 138              		.loc 1 64 5 view .LVU37
+ 139 005a 4FF0000A 		mov	r10, #0
+ 140 005e FAE7     		b	.L4
+ 141              	.LVL17:
+ 142              	.L9:
+ 143              		.loc 1 78 17 view .LVU38
+ 144 0060 4FF0010B 		mov	fp, #1
+ 145              	.L6:
+ 146              	.LVL18:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 5
+
+
+  79:user/drivers/u8g2/u8g2_message.c **** 
+  80:user/drivers/u8g2/u8g2_message.c ****     u8g2_DrawUTF8Line(u8g2, x, y, 0, u8x8_GetStringLineStart(i, s), 1, is_invert);
+ 147              		.loc 1 80 5 is_stmt 1 discriminator 2 view .LVU39
+ 148 0064 3146     		mov	r1, r6
+ 149 0066 2046     		mov	r0, r4
+ 150 0068 FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 151              	.LVL19:
+ 152 006c CDF808B0 		str	fp, [sp, #8]
+ 153 0070 0123     		movs	r3, #1
+ 154 0072 0193     		str	r3, [sp, #4]
+ 155 0074 0090     		str	r0, [sp]
+ 156 0076 0023     		movs	r3, #0
+ 157 0078 4246     		mov	r2, r8
+ 158 007a 5146     		mov	r1, r10
+ 159 007c 2846     		mov	r0, r5
+ 160 007e FFF7FEFF 		bl	u8g2_DrawUTF8Line
+ 161              	.LVL20:
+  81:user/drivers/u8g2/u8g2_message.c ****     x += u8g2_GetUTF8Width(u8g2, u8x8_GetStringLineStart(i, s));
+ 162              		.loc 1 81 5 discriminator 2 view .LVU40
+ 163              		.loc 1 81 10 is_stmt 0 discriminator 2 view .LVU41
+ 164 0082 3146     		mov	r1, r6
+ 165 0084 2046     		mov	r0, r4
+ 166 0086 FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 167              	.LVL21:
+ 168 008a 0146     		mov	r1, r0
+ 169 008c 2846     		mov	r0, r5
+ 170 008e FFF7FEFF 		bl	u8g2_GetUTF8Width
+ 171              	.LVL22:
+ 172              		.loc 1 81 7 discriminator 2 view .LVU42
+ 173 0092 0AEB000C 		add	ip, r10, r0
+ 174 0096 1FFA8CFC 		uxth	ip, ip
+ 175              	.LVL23:
+  82:user/drivers/u8g2/u8g2_message.c ****     x += SPACE_BETWEEN_BUTTONS_IN_PIXEL;
+ 176              		.loc 1 82 5 is_stmt 1 discriminator 2 view .LVU43
+ 177              		.loc 1 82 7 is_stmt 0 discriminator 2 view .LVU44
+ 178 009a 0CF1060C 		add	ip, ip, #6
+ 179              	.LVL24:
+ 180              		.loc 1 82 7 discriminator 2 view .LVU45
+ 181 009e 1FFA8CFA 		uxth	r10, ip
+ 182              	.LVL25:
+  74:user/drivers/u8g2/u8g2_message.c ****   {
+ 183              		.loc 1 74 25 is_stmt 1 discriminator 2 view .LVU46
+ 184 00a2 0134     		adds	r4, r4, #1
+ 185              	.LVL26:
+  74:user/drivers/u8g2/u8g2_message.c ****   {
+ 186              		.loc 1 74 25 is_stmt 0 discriminator 2 view .LVU47
+ 187 00a4 E4B2     		uxtb	r4, r4
+ 188              	.LVL27:
+ 189              	.L5:
+  74:user/drivers/u8g2/u8g2_message.c ****   {
+ 190              		.loc 1 74 17 is_stmt 1 discriminator 1 view .LVU48
+ 191 00a6 BC42     		cmp	r4, r7
+ 192 00a8 04D2     		bcs	.L11
+  76:user/drivers/u8g2/u8g2_message.c ****     if ( i == cursor )
+ 193              		.loc 1 76 5 view .LVU49
+ 194              	.LVL28:
+  77:user/drivers/u8g2/u8g2_message.c ****       is_invert = 1;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 6
+
+
+ 195              		.loc 1 77 5 view .LVU50
+  77:user/drivers/u8g2/u8g2_message.c ****       is_invert = 1;
+ 196              		.loc 1 77 8 is_stmt 0 view .LVU51
+ 197 00aa 4C45     		cmp	r4, r9
+ 198 00ac D8D0     		beq	.L9
+  76:user/drivers/u8g2/u8g2_message.c ****     if ( i == cursor )
+ 199              		.loc 1 76 15 view .LVU52
+ 200 00ae 4FF0000B 		mov	fp, #0
+ 201 00b2 D7E7     		b	.L6
+ 202              	.LVL29:
+ 203              	.L11:
+  83:user/drivers/u8g2/u8g2_message.c ****   }
+  84:user/drivers/u8g2/u8g2_message.c ****   
+  85:user/drivers/u8g2/u8g2_message.c ****   /* return the number of buttons */
+  86:user/drivers/u8g2/u8g2_message.c ****   return cnt;
+ 204              		.loc 1 86 3 is_stmt 1 view .LVU53
+  87:user/drivers/u8g2/u8g2_message.c **** }
+ 205              		.loc 1 87 1 is_stmt 0 view .LVU54
+ 206 00b4 3846     		mov	r0, r7
+ 207 00b6 05B0     		add	sp, sp, #20
+ 208              	.LCFI2:
+ 209              		.cfi_def_cfa_offset 36
+ 210              		@ sp needed
+ 211 00b8 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 212              		.loc 1 87 1 view .LVU55
+ 213              		.cfi_endproc
+ 214              	.LFE0:
+ 216              		.section	.text.u8g2_UserInterfaceMessage,"ax",%progbits
+ 217              		.align	1
+ 218              		.global	u8g2_UserInterfaceMessage
+ 219              		.syntax unified
+ 220              		.thumb
+ 221              		.thumb_func
+ 223              	u8g2_UserInterfaceMessage:
+ 224              	.LVL30:
+ 225              	.LFB1:
+  88:user/drivers/u8g2/u8g2_message.c **** 
+  89:user/drivers/u8g2/u8g2_message.c **** /*
+  90:user/drivers/u8g2/u8g2_message.c ****   title1:	Multiple lines,separated by '\n'
+  91:user/drivers/u8g2/u8g2_message.c ****   title2:	A single line/string which is terminated by '\0' or '\n' . "title2" accepts the return va
+  92:user/drivers/u8g2/u8g2_message.c ****   title3:	Multiple lines,separated by '\n'
+  93:user/drivers/u8g2/u8g2_message.c ****   buttons:	one more more buttons separated by '\n' and terminated with '\0'
+  94:user/drivers/u8g2/u8g2_message.c ****   side effects:
+  95:user/drivers/u8g2/u8g2_message.c ****     u8g2_SetFontDirection(u8g2, 0);
+  96:user/drivers/u8g2/u8g2_message.c ****     u8g2_SetFontPosBaseline(u8g2);
+  97:user/drivers/u8g2/u8g2_message.c **** */
+  98:user/drivers/u8g2/u8g2_message.c **** 
+  99:user/drivers/u8g2/u8g2_message.c **** uint8_t u8g2_UserInterfaceMessage(u8g2_t *u8g2, const char *title1, const char *title2, const char 
+ 100:user/drivers/u8g2/u8g2_message.c **** {
+ 226              		.loc 1 100 1 is_stmt 1 view -0
+ 227              		.cfi_startproc
+ 228              		@ args = 4, pretend = 0, frame = 8
+ 229              		@ frame_needed = 0, uses_anonymous_args = 0
+ 230              		.loc 1 100 1 is_stmt 0 view .LVU57
+ 231 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 232              	.LCFI3:
+ 233              		.cfi_def_cfa_offset 36
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 7
+
+
+ 234              		.cfi_offset 4, -36
+ 235              		.cfi_offset 5, -32
+ 236              		.cfi_offset 6, -28
+ 237              		.cfi_offset 7, -24
+ 238              		.cfi_offset 8, -20
+ 239              		.cfi_offset 9, -16
+ 240              		.cfi_offset 10, -12
+ 241              		.cfi_offset 11, -8
+ 242              		.cfi_offset 14, -4
+ 243 0004 87B0     		sub	sp, sp, #28
+ 244              	.LCFI4:
+ 245              		.cfi_def_cfa_offset 64
+ 246 0006 0546     		mov	r5, r0
+ 247 0008 8A46     		mov	r10, r1
+ 248 000a 9146     		mov	r9, r2
+ 249 000c 9B46     		mov	fp, r3
+ 101:user/drivers/u8g2/u8g2_message.c ****   uint8_t height;
+ 250              		.loc 1 101 3 is_stmt 1 view .LVU58
+ 102:user/drivers/u8g2/u8g2_message.c ****   uint8_t line_height;
+ 251              		.loc 1 102 3 view .LVU59
+ 103:user/drivers/u8g2/u8g2_message.c ****   u8g2_uint_t pixel_height;
+ 252              		.loc 1 103 3 view .LVU60
+ 104:user/drivers/u8g2/u8g2_message.c ****   u8g2_uint_t y, yy;
+ 253              		.loc 1 104 3 view .LVU61
+ 105:user/drivers/u8g2/u8g2_message.c **** 	
+ 106:user/drivers/u8g2/u8g2_message.c ****   uint8_t cursor = 0;
+ 254              		.loc 1 106 3 view .LVU62
+ 255              	.LVL31:
+ 107:user/drivers/u8g2/u8g2_message.c ****   uint8_t button_cnt;
+ 256              		.loc 1 107 3 view .LVU63
+ 108:user/drivers/u8g2/u8g2_message.c ****   uint8_t event;
+ 257              		.loc 1 108 3 view .LVU64
+ 109:user/drivers/u8g2/u8g2_message.c **** 	
+ 110:user/drivers/u8g2/u8g2_message.c ****   /* only horizontal strings are supported, so force this here */
+ 111:user/drivers/u8g2/u8g2_message.c ****   u8g2_SetFontDirection(u8g2, 0);
+ 258              		.loc 1 111 3 view .LVU65
+ 259 000e 0021     		movs	r1, #0
+ 260              	.LVL32:
+ 261              		.loc 1 111 3 is_stmt 0 view .LVU66
+ 262 0010 FFF7FEFF 		bl	u8g2_SetFontDirection
+ 263              	.LVL33:
+ 112:user/drivers/u8g2/u8g2_message.c **** 
+ 113:user/drivers/u8g2/u8g2_message.c ****   /* force baseline position */
+ 114:user/drivers/u8g2/u8g2_message.c ****   u8g2_SetFontPosBaseline(u8g2);
+ 264              		.loc 1 114 3 is_stmt 1 view .LVU67
+ 265 0014 2846     		mov	r0, r5
+ 266 0016 FFF7FEFF 		bl	u8g2_SetFontPosBaseline
+ 267              	.LVL34:
+ 115:user/drivers/u8g2/u8g2_message.c **** 	
+ 116:user/drivers/u8g2/u8g2_message.c **** 	
+ 117:user/drivers/u8g2/u8g2_message.c ****   /* calculate line height */
+ 118:user/drivers/u8g2/u8g2_message.c ****   line_height = u8g2_GetAscent(u8g2);
+ 268              		.loc 1 118 3 view .LVU68
+ 269              		.loc 1 118 17 is_stmt 0 view .LVU69
+ 270 001a 95F98E60 		ldrsb	r6, [r5, #142]
+ 271              		.loc 1 118 15 view .LVU70
+ 272 001e F6B2     		uxtb	r6, r6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 8
+
+
+ 273              	.LVL35:
+ 119:user/drivers/u8g2/u8g2_message.c ****   line_height -= u8g2_GetDescent(u8g2);
+ 274              		.loc 1 119 3 is_stmt 1 view .LVU71
+ 275              		.loc 1 119 18 is_stmt 0 view .LVU72
+ 276 0020 95F88F30 		ldrb	r3, [r5, #143]	@ zero_extendqisi2
+ 277              		.loc 1 119 15 view .LVU73
+ 278 0024 F61A     		subs	r6, r6, r3
+ 279              	.LVL36:
+ 280              		.loc 1 119 15 view .LVU74
+ 281 0026 F6B2     		uxtb	r6, r6
+ 282              	.LVL37:
+ 120:user/drivers/u8g2/u8g2_message.c **** 
+ 121:user/drivers/u8g2/u8g2_message.c ****   /* calculate overall height of the message box in lines*/
+ 122:user/drivers/u8g2/u8g2_message.c ****   height = 1;	/* button line */
+ 283              		.loc 1 122 3 is_stmt 1 view .LVU75
+ 123:user/drivers/u8g2/u8g2_message.c ****   height += u8x8_GetStringLineCnt(title1);
+ 284              		.loc 1 123 3 view .LVU76
+ 285              		.loc 1 123 13 is_stmt 0 view .LVU77
+ 286 0028 5046     		mov	r0, r10
+ 287 002a FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ 288              	.LVL38:
+ 289              		.loc 1 123 10 view .LVU78
+ 290 002e 441C     		adds	r4, r0, #1
+ 291 0030 E4B2     		uxtb	r4, r4
+ 292              	.LVL39:
+ 124:user/drivers/u8g2/u8g2_message.c ****   if ( title2 != NULL )
+ 293              		.loc 1 124 3 is_stmt 1 view .LVU79
+ 294              		.loc 1 124 6 is_stmt 0 view .LVU80
+ 295 0032 B9F1000F 		cmp	r9, #0
+ 296 0036 01D0     		beq	.L13
+ 125:user/drivers/u8g2/u8g2_message.c ****     height++;
+ 297              		.loc 1 125 5 is_stmt 1 view .LVU81
+ 298              		.loc 1 125 11 is_stmt 0 view .LVU82
+ 299 0038 0230     		adds	r0, r0, #2
+ 300 003a C4B2     		uxtb	r4, r0
+ 301              	.LVL40:
+ 302              	.L13:
+ 126:user/drivers/u8g2/u8g2_message.c ****   height += u8x8_GetStringLineCnt(title3);
+ 303              		.loc 1 126 3 is_stmt 1 view .LVU83
+ 304              		.loc 1 126 13 is_stmt 0 view .LVU84
+ 305 003c 5846     		mov	r0, fp
+ 306 003e FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ 307              	.LVL41:
+ 308              		.loc 1 126 10 view .LVU85
+ 309 0042 2318     		adds	r3, r4, r0
+ 310 0044 DBB2     		uxtb	r3, r3
+ 311              	.LVL42:
+ 127:user/drivers/u8g2/u8g2_message.c ****   
+ 128:user/drivers/u8g2/u8g2_message.c ****   /* calculate the height in pixel */
+ 129:user/drivers/u8g2/u8g2_message.c ****   pixel_height = height;
+ 312              		.loc 1 129 3 is_stmt 1 view .LVU86
+ 130:user/drivers/u8g2/u8g2_message.c ****   pixel_height *= line_height;
+ 313              		.loc 1 130 3 view .LVU87
+ 314              		.loc 1 130 16 is_stmt 0 view .LVU88
+ 315 0046 06FB03F3 		mul	r3, r6, r3
+ 316              	.LVL43:
+ 131:user/drivers/u8g2/u8g2_message.c ****   
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 9
+
+
+ 132:user/drivers/u8g2/u8g2_message.c ****   /* ... and add the space between the text and the buttons */
+ 133:user/drivers/u8g2/u8g2_message.c ****   pixel_height +=SPACE_BETWEEN_TEXT_AND_BUTTONS_IN_PIXEL;
+ 317              		.loc 1 133 3 is_stmt 1 view .LVU89
+ 318              		.loc 1 133 16 is_stmt 0 view .LVU90
+ 319 004a 0333     		adds	r3, r3, #3
+ 320              	.LVL44:
+ 321              		.loc 1 133 16 view .LVU91
+ 322 004c 9BB2     		uxth	r3, r3
+ 323              	.LVL45:
+ 134:user/drivers/u8g2/u8g2_message.c ****   
+ 135:user/drivers/u8g2/u8g2_message.c ****   /* calculate offset from top */
+ 136:user/drivers/u8g2/u8g2_message.c ****   y = 0;
+ 324              		.loc 1 136 3 is_stmt 1 view .LVU92
+ 137:user/drivers/u8g2/u8g2_message.c ****   if ( pixel_height < u8g2_GetDisplayHeight(u8g2)   )
+ 325              		.loc 1 137 3 view .LVU93
+ 326              		.loc 1 137 23 is_stmt 0 view .LVU94
+ 327 004e B5F84620 		ldrh	r2, [r5, #70]
+ 328              		.loc 1 137 6 view .LVU95
+ 329 0052 9A42     		cmp	r2, r3
+ 330 0054 03D9     		bls	.L27
+ 138:user/drivers/u8g2/u8g2_message.c ****   {
+ 139:user/drivers/u8g2/u8g2_message.c ****     y = u8g2_GetDisplayHeight(u8g2);
+ 331              		.loc 1 139 5 is_stmt 1 view .LVU96
+ 332              	.LVL46:
+ 140:user/drivers/u8g2/u8g2_message.c ****     y -= pixel_height;
+ 333              		.loc 1 140 5 view .LVU97
+ 334              		.loc 1 140 7 is_stmt 0 view .LVU98
+ 335 0056 D21A     		subs	r2, r2, r3
+ 336              	.LVL47:
+ 141:user/drivers/u8g2/u8g2_message.c ****     y /= 2;
+ 337              		.loc 1 141 5 is_stmt 1 view .LVU99
+ 338              		.loc 1 141 7 is_stmt 0 view .LVU100
+ 339 0058 C2F34E02 		ubfx	r2, r2, #1, #15
+ 340              	.LVL48:
+ 341              		.loc 1 141 7 view .LVU101
+ 342 005c 00E0     		b	.L14
+ 343              	.LVL49:
+ 344              	.L27:
+ 136:user/drivers/u8g2/u8g2_message.c ****   if ( pixel_height < u8g2_GetDisplayHeight(u8g2)   )
+ 345              		.loc 1 136 5 view .LVU102
+ 346 005e 0022     		movs	r2, #0
+ 347              	.LVL50:
+ 348              	.L14:
+ 142:user/drivers/u8g2/u8g2_message.c ****   }
+ 143:user/drivers/u8g2/u8g2_message.c ****   y += u8g2_GetAscent(u8g2);
+ 349              		.loc 1 143 3 is_stmt 1 view .LVU103
+ 350              		.loc 1 143 8 is_stmt 0 view .LVU104
+ 351 0060 95F98E80 		ldrsb	r8, [r5, #142]
+ 352              		.loc 1 143 5 view .LVU105
+ 353 0064 12FA88F8 		uxtah	r8, r2, r8
+ 354 0068 1FFA88F8 		uxth	r8, r8
+ 355              	.LVL51:
+ 106:user/drivers/u8g2/u8g2_message.c ****   uint8_t button_cnt;
+ 356              		.loc 1 106 11 view .LVU106
+ 357 006c 0027     		movs	r7, #0
+ 358 006e 4B46     		mov	r3, r9
+ 359              	.LVL52:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 10
+
+
+ 106:user/drivers/u8g2/u8g2_message.c ****   uint8_t button_cnt;
+ 360              		.loc 1 106 11 view .LVU107
+ 361 0070 B946     		mov	r9, r7
+ 362              	.LVL53:
+ 106:user/drivers/u8g2/u8g2_message.c ****   uint8_t button_cnt;
+ 363              		.loc 1 106 11 view .LVU108
+ 364 0072 1F46     		mov	r7, r3
+ 365              	.LVL54:
+ 366              	.L15:
+ 144:user/drivers/u8g2/u8g2_message.c **** 
+ 145:user/drivers/u8g2/u8g2_message.c ****   
+ 146:user/drivers/u8g2/u8g2_message.c ****   for(;;)
+ 367              		.loc 1 146 3 is_stmt 1 view .LVU109
+ 147:user/drivers/u8g2/u8g2_message.c ****   {
+ 148:user/drivers/u8g2/u8g2_message.c ****       u8g2_FirstPage(u8g2);
+ 368              		.loc 1 148 7 view .LVU110
+ 369 0074 2846     		mov	r0, r5
+ 370 0076 FFF7FEFF 		bl	u8g2_FirstPage
+ 371              	.LVL55:
+ 372 007a 27E0     		b	.L17
+ 373              	.LVL56:
+ 374              	.L32:
+ 149:user/drivers/u8g2/u8g2_message.c ****       do
+ 150:user/drivers/u8g2/u8g2_message.c ****       {
+ 151:user/drivers/u8g2/u8g2_message.c **** 	  yy = y;
+ 152:user/drivers/u8g2/u8g2_message.c **** 	  /* draw message box */
+ 153:user/drivers/u8g2/u8g2_message.c **** 	  
+ 154:user/drivers/u8g2/u8g2_message.c **** 	  yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title1);
+ 155:user/drivers/u8g2/u8g2_message.c **** 	  if ( title2 != NULL )
+ 156:user/drivers/u8g2/u8g2_message.c **** 	  {
+ 157:user/drivers/u8g2/u8g2_message.c **** 	    u8g2_DrawUTF8Line(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), title2, 0, 0);
+ 375              		.loc 1 157 6 view .LVU111
+ 376 007c 0021     		movs	r1, #0
+ 377 007e 0291     		str	r1, [sp, #8]
+ 378 0080 0191     		str	r1, [sp, #4]
+ 379 0082 0097     		str	r7, [sp]
+ 380 0084 B5F84430 		ldrh	r3, [r5, #68]
+ 381 0088 2246     		mov	r2, r4
+ 382 008a 2846     		mov	r0, r5
+ 383 008c FFF7FEFF 		bl	u8g2_DrawUTF8Line
+ 384              	.LVL57:
+ 158:user/drivers/u8g2/u8g2_message.c **** 	    yy+=line_height;
+ 385              		.loc 1 158 6 view .LVU112
+ 386              		.loc 1 158 8 is_stmt 0 view .LVU113
+ 387 0090 3444     		add	r4, r4, r6
+ 388              	.LVL58:
+ 389              		.loc 1 158 8 view .LVU114
+ 390 0092 A4B2     		uxth	r4, r4
+ 391              	.LVL59:
+ 392              	.L16:
+ 159:user/drivers/u8g2/u8g2_message.c **** 	  }
+ 160:user/drivers/u8g2/u8g2_message.c **** 	  yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title3);
+ 393              		.loc 1 160 4 is_stmt 1 view .LVU115
+ 394              		.loc 1 160 10 is_stmt 0 view .LVU116
+ 395 0094 CDF804B0 		str	fp, [sp, #4]
+ 396 0098 0096     		str	r6, [sp]
+ 397 009a B5F84430 		ldrh	r3, [r5, #68]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 11
+
+
+ 398 009e 2246     		mov	r2, r4
+ 399 00a0 0021     		movs	r1, #0
+ 400 00a2 2846     		mov	r0, r5
+ 401 00a4 FFF7FEFF 		bl	u8g2_DrawUTF8Lines
+ 402              	.LVL60:
+ 403              		.loc 1 160 7 view .LVU117
+ 404 00a8 2118     		adds	r1, r4, r0
+ 405 00aa 89B2     		uxth	r1, r1
+ 406              	.LVL61:
+ 161:user/drivers/u8g2/u8g2_message.c **** 	  yy += SPACE_BETWEEN_TEXT_AND_BUTTONS_IN_PIXEL;
+ 407              		.loc 1 161 4 is_stmt 1 view .LVU118
+ 408              		.loc 1 161 7 is_stmt 0 view .LVU119
+ 409 00ac 0331     		adds	r1, r1, #3
+ 410              	.LVL62:
+ 162:user/drivers/u8g2/u8g2_message.c **** 
+ 163:user/drivers/u8g2/u8g2_message.c **** 	  button_cnt = u8g2_draw_button_line(u8g2, yy, u8g2_GetDisplayWidth(u8g2), cursor, buttons);
+ 411              		.loc 1 163 4 is_stmt 1 view .LVU120
+ 412              		.loc 1 163 17 is_stmt 0 view .LVU121
+ 413 00ae 109B     		ldr	r3, [sp, #64]
+ 414 00b0 0093     		str	r3, [sp]
+ 415 00b2 4B46     		mov	r3, r9
+ 416 00b4 B5F84420 		ldrh	r2, [r5, #68]
+ 417 00b8 89B2     		uxth	r1, r1
+ 418              		.loc 1 163 17 view .LVU122
+ 419 00ba 2846     		mov	r0, r5
+ 420 00bc FFF7FEFF 		bl	u8g2_draw_button_line
+ 421              	.LVL63:
+ 422              		.loc 1 163 17 view .LVU123
+ 423 00c0 0446     		mov	r4, r0
+ 424              	.LVL64:
+ 164:user/drivers/u8g2/u8g2_message.c **** 	  
+ 165:user/drivers/u8g2/u8g2_message.c ****       } while( u8g2_NextPage(u8g2) );
+ 425              		.loc 1 165 16 is_stmt 1 view .LVU124
+ 426 00c2 2846     		mov	r0, r5
+ 427 00c4 FFF7FEFF 		bl	u8g2_NextPage
+ 428              	.LVL65:
+ 429 00c8 0590     		str	r0, [sp, #20]
+ 430 00ca 78B1     		cbz	r0, .L18
+ 431              	.LVL66:
+ 432              	.L17:
+ 149:user/drivers/u8g2/u8g2_message.c ****       {
+ 433              		.loc 1 149 7 view .LVU125
+ 151:user/drivers/u8g2/u8g2_message.c **** 	  /* draw message box */
+ 434              		.loc 1 151 4 view .LVU126
+ 154:user/drivers/u8g2/u8g2_message.c **** 	  if ( title2 != NULL )
+ 435              		.loc 1 154 4 view .LVU127
+ 154:user/drivers/u8g2/u8g2_message.c **** 	  if ( title2 != NULL )
+ 436              		.loc 1 154 10 is_stmt 0 view .LVU128
+ 437 00cc CDF804A0 		str	r10, [sp, #4]
+ 438 00d0 0096     		str	r6, [sp]
+ 439 00d2 B5F84430 		ldrh	r3, [r5, #68]
+ 440 00d6 4246     		mov	r2, r8
+ 441 00d8 0021     		movs	r1, #0
+ 442 00da 2846     		mov	r0, r5
+ 443 00dc FFF7FEFF 		bl	u8g2_DrawUTF8Lines
+ 444              	.LVL67:
+ 154:user/drivers/u8g2/u8g2_message.c **** 	  if ( title2 != NULL )
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 12
+
+
+ 445              		.loc 1 154 7 view .LVU129
+ 446 00e0 08EB0004 		add	r4, r8, r0
+ 447 00e4 A4B2     		uxth	r4, r4
+ 448              	.LVL68:
+ 155:user/drivers/u8g2/u8g2_message.c **** 	  {
+ 449              		.loc 1 155 4 is_stmt 1 view .LVU130
+ 155:user/drivers/u8g2/u8g2_message.c **** 	  {
+ 450              		.loc 1 155 7 is_stmt 0 view .LVU131
+ 451 00e6 002F     		cmp	r7, #0
+ 452 00e8 C8D1     		bne	.L32
+ 453 00ea D3E7     		b	.L16
+ 454              	.LVL69:
+ 455              	.L18:
+ 166:user/drivers/u8g2/u8g2_message.c **** 
+ 167:user/drivers/u8g2/u8g2_message.c **** #ifdef U8G2_REF_MAN_PIC
+ 168:user/drivers/u8g2/u8g2_message.c ****       return 0;
+ 169:user/drivers/u8g2/u8g2_message.c **** #endif
+ 170:user/drivers/u8g2/u8g2_message.c **** 	  
+ 171:user/drivers/u8g2/u8g2_message.c ****       for(;;)
+ 456              		.loc 1 171 7 is_stmt 1 view .LVU132
+ 172:user/drivers/u8g2/u8g2_message.c ****       {
+ 173:user/drivers/u8g2/u8g2_message.c **** 	    event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
+ 457              		.loc 1 173 6 view .LVU133
+ 458              		.loc 1 173 14 is_stmt 0 view .LVU134
+ 459 00ec 2846     		mov	r0, r5
+ 460 00ee FFF7FEFF 		bl	u8x8_GetMenuEvent
+ 461              	.LVL70:
+ 174:user/drivers/u8g2/u8g2_message.c **** 	    if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+ 462              		.loc 1 174 6 is_stmt 1 view .LVU135
+ 463              		.loc 1 174 9 is_stmt 0 view .LVU136
+ 464 00f2 5028     		cmp	r0, #80
+ 465 00f4 07D0     		beq	.L33
+ 175:user/drivers/u8g2/u8g2_message.c **** 	      return cursor+1;
+ 176:user/drivers/u8g2/u8g2_message.c **** 	    else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 466              		.loc 1 176 11 is_stmt 1 view .LVU137
+ 467 00f6 5138     		subs	r0, r0, #81
+ 468              	.LVL71:
+ 469              		.loc 1 176 11 is_stmt 0 view .LVU138
+ 470 00f8 0428     		cmp	r0, #4
+ 471 00fa F7D8     		bhi	.L18
+ 472 00fc DFE800F0 		tbb	[pc, r0]
+ 473              	.L22:
+ 474 0100 07       		.byte	(.L21-.L22)/2
+ 475 0101 10       		.byte	(.L23-.L22)/2
+ 476 0102 18       		.byte	(.L30-.L22)/2
+ 477 0103 10       		.byte	(.L23-.L22)/2
+ 478 0104 07       		.byte	(.L21-.L22)/2
+ 479              	.LVL72:
+ 480 0105 00       		.p2align 1
+ 481              	.L33:
+ 175:user/drivers/u8g2/u8g2_message.c **** 	      return cursor+1;
+ 482              		.loc 1 175 21 view .LVU139
+ 483 0106 4F46     		mov	r7, r9
+ 484              	.LVL73:
+ 175:user/drivers/u8g2/u8g2_message.c **** 	      return cursor+1;
+ 485              		.loc 1 175 8 is_stmt 1 view .LVU140
+ 175:user/drivers/u8g2/u8g2_message.c **** 	      return cursor+1;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 13
+
+
+ 486              		.loc 1 175 21 is_stmt 0 view .LVU141
+ 487 0108 7B1C     		adds	r3, r7, #1
+ 488 010a DBB2     		uxtb	r3, r3
+ 489 010c 11E0     		b	.L20
+ 490              	.LVL74:
+ 491              	.L21:
+ 177:user/drivers/u8g2/u8g2_message.c **** 	      return 0;
+ 178:user/drivers/u8g2/u8g2_message.c **** 	    else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
+ 179:user/drivers/u8g2/u8g2_message.c **** 	    {
+ 180:user/drivers/u8g2/u8g2_message.c **** 	      cursor++;
+ 492              		.loc 1 180 8 is_stmt 1 view .LVU142
+ 493              		.loc 1 180 14 is_stmt 0 view .LVU143
+ 494 010e 09F10109 		add	r9, r9, #1
+ 495              	.LVL75:
+ 496              		.loc 1 180 14 view .LVU144
+ 497 0112 5FFA89F9 		uxtb	r9, r9
+ 498              	.LVL76:
+ 181:user/drivers/u8g2/u8g2_message.c **** 	      if ( cursor >= button_cnt )
+ 499              		.loc 1 181 8 is_stmt 1 view .LVU145
+ 500              		.loc 1 181 11 is_stmt 0 view .LVU146
+ 501 0116 4C45     		cmp	r4, r9
+ 502 0118 ACD8     		bhi	.L15
+ 182:user/drivers/u8g2/u8g2_message.c **** 		cursor = 0;
+ 503              		.loc 1 182 10 view .LVU147
+ 504 011a DDF81490 		ldr	r9, [sp, #20]
+ 505              	.LVL77:
+ 506              		.loc 1 182 10 view .LVU148
+ 507 011e A9E7     		b	.L15
+ 508              	.LVL78:
+ 509              	.L23:
+ 183:user/drivers/u8g2/u8g2_message.c **** 	      break;
+ 184:user/drivers/u8g2/u8g2_message.c **** 	    }
+ 185:user/drivers/u8g2/u8g2_message.c **** 	    else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_UP )
+ 186:user/drivers/u8g2/u8g2_message.c **** 	    {
+ 187:user/drivers/u8g2/u8g2_message.c **** 	      if ( cursor == 0 )
+ 510              		.loc 1 187 8 is_stmt 1 view .LVU149
+ 511              		.loc 1 187 11 is_stmt 0 view .LVU150
+ 512 0120 B9F1000F 		cmp	r9, #0
+ 513 0124 00D0     		beq	.L26
+ 514 0126 4C46     		mov	r4, r9
+ 515              	.LVL79:
+ 516              	.L26:
+ 188:user/drivers/u8g2/u8g2_message.c **** 		cursor = button_cnt;
+ 189:user/drivers/u8g2/u8g2_message.c **** 	      cursor--;
+ 517              		.loc 1 189 8 is_stmt 1 view .LVU151
+ 518              		.loc 1 189 14 is_stmt 0 view .LVU152
+ 519 0128 013C     		subs	r4, r4, #1
+ 520              	.LVL80:
+ 521              		.loc 1 189 14 view .LVU153
+ 522 012a 5FFA84F9 		uxtb	r9, r4
+ 523              	.LVL81:
+ 190:user/drivers/u8g2/u8g2_message.c **** 	      break;
+ 524              		.loc 1 190 8 is_stmt 1 view .LVU154
+ 525              		.loc 1 190 8 is_stmt 0 view .LVU155
+ 526 012e A1E7     		b	.L15
+ 527              	.LVL82:
+ 528              	.L30:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 14
+
+
+ 529              		.loc 1 190 8 view .LVU156
+ 530 0130 059B     		ldr	r3, [sp, #20]
+ 531              	.LVL83:
+ 532              	.L20:
+ 191:user/drivers/u8g2/u8g2_message.c **** 	    }    
+ 192:user/drivers/u8g2/u8g2_message.c ****       }
+ 193:user/drivers/u8g2/u8g2_message.c ****   }
+ 194:user/drivers/u8g2/u8g2_message.c ****   /* never reached */
+ 195:user/drivers/u8g2/u8g2_message.c ****   //return 0;
+ 196:user/drivers/u8g2/u8g2_message.c **** }
+ 533              		.loc 1 196 1 view .LVU157
+ 534 0132 1846     		mov	r0, r3
+ 535 0134 07B0     		add	sp, sp, #28
+ 536              	.LCFI5:
+ 537              		.cfi_def_cfa_offset 36
+ 538              		@ sp needed
+ 539 0136 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 540              		.loc 1 196 1 view .LVU158
+ 541              		.cfi_endproc
+ 542              	.LFE1:
+ 544              		.text
+ 545              	.Letext0:
+ 546              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 547              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 548              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 549              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 550              		.file 6 "user/drivers/u8g2/u8x8.h"
+ 551              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_message.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:21     .text.u8g2_draw_button_line:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:27     .text.u8g2_draw_button_line:00000000 u8g2_draw_button_line
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:217    .text.u8g2_UserInterfaceMessage:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:223    .text.u8g2_UserInterfaceMessage:00000000 u8g2_UserInterfaceMessage
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:474    .text.u8g2_UserInterfaceMessage:00000100 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:480    .text.u8g2_UserInterfaceMessage:00000105 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccOlZbcz.s:480    .text.u8g2_UserInterfaceMessage:00000106 $t
+
+UNDEFINED SYMBOLS
+u8x8_GetStringLineCnt
+u8x8_GetStringLineStart
+u8g2_GetUTF8Width
+u8g2_DrawUTF8Line
+u8g2_SetFontDirection
+u8g2_SetFontPosBaseline
+u8g2_FirstPage
+u8g2_DrawUTF8Lines
+u8g2_NextPage
+u8x8_GetMenuEvent

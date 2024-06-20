@@ -1,5 +1,4 @@
 #include "mpu.h"
-#include "i2c.h"
 #include <stdint.h>
 
 uint8_t MPU_readbuf[128];
@@ -28,20 +27,52 @@ void MPU_ReadMulBytes(uint8_t reg, uint8_t length, uint8_t *buf) {
   }
 }
 
+uint8_t MPU_Write_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf) {
+  HAL_I2C_Mem_Write(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, len,
+                    0xfff);
+  return 0;
+}
+
+uint8_t MPU_Read_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf) {
+  HAL_I2C_Mem_Read(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, len,
+                  0xfff);
+  return 0;
+}
+
+uint8_t MPU_Write_Byte(uint8_t addr, uint8_t reg, uint8_t data) {
+  HAL_I2C_Mem_Write(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, &data, 1,
+                    0xfff);
+  return 0;
+}
+
+uint8_t MPU_Read_Byte(uint8_t addr, uint8_t reg) {
+  uint8_t res;
+  HAL_I2C_Mem_Read(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, &res, 1,
+                  0xfff);
+  return res;
+}
+
 float Cal_Angle(){
 }
 
 float Angle_Get() {
-  float roll;
-  float yaw;
-  float pitch;
-  float angle_list[WINDOW_SIZE];
-  float sum = 0;
+  float pitch, roll, yaw;
+  float angle_list1[WINDOW_SIZE];
+  float angle_list2[WINDOW_SIZE];
+  float sum1, sum2;
+  switch_dev(0);
   for(int i = 0; i < WINDOW_SIZE; i++){
     mpu_dmp_get_data(&pitch, &roll, &yaw);
-    angle_list[i] = pitch;
-    sum += angle_list[i];
+    angle_list1[i] = pitch;
+    sum1 += angle_list1[i];
   }
-  float aver_angle = sum / WINDOW_SIZE;
-  return aver_angle;
+  float aver1 = sum1 / WINDOW_SIZE;
+  switch_dev(1);
+  for(int i = 0; i < WINDOW_SIZE; i++){
+    mpu_dmp_get_data(&pitch, &roll, &yaw);
+    angle_list1[i] = pitch;
+    sum2 += angle_list2[i];
+  }
+  float aver2 = sum2 / WINDOW_SIZE;
+  return aver1;
 }

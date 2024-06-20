@@ -1,0 +1,611 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_debounce.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_debounce.c"
+  20              		.section	.text.u8x8_find_first_diff,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8x8_find_first_diff:
+  27              	.LVL0:
+  28              	.LFB1:
+   1:user/drivers/u8g2/u8x8_debounce.c **** /*
+   2:user/drivers/u8g2/u8x8_debounce.c **** 
+   3:user/drivers/u8g2/u8x8_debounce.c ****   u8x8_debounce.c
+   4:user/drivers/u8g2/u8x8_debounce.c ****   
+   5:user/drivers/u8g2/u8x8_debounce.c ****   Key/button simple debounce algorithm (Addon for u8x8)
+   6:user/drivers/u8g2/u8x8_debounce.c ****   
+   7:user/drivers/u8g2/u8x8_debounce.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:user/drivers/u8g2/u8x8_debounce.c **** 
+   9:user/drivers/u8g2/u8x8_debounce.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:user/drivers/u8g2/u8x8_debounce.c ****   All rights reserved.
+  11:user/drivers/u8g2/u8x8_debounce.c **** 
+  12:user/drivers/u8g2/u8x8_debounce.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:user/drivers/u8g2/u8x8_debounce.c ****   are permitted provided that the following conditions are met:
+  14:user/drivers/u8g2/u8x8_debounce.c **** 
+  15:user/drivers/u8g2/u8x8_debounce.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:user/drivers/u8g2/u8x8_debounce.c ****     of conditions and the following disclaimer.
+  17:user/drivers/u8g2/u8x8_debounce.c ****     
+  18:user/drivers/u8g2/u8x8_debounce.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:user/drivers/u8g2/u8x8_debounce.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:user/drivers/u8g2/u8x8_debounce.c ****     materials provided with the distribution.
+  21:user/drivers/u8g2/u8x8_debounce.c **** 
+  22:user/drivers/u8g2/u8x8_debounce.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:user/drivers/u8g2/u8x8_debounce.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:user/drivers/u8g2/u8x8_debounce.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:user/drivers/u8g2/u8x8_debounce.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:user/drivers/u8g2/u8x8_debounce.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:user/drivers/u8g2/u8x8_debounce.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:user/drivers/u8g2/u8x8_debounce.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:user/drivers/u8g2/u8x8_debounce.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  30:user/drivers/u8g2/u8x8_debounce.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 2
+
+
+  31:user/drivers/u8g2/u8x8_debounce.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:user/drivers/u8g2/u8x8_debounce.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:user/drivers/u8g2/u8x8_debounce.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:user/drivers/u8g2/u8x8_debounce.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  35:user/drivers/u8g2/u8x8_debounce.c ****   
+  36:user/drivers/u8g2/u8x8_debounce.c **** */
+  37:user/drivers/u8g2/u8x8_debounce.c **** 
+  38:user/drivers/u8g2/u8x8_debounce.c **** #include "u8x8.h"
+  39:user/drivers/u8g2/u8x8_debounce.c **** 
+  40:user/drivers/u8g2/u8x8_debounce.c **** static uint8_t u8x8_read_pin_state(u8x8_t *u8x8)
+  41:user/drivers/u8g2/u8x8_debounce.c **** {
+  42:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t i;
+  43:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t pin_state;
+  44:user/drivers/u8g2/u8x8_debounce.c ****   
+  45:user/drivers/u8g2/u8x8_debounce.c ****   pin_state = 255;	/* be compatible with the setup of the default pin setup, which is 255 */
+  46:user/drivers/u8g2/u8x8_debounce.c ****   for( i = 0; i < U8X8_PIN_INPUT_CNT; i++ )
+  47:user/drivers/u8g2/u8x8_debounce.c ****   {
+  48:user/drivers/u8g2/u8x8_debounce.c ****     pin_state <<= 1;
+  49:user/drivers/u8g2/u8x8_debounce.c ****     
+  50:user/drivers/u8g2/u8x8_debounce.c ****     /* the callback function should put the return value into this variable */
+  51:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->gpio_result = 1;
+  52:user/drivers/u8g2/u8x8_debounce.c ****     u8x8_gpio_call(u8x8, U8X8_MSG_GPIO(i+U8X8_PIN_OUTPUT_CNT), 0);
+  53:user/drivers/u8g2/u8x8_debounce.c ****     pin_state |= u8x8->gpio_result & 1;
+  54:user/drivers/u8g2/u8x8_debounce.c ****   }
+  55:user/drivers/u8g2/u8x8_debounce.c ****   
+  56:user/drivers/u8g2/u8x8_debounce.c ****   return pin_state;
+  57:user/drivers/u8g2/u8x8_debounce.c **** }
+  58:user/drivers/u8g2/u8x8_debounce.c **** 
+  59:user/drivers/u8g2/u8x8_debounce.c **** /*
+  60:user/drivers/u8g2/u8x8_debounce.c ****   return 0 to U8X8_PIN_INPUT_CNT-1 if there is a difference
+  61:user/drivers/u8g2/u8x8_debounce.c ****   return U8X8_PIN_INPUT_CNT if there is no difference
+  62:user/drivers/u8g2/u8x8_debounce.c **** */
+  63:user/drivers/u8g2/u8x8_debounce.c **** static uint8_t u8x8_find_first_diff(uint8_t a, uint8_t b)
+  64:user/drivers/u8g2/u8x8_debounce.c **** {
+  29              		.loc 1 64 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34              		.loc 1 64 1 is_stmt 0 view .LVU1
+  35 0000 8446     		mov	ip, r0
+  65:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t mask;
+  36              		.loc 1 65 3 is_stmt 1 view .LVU2
+  66:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t i;
+  37              		.loc 1 66 3 view .LVU3
+  67:user/drivers/u8g2/u8x8_debounce.c ****   mask = 1;
+  38              		.loc 1 67 3 view .LVU4
+  39              	.LVL1:
+  68:user/drivers/u8g2/u8x8_debounce.c ****   i = U8X8_PIN_INPUT_CNT;
+  40              		.loc 1 68 3 view .LVU5
+  41              		.loc 1 68 5 is_stmt 0 view .LVU6
+  42 0002 0620     		movs	r0, #6
+  43              	.LVL2:
+  67:user/drivers/u8g2/u8x8_debounce.c ****   mask = 1;
+  44              		.loc 1 67 8 view .LVU7
+  45 0004 0123     		movs	r3, #1
+  46              	.LVL3:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 3
+
+
+  47              	.L3:
+  69:user/drivers/u8g2/u8x8_debounce.c ****   do
+  48              		.loc 1 69 3 is_stmt 1 view .LVU8
+  70:user/drivers/u8g2/u8x8_debounce.c ****   {
+  71:user/drivers/u8g2/u8x8_debounce.c ****     i--;
+  49              		.loc 1 71 5 view .LVU9
+  50              		.loc 1 71 6 is_stmt 0 view .LVU10
+  51 0006 0138     		subs	r0, r0, #1
+  52              	.LVL4:
+  53              		.loc 1 71 6 view .LVU11
+  54 0008 C0B2     		uxtb	r0, r0
+  55              	.LVL5:
+  72:user/drivers/u8g2/u8x8_debounce.c ****     if ( (a & mask) != (b & mask) )
+  56              		.loc 1 72 5 is_stmt 1 view .LVU12
+  57              		.loc 1 72 21 is_stmt 0 view .LVU13
+  58 000a 8CEA0102 		eor	r2, ip, r1
+  59              		.loc 1 72 8 view .LVU14
+  60 000e 1342     		tst	r3, r2
+  61 0010 04D1     		bne	.L2
+  73:user/drivers/u8g2/u8x8_debounce.c ****       return i;
+  74:user/drivers/u8g2/u8x8_debounce.c ****     mask <<= 1;
+  62              		.loc 1 74 5 is_stmt 1 view .LVU15
+  63              		.loc 1 74 10 is_stmt 0 view .LVU16
+  64 0012 5B00     		lsls	r3, r3, #1
+  65              	.LVL6:
+  66              		.loc 1 74 10 view .LVU17
+  67 0014 DBB2     		uxtb	r3, r3
+  68              	.LVL7:
+  75:user/drivers/u8g2/u8x8_debounce.c ****   } while( i > 0 );
+  69              		.loc 1 75 14 is_stmt 1 view .LVU18
+  70 0016 0028     		cmp	r0, #0
+  71 0018 F5D1     		bne	.L3
+  76:user/drivers/u8g2/u8x8_debounce.c ****   return U8X8_PIN_INPUT_CNT;
+  72              		.loc 1 76 10 is_stmt 0 view .LVU19
+  73 001a 0620     		movs	r0, #6
+  74              	.LVL8:
+  75              	.L2:
+  77:user/drivers/u8g2/u8x8_debounce.c **** }
+  76              		.loc 1 77 1 view .LVU20
+  77 001c 7047     		bx	lr
+  78              		.cfi_endproc
+  79              	.LFE1:
+  81              		.section	.text.u8x8_read_pin_state,"ax",%progbits
+  82              		.align	1
+  83              		.syntax unified
+  84              		.thumb
+  85              		.thumb_func
+  87              	u8x8_read_pin_state:
+  88              	.LVL9:
+  89              	.LFB0:
+  41:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t i;
+  90              		.loc 1 41 1 is_stmt 1 view -0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 0
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  41:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t i;
+  94              		.loc 1 41 1 is_stmt 0 view .LVU22
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 4
+
+
+  95 0000 70B5     		push	{r4, r5, r6, lr}
+  96              	.LCFI0:
+  97              		.cfi_def_cfa_offset 16
+  98              		.cfi_offset 4, -16
+  99              		.cfi_offset 5, -12
+ 100              		.cfi_offset 6, -8
+ 101              		.cfi_offset 14, -4
+ 102 0002 0646     		mov	r6, r0
+  42:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t pin_state;
+ 103              		.loc 1 42 3 is_stmt 1 view .LVU23
+  43:user/drivers/u8g2/u8x8_debounce.c ****   
+ 104              		.loc 1 43 3 view .LVU24
+  45:user/drivers/u8g2/u8x8_debounce.c ****   for( i = 0; i < U8X8_PIN_INPUT_CNT; i++ )
+ 105              		.loc 1 45 3 view .LVU25
+ 106              	.LVL10:
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 107              		.loc 1 46 3 view .LVU26
+  45:user/drivers/u8g2/u8x8_debounce.c ****   for( i = 0; i < U8X8_PIN_INPUT_CNT; i++ )
+ 108              		.loc 1 45 13 is_stmt 0 view .LVU27
+ 109 0004 FF20     		movs	r0, #255
+ 110              	.LVL11:
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 111              		.loc 1 46 10 view .LVU28
+ 112 0006 0024     		movs	r4, #0
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 113              		.loc 1 46 3 view .LVU29
+ 114 0008 13E0     		b	.L5
+ 115              	.LVL12:
+ 116              	.L6:
+  48:user/drivers/u8g2/u8x8_debounce.c ****     
+ 117              		.loc 1 48 5 is_stmt 1 discriminator 3 view .LVU30
+  48:user/drivers/u8g2/u8x8_debounce.c ****     
+ 118              		.loc 1 48 15 is_stmt 0 discriminator 3 view .LVU31
+ 119 000a 4000     		lsls	r0, r0, #1
+ 120              	.LVL13:
+  48:user/drivers/u8g2/u8x8_debounce.c ****     
+ 121              		.loc 1 48 15 discriminator 3 view .LVU32
+ 122 000c C5B2     		uxtb	r5, r0
+ 123              	.LVL14:
+  51:user/drivers/u8g2/u8x8_debounce.c ****     u8x8_gpio_call(u8x8, U8X8_MSG_GPIO(i+U8X8_PIN_OUTPUT_CNT), 0);
+ 124              		.loc 1 51 5 is_stmt 1 discriminator 3 view .LVU33
+  51:user/drivers/u8g2/u8x8_debounce.c ****     u8x8_gpio_call(u8x8, U8X8_MSG_GPIO(i+U8X8_PIN_OUTPUT_CNT), 0);
+ 125              		.loc 1 51 23 is_stmt 0 discriminator 3 view .LVU34
+ 126 000e 0123     		movs	r3, #1
+ 127 0010 86F82730 		strb	r3, [r6, #39]
+  52:user/drivers/u8g2/u8x8_debounce.c ****     pin_state |= u8x8->gpio_result & 1;
+ 128              		.loc 1 52 5 is_stmt 1 discriminator 3 view .LVU35
+ 129 0014 04F15001 		add	r1, r4, #80
+ 130 0018 0022     		movs	r2, #0
+ 131 001a C9B2     		uxtb	r1, r1
+ 132 001c 3046     		mov	r0, r6
+ 133 001e FFF7FEFF 		bl	u8x8_gpio_call
+ 134              	.LVL15:
+  53:user/drivers/u8g2/u8x8_debounce.c ****   }
+ 135              		.loc 1 53 5 discriminator 3 view .LVU36
+  53:user/drivers/u8g2/u8x8_debounce.c ****   }
+ 136              		.loc 1 53 22 is_stmt 0 discriminator 3 view .LVU37
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 5
+
+
+ 137 0022 96F82730 		ldrb	r3, [r6, #39]	@ zero_extendqisi2
+ 138 0026 03F00103 		and	r3, r3, #1
+ 139 002a 45EA0300 		orr	r0, r5, r3
+ 140              	.LVL16:
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 141              		.loc 1 46 40 is_stmt 1 discriminator 3 view .LVU38
+ 142 002e 0134     		adds	r4, r4, #1
+ 143              	.LVL17:
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 144              		.loc 1 46 40 is_stmt 0 discriminator 3 view .LVU39
+ 145 0030 E4B2     		uxtb	r4, r4
+ 146              	.LVL18:
+ 147              	.L5:
+  46:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 148              		.loc 1 46 17 is_stmt 1 discriminator 1 view .LVU40
+ 149 0032 052C     		cmp	r4, #5
+ 150 0034 E9D9     		bls	.L6
+  56:user/drivers/u8g2/u8x8_debounce.c **** }
+ 151              		.loc 1 56 3 view .LVU41
+  57:user/drivers/u8g2/u8x8_debounce.c **** 
+ 152              		.loc 1 57 1 is_stmt 0 view .LVU42
+ 153 0036 70BD     		pop	{r4, r5, r6, pc}
+  57:user/drivers/u8g2/u8x8_debounce.c **** 
+ 154              		.loc 1 57 1 view .LVU43
+ 155              		.cfi_endproc
+ 156              	.LFE0:
+ 158              		.section	.text.u8x8_GetMenuEvent,"ax",%progbits
+ 159              		.align	1
+ 160              		.weak	u8x8_GetMenuEvent
+ 161              		.syntax unified
+ 162              		.thumb
+ 163              		.thumb_func
+ 165              	u8x8_GetMenuEvent:
+ 166              	.LVL19:
+ 167              	.LFB2:
+  78:user/drivers/u8g2/u8x8_debounce.c **** 
+  79:user/drivers/u8g2/u8x8_debounce.c **** /*
+  80:user/drivers/u8g2/u8x8_debounce.c ****   State A:
+  81:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state == current_state 
+  82:user/drivers/u8g2/u8x8_debounce.c ****       --> State A
+  83:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state != current_state 
+  84:user/drivers/u8g2/u8x8_debounce.c ****       --> u8x8->debounce_last_pin_state = current_state 
+  85:user/drivers/u8g2/u8x8_debounce.c ****       --> State B + cnt
+  86:user/drivers/u8g2/u8x8_debounce.c **** 
+  87:user/drivers/u8g2/u8x8_debounce.c ****   State B + cnt
+  88:user/drivers/u8g2/u8x8_debounce.c ****     --> state--
+  89:user/drivers/u8g2/u8x8_debounce.c **** 
+  90:user/drivers/u8g2/u8x8_debounce.c ****   State B
+  91:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state == current_state 
+  92:user/drivers/u8g2/u8x8_debounce.c ****       --> keypress detected
+  93:user/drivers/u8g2/u8x8_debounce.c ****       --> State C
+  94:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state != current_state 
+  95:user/drivers/u8g2/u8x8_debounce.c ****       --> State A
+  96:user/drivers/u8g2/u8x8_debounce.c **** 
+  97:user/drivers/u8g2/u8x8_debounce.c ****   State C
+  98:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state == current_state 
+  99:user/drivers/u8g2/u8x8_debounce.c ****       --> State C
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 6
+
+
+ 100:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state != current_state 
+ 101:user/drivers/u8g2/u8x8_debounce.c ****       --> State A
+ 102:user/drivers/u8g2/u8x8_debounce.c **** 
+ 103:user/drivers/u8g2/u8x8_debounce.c **** */
+ 104:user/drivers/u8g2/u8x8_debounce.c **** 
+ 105:user/drivers/u8g2/u8x8_debounce.c **** #ifdef __unix__xxxxxx_THIS_IS_DISABLED
+ 106:user/drivers/u8g2/u8x8_debounce.c **** 
+ 107:user/drivers/u8g2/u8x8_debounce.c **** #include <stdio.h>
+ 108:user/drivers/u8g2/u8x8_debounce.c **** #include <stdlib.h>
+ 109:user/drivers/u8g2/u8x8_debounce.c **** uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
+ 110:user/drivers/u8g2/u8x8_debounce.c **** {
+ 111:user/drivers/u8g2/u8x8_debounce.c ****     int c;
+ 112:user/drivers/u8g2/u8x8_debounce.c ****     c = getc(stdin);
+ 113:user/drivers/u8g2/u8x8_debounce.c ****     switch(c)
+ 114:user/drivers/u8g2/u8x8_debounce.c ****     {
+ 115:user/drivers/u8g2/u8x8_debounce.c ****         case 'n':
+ 116:user/drivers/u8g2/u8x8_debounce.c ****             return  U8X8_MSG_GPIO_MENU_NEXT;
+ 117:user/drivers/u8g2/u8x8_debounce.c ****         case 'p':
+ 118:user/drivers/u8g2/u8x8_debounce.c ****             return  U8X8_MSG_GPIO_MENU_PREV;
+ 119:user/drivers/u8g2/u8x8_debounce.c ****         case 's':
+ 120:user/drivers/u8g2/u8x8_debounce.c ****             return  U8X8_MSG_GPIO_MENU_SELECT;
+ 121:user/drivers/u8g2/u8x8_debounce.c ****         case 'h':
+ 122:user/drivers/u8g2/u8x8_debounce.c ****             return  U8X8_MSG_GPIO_MENU_HOME;
+ 123:user/drivers/u8g2/u8x8_debounce.c ****         case 'x':
+ 124:user/drivers/u8g2/u8x8_debounce.c ****             exit(0);
+ 125:user/drivers/u8g2/u8x8_debounce.c ****         default:
+ 126:user/drivers/u8g2/u8x8_debounce.c ****             puts("press n, p, s, h or x");
+ 127:user/drivers/u8g2/u8x8_debounce.c ****             break;
+ 128:user/drivers/u8g2/u8x8_debounce.c ****     }
+ 129:user/drivers/u8g2/u8x8_debounce.c ****     return 0;
+ 130:user/drivers/u8g2/u8x8_debounce.c **** }
+ 131:user/drivers/u8g2/u8x8_debounce.c **** 
+ 132:user/drivers/u8g2/u8x8_debounce.c **** 
+ 133:user/drivers/u8g2/u8x8_debounce.c **** #else  /* __unix__ */
+ 134:user/drivers/u8g2/u8x8_debounce.c **** 
+ 135:user/drivers/u8g2/u8x8_debounce.c **** 
+ 136:user/drivers/u8g2/u8x8_debounce.c **** #define U8X8_DEBOUNCE_WAIT 2
+ 137:user/drivers/u8g2/u8x8_debounce.c **** /* do debounce and return a GPIO msg which indicates the event */
+ 138:user/drivers/u8g2/u8x8_debounce.c **** /* returns 0, if there is no event */
+ 139:user/drivers/u8g2/u8x8_debounce.c **** #if defined(__GNUC__) && !defined(_WIN32)
+ 140:user/drivers/u8g2/u8x8_debounce.c **** # pragma weak  u8x8_GetMenuEvent
+ 141:user/drivers/u8g2/u8x8_debounce.c **** #endif
+ 142:user/drivers/u8g2/u8x8_debounce.c **** uint8_t u8x8_GetMenuEvent(u8x8_t *u8x8)
+ 143:user/drivers/u8g2/u8x8_debounce.c **** {
+ 168              		.loc 1 143 1 is_stmt 1 view -0
+ 169              		.cfi_startproc
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172              		.loc 1 143 1 is_stmt 0 view .LVU45
+ 173 0000 10B5     		push	{r4, lr}
+ 174              	.LCFI1:
+ 175              		.cfi_def_cfa_offset 8
+ 176              		.cfi_offset 4, -8
+ 177              		.cfi_offset 14, -4
+ 178 0002 0446     		mov	r4, r0
+ 144:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t pin_state;
+ 179              		.loc 1 144 3 is_stmt 1 view .LVU46
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 7
+
+
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t result_msg = 0;	/* invalid message, no event */
+ 180              		.loc 1 145 3 view .LVU47
+ 181              	.LVL20:
+ 146:user/drivers/u8g2/u8x8_debounce.c ****   
+ 147:user/drivers/u8g2/u8x8_debounce.c ****   pin_state = u8x8_read_pin_state(u8x8);
+ 182              		.loc 1 147 3 view .LVU48
+ 183              		.loc 1 147 15 is_stmt 0 view .LVU49
+ 184 0004 FFF7FEFF 		bl	u8x8_read_pin_state
+ 185              	.LVL21:
+ 186              		.loc 1 147 15 view .LVU50
+ 187 0008 0346     		mov	r3, r0
+ 188              	.LVL22:
+ 148:user/drivers/u8g2/u8x8_debounce.c ****   
+ 149:user/drivers/u8g2/u8x8_debounce.c ****   /* States A, B, C & D are encoded in the upper 4 bit*/
+ 150:user/drivers/u8g2/u8x8_debounce.c ****   switch(u8x8->debounce_state)
+ 189              		.loc 1 150 3 is_stmt 1 view .LVU51
+ 190              		.loc 1 150 14 is_stmt 0 view .LVU52
+ 191 000a 94F82A00 		ldrb	r0, [r4, #42]	@ zero_extendqisi2
+ 192              		.loc 1 150 3 view .LVU53
+ 193 000e 2028     		cmp	r0, #32
+ 194 0010 23D0     		beq	.L9
+ 195 0012 0DD8     		bhi	.L10
+ 196 0014 A0B1     		cbz	r0, .L11
+ 197 0016 1028     		cmp	r0, #16
+ 198 0018 36D1     		bne	.L13
+ 151:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 152:user/drivers/u8g2/u8x8_debounce.c ****     case 0x00:	/* State A, default state */
+ 153:user/drivers/u8g2/u8x8_debounce.c ****       if ( u8x8->debounce_default_pin_state != pin_state )
+ 154:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 155:user/drivers/u8g2/u8x8_debounce.c **** 	//u8x8->debounce_last_pin_state = pin_state;
+ 156:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x010 + U8X8_DEBOUNCE_WAIT;
+ 157:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 158:user/drivers/u8g2/u8x8_debounce.c ****       break;
+ 159:user/drivers/u8g2/u8x8_debounce.c ****     case 0x10:	/* State B */
+ 160:user/drivers/u8g2/u8x8_debounce.c ****       //if ( u8x8->debounce_last_pin_state != pin_state )
+ 161:user/drivers/u8g2/u8x8_debounce.c ****       if ( u8x8->debounce_default_pin_state == pin_state )
+ 199              		.loc 1 161 7 is_stmt 1 view .LVU54
+ 200              		.loc 1 161 16 is_stmt 0 view .LVU55
+ 201 001a 94F82820 		ldrb	r2, [r4, #40]	@ zero_extendqisi2
+ 202              		.loc 1 161 10 view .LVU56
+ 203 001e 9A42     		cmp	r2, r3
+ 204 0020 16D0     		beq	.L20
+ 162:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 163:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x00;	/* back to state A */
+ 164:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 165:user/drivers/u8g2/u8x8_debounce.c ****       else
+ 166:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 167:user/drivers/u8g2/u8x8_debounce.c **** 	/* keypress detected */
+ 168:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_last_pin_state = pin_state;
+ 205              		.loc 1 168 2 is_stmt 1 view .LVU57
+ 206              		.loc 1 168 32 is_stmt 0 view .LVU58
+ 207 0022 84F82930 		strb	r3, [r4, #41]
+ 169:user/drivers/u8g2/u8x8_debounce.c **** 	//result_msg = U8X8_MSG_GPIO_MENU_NEXT;
+ 170:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x020 + U8X8_DEBOUNCE_WAIT;	/* got to state C */	
+ 208              		.loc 1 170 2 is_stmt 1 view .LVU59
+ 209              		.loc 1 170 23 is_stmt 0 view .LVU60
+ 210 0026 2223     		movs	r3, #34
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 8
+
+
+ 211              	.LVL23:
+ 212              		.loc 1 170 23 view .LVU61
+ 213 0028 84F82A30 		strb	r3, [r4, #42]
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   
+ 214              		.loc 1 145 11 view .LVU62
+ 215 002c 0020     		movs	r0, #0
+ 216 002e 2FE0     		b	.L15
+ 217              	.LVL24:
+ 218              	.L10:
+ 150:user/drivers/u8g2/u8x8_debounce.c ****   {
+ 219              		.loc 1 150 3 view .LVU63
+ 220 0030 3028     		cmp	r0, #48
+ 221 0032 29D1     		bne	.L13
+ 171:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 172:user/drivers/u8g2/u8x8_debounce.c ****       break;
+ 173:user/drivers/u8g2/u8x8_debounce.c ****       
+ 174:user/drivers/u8g2/u8x8_debounce.c ****     case 0x20:	/* State C */
+ 175:user/drivers/u8g2/u8x8_debounce.c ****       if ( u8x8->debounce_last_pin_state != pin_state )
+ 176:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 177:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x00;	/* back to state A */
+ 178:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 179:user/drivers/u8g2/u8x8_debounce.c ****       else
+ 180:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 181:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x030;	/* got to state D */	
+ 182:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 183:user/drivers/u8g2/u8x8_debounce.c ****       break;
+ 184:user/drivers/u8g2/u8x8_debounce.c ****       
+ 185:user/drivers/u8g2/u8x8_debounce.c ****     case 0x30:	/* State D */
+ 186:user/drivers/u8g2/u8x8_debounce.c ****       /* wait until key release */
+ 187:user/drivers/u8g2/u8x8_debounce.c ****       if ( u8x8->debounce_default_pin_state == pin_state )
+ 222              		.loc 1 187 7 is_stmt 1 view .LVU64
+ 223              		.loc 1 187 16 is_stmt 0 view .LVU65
+ 224 0034 94F82800 		ldrb	r0, [r4, #40]	@ zero_extendqisi2
+ 225              		.loc 1 187 10 view .LVU66
+ 226 0038 9842     		cmp	r0, r3
+ 227 003a 1BD0     		beq	.L21
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   
+ 228              		.loc 1 145 11 view .LVU67
+ 229 003c 0020     		movs	r0, #0
+ 230 003e 27E0     		b	.L15
+ 231              	.L11:
+ 153:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 232              		.loc 1 153 7 is_stmt 1 view .LVU68
+ 153:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 233              		.loc 1 153 16 is_stmt 0 view .LVU69
+ 234 0040 94F82820 		ldrb	r2, [r4, #40]	@ zero_extendqisi2
+ 153:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 235              		.loc 1 153 10 view .LVU70
+ 236 0044 9A42     		cmp	r2, r3
+ 237 0046 23D0     		beq	.L15
+ 156:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 238              		.loc 1 156 2 is_stmt 1 view .LVU71
+ 156:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 239              		.loc 1 156 23 is_stmt 0 view .LVU72
+ 240 0048 1223     		movs	r3, #18
+ 241              	.LVL25:
+ 156:user/drivers/u8g2/u8x8_debounce.c ****       }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 9
+
+
+ 242              		.loc 1 156 23 view .LVU73
+ 243 004a 84F82A30 		strb	r3, [r4, #42]
+ 244 004e 1FE0     		b	.L15
+ 245              	.LVL26:
+ 246              	.L20:
+ 163:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 247              		.loc 1 163 2 is_stmt 1 view .LVU74
+ 163:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 248              		.loc 1 163 23 is_stmt 0 view .LVU75
+ 249 0050 0023     		movs	r3, #0
+ 250              	.LVL27:
+ 163:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 251              		.loc 1 163 23 view .LVU76
+ 252 0052 84F82A30 		strb	r3, [r4, #42]
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   
+ 253              		.loc 1 145 11 view .LVU77
+ 254 0056 1846     		mov	r0, r3
+ 255 0058 1AE0     		b	.L15
+ 256              	.LVL28:
+ 257              	.L9:
+ 175:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 258              		.loc 1 175 7 is_stmt 1 view .LVU78
+ 175:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 259              		.loc 1 175 16 is_stmt 0 view .LVU79
+ 260 005a 94F82920 		ldrb	r2, [r4, #41]	@ zero_extendqisi2
+ 175:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 261              		.loc 1 175 10 view .LVU80
+ 262 005e 9A42     		cmp	r2, r3
+ 263 0060 03D0     		beq	.L17
+ 177:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 264              		.loc 1 177 2 is_stmt 1 view .LVU81
+ 177:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 265              		.loc 1 177 23 is_stmt 0 view .LVU82
+ 266 0062 0020     		movs	r0, #0
+ 267 0064 84F82A00 		strb	r0, [r4, #42]
+ 268 0068 12E0     		b	.L15
+ 269              	.L17:
+ 181:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 270              		.loc 1 181 2 is_stmt 1 view .LVU83
+ 181:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 271              		.loc 1 181 23 is_stmt 0 view .LVU84
+ 272 006a 3023     		movs	r3, #48
+ 273              	.LVL29:
+ 181:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 274              		.loc 1 181 23 view .LVU85
+ 275 006c 84F82A30 		strb	r3, [r4, #42]
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   
+ 276              		.loc 1 145 11 view .LVU86
+ 277 0070 0020     		movs	r0, #0
+ 278 0072 0DE0     		b	.L15
+ 279              	.LVL30:
+ 280              	.L21:
+ 188:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 189:user/drivers/u8g2/u8x8_debounce.c **** 	u8x8->debounce_state = 0x00;	/* back to state A */
+ 281              		.loc 1 189 2 is_stmt 1 view .LVU87
+ 282              		.loc 1 189 23 is_stmt 0 view .LVU88
+ 283 0074 0023     		movs	r3, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 10
+
+
+ 284              	.LVL31:
+ 285              		.loc 1 189 23 view .LVU89
+ 286 0076 84F82A30 		strb	r3, [r4, #42]
+ 190:user/drivers/u8g2/u8x8_debounce.c **** 	result_msg = U8X8_MSG_GPIO(u8x8_find_first_diff(u8x8->debounce_default_pin_state, u8x8->debounce_l
+ 287              		.loc 1 190 2 is_stmt 1 view .LVU90
+ 288              		.loc 1 190 15 is_stmt 0 view .LVU91
+ 289 007a 94F82910 		ldrb	r1, [r4, #41]	@ zero_extendqisi2
+ 290 007e FFF7FEFF 		bl	u8x8_find_first_diff
+ 291              	.LVL32:
+ 292              		.loc 1 190 13 view .LVU92
+ 293 0082 5030     		adds	r0, r0, #80
+ 294 0084 C0B2     		uxtb	r0, r0
+ 295              	.LVL33:
+ 296              		.loc 1 190 13 view .LVU93
+ 297 0086 03E0     		b	.L15
+ 298              	.LVL34:
+ 299              	.L13:
+ 191:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 192:user/drivers/u8g2/u8x8_debounce.c ****       else
+ 193:user/drivers/u8g2/u8x8_debounce.c ****       {
+ 194:user/drivers/u8g2/u8x8_debounce.c **** 	//result_msg = U8X8_MSG_GPIO_MENU_NEXT;
+ 195:user/drivers/u8g2/u8x8_debounce.c **** 	// maybe implement autorepeat here 
+ 196:user/drivers/u8g2/u8x8_debounce.c ****       }
+ 197:user/drivers/u8g2/u8x8_debounce.c ****       break;
+ 198:user/drivers/u8g2/u8x8_debounce.c ****     default:
+ 199:user/drivers/u8g2/u8x8_debounce.c ****       u8x8->debounce_state--;	/* count down, until there is a valid state */
+ 300              		.loc 1 199 7 is_stmt 1 view .LVU94
+ 301              		.loc 1 199 27 is_stmt 0 view .LVU95
+ 302 0088 431E     		subs	r3, r0, #1
+ 303              	.LVL35:
+ 304              		.loc 1 199 27 view .LVU96
+ 305 008a 84F82A30 		strb	r3, [r4, #42]
+ 200:user/drivers/u8g2/u8x8_debounce.c ****       break;
+ 306              		.loc 1 200 7 is_stmt 1 view .LVU97
+ 145:user/drivers/u8g2/u8x8_debounce.c ****   
+ 307              		.loc 1 145 11 is_stmt 0 view .LVU98
+ 308 008e 0020     		movs	r0, #0
+ 309              	.LVL36:
+ 310              	.L15:
+ 201:user/drivers/u8g2/u8x8_debounce.c ****   }
+ 202:user/drivers/u8g2/u8x8_debounce.c ****   return result_msg;
+ 311              		.loc 1 202 3 is_stmt 1 view .LVU99
+ 203:user/drivers/u8g2/u8x8_debounce.c **** }
+ 312              		.loc 1 203 1 is_stmt 0 view .LVU100
+ 313 0090 10BD     		pop	{r4, pc}
+ 314              		.loc 1 203 1 view .LVU101
+ 315              		.cfi_endproc
+ 316              	.LFE2:
+ 318              		.text
+ 319              	.Letext0:
+ 320              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 321              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 322              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 323              		.file 5 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_debounce.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:21     .text.u8x8_find_first_diff:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:26     .text.u8x8_find_first_diff:00000000 u8x8_find_first_diff
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:82     .text.u8x8_read_pin_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:87     .text.u8x8_read_pin_state:00000000 u8x8_read_pin_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:159    .text.u8x8_GetMenuEvent:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccwr9A12.s:165    .text.u8x8_GetMenuEvent:00000000 u8x8_GetMenuEvent
+
+UNDEFINED SYMBOLS
+u8x8_gpio_call

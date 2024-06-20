@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
   28:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
   29:Core/Src/gpio.c **** /* Configure GPIO                                                             */
   30:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 2
 
 
   31:Core/Src/gpio.c **** /* USER CODE BEGIN 1 */
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
   65 0022 019A     		ldr	r2, [sp, #4]
   66              	.LBE2:
   67              		.loc 1 48 3 view .LVU8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 3
 
 
   49:Core/Src/gpio.c ****   __HAL_RCC_GPIOF_CLK_ENABLE();
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
  116 005e 4FF40051 		mov	r1, #8192
  117 0062 3046     		mov	r0, r6
  118 0064 FFF7FEFF 		bl	HAL_GPIO_WritePin
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 4
 
 
  119              	.LVL0:
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
  157 0096 05A9     		add	r1, sp, #20
  158 0098 3046     		mov	r0, r6
  159 009a FFF7FEFF 		bl	HAL_GPIO_Init
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 5
 
 
  160              	.LVL3:
@@ -293,12 +293,12 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
  195              	.LVL5:
   85:Core/Src/gpio.c **** 
   86:Core/Src/gpio.c ****   /* EXTI interrupt init*/
-  87:Core/Src/gpio.c ****   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  87:Core/Src/gpio.c ****   HAL_NVIC_SetPriority(EXTI1_IRQn, 5, 0);
  196              		.loc 1 87 3 view .LVU63
  197 00c4 2246     		mov	r2, r4
- 198 00c6 2146     		mov	r1, r4
+ 198 00c6 0521     		movs	r1, #5
  199 00c8 0720     		movs	r0, #7
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 6
 
 
  200 00ca FFF7FEFF 		bl	HAL_NVIC_SetPriority
@@ -330,14 +330,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 1
  224              		.file 4 "/usr/local/include/_types/_uint32_t.h"
  225              		.file 5 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_gpio.h"
  226              		.file 6 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_cortex.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 gpio.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:21     .text.MX_GPIO_Init:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccSEM0Hb.s:215    .text.MX_GPIO_Init:000000d8 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s:21     .text.MX_GPIO_Init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccz7LV4d.s:215    .text.MX_GPIO_Init:000000d8 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin

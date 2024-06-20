@@ -1,0 +1,2284 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_setup.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_setup.c"
+  20              		.section	.text.u8g2_update_dimension_common,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_update_dimension_common:
+  27              	.LVL0:
+  28              	.LFB5:
+   1:user/drivers/u8g2/u8g2_setup.c **** /*
+   2:user/drivers/u8g2/u8g2_setup.c **** 
+   3:user/drivers/u8g2/u8g2_setup.c ****   u8g2_setup.c
+   4:user/drivers/u8g2/u8g2_setup.c **** 
+   5:user/drivers/u8g2/u8g2_setup.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8g2_setup.c **** 
+   7:user/drivers/u8g2/u8g2_setup.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8g2_setup.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8g2_setup.c **** 
+  10:user/drivers/u8g2/u8g2_setup.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8g2_setup.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8g2_setup.c **** 
+  13:user/drivers/u8g2/u8g2_setup.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8g2_setup.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8g2_setup.c ****     
+  16:user/drivers/u8g2/u8g2_setup.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8g2_setup.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8g2_setup.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8g2_setup.c **** 
+  20:user/drivers/u8g2/u8g2_setup.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8g2_setup.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8g2_setup.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8g2_setup.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8g2_setup.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8g2_setup.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8g2_setup.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8g2_setup.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8g2_setup.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8g2_setup.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:user/drivers/u8g2/u8g2_setup.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 2
+
+
+  31:user/drivers/u8g2/u8g2_setup.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8g2_setup.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8g2_setup.c **** 
+  34:user/drivers/u8g2/u8g2_setup.c **** */
+  35:user/drivers/u8g2/u8g2_setup.c **** 
+  36:user/drivers/u8g2/u8g2_setup.c **** #include "u8g2.h"
+  37:user/drivers/u8g2/u8g2_setup.c **** #include <string.h>
+  38:user/drivers/u8g2/u8g2_setup.c **** #include <assert.h>
+  39:user/drivers/u8g2/u8g2_setup.c **** 
+  40:user/drivers/u8g2/u8g2_setup.c **** 
+  41:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+  42:user/drivers/u8g2/u8g2_setup.c **** 
+  43:user/drivers/u8g2/u8g2_setup.c **** 
+  44:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  45:user/drivers/u8g2/u8g2_setup.c **** 
+  46:user/drivers/u8g2/u8g2_setup.c **** void u8g2_SetMaxClipWindow(u8g2_t *u8g2)
+  47:user/drivers/u8g2/u8g2_setup.c **** {
+  48:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = 0;
+  49:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = 0;
+  50:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  51:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  52:user/drivers/u8g2/u8g2_setup.c ****   
+  53:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  54:user/drivers/u8g2/u8g2_setup.c **** }
+  55:user/drivers/u8g2/u8g2_setup.c **** 
+  56:user/drivers/u8g2/u8g2_setup.c **** void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1
+  57:user/drivers/u8g2/u8g2_setup.c **** {
+  58:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = clip_x0;
+  59:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = clip_y0;
+  60:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = clip_x1;
+  61:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = clip_y1;
+  62:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  63:user/drivers/u8g2/u8g2_setup.c **** }
+  64:user/drivers/u8g2/u8g2_setup.c **** #endif
+  65:user/drivers/u8g2/u8g2_setup.c **** 
+  66:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+  67:user/drivers/u8g2/u8g2_setup.c **** /*
+  68:user/drivers/u8g2/u8g2_setup.c ****   This procedure is called after setting up the display (u8x8 structure).
+  69:user/drivers/u8g2/u8g2_setup.c ****   --> This is the central init procedure for u8g2 object
+  70:user/drivers/u8g2/u8g2_setup.c **** */
+  71:user/drivers/u8g2/u8g2_setup.c **** void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb l
+  72:user/drivers/u8g2/u8g2_setup.c **** {
+  73:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font = NULL;
+  74:user/drivers/u8g2/u8g2_setup.c ****   //u8g2->kerning = NULL;
+  75:user/drivers/u8g2/u8g2_setup.c ****   //u8g2->get_kerning_cb = u8g2_GetNullKerning;
+  76:user/drivers/u8g2/u8g2_setup.c ****   
+  77:user/drivers/u8g2/u8g2_setup.c ****   //u8g2->ll_hvline = u8g2_ll_hvline_vertical_top_lsb;
+  78:user/drivers/u8g2/u8g2_setup.c ****   u8g2->ll_hvline = ll_hvline_cb;
+  79:user/drivers/u8g2/u8g2_setup.c ****   
+  80:user/drivers/u8g2/u8g2_setup.c ****   u8g2->tile_buf_ptr = buf;
+  81:user/drivers/u8g2/u8g2_setup.c ****   u8g2->tile_buf_height = tile_buf_height;
+  82:user/drivers/u8g2/u8g2_setup.c ****   
+  83:user/drivers/u8g2/u8g2_setup.c ****   u8g2->tile_curr_row = 0;
+  84:user/drivers/u8g2/u8g2_setup.c ****   
+  85:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font_decode.is_transparent = 0; /* issue 443 */
+  86:user/drivers/u8g2/u8g2_setup.c ****   u8g2->bitmap_transparency = 0;
+  87:user/drivers/u8g2/u8g2_setup.c ****   
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 3
+
+
+  88:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font_height_mode = 0; /* issue 2046 */
+  89:user/drivers/u8g2/u8g2_setup.c ****   u8g2->draw_color = 1;
+  90:user/drivers/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+  91:user/drivers/u8g2/u8g2_setup.c ****   
+  92:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+  93:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+  94:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  95:user/drivers/u8g2/u8g2_setup.c ****   u8g2_SetMaxClipWindow(u8g2);		/* assign a clip window and call the update() procedure */
+  96:user/drivers/u8g2/u8g2_setup.c **** #else
+  97:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  98:user/drivers/u8g2/u8g2_setup.c **** #endif
+  99:user/drivers/u8g2/u8g2_setup.c **** 
+ 100:user/drivers/u8g2/u8g2_setup.c ****   u8g2_SetFontPosBaseline(u8g2);  /* issue 195 */
+ 101:user/drivers/u8g2/u8g2_setup.c ****   
+ 102:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_FONT_ROTATION  
+ 103:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font_decode.dir = 0;
+ 104:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 105:user/drivers/u8g2/u8g2_setup.c **** }
+ 106:user/drivers/u8g2/u8g2_setup.c **** 
+ 107:user/drivers/u8g2/u8g2_setup.c **** /*
+ 108:user/drivers/u8g2/u8g2_setup.c ****   Usually the display rotation is set initially, but it could be done later also
+ 109:user/drivers/u8g2/u8g2_setup.c ****   u8g2_cb can be U8G2_R0..U8G2_R3
+ 110:user/drivers/u8g2/u8g2_setup.c **** */
+ 111:user/drivers/u8g2/u8g2_setup.c **** void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+ 112:user/drivers/u8g2/u8g2_setup.c **** {
+ 113:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ 114:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 115:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 116:user/drivers/u8g2/u8g2_setup.c **** }
+ 117:user/drivers/u8g2/u8g2_setup.c **** 
+ 118:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+ 119:user/drivers/u8g2/u8g2_setup.c **** 
+ 120:user/drivers/u8g2/u8g2_setup.c **** void u8g2_SendF(u8g2_t * u8g2, const char *fmt, ...)
+ 121:user/drivers/u8g2/u8g2_setup.c **** {
+ 122:user/drivers/u8g2/u8g2_setup.c ****   va_list va;
+ 123:user/drivers/u8g2/u8g2_setup.c ****   va_start(va, fmt);
+ 124:user/drivers/u8g2/u8g2_setup.c ****   u8x8_cad_vsendf(u8g2_GetU8x8(u8g2), fmt, va);
+ 125:user/drivers/u8g2/u8g2_setup.c ****   va_end(va);
+ 126:user/drivers/u8g2/u8g2_setup.c **** }
+ 127:user/drivers/u8g2/u8g2_setup.c **** 
+ 128:user/drivers/u8g2/u8g2_setup.c **** 
+ 129:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+ 130:user/drivers/u8g2/u8g2_setup.c **** /* 
+ 131:user/drivers/u8g2/u8g2_setup.c ****   update dimension: 
+ 132:user/drivers/u8g2/u8g2_setup.c ****   calculate the following variables:
+ 133:user/drivers/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_x0;	left corner of the buffer
+ 134:user/drivers/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_x1;	right corner of the buffer (excluded)
+ 135:user/drivers/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_y0;
+ 136:user/drivers/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_y1; 	
+ 137:user/drivers/u8g2/u8g2_setup.c **** */
+ 138:user/drivers/u8g2/u8g2_setup.c **** 
+ 139:user/drivers/u8g2/u8g2_setup.c **** static void u8g2_update_dimension_common(u8g2_t *u8g2)
+ 140:user/drivers/u8g2/u8g2_setup.c **** {
+  29              		.loc 1 140 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 4
+
+
+  33              		.loc 1 140 1 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+ 141:user/drivers/u8g2/u8g2_setup.c ****   const u8x8_display_info_t *display_info = u8g2_GetU8x8(u8g2)->display_info;
+  39              		.loc 1 141 3 is_stmt 1 view .LVU2
+  40              		.loc 1 141 30 is_stmt 0 view .LVU3
+  41 0002 0168     		ldr	r1, [r0]
+  42              	.LVL1:
+ 142:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t t;
+  43              		.loc 1 142 3 is_stmt 1 view .LVU4
+ 143:user/drivers/u8g2/u8g2_setup.c ****   
+ 144:user/drivers/u8g2/u8g2_setup.c ****   t = u8g2->tile_buf_height;
+  44              		.loc 1 144 3 view .LVU5
+  45              		.loc 1 144 11 is_stmt 0 view .LVU6
+  46 0004 90F83830 		ldrb	r3, [r0, #56]	@ zero_extendqisi2
+  47              	.LVL2:
+ 145:user/drivers/u8g2/u8g2_setup.c ****   t *= 8;
+  48              		.loc 1 145 3 is_stmt 1 view .LVU7
+  49              		.loc 1 145 5 is_stmt 0 view .LVU8
+  50 0008 DA00     		lsls	r2, r3, #3
+  51              	.LVL3:
+ 146:user/drivers/u8g2/u8g2_setup.c ****   u8g2->pixel_buf_height = t;
+  52              		.loc 1 146 3 is_stmt 1 view .LVU9
+  53              		.loc 1 146 26 is_stmt 0 view .LVU10
+  54 000a 8287     		strh	r2, [r0, #60]	@ movhi
+ 147:user/drivers/u8g2/u8g2_setup.c ****   
+ 148:user/drivers/u8g2/u8g2_setup.c ****   t = display_info->tile_width;
+  55              		.loc 1 148 3 is_stmt 1 view .LVU11
+  56              		.loc 1 148 19 is_stmt 0 view .LVU12
+  57 000c 0A7C     		ldrb	r2, [r1, #16]	@ zero_extendqisi2
+  58              	.LVL4:
+ 149:user/drivers/u8g2/u8g2_setup.c **** #ifndef U8G2_16BIT
+ 150:user/drivers/u8g2/u8g2_setup.c ****   if ( t >= 32 )
+ 151:user/drivers/u8g2/u8g2_setup.c ****     t = 31;
+ 152:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 153:user/drivers/u8g2/u8g2_setup.c ****   t *= 8;
+  59              		.loc 1 153 3 is_stmt 1 view .LVU13
+  60              		.loc 1 153 5 is_stmt 0 view .LVU14
+  61 000e D200     		lsls	r2, r2, #3
+  62              	.LVL5:
+ 154:user/drivers/u8g2/u8g2_setup.c ****   u8g2->pixel_buf_width = t;
+  63              		.loc 1 154 3 is_stmt 1 view .LVU15
+  64              		.loc 1 154 25 is_stmt 0 view .LVU16
+  65 0010 4287     		strh	r2, [r0, #58]	@ movhi
+ 155:user/drivers/u8g2/u8g2_setup.c ****   
+ 156:user/drivers/u8g2/u8g2_setup.c ****   t = u8g2->tile_curr_row;
+  66              		.loc 1 156 3 is_stmt 1 view .LVU17
+  67              		.loc 1 156 11 is_stmt 0 view .LVU18
+  68 0012 90F839E0 		ldrb	lr, [r0, #57]	@ zero_extendqisi2
+  69              	.LVL6:
+ 157:user/drivers/u8g2/u8g2_setup.c ****   t *= 8;
+  70              		.loc 1 157 3 is_stmt 1 view .LVU19
+  71              		.loc 1 157 5 is_stmt 0 view .LVU20
+  72 0016 4FEACE02 		lsl	r2, lr, #3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 5
+
+
+  73              	.LVL7:
+ 158:user/drivers/u8g2/u8g2_setup.c ****   u8g2->pixel_curr_row = t;
+  74              		.loc 1 158 3 is_stmt 1 view .LVU21
+  75              		.loc 1 158 24 is_stmt 0 view .LVU22
+  76 001a C287     		strh	r2, [r0, #62]	@ movhi
+ 159:user/drivers/u8g2/u8g2_setup.c ****   
+ 160:user/drivers/u8g2/u8g2_setup.c ****   t = u8g2->tile_buf_height;
+  77              		.loc 1 160 3 is_stmt 1 view .LVU23
+  78              	.LVL8:
+ 161:user/drivers/u8g2/u8g2_setup.c ****   /* handle the case, where the buffer is larger than the (remaining) part of the display */
+ 162:user/drivers/u8g2/u8g2_setup.c ****   if ( t + u8g2->tile_curr_row > display_info->tile_height )
+  79              		.loc 1 162 3 view .LVU24
+  80              		.loc 1 162 10 is_stmt 0 view .LVU25
+  81 001c 03EB0E04 		add	r4, r3, lr
+  82              		.loc 1 162 46 view .LVU26
+  83 0020 91F811C0 		ldrb	ip, [r1, #17]	@ zero_extendqisi2
+  84              		.loc 1 162 6 view .LVU27
+  85 0024 6445     		cmp	r4, ip
+  86 0026 03DD     		ble	.L2
+ 163:user/drivers/u8g2/u8g2_setup.c ****     t = display_info->tile_height - u8g2->tile_curr_row;
+  87              		.loc 1 163 5 is_stmt 1 view .LVU28
+  88              		.loc 1 163 7 is_stmt 0 view .LVU29
+  89 0028 ACEB0E0C 		sub	ip, ip, lr
+  90 002c 1FFA8CF3 		uxth	r3, ip
+  91              	.LVL9:
+  92              	.L2:
+ 164:user/drivers/u8g2/u8g2_setup.c ****   t *= 8;
+  93              		.loc 1 164 3 is_stmt 1 view .LVU30
+  94              		.loc 1 164 5 is_stmt 0 view .LVU31
+  95 0030 DB00     		lsls	r3, r3, #3
+  96              	.LVL10:
+  97              		.loc 1 164 5 view .LVU32
+  98 0032 9BB2     		uxth	r3, r3
+  99              	.LVL11:
+ 165:user/drivers/u8g2/u8g2_setup.c ****   
+ 166:user/drivers/u8g2/u8g2_setup.c ****   u8g2->buf_y0 = u8g2->pixel_curr_row;   
+ 100              		.loc 1 166 3 is_stmt 1 view .LVU33
+ 101              		.loc 1 166 16 is_stmt 0 view .LVU34
+ 102 0034 A0F84020 		strh	r2, [r0, #64]	@ movhi
+ 167:user/drivers/u8g2/u8g2_setup.c ****   u8g2->buf_y1 = u8g2->buf_y0;
+ 103              		.loc 1 167 3 is_stmt 1 view .LVU35
+ 104              		.loc 1 167 16 is_stmt 0 view .LVU36
+ 105 0038 A0F84220 		strh	r2, [r0, #66]	@ movhi
+ 168:user/drivers/u8g2/u8g2_setup.c ****   u8g2->buf_y1 += t;
+ 106              		.loc 1 168 3 is_stmt 1 view .LVU37
+ 107              		.loc 1 168 16 is_stmt 0 view .LVU38
+ 108 003c 1A44     		add	r2, r2, r3
+ 109 003e A0F84220 		strh	r2, [r0, #66]	@ movhi
+ 169:user/drivers/u8g2/u8g2_setup.c **** 
+ 170:user/drivers/u8g2/u8g2_setup.c ****   
+ 171:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_16BIT
+ 172:user/drivers/u8g2/u8g2_setup.c ****   u8g2->width = display_info->pixel_width;
+ 110              		.loc 1 172 3 is_stmt 1 view .LVU39
+ 111              		.loc 1 172 29 is_stmt 0 view .LVU40
+ 112 0042 8B8A     		ldrh	r3, [r1, #20]
+ 113              	.LVL12:
+ 114              		.loc 1 172 15 view .LVU41
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 6
+
+
+ 115 0044 A0F84430 		strh	r3, [r0, #68]	@ movhi
+ 173:user/drivers/u8g2/u8g2_setup.c ****   u8g2->height = display_info->pixel_height;
+ 116              		.loc 1 173 3 is_stmt 1 view .LVU42
+ 117              		.loc 1 173 30 is_stmt 0 view .LVU43
+ 118 0048 CB8A     		ldrh	r3, [r1, #22]
+ 119              		.loc 1 173 16 view .LVU44
+ 120 004a A0F84630 		strh	r3, [r0, #70]	@ movhi
+ 174:user/drivers/u8g2/u8g2_setup.c **** #else
+ 175:user/drivers/u8g2/u8g2_setup.c ****   u8g2->width = 240;
+ 176:user/drivers/u8g2/u8g2_setup.c ****   if ( display_info->pixel_width <= 240 )
+ 177:user/drivers/u8g2/u8g2_setup.c ****     u8g2->width = display_info->pixel_width;
+ 178:user/drivers/u8g2/u8g2_setup.c ****   u8g2->height = display_info->pixel_height;
+ 179:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 180:user/drivers/u8g2/u8g2_setup.c **** 
+ 181:user/drivers/u8g2/u8g2_setup.c **** }
+ 121              		.loc 1 181 1 view .LVU45
+ 122 004e 10BD     		pop	{r4, pc}
+ 123              		.cfi_endproc
+ 124              	.LFE5:
+ 126              		.section	.text.u8g2_update_dimension_r0,"ax",%progbits
+ 127              		.align	1
+ 128              		.global	u8g2_update_dimension_r0
+ 129              		.syntax unified
+ 130              		.thumb
+ 131              		.thumb_func
+ 133              	u8g2_update_dimension_r0:
+ 134              	.LVL13:
+ 135              	.LFB7:
+ 182:user/drivers/u8g2/u8g2_setup.c **** 
+ 183:user/drivers/u8g2/u8g2_setup.c **** /*==========================================================*/
+ 184:user/drivers/u8g2/u8g2_setup.c **** /* apply clip window */
+ 185:user/drivers/u8g2/u8g2_setup.c **** 
+ 186:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 187:user/drivers/u8g2/u8g2_setup.c **** static void u8g2_apply_clip_window(u8g2_t *u8g2)
+ 188:user/drivers/u8g2/u8g2_setup.c **** {
+ 189:user/drivers/u8g2/u8g2_setup.c ****   /* check aganst the current user_??? window */
+ 190:user/drivers/u8g2/u8g2_setup.c ****   if ( u8g2_IsIntersection(u8g2, u8g2->clip_x0, u8g2->clip_y0, u8g2->clip_x1, u8g2->clip_y1) == 0 )
+ 191:user/drivers/u8g2/u8g2_setup.c ****   {
+ 192:user/drivers/u8g2/u8g2_setup.c ****     u8g2->is_page_clip_window_intersection = 0;
+ 193:user/drivers/u8g2/u8g2_setup.c ****   }
+ 194:user/drivers/u8g2/u8g2_setup.c ****   else
+ 195:user/drivers/u8g2/u8g2_setup.c ****   {
+ 196:user/drivers/u8g2/u8g2_setup.c ****     u8g2->is_page_clip_window_intersection = 1;
+ 197:user/drivers/u8g2/u8g2_setup.c **** 
+ 198:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_x0 < u8g2->clip_x0 )
+ 199:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 200:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_x1 > u8g2->clip_x1 )
+ 201:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 202:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y0 < u8g2->clip_y0 )
+ 203:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 204:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y1 > u8g2->clip_y1 )
+ 205:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 206:user/drivers/u8g2/u8g2_setup.c ****   }
+ 207:user/drivers/u8g2/u8g2_setup.c **** }
+ 208:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 209:user/drivers/u8g2/u8g2_setup.c **** 
+ 210:user/drivers/u8g2/u8g2_setup.c **** /*==========================================================*/
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 7
+
+
+ 211:user/drivers/u8g2/u8g2_setup.c **** 
+ 212:user/drivers/u8g2/u8g2_setup.c **** 
+ 213:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r0(u8g2_t *u8g2)
+ 214:user/drivers/u8g2/u8g2_setup.c **** {
+ 136              		.loc 1 214 1 is_stmt 1 view -0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		.loc 1 214 1 is_stmt 0 view .LVU47
+ 141 0000 08B5     		push	{r3, lr}
+ 142              	.LCFI1:
+ 143              		.cfi_def_cfa_offset 8
+ 144              		.cfi_offset 3, -8
+ 145              		.cfi_offset 14, -4
+ 215:user/drivers/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);  
+ 146              		.loc 1 215 3 is_stmt 1 view .LVU48
+ 147 0002 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 148              	.LVL14:
+ 216:user/drivers/u8g2/u8g2_setup.c **** }
+ 149              		.loc 1 216 1 is_stmt 0 view .LVU49
+ 150 0006 08BD     		pop	{r3, pc}
+ 151              		.cfi_endproc
+ 152              	.LFE7:
+ 154              		.section	.text.u8g2_update_dimension_r1,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	u8g2_update_dimension_r1
+ 157              		.syntax unified
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	u8g2_update_dimension_r1:
+ 162              	.LVL15:
+ 163              	.LFB9:
+ 217:user/drivers/u8g2/u8g2_setup.c **** 
+ 218:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r0(u8g2_t *u8g2)
+ 219:user/drivers/u8g2/u8g2_setup.c **** {
+ 220:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 221:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;			/* pixel_buf_width replaced with width */
+ 222:user/drivers/u8g2/u8g2_setup.c ****   
+ 223:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y0 = u8g2->buf_y0;
+ 224:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 225:user/drivers/u8g2/u8g2_setup.c ****   
+ 226:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 227:user/drivers/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 228:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 229:user/drivers/u8g2/u8g2_setup.c **** }
+ 230:user/drivers/u8g2/u8g2_setup.c **** 
+ 231:user/drivers/u8g2/u8g2_setup.c **** 
+ 232:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r1(u8g2_t *u8g2)
+ 233:user/drivers/u8g2/u8g2_setup.c **** {
+ 164              		.loc 1 233 1 is_stmt 1 view -0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              		.loc 1 233 1 is_stmt 0 view .LVU51
+ 169 0000 10B5     		push	{r4, lr}
+ 170              	.LCFI2:
+ 171              		.cfi_def_cfa_offset 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 8
+
+
+ 172              		.cfi_offset 4, -8
+ 173              		.cfi_offset 14, -4
+ 174 0002 0446     		mov	r4, r0
+ 234:user/drivers/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 175              		.loc 1 234 3 is_stmt 1 view .LVU52
+ 176 0004 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 177              	.LVL16:
+ 235:user/drivers/u8g2/u8g2_setup.c ****   
+ 236:user/drivers/u8g2/u8g2_setup.c ****   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+ 178              		.loc 1 236 3 view .LVU53
+ 179              		.loc 1 236 36 is_stmt 0 view .LVU54
+ 180 0008 2368     		ldr	r3, [r4]
+ 181              		.loc 1 236 50 view .LVU55
+ 182 000a 9A8A     		ldrh	r2, [r3, #20]
+ 183              		.loc 1 236 16 view .LVU56
+ 184 000c A4F84620 		strh	r2, [r4, #70]	@ movhi
+ 237:user/drivers/u8g2/u8g2_setup.c ****   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+ 185              		.loc 1 237 3 is_stmt 1 view .LVU57
+ 186              		.loc 1 237 49 is_stmt 0 view .LVU58
+ 187 0010 DB8A     		ldrh	r3, [r3, #22]
+ 188              		.loc 1 237 15 view .LVU59
+ 189 0012 A4F84430 		strh	r3, [r4, #68]	@ movhi
+ 238:user/drivers/u8g2/u8g2_setup.c ****   
+ 239:user/drivers/u8g2/u8g2_setup.c **** }
+ 190              		.loc 1 239 1 view .LVU60
+ 191 0016 10BD     		pop	{r4, pc}
+ 192              		.loc 1 239 1 view .LVU61
+ 193              		.cfi_endproc
+ 194              	.LFE9:
+ 196              		.section	.text.u8g2_update_dimension_r2,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	u8g2_update_dimension_r2
+ 199              		.syntax unified
+ 200              		.thumb
+ 201              		.thumb_func
+ 203              	u8g2_update_dimension_r2:
+ 204              	.LVL17:
+ 205              	.LFB11:
+ 240:user/drivers/u8g2/u8g2_setup.c **** 
+ 241:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r1(u8g2_t *u8g2)
+ 242:user/drivers/u8g2/u8g2_setup.c **** {
+ 243:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = u8g2->buf_y0;
+ 244:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 245:user/drivers/u8g2/u8g2_setup.c ****   
+ 246:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 247:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel wi
+ 248:user/drivers/u8g2/u8g2_setup.c ****   
+ 249:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 250:user/drivers/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 251:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 252:user/drivers/u8g2/u8g2_setup.c **** }
+ 253:user/drivers/u8g2/u8g2_setup.c **** 
+ 254:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r2(u8g2_t *u8g2)
+ 255:user/drivers/u8g2/u8g2_setup.c **** {
+ 206              		.loc 1 255 1 is_stmt 1 view -0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 9
+
+
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              		.loc 1 255 1 is_stmt 0 view .LVU63
+ 211 0000 08B5     		push	{r3, lr}
+ 212              	.LCFI3:
+ 213              		.cfi_def_cfa_offset 8
+ 214              		.cfi_offset 3, -8
+ 215              		.cfi_offset 14, -4
+ 256:user/drivers/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 216              		.loc 1 256 3 is_stmt 1 view .LVU64
+ 217 0002 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 218              	.LVL18:
+ 257:user/drivers/u8g2/u8g2_setup.c **** }
+ 219              		.loc 1 257 1 is_stmt 0 view .LVU65
+ 220 0006 08BD     		pop	{r3, pc}
+ 221              		.cfi_endproc
+ 222              	.LFE11:
+ 224              		.section	.text.u8g2_update_dimension_r3,"ax",%progbits
+ 225              		.align	1
+ 226              		.global	u8g2_update_dimension_r3
+ 227              		.syntax unified
+ 228              		.thumb
+ 229              		.thumb_func
+ 231              	u8g2_update_dimension_r3:
+ 232              	.LVL19:
+ 233              	.LFB13:
+ 258:user/drivers/u8g2/u8g2_setup.c **** 
+ 259:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r2(u8g2_t *u8g2)
+ 260:user/drivers/u8g2/u8g2_setup.c **** {
+ 261:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 262:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
+ 263:user/drivers/u8g2/u8g2_setup.c ****   
+ 264:user/drivers/u8g2/u8g2_setup.c ****   /* there are ases where the height is not a multiple of 8. */
+ 265:user/drivers/u8g2/u8g2_setup.c ****   /* in such a case u8g2->buf_y1 might be heigher than u8g2->height */
+ 266:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 267:user/drivers/u8g2/u8g2_setup.c ****   if ( u8g2->height >= u8g2->buf_y1 )
+ 268:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 269:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 270:user/drivers/u8g2/u8g2_setup.c **** 
+ 271:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 272:user/drivers/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 273:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 274:user/drivers/u8g2/u8g2_setup.c **** }
+ 275:user/drivers/u8g2/u8g2_setup.c **** 
+ 276:user/drivers/u8g2/u8g2_setup.c **** 
+ 277:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r3(u8g2_t *u8g2)
+ 278:user/drivers/u8g2/u8g2_setup.c **** {
+ 234              		.loc 1 278 1 is_stmt 1 view -0
+ 235              		.cfi_startproc
+ 236              		@ args = 0, pretend = 0, frame = 0
+ 237              		@ frame_needed = 0, uses_anonymous_args = 0
+ 238              		.loc 1 278 1 is_stmt 0 view .LVU67
+ 239 0000 10B5     		push	{r4, lr}
+ 240              	.LCFI4:
+ 241              		.cfi_def_cfa_offset 8
+ 242              		.cfi_offset 4, -8
+ 243              		.cfi_offset 14, -4
+ 244 0002 0446     		mov	r4, r0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 10
+
+
+ 279:user/drivers/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 245              		.loc 1 279 3 is_stmt 1 view .LVU68
+ 246 0004 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 247              	.LVL20:
+ 280:user/drivers/u8g2/u8g2_setup.c ****   
+ 281:user/drivers/u8g2/u8g2_setup.c ****   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+ 248              		.loc 1 281 3 view .LVU69
+ 249              		.loc 1 281 36 is_stmt 0 view .LVU70
+ 250 0008 2368     		ldr	r3, [r4]
+ 251              		.loc 1 281 50 view .LVU71
+ 252 000a 9A8A     		ldrh	r2, [r3, #20]
+ 253              		.loc 1 281 16 view .LVU72
+ 254 000c A4F84620 		strh	r2, [r4, #70]	@ movhi
+ 282:user/drivers/u8g2/u8g2_setup.c ****   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+ 255              		.loc 1 282 3 is_stmt 1 view .LVU73
+ 256              		.loc 1 282 49 is_stmt 0 view .LVU74
+ 257 0010 DB8A     		ldrh	r3, [r3, #22]
+ 258              		.loc 1 282 15 view .LVU75
+ 259 0012 A4F84430 		strh	r3, [r4, #68]	@ movhi
+ 283:user/drivers/u8g2/u8g2_setup.c **** 
+ 284:user/drivers/u8g2/u8g2_setup.c **** }
+ 260              		.loc 1 284 1 view .LVU76
+ 261 0016 10BD     		pop	{r4, pc}
+ 262              		.loc 1 284 1 view .LVU77
+ 263              		.cfi_endproc
+ 264              	.LFE13:
+ 266              		.section	.text.u8g2_apply_clip_window,"ax",%progbits
+ 267              		.align	1
+ 268              		.syntax unified
+ 269              		.thumb
+ 270              		.thumb_func
+ 272              	u8g2_apply_clip_window:
+ 273              	.LVL21:
+ 274              	.LFB6:
+ 188:user/drivers/u8g2/u8g2_setup.c ****   /* check aganst the current user_??? window */
+ 275              		.loc 1 188 1 is_stmt 1 view -0
+ 276              		.cfi_startproc
+ 277              		@ args = 0, pretend = 0, frame = 0
+ 278              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188:user/drivers/u8g2/u8g2_setup.c ****   /* check aganst the current user_??? window */
+ 279              		.loc 1 188 1 is_stmt 0 view .LVU79
+ 280 0000 10B5     		push	{r4, lr}
+ 281              	.LCFI5:
+ 282              		.cfi_def_cfa_offset 8
+ 283              		.cfi_offset 4, -8
+ 284              		.cfi_offset 14, -4
+ 285 0002 82B0     		sub	sp, sp, #8
+ 286              	.LCFI6:
+ 287              		.cfi_def_cfa_offset 16
+ 288 0004 0446     		mov	r4, r0
+ 190:user/drivers/u8g2/u8g2_setup.c ****   {
+ 289              		.loc 1 190 3 is_stmt 1 view .LVU80
+ 190:user/drivers/u8g2/u8g2_setup.c ****   {
+ 290              		.loc 1 190 8 is_stmt 0 view .LVU81
+ 291 0006 B0F85630 		ldrh	r3, [r0, #86]
+ 292 000a 0093     		str	r3, [sp]
+ 293 000c B0F85230 		ldrh	r3, [r0, #82]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 11
+
+
+ 294 0010 B0F85420 		ldrh	r2, [r0, #84]
+ 295 0014 B0F85010 		ldrh	r1, [r0, #80]
+ 296 0018 FFF7FEFF 		bl	u8g2_IsIntersection
+ 297              	.LVL22:
+ 190:user/drivers/u8g2/u8g2_setup.c ****   {
+ 298              		.loc 1 190 6 view .LVU82
+ 299 001c 20B9     		cbnz	r0, .L13
+ 192:user/drivers/u8g2/u8g2_setup.c ****   }
+ 300              		.loc 1 192 5 is_stmt 1 view .LVU83
+ 192:user/drivers/u8g2/u8g2_setup.c ****   }
+ 301              		.loc 1 192 44 is_stmt 0 view .LVU84
+ 302 001e 0023     		movs	r3, #0
+ 303 0020 84F88C30 		strb	r3, [r4, #140]
+ 304              	.L12:
+ 207:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 305              		.loc 1 207 1 view .LVU85
+ 306 0024 02B0     		add	sp, sp, #8
+ 307              	.LCFI7:
+ 308              		.cfi_remember_state
+ 309              		.cfi_def_cfa_offset 8
+ 310              		@ sp needed
+ 311 0026 10BD     		pop	{r4, pc}
+ 312              	.LVL23:
+ 313              	.L13:
+ 314              	.LCFI8:
+ 315              		.cfi_restore_state
+ 196:user/drivers/u8g2/u8g2_setup.c **** 
+ 316              		.loc 1 196 5 is_stmt 1 view .LVU86
+ 196:user/drivers/u8g2/u8g2_setup.c **** 
+ 317              		.loc 1 196 44 is_stmt 0 view .LVU87
+ 318 0028 0123     		movs	r3, #1
+ 319 002a 84F88C30 		strb	r3, [r4, #140]
+ 198:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 320              		.loc 1 198 5 is_stmt 1 view .LVU88
+ 198:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 321              		.loc 1 198 14 is_stmt 0 view .LVU89
+ 322 002e B4F84820 		ldrh	r2, [r4, #72]
+ 198:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 323              		.loc 1 198 30 view .LVU90
+ 324 0032 B4F85030 		ldrh	r3, [r4, #80]
+ 198:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 325              		.loc 1 198 8 view .LVU91
+ 326 0036 9A42     		cmp	r2, r3
+ 327 0038 01D2     		bcs	.L15
+ 199:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_x1 > u8g2->clip_x1 )
+ 328              		.loc 1 199 7 is_stmt 1 view .LVU92
+ 199:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_x1 > u8g2->clip_x1 )
+ 329              		.loc 1 199 21 is_stmt 0 view .LVU93
+ 330 003a A4F84830 		strh	r3, [r4, #72]	@ movhi
+ 331              	.L15:
+ 200:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 332              		.loc 1 200 5 is_stmt 1 view .LVU94
+ 200:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 333              		.loc 1 200 14 is_stmt 0 view .LVU95
+ 334 003e B4F84A20 		ldrh	r2, [r4, #74]
+ 200:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 335              		.loc 1 200 30 view .LVU96
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 12
+
+
+ 336 0042 B4F85230 		ldrh	r3, [r4, #82]
+ 200:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 337              		.loc 1 200 8 view .LVU97
+ 338 0046 9A42     		cmp	r2, r3
+ 339 0048 01D9     		bls	.L16
+ 201:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y0 < u8g2->clip_y0 )
+ 340              		.loc 1 201 7 is_stmt 1 view .LVU98
+ 201:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y0 < u8g2->clip_y0 )
+ 341              		.loc 1 201 21 is_stmt 0 view .LVU99
+ 342 004a A4F84A30 		strh	r3, [r4, #74]	@ movhi
+ 343              	.L16:
+ 202:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 344              		.loc 1 202 5 is_stmt 1 view .LVU100
+ 202:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 345              		.loc 1 202 14 is_stmt 0 view .LVU101
+ 346 004e B4F84C20 		ldrh	r2, [r4, #76]
+ 202:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 347              		.loc 1 202 30 view .LVU102
+ 348 0052 B4F85430 		ldrh	r3, [r4, #84]
+ 202:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 349              		.loc 1 202 8 view .LVU103
+ 350 0056 9A42     		cmp	r2, r3
+ 351 0058 01D2     		bcs	.L17
+ 203:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y1 > u8g2->clip_y1 )
+ 352              		.loc 1 203 7 is_stmt 1 view .LVU104
+ 203:user/drivers/u8g2/u8g2_setup.c ****     if ( u8g2->user_y1 > u8g2->clip_y1 )
+ 353              		.loc 1 203 21 is_stmt 0 view .LVU105
+ 354 005a A4F84C30 		strh	r3, [r4, #76]	@ movhi
+ 355              	.L17:
+ 204:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 356              		.loc 1 204 5 is_stmt 1 view .LVU106
+ 204:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 357              		.loc 1 204 14 is_stmt 0 view .LVU107
+ 358 005e B4F84E20 		ldrh	r2, [r4, #78]
+ 204:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 359              		.loc 1 204 30 view .LVU108
+ 360 0062 B4F85630 		ldrh	r3, [r4, #86]
+ 204:user/drivers/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 361              		.loc 1 204 8 view .LVU109
+ 362 0066 9A42     		cmp	r2, r3
+ 363 0068 DCD9     		bls	.L12
+ 205:user/drivers/u8g2/u8g2_setup.c ****   }
+ 364              		.loc 1 205 7 is_stmt 1 view .LVU110
+ 205:user/drivers/u8g2/u8g2_setup.c ****   }
+ 365              		.loc 1 205 21 is_stmt 0 view .LVU111
+ 366 006a A4F84E30 		strh	r3, [r4, #78]	@ movhi
+ 207:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 367              		.loc 1 207 1 view .LVU112
+ 368 006e D9E7     		b	.L12
+ 369              		.cfi_endproc
+ 370              	.LFE6:
+ 372              		.section	.text.u8g2_update_page_win_r0,"ax",%progbits
+ 373              		.align	1
+ 374              		.global	u8g2_update_page_win_r0
+ 375              		.syntax unified
+ 376              		.thumb
+ 377              		.thumb_func
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 13
+
+
+ 379              	u8g2_update_page_win_r0:
+ 380              	.LVL24:
+ 381              	.LFB8:
+ 219:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 382              		.loc 1 219 1 is_stmt 1 view -0
+ 383              		.cfi_startproc
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 386              		.loc 1 219 1 is_stmt 0 view .LVU114
+ 387 0000 08B5     		push	{r3, lr}
+ 388              	.LCFI9:
+ 389              		.cfi_def_cfa_offset 8
+ 390              		.cfi_offset 3, -8
+ 391              		.cfi_offset 14, -4
+ 220:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;			/* pixel_buf_width replaced with width */
+ 392              		.loc 1 220 3 is_stmt 1 view .LVU115
+ 220:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;			/* pixel_buf_width replaced with width */
+ 393              		.loc 1 220 17 is_stmt 0 view .LVU116
+ 394 0002 0022     		movs	r2, #0
+ 395 0004 A0F84820 		strh	r2, [r0, #72]	@ movhi
+ 221:user/drivers/u8g2/u8g2_setup.c ****   
+ 396              		.loc 1 221 3 is_stmt 1 view .LVU117
+ 221:user/drivers/u8g2/u8g2_setup.c ****   
+ 397              		.loc 1 221 23 is_stmt 0 view .LVU118
+ 398 0008 B0F84420 		ldrh	r2, [r0, #68]
+ 221:user/drivers/u8g2/u8g2_setup.c ****   
+ 399              		.loc 1 221 17 view .LVU119
+ 400 000c A0F84A20 		strh	r2, [r0, #74]	@ movhi
+ 223:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 401              		.loc 1 223 3 is_stmt 1 view .LVU120
+ 223:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 402              		.loc 1 223 23 is_stmt 0 view .LVU121
+ 403 0010 B0F84020 		ldrh	r2, [r0, #64]
+ 223:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 404              		.loc 1 223 17 view .LVU122
+ 405 0014 A0F84C20 		strh	r2, [r0, #76]	@ movhi
+ 224:user/drivers/u8g2/u8g2_setup.c ****   
+ 406              		.loc 1 224 3 is_stmt 1 view .LVU123
+ 224:user/drivers/u8g2/u8g2_setup.c ****   
+ 407              		.loc 1 224 23 is_stmt 0 view .LVU124
+ 408 0018 B0F84220 		ldrh	r2, [r0, #66]
+ 224:user/drivers/u8g2/u8g2_setup.c ****   
+ 409              		.loc 1 224 17 view .LVU125
+ 410 001c A0F84E20 		strh	r2, [r0, #78]	@ movhi
+ 227:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 411              		.loc 1 227 3 is_stmt 1 view .LVU126
+ 412 0020 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 413              	.LVL25:
+ 229:user/drivers/u8g2/u8g2_setup.c **** 
+ 414              		.loc 1 229 1 is_stmt 0 view .LVU127
+ 415 0024 08BD     		pop	{r3, pc}
+ 416              		.cfi_endproc
+ 417              	.LFE8:
+ 419              		.section	.text.u8g2_update_page_win_r1,"ax",%progbits
+ 420              		.align	1
+ 421              		.global	u8g2_update_page_win_r1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 14
+
+
+ 422              		.syntax unified
+ 423              		.thumb
+ 424              		.thumb_func
+ 426              	u8g2_update_page_win_r1:
+ 427              	.LVL26:
+ 428              	.LFB10:
+ 242:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = u8g2->buf_y0;
+ 429              		.loc 1 242 1 is_stmt 1 view -0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = u8g2->buf_y0;
+ 433              		.loc 1 242 1 is_stmt 0 view .LVU129
+ 434 0000 08B5     		push	{r3, lr}
+ 435              	.LCFI10:
+ 436              		.cfi_def_cfa_offset 8
+ 437              		.cfi_offset 3, -8
+ 438              		.cfi_offset 14, -4
+ 243:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 439              		.loc 1 243 3 is_stmt 1 view .LVU130
+ 243:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 440              		.loc 1 243 23 is_stmt 0 view .LVU131
+ 441 0002 B0F84020 		ldrh	r2, [r0, #64]
+ 243:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 442              		.loc 1 243 17 view .LVU132
+ 443 0006 A0F84820 		strh	r2, [r0, #72]	@ movhi
+ 244:user/drivers/u8g2/u8g2_setup.c ****   
+ 444              		.loc 1 244 3 is_stmt 1 view .LVU133
+ 244:user/drivers/u8g2/u8g2_setup.c ****   
+ 445              		.loc 1 244 23 is_stmt 0 view .LVU134
+ 446 000a B0F84220 		ldrh	r2, [r0, #66]
+ 244:user/drivers/u8g2/u8g2_setup.c ****   
+ 447              		.loc 1 244 17 view .LVU135
+ 448 000e A0F84A20 		strh	r2, [r0, #74]	@ movhi
+ 246:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel wi
+ 449              		.loc 1 246 3 is_stmt 1 view .LVU136
+ 246:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel wi
+ 450              		.loc 1 246 17 is_stmt 0 view .LVU137
+ 451 0012 0022     		movs	r2, #0
+ 452 0014 A0F84C20 		strh	r2, [r0, #76]	@ movhi
+ 247:user/drivers/u8g2/u8g2_setup.c ****   
+ 453              		.loc 1 247 3 is_stmt 1 view .LVU138
+ 247:user/drivers/u8g2/u8g2_setup.c ****   
+ 454              		.loc 1 247 23 is_stmt 0 view .LVU139
+ 455 0018 B0F84620 		ldrh	r2, [r0, #70]
+ 247:user/drivers/u8g2/u8g2_setup.c ****   
+ 456              		.loc 1 247 17 view .LVU140
+ 457 001c A0F84E20 		strh	r2, [r0, #78]	@ movhi
+ 250:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 458              		.loc 1 250 3 is_stmt 1 view .LVU141
+ 459 0020 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 460              	.LVL27:
+ 252:user/drivers/u8g2/u8g2_setup.c **** 
+ 461              		.loc 1 252 1 is_stmt 0 view .LVU142
+ 462 0024 08BD     		pop	{r3, pc}
+ 463              		.cfi_endproc
+ 464              	.LFE10:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 15
+
+
+ 466              		.section	.text.u8g2_update_page_win_r2,"ax",%progbits
+ 467              		.align	1
+ 468              		.global	u8g2_update_page_win_r2
+ 469              		.syntax unified
+ 470              		.thumb
+ 471              		.thumb_func
+ 473              	u8g2_update_page_win_r2:
+ 474              	.LVL28:
+ 475              	.LFB12:
+ 260:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 476              		.loc 1 260 1 is_stmt 1 view -0
+ 477              		.cfi_startproc
+ 478              		@ args = 0, pretend = 0, frame = 0
+ 479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 480              		.loc 1 260 1 is_stmt 0 view .LVU144
+ 481 0000 08B5     		push	{r3, lr}
+ 482              	.LCFI11:
+ 483              		.cfi_def_cfa_offset 8
+ 484              		.cfi_offset 3, -8
+ 485              		.cfi_offset 14, -4
+ 261:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
+ 486              		.loc 1 261 3 is_stmt 1 view .LVU145
+ 261:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
+ 487              		.loc 1 261 17 is_stmt 0 view .LVU146
+ 488 0002 0023     		movs	r3, #0
+ 489 0004 A0F84830 		strh	r3, [r0, #72]	@ movhi
+ 262:user/drivers/u8g2/u8g2_setup.c ****   
+ 490              		.loc 1 262 3 is_stmt 1 view .LVU147
+ 262:user/drivers/u8g2/u8g2_setup.c ****   
+ 491              		.loc 1 262 23 is_stmt 0 view .LVU148
+ 492 0008 B0F84420 		ldrh	r2, [r0, #68]
+ 262:user/drivers/u8g2/u8g2_setup.c ****   
+ 493              		.loc 1 262 17 view .LVU149
+ 494 000c A0F84A20 		strh	r2, [r0, #74]	@ movhi
+ 266:user/drivers/u8g2/u8g2_setup.c ****   if ( u8g2->height >= u8g2->buf_y1 )
+ 495              		.loc 1 266 3 is_stmt 1 view .LVU150
+ 266:user/drivers/u8g2/u8g2_setup.c ****   if ( u8g2->height >= u8g2->buf_y1 )
+ 496              		.loc 1 266 17 is_stmt 0 view .LVU151
+ 497 0010 A0F84C30 		strh	r3, [r0, #76]	@ movhi
+ 267:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 498              		.loc 1 267 3 is_stmt 1 view .LVU152
+ 267:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 499              		.loc 1 267 12 is_stmt 0 view .LVU153
+ 500 0014 B0F84630 		ldrh	r3, [r0, #70]
+ 267:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 501              		.loc 1 267 28 view .LVU154
+ 502 0018 B0F84220 		ldrh	r2, [r0, #66]
+ 267:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 503              		.loc 1 267 6 view .LVU155
+ 504 001c 9342     		cmp	r3, r2
+ 505 001e 02D3     		bcc	.L24
+ 268:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 506              		.loc 1 268 5 is_stmt 1 view .LVU156
+ 268:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 507              		.loc 1 268 34 is_stmt 0 view .LVU157
+ 508 0020 9A1A     		subs	r2, r3, r2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 16
+
+
+ 268:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 509              		.loc 1 268 19 view .LVU158
+ 510 0022 A0F84C20 		strh	r2, [r0, #76]	@ movhi
+ 511              	.L24:
+ 269:user/drivers/u8g2/u8g2_setup.c **** 
+ 512              		.loc 1 269 3 is_stmt 1 view .LVU159
+ 269:user/drivers/u8g2/u8g2_setup.c **** 
+ 513              		.loc 1 269 38 is_stmt 0 view .LVU160
+ 514 0026 B0F84020 		ldrh	r2, [r0, #64]
+ 269:user/drivers/u8g2/u8g2_setup.c **** 
+ 515              		.loc 1 269 32 view .LVU161
+ 516 002a 9B1A     		subs	r3, r3, r2
+ 269:user/drivers/u8g2/u8g2_setup.c **** 
+ 517              		.loc 1 269 17 view .LVU162
+ 518 002c A0F84E30 		strh	r3, [r0, #78]	@ movhi
+ 272:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 519              		.loc 1 272 3 is_stmt 1 view .LVU163
+ 520 0030 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 521              	.LVL29:
+ 274:user/drivers/u8g2/u8g2_setup.c **** 
+ 522              		.loc 1 274 1 is_stmt 0 view .LVU164
+ 523 0034 08BD     		pop	{r3, pc}
+ 524              		.cfi_endproc
+ 525              	.LFE12:
+ 527              		.section	.text.u8g2_update_page_win_r3,"ax",%progbits
+ 528              		.align	1
+ 529              		.global	u8g2_update_page_win_r3
+ 530              		.syntax unified
+ 531              		.thumb
+ 532              		.thumb_func
+ 534              	u8g2_update_page_win_r3:
+ 535              	.LVL30:
+ 536              	.LFB14:
+ 285:user/drivers/u8g2/u8g2_setup.c **** 
+ 286:user/drivers/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r3(u8g2_t *u8g2)
+ 287:user/drivers/u8g2/u8g2_setup.c **** {
+ 537              		.loc 1 287 1 is_stmt 1 view -0
+ 538              		.cfi_startproc
+ 539              		@ args = 0, pretend = 0, frame = 0
+ 540              		@ frame_needed = 0, uses_anonymous_args = 0
+ 541              		.loc 1 287 1 is_stmt 0 view .LVU166
+ 542 0000 08B5     		push	{r3, lr}
+ 543              	.LCFI12:
+ 544              		.cfi_def_cfa_offset 8
+ 545              		.cfi_offset 3, -8
+ 546              		.cfi_offset 14, -4
+ 288:user/drivers/u8g2/u8g2_setup.c ****   /* there are ases where the height is not a multiple of 8. */
+ 289:user/drivers/u8g2/u8g2_setup.c ****   /* in such a case u8g2->buf_y1 might be heigher than u8g2->width */
+ 290:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 547              		.loc 1 290 3 is_stmt 1 view .LVU167
+ 548              		.loc 1 290 17 is_stmt 0 view .LVU168
+ 549 0002 0023     		movs	r3, #0
+ 550 0004 A0F84830 		strh	r3, [r0, #72]	@ movhi
+ 291:user/drivers/u8g2/u8g2_setup.c ****   if ( u8g2->width >= u8g2->buf_y1 )
+ 551              		.loc 1 291 3 is_stmt 1 view .LVU169
+ 552              		.loc 1 291 12 is_stmt 0 view .LVU170
+ 553 0008 B0F84430 		ldrh	r3, [r0, #68]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 17
+
+
+ 554              		.loc 1 291 27 view .LVU171
+ 555 000c B0F84220 		ldrh	r2, [r0, #66]
+ 556              		.loc 1 291 6 view .LVU172
+ 557 0010 9342     		cmp	r3, r2
+ 558 0012 02D3     		bcc	.L27
+ 292:user/drivers/u8g2/u8g2_setup.c ****     u8g2->user_x0 = u8g2->width - u8g2->buf_y1;
+ 559              		.loc 1 292 5 is_stmt 1 view .LVU173
+ 560              		.loc 1 292 33 is_stmt 0 view .LVU174
+ 561 0014 9A1A     		subs	r2, r3, r2
+ 562              		.loc 1 292 19 view .LVU175
+ 563 0016 A0F84820 		strh	r2, [r0, #72]	@ movhi
+ 564              	.L27:
+ 293:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width - u8g2->buf_y0;
+ 565              		.loc 1 293 3 is_stmt 1 view .LVU176
+ 566              		.loc 1 293 37 is_stmt 0 view .LVU177
+ 567 001a B0F84020 		ldrh	r2, [r0, #64]
+ 568              		.loc 1 293 31 view .LVU178
+ 569 001e 9B1A     		subs	r3, r3, r2
+ 570              		.loc 1 293 17 view .LVU179
+ 571 0020 A0F84A30 		strh	r3, [r0, #74]	@ movhi
+ 294:user/drivers/u8g2/u8g2_setup.c ****   
+ 295:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 572              		.loc 1 295 3 is_stmt 1 view .LVU180
+ 573              		.loc 1 295 17 is_stmt 0 view .LVU181
+ 574 0024 0023     		movs	r3, #0
+ 575 0026 A0F84C30 		strh	r3, [r0, #76]	@ movhi
+ 296:user/drivers/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (pixel_width) */
+ 576              		.loc 1 296 3 is_stmt 1 view .LVU182
+ 577              		.loc 1 296 23 is_stmt 0 view .LVU183
+ 578 002a B0F84630 		ldrh	r3, [r0, #70]
+ 579              		.loc 1 296 17 view .LVU184
+ 580 002e A0F84E30 		strh	r3, [r0, #78]	@ movhi
+ 297:user/drivers/u8g2/u8g2_setup.c **** 
+ 298:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 299:user/drivers/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 581              		.loc 1 299 3 is_stmt 1 view .LVU185
+ 582 0032 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 583              	.LVL31:
+ 300:user/drivers/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 301:user/drivers/u8g2/u8g2_setup.c **** }
+ 584              		.loc 1 301 1 is_stmt 0 view .LVU186
+ 585 0036 08BD     		pop	{r3, pc}
+ 586              		.cfi_endproc
+ 587              	.LFE14:
+ 589              		.section	.text.u8g2_draw_l90_r0,"ax",%progbits
+ 590              		.align	1
+ 591              		.global	u8g2_draw_l90_r0
+ 592              		.syntax unified
+ 593              		.thumb
+ 594              		.thumb_func
+ 596              	u8g2_draw_l90_r0:
+ 597              	.LVL32:
+ 598              	.LFB15:
+ 302:user/drivers/u8g2/u8g2_setup.c **** 
+ 303:user/drivers/u8g2/u8g2_setup.c **** 
+ 304:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+ 305:user/drivers/u8g2/u8g2_setup.c **** extern void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uin
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 18
+
+
+ 306:user/drivers/u8g2/u8g2_setup.c **** 
+ 307:user/drivers/u8g2/u8g2_setup.c **** 
+ 308:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 309:user/drivers/u8g2/u8g2_setup.c **** {
+ 599              		.loc 1 309 1 is_stmt 1 view -0
+ 600              		.cfi_startproc
+ 601              		@ args = 4, pretend = 0, frame = 0
+ 602              		@ frame_needed = 0, uses_anonymous_args = 0
+ 603              		.loc 1 309 1 is_stmt 0 view .LVU188
+ 604 0000 10B5     		push	{r4, lr}
+ 605              	.LCFI13:
+ 606              		.cfi_def_cfa_offset 8
+ 607              		.cfi_offset 4, -8
+ 608              		.cfi_offset 14, -4
+ 609 0002 82B0     		sub	sp, sp, #8
+ 610              	.LCFI14:
+ 611              		.cfi_def_cfa_offset 16
+ 310:user/drivers/u8g2/u8g2_setup.c **** #ifdef __unix
+ 311:user/drivers/u8g2/u8g2_setup.c ****   assert( dir <= 1 );
+ 312:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 313:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
+ 612              		.loc 1 313 3 is_stmt 1 view .LVU189
+ 613 0004 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 614 0008 0094     		str	r4, [sp]
+ 615 000a FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 616              	.LVL33:
+ 314:user/drivers/u8g2/u8g2_setup.c **** }
+ 617              		.loc 1 314 1 is_stmt 0 view .LVU190
+ 618 000e 02B0     		add	sp, sp, #8
+ 619              	.LCFI15:
+ 620              		.cfi_def_cfa_offset 8
+ 621              		@ sp needed
+ 622 0010 10BD     		pop	{r4, pc}
+ 623              		.loc 1 314 1 view .LVU191
+ 624              		.cfi_endproc
+ 625              	.LFE15:
+ 627              		.section	.text.u8g2_draw_l90_mirrorr_r0,"ax",%progbits
+ 628              		.align	1
+ 629              		.global	u8g2_draw_l90_mirrorr_r0
+ 630              		.syntax unified
+ 631              		.thumb
+ 632              		.thumb_func
+ 634              	u8g2_draw_l90_mirrorr_r0:
+ 635              	.LVL34:
+ 636              	.LFB16:
+ 315:user/drivers/u8g2/u8g2_setup.c **** 
+ 316:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_l90_mirrorr_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t 
+ 317:user/drivers/u8g2/u8g2_setup.c **** {
+ 637              		.loc 1 317 1 is_stmt 1 view -0
+ 638              		.cfi_startproc
+ 639              		@ args = 4, pretend = 0, frame = 0
+ 640              		@ frame_needed = 0, uses_anonymous_args = 0
+ 641              		.loc 1 317 1 is_stmt 0 view .LVU193
+ 642 0000 10B5     		push	{r4, lr}
+ 643              	.LCFI16:
+ 644              		.cfi_def_cfa_offset 8
+ 645              		.cfi_offset 4, -8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 19
+
+
+ 646              		.cfi_offset 14, -4
+ 647 0002 82B0     		sub	sp, sp, #8
+ 648              	.LCFI17:
+ 649              		.cfi_def_cfa_offset 16
+ 650 0004 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 318:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t xx;
+ 651              		.loc 1 318 3 is_stmt 1 view .LVU194
+ 319:user/drivers/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 652              		.loc 1 319 3 view .LVU195
+ 653              		.loc 1 319 6 is_stmt 0 view .LVU196
+ 654 0008 B0F844C0 		ldrh	ip, [r0, #68]
+ 655              	.LVL35:
+ 320:user/drivers/u8g2/u8g2_setup.c ****   xx -= x;
+ 656              		.loc 1 320 3 is_stmt 1 view .LVU197
+ 657              		.loc 1 320 6 is_stmt 0 view .LVU198
+ 658 000c ACEB0101 		sub	r1, ip, r1
+ 659              	.LVL36:
+ 660              		.loc 1 320 6 view .LVU199
+ 661 0010 89B2     		uxth	r1, r1
+ 662              	.LVL37:
+ 321:user/drivers/u8g2/u8g2_setup.c ****   if ( (dir & 1) == 0 )
+ 663              		.loc 1 321 3 is_stmt 1 view .LVU200
+ 664              		.loc 1 321 6 is_stmt 0 view .LVU201
+ 665 0012 14F0010F 		tst	r4, #1
+ 666 0016 06D1     		bne	.L32
+ 322:user/drivers/u8g2/u8g2_setup.c ****   {
+ 323:user/drivers/u8g2/u8g2_setup.c ****     xx -= len;
+ 667              		.loc 1 323 5 is_stmt 1 view .LVU202
+ 668              		.loc 1 323 8 is_stmt 0 view .LVU203
+ 669 0018 C91A     		subs	r1, r1, r3
+ 670              	.LVL38:
+ 671              		.loc 1 323 8 view .LVU204
+ 672 001a 89B2     		uxth	r1, r1
+ 673              	.LVL39:
+ 674              	.L33:
+ 324:user/drivers/u8g2/u8g2_setup.c ****   }
+ 325:user/drivers/u8g2/u8g2_setup.c ****   else
+ 326:user/drivers/u8g2/u8g2_setup.c ****   {
+ 327:user/drivers/u8g2/u8g2_setup.c ****     xx--;
+ 328:user/drivers/u8g2/u8g2_setup.c ****   }
+ 329:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, y, len, dir);
+ 675              		.loc 1 329 3 is_stmt 1 view .LVU205
+ 676 001c 0094     		str	r4, [sp]
+ 677 001e FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 678              	.LVL40:
+ 330:user/drivers/u8g2/u8g2_setup.c **** }
+ 679              		.loc 1 330 1 is_stmt 0 view .LVU206
+ 680 0022 02B0     		add	sp, sp, #8
+ 681              	.LCFI18:
+ 682              		.cfi_remember_state
+ 683              		.cfi_def_cfa_offset 8
+ 684              		@ sp needed
+ 685 0024 10BD     		pop	{r4, pc}
+ 686              	.LVL41:
+ 687              	.L32:
+ 688              	.LCFI19:
+ 689              		.cfi_restore_state
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 20
+
+
+ 327:user/drivers/u8g2/u8g2_setup.c ****   }
+ 690              		.loc 1 327 5 is_stmt 1 view .LVU207
+ 327:user/drivers/u8g2/u8g2_setup.c ****   }
+ 691              		.loc 1 327 7 is_stmt 0 view .LVU208
+ 692 0026 0139     		subs	r1, r1, #1
+ 693              	.LVL42:
+ 327:user/drivers/u8g2/u8g2_setup.c ****   }
+ 694              		.loc 1 327 7 view .LVU209
+ 695 0028 89B2     		uxth	r1, r1
+ 696              	.LVL43:
+ 327:user/drivers/u8g2/u8g2_setup.c ****   }
+ 697              		.loc 1 327 7 view .LVU210
+ 698 002a F7E7     		b	.L33
+ 699              		.cfi_endproc
+ 700              	.LFE16:
+ 702              		.section	.text.u8g2_draw_mirror_vertical_r0,"ax",%progbits
+ 703              		.align	1
+ 704              		.global	u8g2_draw_mirror_vertical_r0
+ 705              		.syntax unified
+ 706              		.thumb
+ 707              		.thumb_func
+ 709              	u8g2_draw_mirror_vertical_r0:
+ 710              	.LVL44:
+ 711              	.LFB17:
+ 331:user/drivers/u8g2/u8g2_setup.c **** 
+ 332:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_mirror_vertical_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint
+ 333:user/drivers/u8g2/u8g2_setup.c **** {
+ 712              		.loc 1 333 1 is_stmt 1 view -0
+ 713              		.cfi_startproc
+ 714              		@ args = 4, pretend = 0, frame = 0
+ 715              		@ frame_needed = 0, uses_anonymous_args = 0
+ 716              		.loc 1 333 1 is_stmt 0 view .LVU212
+ 717 0000 10B5     		push	{r4, lr}
+ 718              	.LCFI20:
+ 719              		.cfi_def_cfa_offset 8
+ 720              		.cfi_offset 4, -8
+ 721              		.cfi_offset 14, -4
+ 722 0002 82B0     		sub	sp, sp, #8
+ 723              	.LCFI21:
+ 724              		.cfi_def_cfa_offset 16
+ 725 0004 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 334:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t yy;
+ 726              		.loc 1 334 3 is_stmt 1 view .LVU213
+ 335:user/drivers/u8g2/u8g2_setup.c ****   yy = u8g2->height;
+ 727              		.loc 1 335 3 view .LVU214
+ 728              		.loc 1 335 6 is_stmt 0 view .LVU215
+ 729 0008 B0F846C0 		ldrh	ip, [r0, #70]
+ 730              	.LVL45:
+ 336:user/drivers/u8g2/u8g2_setup.c ****   yy -= y;
+ 731              		.loc 1 336 3 is_stmt 1 view .LVU216
+ 732              		.loc 1 336 6 is_stmt 0 view .LVU217
+ 733 000c ACEB0202 		sub	r2, ip, r2
+ 734              	.LVL46:
+ 735              		.loc 1 336 6 view .LVU218
+ 736 0010 92B2     		uxth	r2, r2
+ 737              	.LVL47:
+ 337:user/drivers/u8g2/u8g2_setup.c ****   if ( (dir & 1) == 1 )
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 21
+
+
+ 738              		.loc 1 337 3 is_stmt 1 view .LVU219
+ 739              		.loc 1 337 6 is_stmt 0 view .LVU220
+ 740 0012 14F0010F 		tst	r4, #1
+ 741 0016 06D0     		beq	.L36
+ 338:user/drivers/u8g2/u8g2_setup.c ****   {
+ 339:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 742              		.loc 1 339 5 is_stmt 1 view .LVU221
+ 743              		.loc 1 339 8 is_stmt 0 view .LVU222
+ 744 0018 D21A     		subs	r2, r2, r3
+ 745              	.LVL48:
+ 746              		.loc 1 339 8 view .LVU223
+ 747 001a 92B2     		uxth	r2, r2
+ 748              	.LVL49:
+ 749              	.L37:
+ 340:user/drivers/u8g2/u8g2_setup.c ****   }
+ 341:user/drivers/u8g2/u8g2_setup.c ****   else
+ 342:user/drivers/u8g2/u8g2_setup.c ****   {
+ 343:user/drivers/u8g2/u8g2_setup.c ****     yy--;
+ 344:user/drivers/u8g2/u8g2_setup.c ****   }
+ 345:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, x, yy, len, dir);
+ 750              		.loc 1 345 3 is_stmt 1 view .LVU224
+ 751 001c 0094     		str	r4, [sp]
+ 752 001e FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 753              	.LVL50:
+ 346:user/drivers/u8g2/u8g2_setup.c **** }
+ 754              		.loc 1 346 1 is_stmt 0 view .LVU225
+ 755 0022 02B0     		add	sp, sp, #8
+ 756              	.LCFI22:
+ 757              		.cfi_remember_state
+ 758              		.cfi_def_cfa_offset 8
+ 759              		@ sp needed
+ 760 0024 10BD     		pop	{r4, pc}
+ 761              	.LVL51:
+ 762              	.L36:
+ 763              	.LCFI23:
+ 764              		.cfi_restore_state
+ 343:user/drivers/u8g2/u8g2_setup.c ****   }
+ 765              		.loc 1 343 5 is_stmt 1 view .LVU226
+ 343:user/drivers/u8g2/u8g2_setup.c ****   }
+ 766              		.loc 1 343 7 is_stmt 0 view .LVU227
+ 767 0026 013A     		subs	r2, r2, #1
+ 768              	.LVL52:
+ 343:user/drivers/u8g2/u8g2_setup.c ****   }
+ 769              		.loc 1 343 7 view .LVU228
+ 770 0028 92B2     		uxth	r2, r2
+ 771              	.LVL53:
+ 343:user/drivers/u8g2/u8g2_setup.c ****   }
+ 772              		.loc 1 343 7 view .LVU229
+ 773 002a F7E7     		b	.L37
+ 774              		.cfi_endproc
+ 775              	.LFE17:
+ 777              		.section	.text.u8g2_draw_l90_r1,"ax",%progbits
+ 778              		.align	1
+ 779              		.global	u8g2_draw_l90_r1
+ 780              		.syntax unified
+ 781              		.thumb
+ 782              		.thumb_func
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 22
+
+
+ 784              	u8g2_draw_l90_r1:
+ 785              	.LVL54:
+ 786              	.LFB18:
+ 347:user/drivers/u8g2/u8g2_setup.c **** 
+ 348:user/drivers/u8g2/u8g2_setup.c **** /* dir = 0 or 1 */
+ 349:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r1(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 350:user/drivers/u8g2/u8g2_setup.c **** {
+ 787              		.loc 1 350 1 is_stmt 1 view -0
+ 788              		.cfi_startproc
+ 789              		@ args = 4, pretend = 0, frame = 0
+ 790              		@ frame_needed = 0, uses_anonymous_args = 0
+ 791              		.loc 1 350 1 is_stmt 0 view .LVU231
+ 792 0000 10B5     		push	{r4, lr}
+ 793              	.LCFI24:
+ 794              		.cfi_def_cfa_offset 8
+ 795              		.cfi_offset 4, -8
+ 796              		.cfi_offset 14, -4
+ 797 0002 82B0     		sub	sp, sp, #8
+ 798              	.LCFI25:
+ 799              		.cfi_def_cfa_offset 16
+ 800 0004 8E46     		mov	lr, r1
+ 351:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 801              		.loc 1 351 3 is_stmt 1 view .LVU232
+ 352:user/drivers/u8g2/u8g2_setup.c **** 
+ 353:user/drivers/u8g2/u8g2_setup.c **** #ifdef __unix
+ 354:user/drivers/u8g2/u8g2_setup.c ****   assert( dir <= 1 );
+ 355:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 356:user/drivers/u8g2/u8g2_setup.c ****   
+ 357:user/drivers/u8g2/u8g2_setup.c ****   yy = x;
+ 802              		.loc 1 357 3 view .LVU233
+ 803              	.LVL55:
+ 358:user/drivers/u8g2/u8g2_setup.c ****   
+ 359:user/drivers/u8g2/u8g2_setup.c ****   xx = u8g2->height;
+ 804              		.loc 1 359 3 view .LVU234
+ 805              		.loc 1 359 6 is_stmt 0 view .LVU235
+ 806 0006 B0F846C0 		ldrh	ip, [r0, #70]
+ 807              	.LVL56:
+ 360:user/drivers/u8g2/u8g2_setup.c ****   xx -= y;
+ 808              		.loc 1 360 3 is_stmt 1 view .LVU236
+ 809              		.loc 1 360 6 is_stmt 0 view .LVU237
+ 810 000a ACEB020C 		sub	ip, ip, r2
+ 811 000e 1FFA8CFC 		uxth	ip, ip
+ 812              	.LVL57:
+ 361:user/drivers/u8g2/u8g2_setup.c ****   xx--;
+ 813              		.loc 1 361 3 is_stmt 1 view .LVU238
+ 814              		.loc 1 361 5 is_stmt 0 view .LVU239
+ 815 0012 0CF1FF3C 		add	ip, ip, #-1
+ 816              	.LVL58:
+ 817              		.loc 1 361 5 view .LVU240
+ 818 0016 1FFA8CF1 		uxth	r1, ip
+ 819              	.LVL59:
+ 362:user/drivers/u8g2/u8g2_setup.c ****   
+ 363:user/drivers/u8g2/u8g2_setup.c ****   dir ++;
+ 820              		.loc 1 363 3 is_stmt 1 view .LVU241
+ 821              		.loc 1 363 7 is_stmt 0 view .LVU242
+ 822 001a 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 823 001e 0134     		adds	r4, r4, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 23
+
+
+ 824 0020 E4B2     		uxtb	r4, r4
+ 825              	.LVL60:
+ 364:user/drivers/u8g2/u8g2_setup.c ****   if ( dir == 2 )
+ 826              		.loc 1 364 3 is_stmt 1 view .LVU243
+ 827              		.loc 1 364 6 is_stmt 0 view .LVU244
+ 828 0022 022C     		cmp	r4, #2
+ 829 0024 05D0     		beq	.L42
+ 830              	.LVL61:
+ 831              	.L40:
+ 365:user/drivers/u8g2/u8g2_setup.c ****   {
+ 366:user/drivers/u8g2/u8g2_setup.c ****     xx -= len;
+ 367:user/drivers/u8g2/u8g2_setup.c ****     xx++;
+ 368:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 369:user/drivers/u8g2/u8g2_setup.c ****   }
+ 370:user/drivers/u8g2/u8g2_setup.c ****   
+ 371:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 832              		.loc 1 371 3 is_stmt 1 view .LVU245
+ 833 0026 0094     		str	r4, [sp]
+ 834 0028 7246     		mov	r2, lr
+ 835              	.LVL62:
+ 836              		.loc 1 371 3 is_stmt 0 view .LVU246
+ 837 002a FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 838              	.LVL63:
+ 372:user/drivers/u8g2/u8g2_setup.c **** }
+ 839              		.loc 1 372 1 view .LVU247
+ 840 002e 02B0     		add	sp, sp, #8
+ 841              	.LCFI26:
+ 842              		.cfi_remember_state
+ 843              		.cfi_def_cfa_offset 8
+ 844              		@ sp needed
+ 845 0030 10BD     		pop	{r4, pc}
+ 846              	.LVL64:
+ 847              	.L42:
+ 848              	.LCFI27:
+ 849              		.cfi_restore_state
+ 366:user/drivers/u8g2/u8g2_setup.c ****     xx++;
+ 850              		.loc 1 366 5 is_stmt 1 view .LVU248
+ 366:user/drivers/u8g2/u8g2_setup.c ****     xx++;
+ 851              		.loc 1 366 8 is_stmt 0 view .LVU249
+ 852 0032 A1EB030C 		sub	ip, r1, r3
+ 853 0036 1FFA8CFC 		uxth	ip, ip
+ 854              	.LVL65:
+ 367:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 855              		.loc 1 367 5 is_stmt 1 view .LVU250
+ 367:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 856              		.loc 1 367 7 is_stmt 0 view .LVU251
+ 857 003a 0CF1010C 		add	ip, ip, #1
+ 858              	.LVL66:
+ 367:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 859              		.loc 1 367 7 view .LVU252
+ 860 003e 1FFA8CF1 		uxth	r1, ip
+ 861              	.LVL67:
+ 368:user/drivers/u8g2/u8g2_setup.c ****   }
+ 862              		.loc 1 368 5 is_stmt 1 view .LVU253
+ 368:user/drivers/u8g2/u8g2_setup.c ****   }
+ 863              		.loc 1 368 9 is_stmt 0 view .LVU254
+ 864 0042 0024     		movs	r4, #0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 24
+
+
+ 865 0044 EFE7     		b	.L40
+ 866              		.cfi_endproc
+ 867              	.LFE18:
+ 869              		.section	.text.u8g2_draw_l90_r2,"ax",%progbits
+ 870              		.align	1
+ 871              		.global	u8g2_draw_l90_r2
+ 872              		.syntax unified
+ 873              		.thumb
+ 874              		.thumb_func
+ 876              	u8g2_draw_l90_r2:
+ 877              	.LVL68:
+ 878              	.LFB19:
+ 373:user/drivers/u8g2/u8g2_setup.c **** 
+ 374:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 375:user/drivers/u8g2/u8g2_setup.c **** {
+ 879              		.loc 1 375 1 is_stmt 1 view -0
+ 880              		.cfi_startproc
+ 881              		@ args = 4, pretend = 0, frame = 0
+ 882              		@ frame_needed = 0, uses_anonymous_args = 0
+ 883              		.loc 1 375 1 is_stmt 0 view .LVU256
+ 884 0000 10B5     		push	{r4, lr}
+ 885              	.LCFI28:
+ 886              		.cfi_def_cfa_offset 8
+ 887              		.cfi_offset 4, -8
+ 888              		.cfi_offset 14, -4
+ 889 0002 82B0     		sub	sp, sp, #8
+ 890              	.LCFI29:
+ 891              		.cfi_def_cfa_offset 16
+ 892 0004 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 376:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 893              		.loc 1 376 3 is_stmt 1 view .LVU257
+ 377:user/drivers/u8g2/u8g2_setup.c **** 
+ 378:user/drivers/u8g2/u8g2_setup.c ****   /*
+ 379:user/drivers/u8g2/u8g2_setup.c ****   yy = u8g2->height;
+ 380:user/drivers/u8g2/u8g2_setup.c ****   yy -= y;
+ 381:user/drivers/u8g2/u8g2_setup.c ****   yy--;
+ 382:user/drivers/u8g2/u8g2_setup.c ****   
+ 383:user/drivers/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 384:user/drivers/u8g2/u8g2_setup.c ****   xx -= x;
+ 385:user/drivers/u8g2/u8g2_setup.c ****   xx--;
+ 386:user/drivers/u8g2/u8g2_setup.c ****   
+ 387:user/drivers/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 388:user/drivers/u8g2/u8g2_setup.c ****   {
+ 389:user/drivers/u8g2/u8g2_setup.c ****     xx -= len;
+ 390:user/drivers/u8g2/u8g2_setup.c ****     xx++;
+ 391:user/drivers/u8g2/u8g2_setup.c ****   }
+ 392:user/drivers/u8g2/u8g2_setup.c ****   else if ( dir == 1 )
+ 393:user/drivers/u8g2/u8g2_setup.c ****   {
+ 394:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 395:user/drivers/u8g2/u8g2_setup.c ****     yy++;
+ 396:user/drivers/u8g2/u8g2_setup.c ****   }
+ 397:user/drivers/u8g2/u8g2_setup.c ****   */
+ 398:user/drivers/u8g2/u8g2_setup.c **** 
+ 399:user/drivers/u8g2/u8g2_setup.c ****   yy = u8g2->height;
+ 894              		.loc 1 399 3 view .LVU258
+ 895              		.loc 1 399 6 is_stmt 0 view .LVU259
+ 896 0008 B0F846C0 		ldrh	ip, [r0, #70]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 25
+
+
+ 897              	.LVL69:
+ 400:user/drivers/u8g2/u8g2_setup.c ****   yy -= y;
+ 898              		.loc 1 400 3 is_stmt 1 view .LVU260
+ 899              		.loc 1 400 6 is_stmt 0 view .LVU261
+ 900 000c ACEB0202 		sub	r2, ip, r2
+ 901              	.LVL70:
+ 902              		.loc 1 400 6 view .LVU262
+ 903 0010 92B2     		uxth	r2, r2
+ 904              	.LVL71:
+ 401:user/drivers/u8g2/u8g2_setup.c ****   
+ 402:user/drivers/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 905              		.loc 1 402 3 is_stmt 1 view .LVU263
+ 906              		.loc 1 402 6 is_stmt 0 view .LVU264
+ 907 0012 B0F844C0 		ldrh	ip, [r0, #68]
+ 908              	.LVL72:
+ 403:user/drivers/u8g2/u8g2_setup.c ****   xx -= x;
+ 909              		.loc 1 403 3 is_stmt 1 view .LVU265
+ 910              		.loc 1 403 6 is_stmt 0 view .LVU266
+ 911 0016 ACEB0101 		sub	r1, ip, r1
+ 912              	.LVL73:
+ 913              		.loc 1 403 6 view .LVU267
+ 914 001a 89B2     		uxth	r1, r1
+ 915              	.LVL74:
+ 404:user/drivers/u8g2/u8g2_setup.c ****   
+ 405:user/drivers/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 916              		.loc 1 405 3 is_stmt 1 view .LVU268
+ 917              		.loc 1 405 6 is_stmt 0 view .LVU269
+ 918 001c 44B9     		cbnz	r4, .L44
+ 406:user/drivers/u8g2/u8g2_setup.c ****   {
+ 407:user/drivers/u8g2/u8g2_setup.c ****     yy--;
+ 919              		.loc 1 407 5 is_stmt 1 view .LVU270
+ 920              		.loc 1 407 7 is_stmt 0 view .LVU271
+ 921 001e 013A     		subs	r2, r2, #1
+ 922              	.LVL75:
+ 923              		.loc 1 407 7 view .LVU272
+ 924 0020 92B2     		uxth	r2, r2
+ 925              	.LVL76:
+ 408:user/drivers/u8g2/u8g2_setup.c ****     xx -= len;
+ 926              		.loc 1 408 5 is_stmt 1 view .LVU273
+ 927              		.loc 1 408 8 is_stmt 0 view .LVU274
+ 928 0022 C91A     		subs	r1, r1, r3
+ 929              	.LVL77:
+ 930              		.loc 1 408 8 view .LVU275
+ 931 0024 89B2     		uxth	r1, r1
+ 932              	.LVL78:
+ 933              	.L45:
+ 409:user/drivers/u8g2/u8g2_setup.c ****   }
+ 410:user/drivers/u8g2/u8g2_setup.c ****   else if ( dir == 1 )
+ 411:user/drivers/u8g2/u8g2_setup.c ****   {
+ 412:user/drivers/u8g2/u8g2_setup.c ****     xx--;
+ 413:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 414:user/drivers/u8g2/u8g2_setup.c ****   }
+ 415:user/drivers/u8g2/u8g2_setup.c **** 
+ 416:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 934              		.loc 1 416 3 is_stmt 1 view .LVU276
+ 935 0026 0094     		str	r4, [sp]
+ 936 0028 FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 26
+
+
+ 937              	.LVL79:
+ 417:user/drivers/u8g2/u8g2_setup.c **** }
+ 938              		.loc 1 417 1 is_stmt 0 view .LVU277
+ 939 002c 02B0     		add	sp, sp, #8
+ 940              	.LCFI30:
+ 941              		.cfi_remember_state
+ 942              		.cfi_def_cfa_offset 8
+ 943              		@ sp needed
+ 944 002e 10BD     		pop	{r4, pc}
+ 945              	.LVL80:
+ 946              	.L44:
+ 947              	.LCFI31:
+ 948              		.cfi_restore_state
+ 410:user/drivers/u8g2/u8g2_setup.c ****   {
+ 949              		.loc 1 410 8 is_stmt 1 view .LVU278
+ 410:user/drivers/u8g2/u8g2_setup.c ****   {
+ 950              		.loc 1 410 11 is_stmt 0 view .LVU279
+ 951 0030 012C     		cmp	r4, #1
+ 952 0032 F8D1     		bne	.L45
+ 412:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 953              		.loc 1 412 5 is_stmt 1 view .LVU280
+ 412:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 954              		.loc 1 412 7 is_stmt 0 view .LVU281
+ 955 0034 0139     		subs	r1, r1, #1
+ 956              	.LVL81:
+ 412:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 957              		.loc 1 412 7 view .LVU282
+ 958 0036 89B2     		uxth	r1, r1
+ 959              	.LVL82:
+ 413:user/drivers/u8g2/u8g2_setup.c ****   }
+ 960              		.loc 1 413 5 is_stmt 1 view .LVU283
+ 413:user/drivers/u8g2/u8g2_setup.c ****   }
+ 961              		.loc 1 413 8 is_stmt 0 view .LVU284
+ 962 0038 D21A     		subs	r2, r2, r3
+ 963              	.LVL83:
+ 413:user/drivers/u8g2/u8g2_setup.c ****   }
+ 964              		.loc 1 413 8 view .LVU285
+ 965 003a 92B2     		uxth	r2, r2
+ 966              	.LVL84:
+ 413:user/drivers/u8g2/u8g2_setup.c ****   }
+ 967              		.loc 1 413 8 view .LVU286
+ 968 003c F3E7     		b	.L45
+ 969              		.cfi_endproc
+ 970              	.LFE19:
+ 972              		.section	.text.u8g2_draw_l90_r3,"ax",%progbits
+ 973              		.align	1
+ 974              		.global	u8g2_draw_l90_r3
+ 975              		.syntax unified
+ 976              		.thumb
+ 977              		.thumb_func
+ 979              	u8g2_draw_l90_r3:
+ 980              	.LVL85:
+ 981              	.LFB20:
+ 418:user/drivers/u8g2/u8g2_setup.c **** 
+ 419:user/drivers/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r3(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 420:user/drivers/u8g2/u8g2_setup.c **** {
+ 982              		.loc 1 420 1 is_stmt 1 view -0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 27
+
+
+ 983              		.cfi_startproc
+ 984              		@ args = 4, pretend = 0, frame = 0
+ 985              		@ frame_needed = 0, uses_anonymous_args = 0
+ 986              		.loc 1 420 1 is_stmt 0 view .LVU288
+ 987 0000 10B5     		push	{r4, lr}
+ 988              	.LCFI32:
+ 989              		.cfi_def_cfa_offset 8
+ 990              		.cfi_offset 4, -8
+ 991              		.cfi_offset 14, -4
+ 992 0002 82B0     		sub	sp, sp, #8
+ 993              	.LCFI33:
+ 994              		.cfi_def_cfa_offset 16
+ 995 0004 0C46     		mov	r4, r1
+ 996 0006 1146     		mov	r1, r2
+ 997              	.LVL86:
+ 998              		.loc 1 420 1 view .LVU289
+ 999 0008 9DF81020 		ldrb	r2, [sp, #16]	@ zero_extendqisi2
+ 1000              	.LVL87:
+ 421:user/drivers/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 1001              		.loc 1 421 3 is_stmt 1 view .LVU290
+ 422:user/drivers/u8g2/u8g2_setup.c **** 
+ 423:user/drivers/u8g2/u8g2_setup.c ****   xx = y;
+ 1002              		.loc 1 423 3 view .LVU291
+ 424:user/drivers/u8g2/u8g2_setup.c ****   
+ 425:user/drivers/u8g2/u8g2_setup.c ****   yy = u8g2->width;
+ 1003              		.loc 1 425 3 view .LVU292
+ 1004              		.loc 1 425 6 is_stmt 0 view .LVU293
+ 1005 000c B0F844C0 		ldrh	ip, [r0, #68]
+ 1006              	.LVL88:
+ 426:user/drivers/u8g2/u8g2_setup.c ****   yy -= x;
+ 1007              		.loc 1 426 3 is_stmt 1 view .LVU294
+ 1008              		.loc 1 426 6 is_stmt 0 view .LVU295
+ 1009 0010 ACEB040C 		sub	ip, ip, r4
+ 1010 0014 1FFA8CFC 		uxth	ip, ip
+ 1011              	.LVL89:
+ 427:user/drivers/u8g2/u8g2_setup.c ****   
+ 428:user/drivers/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 1012              		.loc 1 428 3 is_stmt 1 view .LVU296
+ 1013              		.loc 1 428 6 is_stmt 0 view .LVU297
+ 1014 0018 8AB9     		cbnz	r2, .L48
+ 429:user/drivers/u8g2/u8g2_setup.c ****   {
+ 430:user/drivers/u8g2/u8g2_setup.c ****     yy--;
+ 1015              		.loc 1 430 5 is_stmt 1 view .LVU298
+ 1016              		.loc 1 430 7 is_stmt 0 view .LVU299
+ 1017 001a 0CF1FF3C 		add	ip, ip, #-1
+ 1018              	.LVL90:
+ 1019              		.loc 1 430 7 view .LVU300
+ 1020 001e 1FFA8CFC 		uxth	ip, ip
+ 1021              	.LVL91:
+ 431:user/drivers/u8g2/u8g2_setup.c ****     yy -= len;
+ 1022              		.loc 1 431 5 is_stmt 1 view .LVU301
+ 1023              		.loc 1 431 8 is_stmt 0 view .LVU302
+ 1024 0022 ACEB030C 		sub	ip, ip, r3
+ 1025              	.LVL92:
+ 1026              		.loc 1 431 8 view .LVU303
+ 1027 0026 1FFA8CFC 		uxth	ip, ip
+ 1028              	.LVL93:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 28
+
+
+ 432:user/drivers/u8g2/u8g2_setup.c ****     yy++;
+ 1029              		.loc 1 432 5 is_stmt 1 view .LVU304
+ 1030              		.loc 1 432 7 is_stmt 0 view .LVU305
+ 1031 002a 0CF1010C 		add	ip, ip, #1
+ 1032              	.LVL94:
+ 1033              		.loc 1 432 7 view .LVU306
+ 1034 002e 1FFA8CF2 		uxth	r2, ip
+ 1035              	.LVL95:
+ 433:user/drivers/u8g2/u8g2_setup.c ****     dir = 1;
+ 1036              		.loc 1 433 5 is_stmt 1 view .LVU307
+ 1037              		.loc 1 433 9 is_stmt 0 view .LVU308
+ 1038 0032 0124     		movs	r4, #1
+ 1039              	.LVL96:
+ 1040              	.L49:
+ 434:user/drivers/u8g2/u8g2_setup.c ****   }
+ 435:user/drivers/u8g2/u8g2_setup.c ****   else
+ 436:user/drivers/u8g2/u8g2_setup.c ****   {
+ 437:user/drivers/u8g2/u8g2_setup.c ****     yy--;
+ 438:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 439:user/drivers/u8g2/u8g2_setup.c ****   }
+ 440:user/drivers/u8g2/u8g2_setup.c ****   
+ 441:user/drivers/u8g2/u8g2_setup.c ****   
+ 442:user/drivers/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 1041              		.loc 1 442 3 is_stmt 1 view .LVU309
+ 1042 0034 0094     		str	r4, [sp]
+ 1043 0036 FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 1044              	.LVL97:
+ 443:user/drivers/u8g2/u8g2_setup.c **** }
+ 1045              		.loc 1 443 1 is_stmt 0 view .LVU310
+ 1046 003a 02B0     		add	sp, sp, #8
+ 1047              	.LCFI34:
+ 1048              		.cfi_remember_state
+ 1049              		.cfi_def_cfa_offset 8
+ 1050              		@ sp needed
+ 1051 003c 10BD     		pop	{r4, pc}
+ 1052              	.LVL98:
+ 1053              	.L48:
+ 1054              	.LCFI35:
+ 1055              		.cfi_restore_state
+ 437:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 1056              		.loc 1 437 5 is_stmt 1 view .LVU311
+ 437:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 1057              		.loc 1 437 7 is_stmt 0 view .LVU312
+ 1058 003e 0CF1FF3C 		add	ip, ip, #-1
+ 1059              	.LVL99:
+ 437:user/drivers/u8g2/u8g2_setup.c ****     dir = 0;
+ 1060              		.loc 1 437 7 view .LVU313
+ 1061 0042 1FFA8CF2 		uxth	r2, ip
+ 1062              	.LVL100:
+ 438:user/drivers/u8g2/u8g2_setup.c ****   }
+ 1063              		.loc 1 438 5 is_stmt 1 view .LVU314
+ 438:user/drivers/u8g2/u8g2_setup.c ****   }
+ 1064              		.loc 1 438 9 is_stmt 0 view .LVU315
+ 1065 0046 0024     		movs	r4, #0
+ 1066 0048 F4E7     		b	.L49
+ 1067              		.cfi_endproc
+ 1068              	.LFE20:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 29
+
+
+ 1070              		.section	.text.u8g2_SetMaxClipWindow,"ax",%progbits
+ 1071              		.align	1
+ 1072              		.global	u8g2_SetMaxClipWindow
+ 1073              		.syntax unified
+ 1074              		.thumb
+ 1075              		.thumb_func
+ 1077              	u8g2_SetMaxClipWindow:
+ 1078              	.LVL101:
+ 1079              	.LFB0:
+  47:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = 0;
+ 1080              		.loc 1 47 1 is_stmt 1 view -0
+ 1081              		.cfi_startproc
+ 1082              		@ args = 0, pretend = 0, frame = 0
+ 1083              		@ frame_needed = 0, uses_anonymous_args = 0
+  47:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = 0;
+ 1084              		.loc 1 47 1 is_stmt 0 view .LVU317
+ 1085 0000 08B5     		push	{r3, lr}
+ 1086              	.LCFI36:
+ 1087              		.cfi_def_cfa_offset 8
+ 1088              		.cfi_offset 3, -8
+ 1089              		.cfi_offset 14, -4
+  48:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = 0;
+ 1090              		.loc 1 48 3 is_stmt 1 view .LVU318
+  48:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = 0;
+ 1091              		.loc 1 48 17 is_stmt 0 view .LVU319
+ 1092 0002 0022     		movs	r2, #0
+ 1093 0004 A0F85020 		strh	r2, [r0, #80]	@ movhi
+  49:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 1094              		.loc 1 49 3 is_stmt 1 view .LVU320
+  49:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 1095              		.loc 1 49 17 is_stmt 0 view .LVU321
+ 1096 0008 A0F85420 		strh	r2, [r0, #84]	@ movhi
+  50:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 1097              		.loc 1 50 3 is_stmt 1 view .LVU322
+  50:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 1098              		.loc 1 50 17 is_stmt 0 view .LVU323
+ 1099 000c 4FF6FF72 		movw	r2, #65535
+ 1100 0010 A0F85220 		strh	r2, [r0, #82]	@ movhi
+  51:user/drivers/u8g2/u8g2_setup.c ****   
+ 1101              		.loc 1 51 3 is_stmt 1 view .LVU324
+  51:user/drivers/u8g2/u8g2_setup.c ****   
+ 1102              		.loc 1 51 17 is_stmt 0 view .LVU325
+ 1103 0014 A0F85620 		strh	r2, [r0, #86]	@ movhi
+  53:user/drivers/u8g2/u8g2_setup.c **** }
+ 1104              		.loc 1 53 3 is_stmt 1 view .LVU326
+  53:user/drivers/u8g2/u8g2_setup.c **** }
+ 1105              		.loc 1 53 7 is_stmt 0 view .LVU327
+ 1106 0018 036B     		ldr	r3, [r0, #48]
+  53:user/drivers/u8g2/u8g2_setup.c **** }
+ 1107              		.loc 1 53 11 view .LVU328
+ 1108 001a 5B68     		ldr	r3, [r3, #4]
+  53:user/drivers/u8g2/u8g2_setup.c **** }
+ 1109              		.loc 1 53 3 view .LVU329
+ 1110 001c 9847     		blx	r3
+ 1111              	.LVL102:
+  54:user/drivers/u8g2/u8g2_setup.c **** 
+ 1112              		.loc 1 54 1 view .LVU330
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 30
+
+
+ 1113 001e 08BD     		pop	{r3, pc}
+ 1114              		.cfi_endproc
+ 1115              	.LFE0:
+ 1117              		.section	.text.u8g2_SetClipWindow,"ax",%progbits
+ 1118              		.align	1
+ 1119              		.global	u8g2_SetClipWindow
+ 1120              		.syntax unified
+ 1121              		.thumb
+ 1122              		.thumb_func
+ 1124              	u8g2_SetClipWindow:
+ 1125              	.LVL103:
+ 1126              	.LFB1:
+  57:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = clip_x0;
+ 1127              		.loc 1 57 1 is_stmt 1 view -0
+ 1128              		.cfi_startproc
+ 1129              		@ args = 4, pretend = 0, frame = 0
+ 1130              		@ frame_needed = 0, uses_anonymous_args = 0
+  57:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = clip_x0;
+ 1131              		.loc 1 57 1 is_stmt 0 view .LVU332
+ 1132 0000 08B5     		push	{r3, lr}
+ 1133              	.LCFI37:
+ 1134              		.cfi_def_cfa_offset 8
+ 1135              		.cfi_offset 3, -8
+ 1136              		.cfi_offset 14, -4
+  58:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = clip_y0;
+ 1137              		.loc 1 58 3 is_stmt 1 view .LVU333
+  58:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = clip_y0;
+ 1138              		.loc 1 58 17 is_stmt 0 view .LVU334
+ 1139 0002 A0F85010 		strh	r1, [r0, #80]	@ movhi
+  59:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = clip_x1;
+ 1140              		.loc 1 59 3 is_stmt 1 view .LVU335
+  59:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = clip_x1;
+ 1141              		.loc 1 59 17 is_stmt 0 view .LVU336
+ 1142 0006 A0F85420 		strh	r2, [r0, #84]	@ movhi
+  60:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = clip_y1;
+ 1143              		.loc 1 60 3 is_stmt 1 view .LVU337
+  60:user/drivers/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = clip_y1;
+ 1144              		.loc 1 60 17 is_stmt 0 view .LVU338
+ 1145 000a A0F85230 		strh	r3, [r0, #82]	@ movhi
+  61:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1146              		.loc 1 61 3 is_stmt 1 view .LVU339
+  61:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1147              		.loc 1 61 17 is_stmt 0 view .LVU340
+ 1148 000e BDF80830 		ldrh	r3, [sp, #8]
+ 1149              	.LVL104:
+  61:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1150              		.loc 1 61 17 view .LVU341
+ 1151 0012 A0F85630 		strh	r3, [r0, #86]	@ movhi
+  62:user/drivers/u8g2/u8g2_setup.c **** }
+ 1152              		.loc 1 62 3 is_stmt 1 view .LVU342
+  62:user/drivers/u8g2/u8g2_setup.c **** }
+ 1153              		.loc 1 62 7 is_stmt 0 view .LVU343
+ 1154 0016 036B     		ldr	r3, [r0, #48]
+  62:user/drivers/u8g2/u8g2_setup.c **** }
+ 1155              		.loc 1 62 11 view .LVU344
+ 1156 0018 5B68     		ldr	r3, [r3, #4]
+  62:user/drivers/u8g2/u8g2_setup.c **** }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 31
+
+
+ 1157              		.loc 1 62 3 view .LVU345
+ 1158 001a 9847     		blx	r3
+ 1159              	.LVL105:
+  63:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 1160              		.loc 1 63 1 view .LVU346
+ 1161 001c 08BD     		pop	{r3, pc}
+  63:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 1162              		.loc 1 63 1 view .LVU347
+ 1163              		.cfi_endproc
+ 1164              	.LFE1:
+ 1166              		.section	.text.u8g2_SetupBuffer,"ax",%progbits
+ 1167              		.align	1
+ 1168              		.global	u8g2_SetupBuffer
+ 1169              		.syntax unified
+ 1170              		.thumb
+ 1171              		.thumb_func
+ 1173              	u8g2_SetupBuffer:
+ 1174              	.LVL106:
+ 1175              	.LFB2:
+  72:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font = NULL;
+ 1176              		.loc 1 72 1 is_stmt 1 view -0
+ 1177              		.cfi_startproc
+ 1178              		@ args = 4, pretend = 0, frame = 0
+ 1179              		@ frame_needed = 0, uses_anonymous_args = 0
+  72:user/drivers/u8g2/u8g2_setup.c ****   u8g2->font = NULL;
+ 1180              		.loc 1 72 1 is_stmt 0 view .LVU349
+ 1181 0000 70B5     		push	{r4, r5, r6, lr}
+ 1182              	.LCFI38:
+ 1183              		.cfi_def_cfa_offset 16
+ 1184              		.cfi_offset 4, -16
+ 1185              		.cfi_offset 5, -12
+ 1186              		.cfi_offset 6, -8
+ 1187              		.cfi_offset 14, -4
+ 1188 0002 0446     		mov	r4, r0
+ 1189 0004 049E     		ldr	r6, [sp, #16]
+  73:user/drivers/u8g2/u8g2_setup.c ****   //u8g2->kerning = NULL;
+ 1190              		.loc 1 73 3 is_stmt 1 view .LVU350
+  73:user/drivers/u8g2/u8g2_setup.c ****   //u8g2->kerning = NULL;
+ 1191              		.loc 1 73 14 is_stmt 0 view .LVU351
+ 1192 0006 0025     		movs	r5, #0
+ 1193 0008 8565     		str	r5, [r0, #88]
+  78:user/drivers/u8g2/u8g2_setup.c ****   
+ 1194              		.loc 1 78 3 is_stmt 1 view .LVU352
+  78:user/drivers/u8g2/u8g2_setup.c ****   
+ 1195              		.loc 1 78 19 is_stmt 0 view .LVU353
+ 1196 000a C362     		str	r3, [r0, #44]
+  80:user/drivers/u8g2/u8g2_setup.c ****   u8g2->tile_buf_height = tile_buf_height;
+ 1197              		.loc 1 80 3 is_stmt 1 view .LVU354
+  80:user/drivers/u8g2/u8g2_setup.c ****   u8g2->tile_buf_height = tile_buf_height;
+ 1198              		.loc 1 80 22 is_stmt 0 view .LVU355
+ 1199 000c 4163     		str	r1, [r0, #52]
+  81:user/drivers/u8g2/u8g2_setup.c ****   
+ 1200              		.loc 1 81 3 is_stmt 1 view .LVU356
+  81:user/drivers/u8g2/u8g2_setup.c ****   
+ 1201              		.loc 1 81 25 is_stmt 0 view .LVU357
+ 1202 000e 80F83820 		strb	r2, [r0, #56]
+  83:user/drivers/u8g2/u8g2_setup.c ****   
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 32
+
+
+ 1203              		.loc 1 83 3 is_stmt 1 view .LVU358
+  83:user/drivers/u8g2/u8g2_setup.c ****   
+ 1204              		.loc 1 83 23 is_stmt 0 view .LVU359
+ 1205 0012 80F83950 		strb	r5, [r0, #57]
+  85:user/drivers/u8g2/u8g2_setup.c ****   u8g2->bitmap_transparency = 0;
+ 1206              		.loc 1 85 3 is_stmt 1 view .LVU360
+  85:user/drivers/u8g2/u8g2_setup.c ****   u8g2->bitmap_transparency = 0;
+ 1207              		.loc 1 85 36 is_stmt 0 view .LVU361
+ 1208 0016 80F86D50 		strb	r5, [r0, #109]
+  86:user/drivers/u8g2/u8g2_setup.c ****   
+ 1209              		.loc 1 86 3 is_stmt 1 view .LVU362
+  86:user/drivers/u8g2/u8g2_setup.c ****   
+ 1210              		.loc 1 86 29 is_stmt 0 view .LVU363
+ 1211 001a 80F89150 		strb	r5, [r0, #145]
+  88:user/drivers/u8g2/u8g2_setup.c ****   u8g2->draw_color = 1;
+ 1212              		.loc 1 88 3 is_stmt 1 view .LVU364
+  88:user/drivers/u8g2/u8g2_setup.c ****   u8g2->draw_color = 1;
+ 1213              		.loc 1 88 26 is_stmt 0 view .LVU365
+ 1214 001e 80F88D50 		strb	r5, [r0, #141]
+  89:user/drivers/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+ 1215              		.loc 1 89 3 is_stmt 1 view .LVU366
+  89:user/drivers/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+ 1216              		.loc 1 89 20 is_stmt 0 view .LVU367
+ 1217 0022 0123     		movs	r3, #1
+ 1218              	.LVL107:
+  89:user/drivers/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+ 1219              		.loc 1 89 20 view .LVU368
+ 1220 0024 80F89230 		strb	r3, [r0, #146]
+  90:user/drivers/u8g2/u8g2_setup.c ****   
+ 1221              		.loc 1 90 3 is_stmt 1 view .LVU369
+  90:user/drivers/u8g2/u8g2_setup.c ****   
+ 1222              		.loc 1 90 28 is_stmt 0 view .LVU370
+ 1223 0028 80F89330 		strb	r3, [r0, #147]
+  92:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 1224              		.loc 1 92 3 is_stmt 1 view .LVU371
+  92:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 1225              		.loc 1 92 12 is_stmt 0 view .LVU372
+ 1226 002c 0663     		str	r6, [r0, #48]
+  93:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 1227              		.loc 1 93 3 is_stmt 1 view .LVU373
+  93:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 1228              		.loc 1 93 11 is_stmt 0 view .LVU374
+ 1229 002e 3368     		ldr	r3, [r6]
+  93:user/drivers/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 1230              		.loc 1 93 3 view .LVU375
+ 1231 0030 9847     		blx	r3
+ 1232              	.LVL108:
+  95:user/drivers/u8g2/u8g2_setup.c **** #else
+ 1233              		.loc 1 95 3 is_stmt 1 view .LVU376
+ 1234 0032 2046     		mov	r0, r4
+ 1235 0034 FFF7FEFF 		bl	u8g2_SetMaxClipWindow
+ 1236              	.LVL109:
+ 100:user/drivers/u8g2/u8g2_setup.c ****   
+ 1237              		.loc 1 100 3 view .LVU377
+ 1238 0038 2046     		mov	r0, r4
+ 1239 003a FFF7FEFF 		bl	u8g2_SetFontPosBaseline
+ 1240              	.LVL110:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 33
+
+
+ 103:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 1241              		.loc 1 103 3 view .LVU378
+ 103:user/drivers/u8g2/u8g2_setup.c **** #endif
+ 1242              		.loc 1 103 25 is_stmt 0 view .LVU379
+ 1243 003e 84F87050 		strb	r5, [r4, #112]
+ 105:user/drivers/u8g2/u8g2_setup.c **** 
+ 1244              		.loc 1 105 1 view .LVU380
+ 1245 0042 70BD     		pop	{r4, r5, r6, pc}
+ 105:user/drivers/u8g2/u8g2_setup.c **** 
+ 1246              		.loc 1 105 1 view .LVU381
+ 1247              		.cfi_endproc
+ 1248              	.LFE2:
+ 1250              		.section	.text.u8g2_SetDisplayRotation,"ax",%progbits
+ 1251              		.align	1
+ 1252              		.global	u8g2_SetDisplayRotation
+ 1253              		.syntax unified
+ 1254              		.thumb
+ 1255              		.thumb_func
+ 1257              	u8g2_SetDisplayRotation:
+ 1258              	.LVL111:
+ 1259              	.LFB3:
+ 112:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ 1260              		.loc 1 112 1 is_stmt 1 view -0
+ 1261              		.cfi_startproc
+ 1262              		@ args = 0, pretend = 0, frame = 0
+ 1263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ 1264              		.loc 1 112 1 is_stmt 0 view .LVU383
+ 1265 0000 10B5     		push	{r4, lr}
+ 1266              	.LCFI39:
+ 1267              		.cfi_def_cfa_offset 8
+ 1268              		.cfi_offset 4, -8
+ 1269              		.cfi_offset 14, -4
+ 1270 0002 0446     		mov	r4, r0
+ 113:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 1271              		.loc 1 113 3 is_stmt 1 view .LVU384
+ 113:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 1272              		.loc 1 113 12 is_stmt 0 view .LVU385
+ 1273 0004 0163     		str	r1, [r0, #48]
+ 114:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1274              		.loc 1 114 3 is_stmt 1 view .LVU386
+ 114:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1275              		.loc 1 114 11 is_stmt 0 view .LVU387
+ 1276 0006 0B68     		ldr	r3, [r1]
+ 114:user/drivers/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1277              		.loc 1 114 3 view .LVU388
+ 1278 0008 9847     		blx	r3
+ 1279              	.LVL112:
+ 115:user/drivers/u8g2/u8g2_setup.c **** }
+ 1280              		.loc 1 115 3 is_stmt 1 view .LVU389
+ 115:user/drivers/u8g2/u8g2_setup.c **** }
+ 1281              		.loc 1 115 7 is_stmt 0 view .LVU390
+ 1282 000a 236B     		ldr	r3, [r4, #48]
+ 115:user/drivers/u8g2/u8g2_setup.c **** }
+ 1283              		.loc 1 115 11 view .LVU391
+ 1284 000c 5B68     		ldr	r3, [r3, #4]
+ 115:user/drivers/u8g2/u8g2_setup.c **** }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 34
+
+
+ 1285              		.loc 1 115 3 view .LVU392
+ 1286 000e 2046     		mov	r0, r4
+ 1287 0010 9847     		blx	r3
+ 1288              	.LVL113:
+ 116:user/drivers/u8g2/u8g2_setup.c **** 
+ 1289              		.loc 1 116 1 view .LVU393
+ 1290 0012 10BD     		pop	{r4, pc}
+ 116:user/drivers/u8g2/u8g2_setup.c **** 
+ 1291              		.loc 1 116 1 view .LVU394
+ 1292              		.cfi_endproc
+ 1293              	.LFE3:
+ 1295              		.section	.text.u8g2_SendF,"ax",%progbits
+ 1296              		.align	1
+ 1297              		.global	u8g2_SendF
+ 1298              		.syntax unified
+ 1299              		.thumb
+ 1300              		.thumb_func
+ 1302              	u8g2_SendF:
+ 1303              	.LVL114:
+ 1304              	.LFB4:
+ 121:user/drivers/u8g2/u8g2_setup.c ****   va_list va;
+ 1305              		.loc 1 121 1 is_stmt 1 view -0
+ 1306              		.cfi_startproc
+ 1307              		@ args = 4, pretend = 12, frame = 8
+ 1308              		@ frame_needed = 0, uses_anonymous_args = 1
+ 121:user/drivers/u8g2/u8g2_setup.c ****   va_list va;
+ 1309              		.loc 1 121 1 is_stmt 0 view .LVU396
+ 1310 0000 0EB4     		push	{r1, r2, r3}
+ 1311              	.LCFI40:
+ 1312              		.cfi_def_cfa_offset 12
+ 1313              		.cfi_offset 1, -12
+ 1314              		.cfi_offset 2, -8
+ 1315              		.cfi_offset 3, -4
+ 1316 0002 00B5     		push	{lr}
+ 1317              	.LCFI41:
+ 1318              		.cfi_def_cfa_offset 16
+ 1319              		.cfi_offset 14, -16
+ 1320 0004 82B0     		sub	sp, sp, #8
+ 1321              	.LCFI42:
+ 1322              		.cfi_def_cfa_offset 24
+ 1323 0006 03AA     		add	r2, sp, #12
+ 1324 0008 52F8041B 		ldr	r1, [r2], #4
+ 122:user/drivers/u8g2/u8g2_setup.c ****   va_start(va, fmt);
+ 1325              		.loc 1 122 3 is_stmt 1 view .LVU397
+ 123:user/drivers/u8g2/u8g2_setup.c ****   u8x8_cad_vsendf(u8g2_GetU8x8(u8g2), fmt, va);
+ 1326              		.loc 1 123 3 view .LVU398
+ 1327 000c 0192     		str	r2, [sp, #4]
+ 124:user/drivers/u8g2/u8g2_setup.c ****   va_end(va);
+ 1328              		.loc 1 124 3 view .LVU399
+ 1329 000e FFF7FEFF 		bl	u8x8_cad_vsendf
+ 1330              	.LVL115:
+ 125:user/drivers/u8g2/u8g2_setup.c **** }
+ 1331              		.loc 1 125 3 view .LVU400
+ 126:user/drivers/u8g2/u8g2_setup.c **** 
+ 1332              		.loc 1 126 1 is_stmt 0 view .LVU401
+ 1333 0012 02B0     		add	sp, sp, #8
+ 1334              	.LCFI43:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 35
+
+
+ 1335              		.cfi_def_cfa_offset 16
+ 1336              		@ sp needed
+ 1337 0014 5DF804EB 		ldr	lr, [sp], #4
+ 1338              	.LCFI44:
+ 1339              		.cfi_restore 14
+ 1340              		.cfi_def_cfa_offset 12
+ 1341 0018 03B0     		add	sp, sp, #12
+ 1342              	.LCFI45:
+ 1343              		.cfi_restore 3
+ 1344              		.cfi_restore 2
+ 1345              		.cfi_restore 1
+ 1346              		.cfi_def_cfa_offset 0
+ 1347 001a 7047     		bx	lr
+ 1348              		.cfi_endproc
+ 1349              	.LFE4:
+ 1351              		.section	.text.u8g2_Setup_null,"ax",%progbits
+ 1352              		.align	1
+ 1353              		.global	u8g2_Setup_null
+ 1354              		.syntax unified
+ 1355              		.thumb
+ 1356              		.thumb_func
+ 1358              	u8g2_Setup_null:
+ 1359              	.LVL116:
+ 1360              	.LFB21:
+ 444:user/drivers/u8g2/u8g2_setup.c **** 
+ 445:user/drivers/u8g2/u8g2_setup.c **** 
+ 446:user/drivers/u8g2/u8g2_setup.c **** 
+ 447:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+ 448:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r0 = { u8g2_update_dimension_r0, u8g2_update_page_win_r0, u8g2_draw_l90_r0 
+ 449:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r1 = { u8g2_update_dimension_r1, u8g2_update_page_win_r1, u8g2_draw_l90_r1 
+ 450:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r2 = { u8g2_update_dimension_r2, u8g2_update_page_win_r2, u8g2_draw_l90_r2 
+ 451:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r3 = { u8g2_update_dimension_r3, u8g2_update_page_win_r3, u8g2_draw_l90_r3 
+ 452:user/drivers/u8g2/u8g2_setup.c ****   
+ 453:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_mirror = { u8g2_update_dimension_r0, u8g2_update_page_win_r0, u8g2_draw_l90
+ 454:user/drivers/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_mirror_vertical = { u8g2_update_dimension_r0, u8g2_update_page_win_r0, u8g2
+ 455:user/drivers/u8g2/u8g2_setup.c ****   
+ 456:user/drivers/u8g2/u8g2_setup.c **** /*============================================*/
+ 457:user/drivers/u8g2/u8g2_setup.c **** /* setup for the null device */
+ 458:user/drivers/u8g2/u8g2_setup.c **** 
+ 459:user/drivers/u8g2/u8g2_setup.c **** /* setup for the null (empty) device */
+ 460:user/drivers/u8g2/u8g2_setup.c **** void u8g2_Setup_null(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio
+ 461:user/drivers/u8g2/u8g2_setup.c **** {
+ 1361              		.loc 1 461 1 is_stmt 1 view -0
+ 1362              		.cfi_startproc
+ 1363              		@ args = 0, pretend = 0, frame = 0
+ 1364              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1365              		.loc 1 461 1 is_stmt 0 view .LVU403
+ 1366 0000 30B5     		push	{r4, r5, lr}
+ 1367              	.LCFI46:
+ 1368              		.cfi_def_cfa_offset 12
+ 1369              		.cfi_offset 4, -12
+ 1370              		.cfi_offset 5, -8
+ 1371              		.cfi_offset 14, -4
+ 1372 0002 83B0     		sub	sp, sp, #12
+ 1373              	.LCFI47:
+ 1374              		.cfi_def_cfa_offset 24
+ 1375 0004 0446     		mov	r4, r0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 36
+
+
+ 1376 0006 0D46     		mov	r5, r1
+ 462:user/drivers/u8g2/u8g2_setup.c ****   static uint8_t buf[8];
+ 1377              		.loc 1 462 3 is_stmt 1 view .LVU404
+ 463:user/drivers/u8g2/u8g2_setup.c ****   u8g2_SetupDisplay(u8g2, u8x8_d_null_cb, u8x8_cad_empty, byte_cb, gpio_and_delay_cb);
+ 1378              		.loc 1 463 3 view .LVU405
+ 1379 0008 0093     		str	r3, [sp]
+ 1380 000a 1346     		mov	r3, r2
+ 1381              	.LVL117:
+ 1382              		.loc 1 463 3 is_stmt 0 view .LVU406
+ 1383 000c 064A     		ldr	r2, .L63
+ 1384              	.LVL118:
+ 1385              		.loc 1 463 3 view .LVU407
+ 1386 000e 0749     		ldr	r1, .L63+4
+ 1387              	.LVL119:
+ 1388              		.loc 1 463 3 view .LVU408
+ 1389 0010 FFF7FEFF 		bl	u8x8_Setup
+ 1390              	.LVL120:
+ 464:user/drivers/u8g2/u8g2_setup.c ****   u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, rotation);
+ 1391              		.loc 1 464 3 is_stmt 1 view .LVU409
+ 1392 0014 0095     		str	r5, [sp]
+ 1393 0016 064B     		ldr	r3, .L63+8
+ 1394 0018 0122     		movs	r2, #1
+ 1395 001a 0649     		ldr	r1, .L63+12
+ 1396 001c 2046     		mov	r0, r4
+ 1397 001e FFF7FEFF 		bl	u8g2_SetupBuffer
+ 1398              	.LVL121:
+ 465:user/drivers/u8g2/u8g2_setup.c **** }
+ 1399              		.loc 1 465 1 is_stmt 0 view .LVU410
+ 1400 0022 03B0     		add	sp, sp, #12
+ 1401              	.LCFI48:
+ 1402              		.cfi_def_cfa_offset 12
+ 1403              		@ sp needed
+ 1404 0024 30BD     		pop	{r4, r5, pc}
+ 1405              	.LVL122:
+ 1406              	.L64:
+ 1407              		.loc 1 465 1 view .LVU411
+ 1408 0026 00BF     		.align	2
+ 1409              	.L63:
+ 1410 0028 00000000 		.word	u8x8_cad_empty
+ 1411 002c 00000000 		.word	u8x8_d_null_cb
+ 1412 0030 00000000 		.word	u8g2_ll_hvline_vertical_top_lsb
+ 1413 0034 00000000 		.word	buf.0
+ 1414              		.cfi_endproc
+ 1415              	.LFE21:
+ 1417              		.section	.bss.buf.0,"aw",%nobits
+ 1418              		.align	2
+ 1421              	buf.0:
+ 1422 0000 00000000 		.space	8
+ 1422      00000000 
+ 1423              		.global	u8g2_cb_mirror_vertical
+ 1424              		.section	.rodata.u8g2_cb_mirror_vertical,"a"
+ 1425              		.align	2
+ 1428              	u8g2_cb_mirror_vertical:
+ 1429 0000 00000000 		.word	u8g2_update_dimension_r0
+ 1430 0004 00000000 		.word	u8g2_update_page_win_r0
+ 1431 0008 00000000 		.word	u8g2_draw_mirror_vertical_r0
+ 1432              		.global	u8g2_cb_mirror
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 37
+
+
+ 1433              		.section	.rodata.u8g2_cb_mirror,"a"
+ 1434              		.align	2
+ 1437              	u8g2_cb_mirror:
+ 1438 0000 00000000 		.word	u8g2_update_dimension_r0
+ 1439 0004 00000000 		.word	u8g2_update_page_win_r0
+ 1440 0008 00000000 		.word	u8g2_draw_l90_mirrorr_r0
+ 1441              		.global	u8g2_cb_r3
+ 1442              		.section	.rodata.u8g2_cb_r3,"a"
+ 1443              		.align	2
+ 1446              	u8g2_cb_r3:
+ 1447 0000 00000000 		.word	u8g2_update_dimension_r3
+ 1448 0004 00000000 		.word	u8g2_update_page_win_r3
+ 1449 0008 00000000 		.word	u8g2_draw_l90_r3
+ 1450              		.global	u8g2_cb_r2
+ 1451              		.section	.rodata.u8g2_cb_r2,"a"
+ 1452              		.align	2
+ 1455              	u8g2_cb_r2:
+ 1456 0000 00000000 		.word	u8g2_update_dimension_r2
+ 1457 0004 00000000 		.word	u8g2_update_page_win_r2
+ 1458 0008 00000000 		.word	u8g2_draw_l90_r2
+ 1459              		.global	u8g2_cb_r1
+ 1460              		.section	.rodata.u8g2_cb_r1,"a"
+ 1461              		.align	2
+ 1464              	u8g2_cb_r1:
+ 1465 0000 00000000 		.word	u8g2_update_dimension_r1
+ 1466 0004 00000000 		.word	u8g2_update_page_win_r1
+ 1467 0008 00000000 		.word	u8g2_draw_l90_r1
+ 1468              		.global	u8g2_cb_r0
+ 1469              		.section	.rodata.u8g2_cb_r0,"a"
+ 1470              		.align	2
+ 1473              	u8g2_cb_r0:
+ 1474 0000 00000000 		.word	u8g2_update_dimension_r0
+ 1475 0004 00000000 		.word	u8g2_update_page_win_r0
+ 1476 0008 00000000 		.word	u8g2_draw_l90_r0
+ 1477              		.text
+ 1478              	.Letext0:
+ 1479              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 1480              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 1481              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 1482              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 1483              		.file 6 "/Applications/ArmGNUToolchain/12.2.mpacbti-rel1/arm-none-eabi/lib/gcc/arm-none-eabi/12.2.
+ 1484              		.file 7 "user/drivers/u8g2/u8x8.h"
+ 1485              		.file 8 "user/drivers/u8g2/u8g2.h"
+ 1486              		.file 9 "<built-in>"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 38
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_setup.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:21     .text.u8g2_update_dimension_common:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:26     .text.u8g2_update_dimension_common:00000000 u8g2_update_dimension_common
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:127    .text.u8g2_update_dimension_r0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:133    .text.u8g2_update_dimension_r0:00000000 u8g2_update_dimension_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:155    .text.u8g2_update_dimension_r1:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:161    .text.u8g2_update_dimension_r1:00000000 u8g2_update_dimension_r1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:197    .text.u8g2_update_dimension_r2:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:203    .text.u8g2_update_dimension_r2:00000000 u8g2_update_dimension_r2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:225    .text.u8g2_update_dimension_r3:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:231    .text.u8g2_update_dimension_r3:00000000 u8g2_update_dimension_r3
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:267    .text.u8g2_apply_clip_window:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:272    .text.u8g2_apply_clip_window:00000000 u8g2_apply_clip_window
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:373    .text.u8g2_update_page_win_r0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:379    .text.u8g2_update_page_win_r0:00000000 u8g2_update_page_win_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:420    .text.u8g2_update_page_win_r1:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:426    .text.u8g2_update_page_win_r1:00000000 u8g2_update_page_win_r1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:467    .text.u8g2_update_page_win_r2:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:473    .text.u8g2_update_page_win_r2:00000000 u8g2_update_page_win_r2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:528    .text.u8g2_update_page_win_r3:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:534    .text.u8g2_update_page_win_r3:00000000 u8g2_update_page_win_r3
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:590    .text.u8g2_draw_l90_r0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:596    .text.u8g2_draw_l90_r0:00000000 u8g2_draw_l90_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:628    .text.u8g2_draw_l90_mirrorr_r0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:634    .text.u8g2_draw_l90_mirrorr_r0:00000000 u8g2_draw_l90_mirrorr_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:703    .text.u8g2_draw_mirror_vertical_r0:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:709    .text.u8g2_draw_mirror_vertical_r0:00000000 u8g2_draw_mirror_vertical_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:778    .text.u8g2_draw_l90_r1:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:784    .text.u8g2_draw_l90_r1:00000000 u8g2_draw_l90_r1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:870    .text.u8g2_draw_l90_r2:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:876    .text.u8g2_draw_l90_r2:00000000 u8g2_draw_l90_r2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:973    .text.u8g2_draw_l90_r3:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:979    .text.u8g2_draw_l90_r3:00000000 u8g2_draw_l90_r3
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1071   .text.u8g2_SetMaxClipWindow:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1077   .text.u8g2_SetMaxClipWindow:00000000 u8g2_SetMaxClipWindow
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1118   .text.u8g2_SetClipWindow:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1124   .text.u8g2_SetClipWindow:00000000 u8g2_SetClipWindow
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1167   .text.u8g2_SetupBuffer:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1173   .text.u8g2_SetupBuffer:00000000 u8g2_SetupBuffer
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1251   .text.u8g2_SetDisplayRotation:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1257   .text.u8g2_SetDisplayRotation:00000000 u8g2_SetDisplayRotation
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1296   .text.u8g2_SendF:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1302   .text.u8g2_SendF:00000000 u8g2_SendF
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1352   .text.u8g2_Setup_null:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1358   .text.u8g2_Setup_null:00000000 u8g2_Setup_null
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1410   .text.u8g2_Setup_null:00000028 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1421   .bss.buf.0:00000000 buf.0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1418   .bss.buf.0:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1428   .rodata.u8g2_cb_mirror_vertical:00000000 u8g2_cb_mirror_vertical
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1425   .rodata.u8g2_cb_mirror_vertical:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1437   .rodata.u8g2_cb_mirror:00000000 u8g2_cb_mirror
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1434   .rodata.u8g2_cb_mirror:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1446   .rodata.u8g2_cb_r3:00000000 u8g2_cb_r3
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1443   .rodata.u8g2_cb_r3:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1455   .rodata.u8g2_cb_r2:00000000 u8g2_cb_r2
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1452   .rodata.u8g2_cb_r2:00000000 $d
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s 			page 39
+
+
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1464   .rodata.u8g2_cb_r1:00000000 u8g2_cb_r1
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1461   .rodata.u8g2_cb_r1:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1473   .rodata.u8g2_cb_r0:00000000 u8g2_cb_r0
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cc6jeHHz.s:1470   .rodata.u8g2_cb_r0:00000000 $d
+
+UNDEFINED SYMBOLS
+u8g2_IsIntersection
+u8g2_draw_hv_line_2dir
+u8g2_SetFontPosBaseline
+u8x8_cad_vsendf
+u8x8_Setup
+u8x8_cad_empty
+u8x8_d_null_cb
+u8g2_ll_hvline_vertical_top_lsb

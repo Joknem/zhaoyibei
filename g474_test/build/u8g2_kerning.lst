@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
   27:user/drivers/u8g2/u8g2_kerning.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   28:user/drivers/u8g2/u8g2_kerning.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   29:user/drivers/u8g2/u8g2_kerning.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 2
 
 
   30:user/drivers/u8g2/u8g2_kerning.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
   56              		.loc 1 56 11 is_stmt 0 view .LVU10
   57 0012 0021     		movs	r1, #0
   58              	.LVL4:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 3
 
 
   59              	.L3:
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
   67:user/drivers/u8g2/u8g2_kerning.c ****   {
   68:user/drivers/u8g2/u8g2_kerning.c ****     if ( kerning->second_encoding_table[i2] == e2 )
  100              		.loc 1 68 5 view .LVU27
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 4
 
 
  101              		.loc 1 68 17 is_stmt 0 view .LVU28
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
  143              	.L10:
  144              	.LCFI2:
  145              		.cfi_def_cfa_offset 8
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 5
 
 
  146              		.cfi_offset 4, -8
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
  190 0006 0021     		movs	r1, #0
  191              	.LVL21:
   81:user/drivers/u8g2/u8g2_kerning.c ****   i = 0;
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 6
 
 
  192              		.loc 1 81 5 view .LVU53
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
  227 002c 1EF81400 		ldrb	r0, [lr, r4, lsl #1]	@ zero_extendqisi2
  228 0030 02E0     		b	.L17
  229              	.LVL25:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 7
 
 
  230              	.L20:
@@ -397,14 +397,14 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 1
  259              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  260              		.file 6 "user/drivers/u8g2/u8x8.h"
  261              		.file 7 "user/drivers/u8g2/u8g2.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8g2_kerning.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s:21     .text.u8g2_GetKerning:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s:27     .text.u8g2_GetKerning:00000000 u8g2_GetKerning
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s:164    .text.u8g2_GetKerningByTable:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccLgCnjd.s:170    .text.u8g2_GetKerningByTable:00000000 u8g2_GetKerningByTable
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s:21     .text.u8g2_GetKerning:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s:27     .text.u8g2_GetKerning:00000000 u8g2_GetKerning
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s:164    .text.u8g2_GetKerningByTable:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccIynewm.s:170    .text.u8g2_GetKerningByTable:00000000 u8g2_GetKerningByTable
 
 NO UNDEFINED SYMBOLS

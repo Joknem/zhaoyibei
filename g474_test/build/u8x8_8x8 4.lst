@@ -1,0 +1,2767 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_8x8.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_8x8.c"
+  20              		.section	.text.u8x8_upscale_buf,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8x8_upscale_buf:
+  27              	.LVL0:
+  28              	.LFB4:
+   1:user/drivers/u8g2/u8x8_8x8.c **** /*
+   2:user/drivers/u8g2/u8x8_8x8.c **** 
+   3:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_8x8.c
+   4:user/drivers/u8g2/u8x8_8x8.c ****   
+   5:user/drivers/u8g2/u8x8_8x8.c ****   font procedures, directly interfaces display procedures
+   6:user/drivers/u8g2/u8x8_8x8.c ****   
+   7:user/drivers/u8g2/u8x8_8x8.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:user/drivers/u8g2/u8x8_8x8.c **** 
+   9:user/drivers/u8g2/u8x8_8x8.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:user/drivers/u8g2/u8x8_8x8.c ****   All rights reserved.
+  11:user/drivers/u8g2/u8x8_8x8.c **** 
+  12:user/drivers/u8g2/u8x8_8x8.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:user/drivers/u8g2/u8x8_8x8.c ****   are permitted provided that the following conditions are met:
+  14:user/drivers/u8g2/u8x8_8x8.c **** 
+  15:user/drivers/u8g2/u8x8_8x8.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:user/drivers/u8g2/u8x8_8x8.c ****     of conditions and the following disclaimer.
+  17:user/drivers/u8g2/u8x8_8x8.c ****     
+  18:user/drivers/u8g2/u8x8_8x8.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:user/drivers/u8g2/u8x8_8x8.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:user/drivers/u8g2/u8x8_8x8.c ****     materials provided with the distribution.
+  21:user/drivers/u8g2/u8x8_8x8.c **** 
+  22:user/drivers/u8g2/u8x8_8x8.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:user/drivers/u8g2/u8x8_8x8.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:user/drivers/u8g2/u8x8_8x8.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:user/drivers/u8g2/u8x8_8x8.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:user/drivers/u8g2/u8x8_8x8.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:user/drivers/u8g2/u8x8_8x8.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:user/drivers/u8g2/u8x8_8x8.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:user/drivers/u8g2/u8x8_8x8.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  30:user/drivers/u8g2/u8x8_8x8.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 2
+
+
+  31:user/drivers/u8g2/u8x8_8x8.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:user/drivers/u8g2/u8x8_8x8.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:user/drivers/u8g2/u8x8_8x8.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:user/drivers/u8g2/u8x8_8x8.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+  35:user/drivers/u8g2/u8x8_8x8.c **** 
+  36:user/drivers/u8g2/u8x8_8x8.c **** */
+  37:user/drivers/u8g2/u8x8_8x8.c **** 
+  38:user/drivers/u8g2/u8x8_8x8.c **** #include "u8x8.h"
+  39:user/drivers/u8g2/u8x8_8x8.c **** 
+  40:user/drivers/u8g2/u8x8_8x8.c **** #if defined(ESP8266)
+  41:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_pgm_read_esp(const uint8_t * addr) 
+  42:user/drivers/u8g2/u8x8_8x8.c **** {
+  43:user/drivers/u8g2/u8x8_8x8.c ****     uint32_t bytes;
+  44:user/drivers/u8g2/u8x8_8x8.c ****     bytes = *(uint32_t*)((uint32_t)addr & ~3);
+  45:user/drivers/u8g2/u8x8_8x8.c ****     return ((uint8_t*)&bytes)[(uint32_t)addr & 3];
+  46:user/drivers/u8g2/u8x8_8x8.c **** }
+  47:user/drivers/u8g2/u8x8_8x8.c **** #endif
+  48:user/drivers/u8g2/u8x8_8x8.c **** 
+  49:user/drivers/u8g2/u8x8_8x8.c **** 
+  50:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
+  51:user/drivers/u8g2/u8x8_8x8.c **** {
+  52:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->font = font_8x8;
+  53:user/drivers/u8g2/u8x8_8x8.c **** }
+  54:user/drivers/u8g2/u8x8_8x8.c **** 
+  55:user/drivers/u8g2/u8x8_8x8.c **** /*
+  56:user/drivers/u8g2/u8x8_8x8.c ****  Args:
+  57:user/drivers/u8g2/u8x8_8x8.c ****    u8x8: ptr to u8x8 structure
+  58:user/drivers/u8g2/u8x8_8x8.c ****    encoding: glyph for which the data is requested (must be between 0 and 255)
+  59:user/drivers/u8g2/u8x8_8x8.c ****    buf: pointer to 8 bytes
+  60:user/drivers/u8g2/u8x8_8x8.c **** */
+  61:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) U8X8_NO
+  62:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
+  63:user/drivers/u8g2/u8x8_8x8.c **** {
+  64:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t first, last, tiles, i;
+  65:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t offset;
+  66:user/drivers/u8g2/u8x8_8x8.c ****   first = u8x8_pgm_read(u8x8->font+0);
+  67:user/drivers/u8g2/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+  68:user/drivers/u8g2/u8x8_8x8.c ****   tiles = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  69:user/drivers/u8g2/u8x8_8x8.c ****   tiles *= u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+  70:user/drivers/u8g2/u8x8_8x8.c ****   
+  71:user/drivers/u8g2/u8x8_8x8.c ****   /* get the glyph bitmap from the font */
+  72:user/drivers/u8g2/u8x8_8x8.c ****   if ( first <= encoding && encoding <= last )
+  73:user/drivers/u8g2/u8x8_8x8.c ****   {
+  74:user/drivers/u8g2/u8x8_8x8.c ****     offset = encoding;
+  75:user/drivers/u8g2/u8x8_8x8.c ****     offset -= first;
+  76:user/drivers/u8g2/u8x8_8x8.c ****     offset *= tiles;		/* new 2019 format */
+  77:user/drivers/u8g2/u8x8_8x8.c ****     offset += tile_offset;	/* new 2019 format */
+  78:user/drivers/u8g2/u8x8_8x8.c ****     offset *= 8;
+  79:user/drivers/u8g2/u8x8_8x8.c ****     offset +=4;			/* changed from 2 to 4, new 2019 format */
+  80:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  81:user/drivers/u8g2/u8x8_8x8.c ****     {
+  82:user/drivers/u8g2/u8x8_8x8.c ****       buf[i] = u8x8_pgm_read(u8x8->font+offset);
+  83:user/drivers/u8g2/u8x8_8x8.c ****       offset++;
+  84:user/drivers/u8g2/u8x8_8x8.c ****     }
+  85:user/drivers/u8g2/u8x8_8x8.c ****   }
+  86:user/drivers/u8g2/u8x8_8x8.c ****   else
+  87:user/drivers/u8g2/u8x8_8x8.c ****   {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 3
+
+
+  88:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  89:user/drivers/u8g2/u8x8_8x8.c ****     {
+  90:user/drivers/u8g2/u8x8_8x8.c ****       buf[i] = 0;
+  91:user/drivers/u8g2/u8x8_8x8.c ****     }
+  92:user/drivers/u8g2/u8x8_8x8.c ****   }
+  93:user/drivers/u8g2/u8x8_8x8.c ****   
+  94:user/drivers/u8g2/u8x8_8x8.c ****   /* invert the bitmap if required */
+  95:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->is_font_inverse_mode )
+  96:user/drivers/u8g2/u8x8_8x8.c ****   {
+  97:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  98:user/drivers/u8g2/u8x8_8x8.c ****     {
+  99:user/drivers/u8g2/u8x8_8x8.c ****       buf[i] ^= 255;
+ 100:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 101:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 102:user/drivers/u8g2/u8x8_8x8.c ****   
+ 103:user/drivers/u8g2/u8x8_8x8.c **** }
+ 104:user/drivers/u8g2/u8x8_8x8.c **** 
+ 105:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 106:user/drivers/u8g2/u8x8_8x8.c **** {
+ 107:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 108:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 109:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 110:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 111:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 112:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 113:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 114:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 115:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 116:user/drivers/u8g2/u8x8_8x8.c ****     xx = x;
+ 117:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 118:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 119:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 120:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_DrawTile(u8x8, xx, y, 1, buf);
+ 121:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 122:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 123:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 124:user/drivers/u8g2/u8x8_8x8.c ****     y++;
+ 125:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );
+ 126:user/drivers/u8g2/u8x8_8x8.c **** }
+ 127:user/drivers/u8g2/u8x8_8x8.c **** 
+ 128:user/drivers/u8g2/u8x8_8x8.c **** 
+ 129:user/drivers/u8g2/u8x8_8x8.c **** /*
+ 130:user/drivers/u8g2/u8x8_8x8.c ****   Source: http://graphics.stanford.edu/~seander/bithacks.html
+ 131:user/drivers/u8g2/u8x8_8x8.c **** 	Section: Interleave bits by Binary Magic Numbers 
+ 132:user/drivers/u8g2/u8x8_8x8.c ****    Original codes is here:
+ 133:user/drivers/u8g2/u8x8_8x8.c **** 		static const unsigned int B[] = {0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF};
+ 134:user/drivers/u8g2/u8x8_8x8.c **** 		static const unsigned int S[] = {1, 2, 4, 8};
+ 135:user/drivers/u8g2/u8x8_8x8.c **** 
+ 136:user/drivers/u8g2/u8x8_8x8.c **** 		unsigned int x; // Interleave lower 16 bits of x and y, so the bits of x
+ 137:user/drivers/u8g2/u8x8_8x8.c **** 		unsigned int y; // are in the even positions and bits from y in the odd;
+ 138:user/drivers/u8g2/u8x8_8x8.c **** 		unsigned int z; // z gets the resulting 32-bit Morton Number.  
+ 139:user/drivers/u8g2/u8x8_8x8.c **** 				// x and y must initially be less than 65536.
+ 140:user/drivers/u8g2/u8x8_8x8.c **** 
+ 141:user/drivers/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[3])) & B[3];
+ 142:user/drivers/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[2])) & B[2];
+ 143:user/drivers/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[1])) & B[1];
+ 144:user/drivers/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[0])) & B[0];
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 4
+
+
+ 145:user/drivers/u8g2/u8x8_8x8.c **** 
+ 146:user/drivers/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[3])) & B[3];
+ 147:user/drivers/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[2])) & B[2];
+ 148:user/drivers/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[1])) & B[1];
+ 149:user/drivers/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[0])) & B[0];
+ 150:user/drivers/u8g2/u8x8_8x8.c **** 
+ 151:user/drivers/u8g2/u8x8_8x8.c **** 		z = x | (y << 1);
+ 152:user/drivers/u8g2/u8x8_8x8.c **** */
+ 153:user/drivers/u8g2/u8x8_8x8.c **** uint16_t u8x8_upscale_byte(uint8_t x) 
+ 154:user/drivers/u8g2/u8x8_8x8.c **** {
+ 155:user/drivers/u8g2/u8x8_8x8.c **** 	uint16_t y = x;
+ 156:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];
+ 157:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 158:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 159:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x3333;
+ 160:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 161:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x5555;
+ 162:user/drivers/u8g2/u8x8_8x8.c ****   
+ 163:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// z = x | (y << 1);
+ 164:user/drivers/u8g2/u8x8_8x8.c **** 	return y;
+ 165:user/drivers/u8g2/u8x8_8x8.c **** }
+ 166:user/drivers/u8g2/u8x8_8x8.c **** 
+ 167:user/drivers/u8g2/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest) U8X8_NOINLINE;
+ 168:user/drivers/u8g2/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest)
+ 169:user/drivers/u8g2/u8x8_8x8.c **** {
+  29              		.loc 1 169 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 170:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i = 4;  
+  34              		.loc 1 170 3 view .LVU1
+  35              		.loc 1 170 11 is_stmt 0 view .LVU2
+  36 0000 0423     		movs	r3, #4
+  37              	.LVL1:
+  38              	.L2:
+ 171:user/drivers/u8g2/u8x8_8x8.c ****   do 
+  39              		.loc 1 171 3 is_stmt 1 discriminator 1 view .LVU3
+ 172:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 173:user/drivers/u8g2/u8x8_8x8.c ****     *dest++ = *src;
+  40              		.loc 1 173 5 discriminator 1 view .LVU4
+  41              		.loc 1 173 15 is_stmt 0 discriminator 1 view .LVU5
+  42 0002 10F801CB 		ldrb	ip, [r0], #1	@ zero_extendqisi2
+  43              	.LVL2:
+  44              		.loc 1 173 13 discriminator 1 view .LVU6
+  45 0006 81F800C0 		strb	ip, [r1]
+ 174:user/drivers/u8g2/u8x8_8x8.c ****     *dest++ = *src++;
+  46              		.loc 1 174 5 is_stmt 1 discriminator 1 view .LVU7
+  47              	.LVL3:
+  48              		.loc 1 174 13 is_stmt 0 discriminator 1 view .LVU8
+  49 000a 81F801C0 		strb	ip, [r1, #1]
+  50 000e 0231     		adds	r1, r1, #2
+  51              	.LVL4:
+ 175:user/drivers/u8g2/u8x8_8x8.c ****     i--;
+  52              		.loc 1 175 5 is_stmt 1 discriminator 1 view .LVU9
+  53              		.loc 1 175 6 is_stmt 0 discriminator 1 view .LVU10
+  54 0010 013B     		subs	r3, r3, #1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 5
+
+
+  55              	.LVL5:
+ 176:user/drivers/u8g2/u8x8_8x8.c ****   } while( i > 0 );
+  56              		.loc 1 176 14 is_stmt 1 discriminator 1 view .LVU11
+  57 0012 13F0FF03 		ands	r3, r3, #255
+  58              	.LVL6:
+  59              		.loc 1 176 14 is_stmt 0 discriminator 1 view .LVU12
+  60 0016 F4D1     		bne	.L2
+ 177:user/drivers/u8g2/u8x8_8x8.c **** }
+  61              		.loc 1 177 1 view .LVU13
+  62 0018 7047     		bx	lr
+  63              		.cfi_endproc
+  64              	.LFE4:
+  66              		.section	.text.u8x8_ascii_next,"ax",%progbits
+  67              		.align	1
+  68              		.global	u8x8_ascii_next
+  69              		.syntax unified
+  70              		.thumb
+  71              		.thumb_func
+  73              	u8x8_ascii_next:
+  74              	.LVL7:
+  75              	.LFB10:
+ 178:user/drivers/u8g2/u8x8_8x8.c **** 
+ 179:user/drivers/u8g2/u8x8_8x8.c **** static void u8x8_draw_2x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t ti
+ 180:user/drivers/u8g2/u8x8_8x8.c **** {
+ 181:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 182:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 183:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 184:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 185:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 186:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 188:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 189:user/drivers/u8g2/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 190:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 191:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 192:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 193:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf2, buf);
+ 194:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 195:user/drivers/u8g2/u8x8_8x8.c ****   
+ 196:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf2+4, buf);
+ 197:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 198:user/drivers/u8g2/u8x8_8x8.c ****   
+ 199:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf1, buf);
+ 200:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 201:user/drivers/u8g2/u8x8_8x8.c ****   
+ 202:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf1+4, buf);
+ 203:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 204:user/drivers/u8g2/u8x8_8x8.c **** }
+ 205:user/drivers/u8g2/u8x8_8x8.c **** 
+ 206:user/drivers/u8g2/u8x8_8x8.c **** 
+ 207:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 208:user/drivers/u8g2/u8x8_8x8.c **** {
+ 209:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 210:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 211:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 212:user/drivers/u8g2/u8x8_8x8.c ****   th *= 2;
+ 213:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 6
+
+
+ 214:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 215:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 216:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 217:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 218:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 219:user/drivers/u8g2/u8x8_8x8.c ****     xx = x;
+ 220:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 221:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 222:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_draw_2x2_subglyph(u8x8, xx, y, encoding, tile);
+ 223:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 224:user/drivers/u8g2/u8x8_8x8.c ****       xx+=2;
+ 225:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 226:user/drivers/u8g2/u8x8_8x8.c ****     y+=2;
+ 227:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 228:user/drivers/u8g2/u8x8_8x8.c **** }
+ 229:user/drivers/u8g2/u8x8_8x8.c **** 
+ 230:user/drivers/u8g2/u8x8_8x8.c **** /* https://github.com/olikraus/u8g2/issues/474 */
+ 231:user/drivers/u8g2/u8x8_8x8.c **** static void u8x8_draw_1x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t ti
+ 232:user/drivers/u8g2/u8x8_8x8.c **** {
+ 233:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 234:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 235:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 236:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 237:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 238:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 240:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 241:user/drivers/u8g2/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 242:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 243:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 244:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 245:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x,   y, 1, buf2);
+ 246:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 247:user/drivers/u8g2/u8x8_8x8.c **** }
+ 248:user/drivers/u8g2/u8x8_8x8.c **** 
+ 249:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 250:user/drivers/u8g2/u8x8_8x8.c **** {
+ 251:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 252:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 253:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 254:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 255:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 256:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 257:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 258:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 259:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 260:user/drivers/u8g2/u8x8_8x8.c ****     xx = x;
+ 261:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 262:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 263:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_draw_1x2_subglyph(u8x8, xx, y, encoding, tile);
+ 264:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 265:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 266:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 267:user/drivers/u8g2/u8x8_8x8.c ****     y+=2;
+ 268:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 269:user/drivers/u8g2/u8x8_8x8.c **** }
+ 270:user/drivers/u8g2/u8x8_8x8.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 7
+
+
+ 271:user/drivers/u8g2/u8x8_8x8.c **** /*
+ 272:user/drivers/u8g2/u8x8_8x8.c **** source: https://en.wikipedia.org/wiki/UTF-8
+ 273:user/drivers/u8g2/u8x8_8x8.c **** Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+ 274:user/drivers/u8g2/u8x8_8x8.c ****   7 	U+0000 		U+007F 		1 		0xxxxxxx
+ 275:user/drivers/u8g2/u8x8_8x8.c **** 11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+ 276:user/drivers/u8g2/u8x8_8x8.c **** 16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+ 277:user/drivers/u8g2/u8x8_8x8.c **** 21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 278:user/drivers/u8g2/u8x8_8x8.c **** 26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 279:user/drivers/u8g2/u8x8_8x8.c **** 31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+ 280:user/drivers/u8g2/u8x8_8x8.c **** 
+ 281:user/drivers/u8g2/u8x8_8x8.c **** 
+ 282:user/drivers/u8g2/u8x8_8x8.c **** */
+ 283:user/drivers/u8g2/u8x8_8x8.c **** 
+ 284:user/drivers/u8g2/u8x8_8x8.c **** /* reset the internal state machine */
+ 285:user/drivers/u8g2/u8x8_8x8.c **** void u8x8_utf8_init(u8x8_t *u8x8)
+ 286:user/drivers/u8g2/u8x8_8x8.c **** {
+ 287:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 288:user/drivers/u8g2/u8x8_8x8.c **** }
+ 289:user/drivers/u8g2/u8x8_8x8.c **** 
+ 290:user/drivers/u8g2/u8x8_8x8.c **** uint16_t u8x8_ascii_next(U8X8_UNUSED u8x8_t *u8x8, uint8_t b)
+ 291:user/drivers/u8g2/u8x8_8x8.c **** {
+  76              		.loc 1 291 1 is_stmt 1 view -0
+  77              		.cfi_startproc
+  78              		@ args = 0, pretend = 0, frame = 0
+  79              		@ frame_needed = 0, uses_anonymous_args = 0
+  80              		@ link register save eliminated.
+ 292:user/drivers/u8g2/u8x8_8x8.c ****   if ( b == 0 || b == '\n' ) /* '\n' terminates the string to support the string list procedures */
+  81              		.loc 1 292 3 view .LVU15
+  82              		.loc 1 292 6 is_stmt 0 view .LVU16
+  83 0000 0846     		mov	r0, r1
+  84              	.LVL8:
+  85              		.loc 1 292 6 view .LVU17
+  86 0002 11B1     		cbz	r1, .L5
+  87              		.loc 1 292 15 discriminator 1 view .LVU18
+  88 0004 0A29     		cmp	r1, #10
+  89 0006 03D0     		beq	.L6
+ 293:user/drivers/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 294:user/drivers/u8g2/u8x8_8x8.c ****   return b;
+  90              		.loc 1 294 3 is_stmt 1 view .LVU19
+  91              		.loc 1 294 10 is_stmt 0 view .LVU20
+  92 0008 7047     		bx	lr
+  93              	.L5:
+ 293:user/drivers/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+  94              		.loc 1 293 12 view .LVU21
+  95 000a 4FF6FF70 		movw	r0, #65535
+  96 000e 7047     		bx	lr
+  97              	.L6:
+  98 0010 4FF6FF70 		movw	r0, #65535
+ 295:user/drivers/u8g2/u8x8_8x8.c **** }
+  99              		.loc 1 295 1 view .LVU22
+ 100 0014 7047     		bx	lr
+ 101              		.cfi_endproc
+ 102              	.LFE10:
+ 104              		.section	.text.u8x8_utf8_next,"ax",%progbits
+ 105              		.align	1
+ 106              		.global	u8x8_utf8_next
+ 107              		.syntax unified
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 8
+
+
+ 108              		.thumb
+ 109              		.thumb_func
+ 111              	u8x8_utf8_next:
+ 112              	.LVL9:
+ 113              	.LFB11:
+ 296:user/drivers/u8g2/u8x8_8x8.c **** 
+ 297:user/drivers/u8g2/u8x8_8x8.c **** /*
+ 298:user/drivers/u8g2/u8x8_8x8.c ****   pass a byte from an utf8 encoded string to the utf8 decoder state machine
+ 299:user/drivers/u8g2/u8x8_8x8.c ****   returns 
+ 300:user/drivers/u8g2/u8x8_8x8.c ****     0x0fffe: no glyph, just continue
+ 301:user/drivers/u8g2/u8x8_8x8.c ****     0x0ffff: end of string
+ 302:user/drivers/u8g2/u8x8_8x8.c ****     anything else: The decoded encoding
+ 303:user/drivers/u8g2/u8x8_8x8.c **** */
+ 304:user/drivers/u8g2/u8x8_8x8.c **** uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
+ 305:user/drivers/u8g2/u8x8_8x8.c **** {
+ 114              		.loc 1 305 1 is_stmt 1 view -0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118              		@ link register save eliminated.
+ 119              		.loc 1 305 1 is_stmt 0 view .LVU24
+ 120 0000 0246     		mov	r2, r0
+ 306:user/drivers/u8g2/u8x8_8x8.c ****   if ( b == 0 || b == '\n' )	/* '\n' terminates the string to support the string list procedures */
+ 121              		.loc 1 306 3 is_stmt 1 view .LVU25
+ 122              		.loc 1 306 6 is_stmt 0 view .LVU26
+ 123 0002 0B46     		mov	r3, r1
+ 124 0004 0029     		cmp	r1, #0
+ 125 0006 3FD0     		beq	.L16
+ 126              		.loc 1 306 15 discriminator 1 view .LVU27
+ 127 0008 0A29     		cmp	r1, #10
+ 128 000a 40D0     		beq	.L17
+ 307:user/drivers/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected, pending UTF8 is discarded */
+ 308:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 129              		.loc 1 308 3 is_stmt 1 view .LVU28
+ 130              		.loc 1 308 12 is_stmt 0 view .LVU29
+ 131 000c 90F82610 		ldrb	r1, [r0, #38]	@ zero_extendqisi2
+ 132              	.LVL10:
+ 133              		.loc 1 308 6 view .LVU30
+ 134 0010 61BB     		cbnz	r1, .L9
+ 309:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 310:user/drivers/u8g2/u8x8_8x8.c ****     if ( b >= 0xfc )	/* 6 byte sequence */
+ 135              		.loc 1 310 5 is_stmt 1 view .LVU31
+ 136              		.loc 1 310 8 is_stmt 0 view .LVU32
+ 137 0012 FB2B     		cmp	r3, #251
+ 138 0014 09D8     		bhi	.L19
+ 311:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 312:user/drivers/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 5;
+ 313:user/drivers/u8g2/u8x8_8x8.c ****       b &= 1;
+ 314:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 315:user/drivers/u8g2/u8x8_8x8.c ****     else if ( b >= 0xf8 )
+ 139              		.loc 1 315 10 is_stmt 1 view .LVU33
+ 140              		.loc 1 315 13 is_stmt 0 view .LVU34
+ 141 0016 F72B     		cmp	r3, #247
+ 142 0018 10D8     		bhi	.L20
+ 316:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 317:user/drivers/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 4;
+ 318:user/drivers/u8g2/u8x8_8x8.c ****       b &= 3;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 9
+
+
+ 319:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 320:user/drivers/u8g2/u8x8_8x8.c ****     else if ( b >= 0xf0 )
+ 143              		.loc 1 320 10 is_stmt 1 view .LVU35
+ 144              		.loc 1 320 13 is_stmt 0 view .LVU36
+ 145 001a EF2B     		cmp	r3, #239
+ 146 001c 14D8     		bhi	.L21
+ 321:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 322:user/drivers/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 3;
+ 323:user/drivers/u8g2/u8x8_8x8.c ****       b &= 7;      
+ 324:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 325:user/drivers/u8g2/u8x8_8x8.c ****     else if ( b >= 0xe0 )
+ 147              		.loc 1 325 10 is_stmt 1 view .LVU37
+ 148              		.loc 1 325 13 is_stmt 0 view .LVU38
+ 149 001e DF2B     		cmp	r3, #223
+ 150 0020 18D8     		bhi	.L22
+ 326:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 327:user/drivers/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 2;
+ 328:user/drivers/u8g2/u8x8_8x8.c ****       b &= 15;
+ 329:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 330:user/drivers/u8g2/u8x8_8x8.c ****     else if ( b >= 0xc0 )
+ 151              		.loc 1 330 10 is_stmt 1 view .LVU39
+ 152              		.loc 1 330 13 is_stmt 0 view .LVU40
+ 153 0022 BF2B     		cmp	r3, #191
+ 154 0024 1CD8     		bhi	.L23
+ 331:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 332:user/drivers/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 1;
+ 333:user/drivers/u8g2/u8x8_8x8.c ****       b &= 0x01f;
+ 334:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 335:user/drivers/u8g2/u8x8_8x8.c ****     else
+ 336:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 337:user/drivers/u8g2/u8x8_8x8.c ****       /* do nothing, just use the value as encoding */
+ 338:user/drivers/u8g2/u8x8_8x8.c ****       return b;
+ 155              		.loc 1 338 7 is_stmt 1 view .LVU41
+ 156              		.loc 1 338 14 is_stmt 0 view .LVU42
+ 157 0026 1846     		mov	r0, r3
+ 158              	.LVL11:
+ 159              		.loc 1 338 14 view .LVU43
+ 160 0028 7047     		bx	lr
+ 161              	.LVL12:
+ 162              	.L19:
+ 312:user/drivers/u8g2/u8x8_8x8.c ****       b &= 1;
+ 163              		.loc 1 312 7 is_stmt 1 view .LVU44
+ 312:user/drivers/u8g2/u8x8_8x8.c ****       b &= 1;
+ 164              		.loc 1 312 24 is_stmt 0 view .LVU45
+ 165 002a 0521     		movs	r1, #5
+ 166 002c 80F82610 		strb	r1, [r0, #38]
+ 313:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 167              		.loc 1 313 7 is_stmt 1 view .LVU46
+ 313:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 168              		.loc 1 313 9 is_stmt 0 view .LVU47
+ 169 0030 03F00103 		and	r3, r3, #1
+ 170              	.LVL13:
+ 171              	.L11:
+ 339:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 340:user/drivers/u8g2/u8x8_8x8.c ****     u8x8->encoding = b;
+ 172              		.loc 1 340 5 is_stmt 1 view .LVU48
+ 173              		.loc 1 340 20 is_stmt 0 view .LVU49
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 10
+
+
+ 174 0034 1384     		strh	r3, [r2, #32]	@ movhi
+ 341:user/drivers/u8g2/u8x8_8x8.c ****     return 0x0fffe;
+ 175              		.loc 1 341 5 is_stmt 1 view .LVU50
+ 176              		.loc 1 341 12 is_stmt 0 view .LVU51
+ 177 0036 4FF6FE70 		movw	r0, #65534
+ 178              	.LVL14:
+ 179              		.loc 1 341 12 view .LVU52
+ 180 003a 7047     		bx	lr
+ 181              	.LVL15:
+ 182              	.L20:
+ 317:user/drivers/u8g2/u8x8_8x8.c ****       b &= 3;
+ 183              		.loc 1 317 7 is_stmt 1 view .LVU53
+ 317:user/drivers/u8g2/u8x8_8x8.c ****       b &= 3;
+ 184              		.loc 1 317 24 is_stmt 0 view .LVU54
+ 185 003c 0421     		movs	r1, #4
+ 186 003e 80F82610 		strb	r1, [r0, #38]
+ 318:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 187              		.loc 1 318 7 is_stmt 1 view .LVU55
+ 318:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 188              		.loc 1 318 9 is_stmt 0 view .LVU56
+ 189 0042 03F00303 		and	r3, r3, #3
+ 190              	.LVL16:
+ 318:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 191              		.loc 1 318 9 view .LVU57
+ 192 0046 F5E7     		b	.L11
+ 193              	.LVL17:
+ 194              	.L21:
+ 322:user/drivers/u8g2/u8x8_8x8.c ****       b &= 7;      
+ 195              		.loc 1 322 7 is_stmt 1 view .LVU58
+ 322:user/drivers/u8g2/u8x8_8x8.c ****       b &= 7;      
+ 196              		.loc 1 322 24 is_stmt 0 view .LVU59
+ 197 0048 0321     		movs	r1, #3
+ 198 004a 80F82610 		strb	r1, [r0, #38]
+ 323:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 199              		.loc 1 323 7 is_stmt 1 view .LVU60
+ 323:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 200              		.loc 1 323 9 is_stmt 0 view .LVU61
+ 201 004e 03F00703 		and	r3, r3, #7
+ 202              	.LVL18:
+ 323:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 203              		.loc 1 323 9 view .LVU62
+ 204 0052 EFE7     		b	.L11
+ 205              	.LVL19:
+ 206              	.L22:
+ 327:user/drivers/u8g2/u8x8_8x8.c ****       b &= 15;
+ 207              		.loc 1 327 7 is_stmt 1 view .LVU63
+ 327:user/drivers/u8g2/u8x8_8x8.c ****       b &= 15;
+ 208              		.loc 1 327 24 is_stmt 0 view .LVU64
+ 209 0054 0221     		movs	r1, #2
+ 210 0056 80F82610 		strb	r1, [r0, #38]
+ 328:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 211              		.loc 1 328 7 is_stmt 1 view .LVU65
+ 328:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 212              		.loc 1 328 9 is_stmt 0 view .LVU66
+ 213 005a 03F00F03 		and	r3, r3, #15
+ 214              	.LVL20:
+ 328:user/drivers/u8g2/u8x8_8x8.c ****     }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 11
+
+
+ 215              		.loc 1 328 9 view .LVU67
+ 216 005e E9E7     		b	.L11
+ 217              	.LVL21:
+ 218              	.L23:
+ 332:user/drivers/u8g2/u8x8_8x8.c ****       b &= 0x01f;
+ 219              		.loc 1 332 7 is_stmt 1 view .LVU68
+ 332:user/drivers/u8g2/u8x8_8x8.c ****       b &= 0x01f;
+ 220              		.loc 1 332 24 is_stmt 0 view .LVU69
+ 221 0060 0121     		movs	r1, #1
+ 222 0062 80F82610 		strb	r1, [r0, #38]
+ 333:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 223              		.loc 1 333 7 is_stmt 1 view .LVU70
+ 333:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 224              		.loc 1 333 9 is_stmt 0 view .LVU71
+ 225 0066 03F01F03 		and	r3, r3, #31
+ 226              	.LVL22:
+ 333:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 227              		.loc 1 333 9 view .LVU72
+ 228 006a E3E7     		b	.L11
+ 229              	.LVL23:
+ 230              	.L9:
+ 342:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 343:user/drivers/u8g2/u8x8_8x8.c ****   else
+ 344:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 345:user/drivers/u8g2/u8x8_8x8.c ****     u8x8->utf8_state--;
+ 231              		.loc 1 345 5 is_stmt 1 view .LVU73
+ 232              		.loc 1 345 21 is_stmt 0 view .LVU74
+ 233 006c 0139     		subs	r1, r1, #1
+ 234 006e C9B2     		uxtb	r1, r1
+ 235 0070 80F82610 		strb	r1, [r0, #38]
+ 346:user/drivers/u8g2/u8x8_8x8.c ****     /* The case b < 0x080 (an illegal UTF8 encoding) is not checked here. */
+ 347:user/drivers/u8g2/u8x8_8x8.c ****     u8x8->encoding<<=6;
+ 236              		.loc 1 347 5 is_stmt 1 view .LVU75
+ 237              		.loc 1 347 9 is_stmt 0 view .LVU76
+ 238 0074 008C     		ldrh	r0, [r0, #32]
+ 239              	.LVL24:
+ 240              		.loc 1 347 19 view .LVU77
+ 241 0076 8001     		lsls	r0, r0, #6
+ 242 0078 80B2     		uxth	r0, r0
+ 243 007a 1084     		strh	r0, [r2, #32]	@ movhi
+ 348:user/drivers/u8g2/u8x8_8x8.c ****     b &= 0x03f;
+ 244              		.loc 1 348 5 is_stmt 1 view .LVU78
+ 245              		.loc 1 348 7 is_stmt 0 view .LVU79
+ 246 007c 03F03F03 		and	r3, r3, #63
+ 247              	.LVL25:
+ 349:user/drivers/u8g2/u8x8_8x8.c ****     u8x8->encoding |= b;
+ 248              		.loc 1 349 5 is_stmt 1 view .LVU80
+ 249              		.loc 1 349 20 is_stmt 0 view .LVU81
+ 250 0080 1843     		orrs	r0, r0, r3
+ 251 0082 1084     		strh	r0, [r2, #32]	@ movhi
+ 350:user/drivers/u8g2/u8x8_8x8.c ****     if ( u8x8->utf8_state != 0 )
+ 252              		.loc 1 350 5 is_stmt 1 view .LVU82
+ 253              		.loc 1 350 8 is_stmt 0 view .LVU83
+ 254 0084 31B9     		cbnz	r1, .L24
+ 255              	.L8:
+ 351:user/drivers/u8g2/u8x8_8x8.c ****       return 0x0fffe;	/* nothing to do yet */
+ 352:user/drivers/u8g2/u8x8_8x8.c ****   }
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 12
+
+
+ 353:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8->encoding;
+ 354:user/drivers/u8g2/u8x8_8x8.c **** }
+ 256              		.loc 1 354 1 view .LVU84
+ 257 0086 7047     		bx	lr
+ 258              	.LVL26:
+ 259              	.L16:
+ 307:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 260              		.loc 1 307 12 view .LVU85
+ 261 0088 4FF6FF70 		movw	r0, #65535
+ 262              	.LVL27:
+ 307:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 263              		.loc 1 307 12 view .LVU86
+ 264 008c 7047     		bx	lr
+ 265              	.LVL28:
+ 266              	.L17:
+ 307:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 267              		.loc 1 307 12 view .LVU87
+ 268 008e 4FF6FF70 		movw	r0, #65535
+ 269              	.LVL29:
+ 307:user/drivers/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 270              		.loc 1 307 12 view .LVU88
+ 271 0092 7047     		bx	lr
+ 272              	.LVL30:
+ 273              	.L24:
+ 351:user/drivers/u8g2/u8x8_8x8.c ****       return 0x0fffe;	/* nothing to do yet */
+ 274              		.loc 1 351 14 view .LVU89
+ 275 0094 4FF6FE70 		movw	r0, #65534
+ 276 0098 F5E7     		b	.L8
+ 277              		.cfi_endproc
+ 278              	.LFE11:
+ 280              		.section	.text.u8x8_SetFont,"ax",%progbits
+ 281              		.align	1
+ 282              		.global	u8x8_SetFont
+ 283              		.syntax unified
+ 284              		.thumb
+ 285              		.thumb_func
+ 287              	u8x8_SetFont:
+ 288              	.LVL31:
+ 289              	.LFB0:
+  51:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->font = font_8x8;
+ 290              		.loc 1 51 1 is_stmt 1 view -0
+ 291              		.cfi_startproc
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+  52:user/drivers/u8g2/u8x8_8x8.c **** }
+ 295              		.loc 1 52 3 view .LVU91
+  52:user/drivers/u8g2/u8x8_8x8.c **** }
+ 296              		.loc 1 52 14 is_stmt 0 view .LVU92
+ 297 0000 C161     		str	r1, [r0, #28]
+  53:user/drivers/u8g2/u8x8_8x8.c **** 
+ 298              		.loc 1 53 1 view .LVU93
+ 299 0002 7047     		bx	lr
+ 300              		.cfi_endproc
+ 301              	.LFE0:
+ 303              		.section	.text.u8x8_get_glyph_data,"ax",%progbits
+ 304              		.align	1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 13
+
+
+ 305              		.global	u8x8_get_glyph_data
+ 306              		.syntax unified
+ 307              		.thumb
+ 308              		.thumb_func
+ 310              	u8x8_get_glyph_data:
+ 311              	.LVL32:
+ 312              	.LFB1:
+  63:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t first, last, tiles, i;
+ 313              		.loc 1 63 1 is_stmt 1 view -0
+ 314              		.cfi_startproc
+ 315              		@ args = 0, pretend = 0, frame = 0
+ 316              		@ frame_needed = 0, uses_anonymous_args = 0
+  63:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t first, last, tiles, i;
+ 317              		.loc 1 63 1 is_stmt 0 view .LVU95
+ 318 0000 70B5     		push	{r4, r5, r6, lr}
+ 319              	.LCFI0:
+ 320              		.cfi_def_cfa_offset 16
+ 321              		.cfi_offset 4, -16
+ 322              		.cfi_offset 5, -12
+ 323              		.cfi_offset 6, -8
+ 324              		.cfi_offset 14, -4
+  64:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t offset;
+ 325              		.loc 1 64 3 is_stmt 1 view .LVU96
+  65:user/drivers/u8g2/u8x8_8x8.c ****   first = u8x8_pgm_read(u8x8->font+0);
+ 326              		.loc 1 65 3 view .LVU97
+  66:user/drivers/u8g2/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+ 327              		.loc 1 66 3 view .LVU98
+  66:user/drivers/u8g2/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+ 328              		.loc 1 66 11 is_stmt 0 view .LVU99
+ 329 0002 C469     		ldr	r4, [r0, #28]
+  66:user/drivers/u8g2/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+ 330              		.loc 1 66 9 view .LVU100
+ 331 0004 94F800E0 		ldrb	lr, [r4]	@ zero_extendqisi2
+ 332              	.LVL33:
+  67:user/drivers/u8g2/u8x8_8x8.c ****   tiles = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 333              		.loc 1 67 3 is_stmt 1 view .LVU101
+  67:user/drivers/u8g2/u8x8_8x8.c ****   tiles = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 334              		.loc 1 67 8 is_stmt 0 view .LVU102
+ 335 0008 6678     		ldrb	r6, [r4, #1]	@ zero_extendqisi2
+ 336              	.LVL34:
+  68:user/drivers/u8g2/u8x8_8x8.c ****   tiles *= u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 337              		.loc 1 68 3 is_stmt 1 view .LVU103
+  68:user/drivers/u8g2/u8x8_8x8.c ****   tiles *= u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 338              		.loc 1 68 9 is_stmt 0 view .LVU104
+ 339 000a A578     		ldrb	r5, [r4, #2]	@ zero_extendqisi2
+ 340              	.LVL35:
+  69:user/drivers/u8g2/u8x8_8x8.c ****   
+ 341              		.loc 1 69 3 is_stmt 1 view .LVU105
+  69:user/drivers/u8g2/u8x8_8x8.c ****   
+ 342              		.loc 1 69 12 is_stmt 0 view .LVU106
+ 343 000c 94F803C0 		ldrb	ip, [r4, #3]	@ zero_extendqisi2
+  69:user/drivers/u8g2/u8x8_8x8.c ****   
+ 344              		.loc 1 69 9 view .LVU107
+ 345 0010 1CFB05FC 		smulbb	ip, ip, r5
+ 346              	.LVL36:
+  72:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 347              		.loc 1 72 3 is_stmt 1 view .LVU108
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 14
+
+
+  72:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 348              		.loc 1 72 6 is_stmt 0 view .LVU109
+ 349 0014 8E45     		cmp	lr, r1
+ 350 0016 24D8     		bhi	.L36
+ 351 0018 5FFA8CFC 		uxtb	ip, ip
+  72:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 352              		.loc 1 72 26 discriminator 1 view .LVU110
+ 353 001c 8E42     		cmp	r6, r1
+ 354 001e 22D3     		bcc	.L37
+  74:user/drivers/u8g2/u8x8_8x8.c ****     offset -= first;
+ 355              		.loc 1 74 5 is_stmt 1 view .LVU111
+ 356              	.LVL37:
+  75:user/drivers/u8g2/u8x8_8x8.c ****     offset *= tiles;		/* new 2019 format */
+ 357              		.loc 1 75 5 view .LVU112
+  75:user/drivers/u8g2/u8x8_8x8.c ****     offset *= tiles;		/* new 2019 format */
+ 358              		.loc 1 75 12 is_stmt 0 view .LVU113
+ 359 0020 A1EB0E01 		sub	r1, r1, lr
+ 360              	.LVL38:
+  76:user/drivers/u8g2/u8x8_8x8.c ****     offset += tile_offset;	/* new 2019 format */
+ 361              		.loc 1 76 5 is_stmt 1 view .LVU114
+  76:user/drivers/u8g2/u8x8_8x8.c ****     offset += tile_offset;	/* new 2019 format */
+ 362              		.loc 1 76 12 is_stmt 0 view .LVU115
+ 363 0024 0CFB01F1 		mul	r1, ip, r1
+ 364              	.LVL39:
+  77:user/drivers/u8g2/u8x8_8x8.c ****     offset *= 8;
+ 365              		.loc 1 77 5 is_stmt 1 view .LVU116
+  77:user/drivers/u8g2/u8x8_8x8.c ****     offset *= 8;
+ 366              		.loc 1 77 12 is_stmt 0 view .LVU117
+ 367 0028 13FA81F3 		uxtah	r3, r3, r1
+ 368              	.LVL40:
+  77:user/drivers/u8g2/u8x8_8x8.c ****     offset *= 8;
+ 369              		.loc 1 77 12 view .LVU118
+ 370 002c 9BB2     		uxth	r3, r3
+ 371              	.LVL41:
+  78:user/drivers/u8g2/u8x8_8x8.c ****     offset +=4;			/* changed from 2 to 4, new 2019 format */
+ 372              		.loc 1 78 5 is_stmt 1 view .LVU119
+  78:user/drivers/u8g2/u8x8_8x8.c ****     offset +=4;			/* changed from 2 to 4, new 2019 format */
+ 373              		.loc 1 78 12 is_stmt 0 view .LVU120
+ 374 002e DB00     		lsls	r3, r3, #3
+ 375              	.LVL42:
+  78:user/drivers/u8g2/u8x8_8x8.c ****     offset +=4;			/* changed from 2 to 4, new 2019 format */
+ 376              		.loc 1 78 12 view .LVU121
+ 377 0030 9BB2     		uxth	r3, r3
+ 378              	.LVL43:
+  79:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 379              		.loc 1 79 5 is_stmt 1 view .LVU122
+  79:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 380              		.loc 1 79 12 is_stmt 0 view .LVU123
+ 381 0032 0433     		adds	r3, r3, #4
+ 382              	.LVL44:
+  79:user/drivers/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 383              		.loc 1 79 12 view .LVU124
+ 384 0034 9BB2     		uxth	r3, r3
+ 385              	.LVL45:
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 386              		.loc 1 80 5 is_stmt 1 view .LVU125
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 15
+
+
+ 387              		.loc 1 80 12 is_stmt 0 view .LVU126
+ 388 0036 0021     		movs	r1, #0
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 389              		.loc 1 80 5 view .LVU127
+ 390 0038 06E0     		b	.L28
+ 391              	.LVL46:
+ 392              	.L29:
+  82:user/drivers/u8g2/u8x8_8x8.c ****       offset++;
+ 393              		.loc 1 82 7 is_stmt 1 discriminator 3 view .LVU128
+  82:user/drivers/u8g2/u8x8_8x8.c ****       offset++;
+ 394              		.loc 1 82 16 is_stmt 0 discriminator 3 view .LVU129
+ 395 003a C469     		ldr	r4, [r0, #28]
+ 396 003c E45C     		ldrb	r4, [r4, r3]	@ zero_extendqisi2
+  82:user/drivers/u8g2/u8x8_8x8.c ****       offset++;
+ 397              		.loc 1 82 14 discriminator 3 view .LVU130
+ 398 003e 5454     		strb	r4, [r2, r1]
+  83:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 399              		.loc 1 83 7 is_stmt 1 discriminator 3 view .LVU131
+  83:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 400              		.loc 1 83 13 is_stmt 0 discriminator 3 view .LVU132
+ 401 0040 0133     		adds	r3, r3, #1
+ 402              	.LVL47:
+  83:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 403              		.loc 1 83 13 discriminator 3 view .LVU133
+ 404 0042 9BB2     		uxth	r3, r3
+ 405              	.LVL48:
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 406              		.loc 1 80 25 is_stmt 1 discriminator 3 view .LVU134
+ 407 0044 0131     		adds	r1, r1, #1
+ 408              	.LVL49:
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 409              		.loc 1 80 25 is_stmt 0 discriminator 3 view .LVU135
+ 410 0046 C9B2     		uxtb	r1, r1
+ 411              	.LVL50:
+ 412              	.L28:
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 413              		.loc 1 80 19 is_stmt 1 discriminator 1 view .LVU136
+ 414 0048 0729     		cmp	r1, #7
+ 415 004a F6D9     		bls	.L29
+  80:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 416              		.loc 1 80 19 is_stmt 0 discriminator 1 view .LVU137
+ 417 004c 05E0     		b	.L30
+ 418              	.LVL51:
+ 419              	.L32:
+  90:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 420              		.loc 1 90 7 is_stmt 1 discriminator 3 view .LVU138
+  90:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 421              		.loc 1 90 14 is_stmt 0 discriminator 3 view .LVU139
+ 422 004e 0021     		movs	r1, #0
+ 423 0050 D154     		strb	r1, [r2, r3]
+  88:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 424              		.loc 1 88 25 is_stmt 1 discriminator 3 view .LVU140
+ 425 0052 0133     		adds	r3, r3, #1
+ 426              	.LVL52:
+  88:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 427              		.loc 1 88 25 is_stmt 0 discriminator 3 view .LVU141
+ 428 0054 DBB2     		uxtb	r3, r3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 16
+
+
+ 429              	.LVL53:
+ 430              	.L31:
+  88:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 431              		.loc 1 88 19 is_stmt 1 discriminator 1 view .LVU142
+ 432 0056 072B     		cmp	r3, #7
+ 433 0058 F9D9     		bls	.L32
+ 434              	.LVL54:
+ 435              	.L30:
+  95:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 436              		.loc 1 95 3 view .LVU143
+  95:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 437              		.loc 1 95 12 is_stmt 0 view .LVU144
+ 438 005a 90F82330 		ldrb	r3, [r0, #35]	@ zero_extendqisi2
+  95:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 439              		.loc 1 95 6 view .LVU145
+ 440 005e 63B9     		cbnz	r3, .L38
+ 441              	.L26:
+ 103:user/drivers/u8g2/u8x8_8x8.c **** 
+ 442              		.loc 1 103 1 view .LVU146
+ 443 0060 70BD     		pop	{r4, r5, r6, pc}
+ 444              	.LVL55:
+ 445              	.L36:
+ 103:user/drivers/u8g2/u8x8_8x8.c **** 
+ 446              		.loc 1 103 1 view .LVU147
+ 447 0062 0023     		movs	r3, #0
+ 448              	.LVL56:
+ 103:user/drivers/u8g2/u8x8_8x8.c **** 
+ 449              		.loc 1 103 1 view .LVU148
+ 450 0064 F7E7     		b	.L31
+ 451              	.LVL57:
+ 452              	.L37:
+ 103:user/drivers/u8g2/u8x8_8x8.c **** 
+ 453              		.loc 1 103 1 view .LVU149
+ 454 0066 0023     		movs	r3, #0
+ 455              	.LVL58:
+ 103:user/drivers/u8g2/u8x8_8x8.c **** 
+ 456              		.loc 1 103 1 view .LVU150
+ 457 0068 F5E7     		b	.L31
+ 458              	.LVL59:
+ 459              	.L35:
+  99:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 460              		.loc 1 99 7 is_stmt 1 discriminator 3 view .LVU151
+  99:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 461              		.loc 1 99 10 is_stmt 0 discriminator 3 view .LVU152
+ 462 006a D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+  99:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 463              		.loc 1 99 14 discriminator 3 view .LVU153
+ 464 006c C943     		mvns	r1, r1
+ 465 006e D154     		strb	r1, [r2, r3]
+  97:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 466              		.loc 1 97 25 is_stmt 1 discriminator 3 view .LVU154
+ 467 0070 0133     		adds	r3, r3, #1
+ 468              	.LVL60:
+  97:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 469              		.loc 1 97 25 is_stmt 0 discriminator 3 view .LVU155
+ 470 0072 DBB2     		uxtb	r3, r3
+ 471              	.LVL61:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 17
+
+
+ 472              	.L33:
+  97:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 473              		.loc 1 97 19 is_stmt 1 discriminator 1 view .LVU156
+ 474 0074 072B     		cmp	r3, #7
+ 475 0076 F8D9     		bls	.L35
+ 476 0078 F2E7     		b	.L26
+ 477              	.LVL62:
+ 478              	.L38:
+  97:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 479              		.loc 1 97 12 is_stmt 0 view .LVU157
+ 480 007a 0023     		movs	r3, #0
+ 481 007c FAE7     		b	.L33
+ 482              		.cfi_endproc
+ 483              	.LFE1:
+ 485              		.section	.text.u8x8_DrawGlyph,"ax",%progbits
+ 486              		.align	1
+ 487              		.global	u8x8_DrawGlyph
+ 488              		.syntax unified
+ 489              		.thumb
+ 490              		.thumb_func
+ 492              	u8x8_DrawGlyph:
+ 493              	.LVL63:
+ 494              	.LFB2:
+ 106:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 495              		.loc 1 106 1 is_stmt 1 view -0
+ 496              		.cfi_startproc
+ 497              		@ args = 0, pretend = 0, frame = 16
+ 498              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 499              		.loc 1 106 1 is_stmt 0 view .LVU159
+ 500 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 501              	.LCFI1:
+ 502              		.cfi_def_cfa_offset 36
+ 503              		.cfi_offset 4, -36
+ 504              		.cfi_offset 5, -32
+ 505              		.cfi_offset 6, -28
+ 506              		.cfi_offset 7, -24
+ 507              		.cfi_offset 8, -20
+ 508              		.cfi_offset 9, -16
+ 509              		.cfi_offset 10, -12
+ 510              		.cfi_offset 11, -8
+ 511              		.cfi_offset 14, -4
+ 512 0004 87B0     		sub	sp, sp, #28
+ 513              	.LCFI2:
+ 514              		.cfi_def_cfa_offset 64
+ 515 0006 0746     		mov	r7, r0
+ 516 0008 9946     		mov	r9, r3
+ 107:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 517              		.loc 1 107 3 is_stmt 1 view .LVU160
+ 107:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 518              		.loc 1 107 16 is_stmt 0 view .LVU161
+ 519 000a C369     		ldr	r3, [r0, #28]
+ 520              	.LVL64:
+ 107:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 521              		.loc 1 107 11 view .LVU162
+ 522 000c 93F80280 		ldrb	r8, [r3, #2]	@ zero_extendqisi2
+ 523              	.LVL65:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 18
+
+
+ 108:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 524              		.loc 1 108 3 is_stmt 1 view .LVU163
+ 108:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 525              		.loc 1 108 11 is_stmt 0 view .LVU164
+ 526 0010 DE78     		ldrb	r6, [r3, #3]	@ zero_extendqisi2
+ 527              	.LVL66:
+ 109:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 528              		.loc 1 109 3 is_stmt 1 view .LVU165
+ 110:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 529              		.loc 1 110 3 view .LVU166
+ 111:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 530              		.loc 1 111 3 view .LVU167
+ 111:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 531              		.loc 1 111 6 is_stmt 0 view .LVU168
+ 532 0012 8844     		add	r8, r8, r1
+ 533 0014 5FFA88F8 		uxtb	r8, r8
+ 534              	.LVL67:
+ 112:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 535              		.loc 1 112 3 is_stmt 1 view .LVU169
+ 112:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 536              		.loc 1 112 6 is_stmt 0 view .LVU170
+ 537 0018 1644     		add	r6, r6, r2
+ 538 001a F6B2     		uxtb	r6, r6
+ 539              	.LVL68:
+ 113:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 540              		.loc 1 113 3 is_stmt 1 view .LVU171
+ 113:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 541              		.loc 1 113 8 is_stmt 0 view .LVU172
+ 542 001c 0025     		movs	r5, #0
+ 543 001e 0396     		str	r6, [sp, #12]
+ 544 0020 0E46     		mov	r6, r1
+ 545              	.LVL69:
+ 113:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 546              		.loc 1 113 8 view .LVU173
+ 547 0022 9346     		mov	fp, r2
+ 548              	.LVL70:
+ 549              	.L42:
+ 114:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 550              		.loc 1 114 3 is_stmt 1 view .LVU174
+ 116:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 551              		.loc 1 116 5 view .LVU175
+ 116:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 552              		.loc 1 116 8 is_stmt 0 view .LVU176
+ 553 0024 3446     		mov	r4, r6
+ 554 0026 B246     		mov	r10, r6
+ 555              	.LVL71:
+ 556              	.L41:
+ 117:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 557              		.loc 1 117 5 is_stmt 1 discriminator 1 view .LVU177
+ 119:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_DrawTile(u8x8, xx, y, 1, buf);
+ 558              		.loc 1 119 7 discriminator 1 view .LVU178
+ 559 0028 04AE     		add	r6, sp, #16
+ 560 002a 2B46     		mov	r3, r5
+ 561 002c 3246     		mov	r2, r6
+ 562 002e 4946     		mov	r1, r9
+ 563 0030 3846     		mov	r0, r7
+ 564 0032 FFF7FEFF 		bl	u8x8_get_glyph_data
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 19
+
+
+ 565              	.LVL72:
+ 120:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 566              		.loc 1 120 7 discriminator 1 view .LVU179
+ 567 0036 0096     		str	r6, [sp]
+ 568 0038 0123     		movs	r3, #1
+ 569 003a 5A46     		mov	r2, fp
+ 570 003c 2146     		mov	r1, r4
+ 571 003e 3846     		mov	r0, r7
+ 572 0040 FFF7FEFF 		bl	u8x8_DrawTile
+ 573              	.LVL73:
+ 121:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 574              		.loc 1 121 7 discriminator 1 view .LVU180
+ 121:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 575              		.loc 1 121 11 is_stmt 0 discriminator 1 view .LVU181
+ 576 0044 0135     		adds	r5, r5, #1
+ 577              	.LVL74:
+ 121:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 578              		.loc 1 121 11 discriminator 1 view .LVU182
+ 579 0046 EDB2     		uxtb	r5, r5
+ 580              	.LVL75:
+ 122:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 581              		.loc 1 122 7 is_stmt 1 discriminator 1 view .LVU183
+ 122:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 582              		.loc 1 122 9 is_stmt 0 discriminator 1 view .LVU184
+ 583 0048 0134     		adds	r4, r4, #1
+ 584              	.LVL76:
+ 122:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 585              		.loc 1 122 9 discriminator 1 view .LVU185
+ 586 004a E4B2     		uxtb	r4, r4
+ 587              	.LVL77:
+ 123:user/drivers/u8g2/u8x8_8x8.c ****     y++;
+ 588              		.loc 1 123 17 is_stmt 1 discriminator 1 view .LVU186
+ 589 004c A045     		cmp	r8, r4
+ 590 004e EBD8     		bhi	.L41
+ 124:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );
+ 591              		.loc 1 124 6 is_stmt 0 view .LVU187
+ 592 0050 5646     		mov	r6, r10
+ 124:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );
+ 593              		.loc 1 124 5 is_stmt 1 view .LVU188
+ 124:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );
+ 594              		.loc 1 124 6 is_stmt 0 view .LVU189
+ 595 0052 0BF10103 		add	r3, fp, #1
+ 596 0056 5FFA83FB 		uxtb	fp, r3
+ 597              	.LVL78:
+ 125:user/drivers/u8g2/u8x8_8x8.c **** }
+ 598              		.loc 1 125 14 is_stmt 1 view .LVU190
+ 599 005a 039B     		ldr	r3, [sp, #12]
+ 600 005c 5B45     		cmp	r3, fp
+ 601 005e E1D8     		bhi	.L42
+ 126:user/drivers/u8g2/u8x8_8x8.c **** 
+ 602              		.loc 1 126 1 is_stmt 0 view .LVU191
+ 603 0060 07B0     		add	sp, sp, #28
+ 604              	.LCFI3:
+ 605              		.cfi_def_cfa_offset 36
+ 606              		@ sp needed
+ 607 0062 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 126:user/drivers/u8g2/u8x8_8x8.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 20
+
+
+ 608              		.loc 1 126 1 view .LVU192
+ 609              		.cfi_endproc
+ 610              	.LFE2:
+ 612              		.section	.text.u8x8_upscale_byte,"ax",%progbits
+ 613              		.align	1
+ 614              		.global	u8x8_upscale_byte
+ 615              		.syntax unified
+ 616              		.thumb
+ 617              		.thumb_func
+ 619              	u8x8_upscale_byte:
+ 620              	.LVL79:
+ 621              	.LFB3:
+ 154:user/drivers/u8g2/u8x8_8x8.c **** 	uint16_t y = x;
+ 622              		.loc 1 154 1 is_stmt 1 view -0
+ 623              		.cfi_startproc
+ 624              		@ args = 0, pretend = 0, frame = 0
+ 625              		@ frame_needed = 0, uses_anonymous_args = 0
+ 626              		@ link register save eliminated.
+ 155:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];
+ 627              		.loc 1 155 2 view .LVU194
+ 156:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 628              		.loc 1 156 2 view .LVU195
+ 156:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 629              		.loc 1 156 4 is_stmt 0 view .LVU196
+ 630 0000 40EA0010 		orr	r0, r0, r0, lsl #4
+ 631              	.LVL80:
+ 157:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 632              		.loc 1 157 2 is_stmt 1 view .LVU197
+ 633 0004 40F60F73 		movw	r3, #3855
+ 634 0008 00EA0302 		and	r2, r0, r3
+ 635              	.LVL81:
+ 158:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x3333;
+ 636              		.loc 1 158 2 view .LVU198
+ 158:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x3333;
+ 637              		.loc 1 158 4 is_stmt 0 view .LVU199
+ 638 000c 42EA8202 		orr	r2, r2, r2, lsl #2
+ 639              	.LVL82:
+ 159:user/drivers/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 640              		.loc 1 159 2 is_stmt 1 view .LVU200
+ 641 0010 43F23331 		movw	r1, #13107
+ 642 0014 02EA0103 		and	r3, r2, r1
+ 643              	.LVL83:
+ 160:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x5555;
+ 644              		.loc 1 160 2 view .LVU201
+ 160:user/drivers/u8g2/u8x8_8x8.c **** 	y &= 0x5555;
+ 645              		.loc 1 160 4 is_stmt 0 view .LVU202
+ 646 0018 43EA4303 		orr	r3, r3, r3, lsl #1
+ 647              	.LVL84:
+ 161:user/drivers/u8g2/u8x8_8x8.c ****   
+ 648              		.loc 1 161 2 is_stmt 1 view .LVU203
+ 649 001c 45F25552 		movw	r2, #21845
+ 650 0020 03EA0200 		and	r0, r3, r2
+ 651              	.LVL85:
+ 163:user/drivers/u8g2/u8x8_8x8.c **** 	return y;
+ 652              		.loc 1 163 2 view .LVU204
+ 164:user/drivers/u8g2/u8x8_8x8.c **** }
+ 653              		.loc 1 164 2 view .LVU205
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 21
+
+
+ 165:user/drivers/u8g2/u8x8_8x8.c **** 
+ 654              		.loc 1 165 1 is_stmt 0 view .LVU206
+ 655 0024 40EA4000 		orr	r0, r0, r0, lsl #1
+ 656              	.LVL86:
+ 165:user/drivers/u8g2/u8x8_8x8.c **** 
+ 657              		.loc 1 165 1 view .LVU207
+ 658 0028 7047     		bx	lr
+ 659              		.cfi_endproc
+ 660              	.LFE3:
+ 662              		.section	.text.u8x8_draw_2x2_subglyph,"ax",%progbits
+ 663              		.align	1
+ 664              		.syntax unified
+ 665              		.thumb
+ 666              		.thumb_func
+ 668              	u8x8_draw_2x2_subglyph:
+ 669              	.LVL87:
+ 670              	.LFB5:
+ 180:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 671              		.loc 1 180 1 is_stmt 1 view -0
+ 672              		.cfi_startproc
+ 673              		@ args = 4, pretend = 0, frame = 24
+ 674              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 675              		.loc 1 180 1 is_stmt 0 view .LVU209
+ 676 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 677              	.LCFI4:
+ 678              		.cfi_def_cfa_offset 24
+ 679              		.cfi_offset 4, -24
+ 680              		.cfi_offset 5, -20
+ 681              		.cfi_offset 6, -16
+ 682              		.cfi_offset 7, -12
+ 683              		.cfi_offset 8, -8
+ 684              		.cfi_offset 14, -4
+ 685 0004 88B0     		sub	sp, sp, #32
+ 686              	.LCFI5:
+ 687              		.cfi_def_cfa_offset 56
+ 688 0006 0746     		mov	r7, r0
+ 689 0008 8846     		mov	r8, r1
+ 690 000a 1646     		mov	r6, r2
+ 691 000c 1946     		mov	r1, r3
+ 692              	.LVL88:
+ 181:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 693              		.loc 1 181 3 is_stmt 1 view .LVU210
+ 182:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 694              		.loc 1 182 3 view .LVU211
+ 183:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 695              		.loc 1 183 3 view .LVU212
+ 184:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 696              		.loc 1 184 3 view .LVU213
+ 185:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 697              		.loc 1 185 3 view .LVU214
+ 186:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 698              		.loc 1 186 3 view .LVU215
+ 699 000e 9DF83830 		ldrb	r3, [sp, #56]	@ zero_extendqisi2
+ 700              	.LVL89:
+ 186:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 701              		.loc 1 186 3 is_stmt 0 view .LVU216
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 22
+
+
+ 702 0012 06AA     		add	r2, sp, #24
+ 703              	.LVL90:
+ 186:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 704              		.loc 1 186 3 view .LVU217
+ 705 0014 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 706              	.LVL91:
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 707              		.loc 1 187 3 is_stmt 1 view .LVU218
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 708              		.loc 1 187 10 is_stmt 0 view .LVU219
+ 709 0018 0024     		movs	r4, #0
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 710              		.loc 1 187 3 view .LVU220
+ 711 001a 0EE0     		b	.L46
+ 712              	.LVL92:
+ 713              	.L47:
+ 189:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 714              		.loc 1 189 7 is_stmt 1 discriminator 3 view .LVU221
+ 189:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 715              		.loc 1 189 11 is_stmt 0 discriminator 3 view .LVU222
+ 716 001c 04F12003 		add	r3, r4, #32
+ 717 0020 0DEB0305 		add	r5, sp, r3
+ 718 0024 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 719 0028 FFF7FEFF 		bl	u8x8_upscale_byte
+ 720              	.LVL93:
+ 190:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 721              		.loc 1 190 7 is_stmt 1 discriminator 3 view .LVU223
+ 190:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 722              		.loc 1 190 15 is_stmt 0 discriminator 3 view .LVU224
+ 723 002c 030A     		lsrs	r3, r0, #8
+ 724 002e 05F8103C 		strb	r3, [r5, #-16]
+ 191:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 725              		.loc 1 191 7 is_stmt 1 discriminator 3 view .LVU225
+ 191:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 726              		.loc 1 191 15 is_stmt 0 discriminator 3 view .LVU226
+ 727 0032 05F8180C 		strb	r0, [r5, #-24]
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 728              		.loc 1 187 24 is_stmt 1 discriminator 3 view .LVU227
+ 729 0036 0134     		adds	r4, r4, #1
+ 730              	.LVL94:
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 731              		.loc 1 187 24 is_stmt 0 discriminator 3 view .LVU228
+ 732 0038 E4B2     		uxtb	r4, r4
+ 733              	.LVL95:
+ 734              	.L46:
+ 187:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 735              		.loc 1 187 17 is_stmt 1 discriminator 1 view .LVU229
+ 736 003a 072C     		cmp	r4, #7
+ 737 003c EED9     		bls	.L47
+ 193:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 738              		.loc 1 193 3 view .LVU230
+ 739 003e 06AC     		add	r4, sp, #24
+ 740              	.LVL96:
+ 193:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 741              		.loc 1 193 3 is_stmt 0 view .LVU231
+ 742 0040 2146     		mov	r1, r4
+ 743 0042 02A8     		add	r0, sp, #8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 23
+
+
+ 744 0044 FFF7FEFF 		bl	u8x8_upscale_buf
+ 745              	.LVL97:
+ 194:user/drivers/u8g2/u8x8_8x8.c ****   
+ 746              		.loc 1 194 3 is_stmt 1 view .LVU232
+ 747 0048 0094     		str	r4, [sp]
+ 748 004a 0123     		movs	r3, #1
+ 749 004c 3246     		mov	r2, r6
+ 750 004e 4146     		mov	r1, r8
+ 751 0050 3846     		mov	r0, r7
+ 752 0052 FFF7FEFF 		bl	u8x8_DrawTile
+ 753              	.LVL98:
+ 196:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 754              		.loc 1 196 3 view .LVU233
+ 755 0056 2146     		mov	r1, r4
+ 756 0058 03A8     		add	r0, sp, #12
+ 757 005a FFF7FEFF 		bl	u8x8_upscale_buf
+ 758              	.LVL99:
+ 197:user/drivers/u8g2/u8x8_8x8.c ****   
+ 759              		.loc 1 197 3 view .LVU234
+ 760 005e 08F10105 		add	r5, r8, #1
+ 761 0062 EDB2     		uxtb	r5, r5
+ 762 0064 0094     		str	r4, [sp]
+ 763 0066 0123     		movs	r3, #1
+ 764 0068 3246     		mov	r2, r6
+ 765 006a 2946     		mov	r1, r5
+ 766 006c 3846     		mov	r0, r7
+ 767 006e FFF7FEFF 		bl	u8x8_DrawTile
+ 768              	.LVL100:
+ 199:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 769              		.loc 1 199 3 view .LVU235
+ 770 0072 2146     		mov	r1, r4
+ 771 0074 04A8     		add	r0, sp, #16
+ 772 0076 FFF7FEFF 		bl	u8x8_upscale_buf
+ 773              	.LVL101:
+ 200:user/drivers/u8g2/u8x8_8x8.c ****   
+ 774              		.loc 1 200 3 view .LVU236
+ 775 007a 0136     		adds	r6, r6, #1
+ 776 007c F6B2     		uxtb	r6, r6
+ 777 007e 0094     		str	r4, [sp]
+ 778 0080 0123     		movs	r3, #1
+ 779 0082 3246     		mov	r2, r6
+ 780 0084 4146     		mov	r1, r8
+ 781 0086 3846     		mov	r0, r7
+ 782 0088 FFF7FEFF 		bl	u8x8_DrawTile
+ 783              	.LVL102:
+ 202:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 784              		.loc 1 202 3 view .LVU237
+ 785 008c 2146     		mov	r1, r4
+ 786 008e 05A8     		add	r0, sp, #20
+ 787 0090 FFF7FEFF 		bl	u8x8_upscale_buf
+ 788              	.LVL103:
+ 203:user/drivers/u8g2/u8x8_8x8.c **** }
+ 789              		.loc 1 203 3 view .LVU238
+ 790 0094 0094     		str	r4, [sp]
+ 791 0096 0123     		movs	r3, #1
+ 792 0098 3246     		mov	r2, r6
+ 793 009a 2946     		mov	r1, r5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 24
+
+
+ 794 009c 3846     		mov	r0, r7
+ 795 009e FFF7FEFF 		bl	u8x8_DrawTile
+ 796              	.LVL104:
+ 204:user/drivers/u8g2/u8x8_8x8.c **** 
+ 797              		.loc 1 204 1 is_stmt 0 view .LVU239
+ 798 00a2 08B0     		add	sp, sp, #32
+ 799              	.LCFI6:
+ 800              		.cfi_def_cfa_offset 24
+ 801              		@ sp needed
+ 802 00a4 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 204:user/drivers/u8g2/u8x8_8x8.c **** 
+ 803              		.loc 1 204 1 view .LVU240
+ 804              		.cfi_endproc
+ 805              	.LFE5:
+ 807              		.section	.text.u8x8_draw_1x2_subglyph,"ax",%progbits
+ 808              		.align	1
+ 809              		.syntax unified
+ 810              		.thumb
+ 811              		.thumb_func
+ 813              	u8x8_draw_1x2_subglyph:
+ 814              	.LVL105:
+ 815              	.LFB7:
+ 232:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 816              		.loc 1 232 1 is_stmt 1 view -0
+ 817              		.cfi_startproc
+ 818              		@ args = 4, pretend = 0, frame = 24
+ 819              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 820              		.loc 1 232 1 is_stmt 0 view .LVU242
+ 821 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 822              	.LCFI7:
+ 823              		.cfi_def_cfa_offset 24
+ 824              		.cfi_offset 4, -24
+ 825              		.cfi_offset 5, -20
+ 826              		.cfi_offset 6, -16
+ 827              		.cfi_offset 7, -12
+ 828              		.cfi_offset 8, -8
+ 829              		.cfi_offset 14, -4
+ 830 0004 88B0     		sub	sp, sp, #32
+ 831              	.LCFI8:
+ 832              		.cfi_def_cfa_offset 56
+ 833 0006 0746     		mov	r7, r0
+ 834 0008 8846     		mov	r8, r1
+ 835 000a 1646     		mov	r6, r2
+ 836 000c 1946     		mov	r1, r3
+ 837              	.LVL106:
+ 233:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 838              		.loc 1 233 3 is_stmt 1 view .LVU243
+ 234:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 839              		.loc 1 234 3 view .LVU244
+ 235:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 840              		.loc 1 235 3 view .LVU245
+ 236:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 841              		.loc 1 236 3 view .LVU246
+ 237:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 842              		.loc 1 237 3 view .LVU247
+ 238:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 25
+
+
+ 843              		.loc 1 238 3 view .LVU248
+ 844 000e 9DF83830 		ldrb	r3, [sp, #56]	@ zero_extendqisi2
+ 845              	.LVL107:
+ 238:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 846              		.loc 1 238 3 is_stmt 0 view .LVU249
+ 847 0012 06AA     		add	r2, sp, #24
+ 848              	.LVL108:
+ 238:user/drivers/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 849              		.loc 1 238 3 view .LVU250
+ 850 0014 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 851              	.LVL109:
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 852              		.loc 1 239 3 is_stmt 1 view .LVU251
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 853              		.loc 1 239 10 is_stmt 0 view .LVU252
+ 854 0018 0024     		movs	r4, #0
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 855              		.loc 1 239 3 view .LVU253
+ 856 001a 0EE0     		b	.L50
+ 857              	.LVL110:
+ 858              	.L51:
+ 241:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 859              		.loc 1 241 7 is_stmt 1 discriminator 3 view .LVU254
+ 241:user/drivers/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 860              		.loc 1 241 11 is_stmt 0 discriminator 3 view .LVU255
+ 861 001c 04F12003 		add	r3, r4, #32
+ 862 0020 0DEB0305 		add	r5, sp, r3
+ 863 0024 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 864 0028 FFF7FEFF 		bl	u8x8_upscale_byte
+ 865              	.LVL111:
+ 242:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 866              		.loc 1 242 7 is_stmt 1 discriminator 3 view .LVU256
+ 242:user/drivers/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 867              		.loc 1 242 15 is_stmt 0 discriminator 3 view .LVU257
+ 868 002c 030A     		lsrs	r3, r0, #8
+ 869 002e 05F8103C 		strb	r3, [r5, #-16]
+ 243:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 870              		.loc 1 243 7 is_stmt 1 discriminator 3 view .LVU258
+ 243:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 871              		.loc 1 243 15 is_stmt 0 discriminator 3 view .LVU259
+ 872 0032 05F8180C 		strb	r0, [r5, #-24]
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 873              		.loc 1 239 24 is_stmt 1 discriminator 3 view .LVU260
+ 874 0036 0134     		adds	r4, r4, #1
+ 875              	.LVL112:
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 876              		.loc 1 239 24 is_stmt 0 discriminator 3 view .LVU261
+ 877 0038 E4B2     		uxtb	r4, r4
+ 878              	.LVL113:
+ 879              	.L50:
+ 239:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 880              		.loc 1 239 17 is_stmt 1 discriminator 1 view .LVU262
+ 881 003a 072C     		cmp	r4, #7
+ 882 003c EED9     		bls	.L51
+ 245:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 883              		.loc 1 245 3 view .LVU263
+ 884 003e 02AB     		add	r3, sp, #8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 26
+
+
+ 885 0040 0093     		str	r3, [sp]
+ 886 0042 0123     		movs	r3, #1
+ 887 0044 3246     		mov	r2, r6
+ 888 0046 4146     		mov	r1, r8
+ 889 0048 3846     		mov	r0, r7
+ 890 004a FFF7FEFF 		bl	u8x8_DrawTile
+ 891              	.LVL114:
+ 246:user/drivers/u8g2/u8x8_8x8.c **** }
+ 892              		.loc 1 246 3 view .LVU264
+ 893 004e 721C     		adds	r2, r6, #1
+ 894 0050 04AB     		add	r3, sp, #16
+ 895 0052 0093     		str	r3, [sp]
+ 896 0054 0123     		movs	r3, #1
+ 897 0056 D2B2     		uxtb	r2, r2
+ 898 0058 4146     		mov	r1, r8
+ 899 005a 3846     		mov	r0, r7
+ 900 005c FFF7FEFF 		bl	u8x8_DrawTile
+ 901              	.LVL115:
+ 247:user/drivers/u8g2/u8x8_8x8.c **** 
+ 902              		.loc 1 247 1 is_stmt 0 view .LVU265
+ 903 0060 08B0     		add	sp, sp, #32
+ 904              	.LCFI9:
+ 905              		.cfi_def_cfa_offset 24
+ 906              		@ sp needed
+ 907 0062 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 247:user/drivers/u8g2/u8x8_8x8.c **** 
+ 908              		.loc 1 247 1 view .LVU266
+ 909              		.cfi_endproc
+ 910              	.LFE7:
+ 912              		.section	.text.u8x8_Draw2x2Glyph,"ax",%progbits
+ 913              		.align	1
+ 914              		.global	u8x8_Draw2x2Glyph
+ 915              		.syntax unified
+ 916              		.thumb
+ 917              		.thumb_func
+ 919              	u8x8_Draw2x2Glyph:
+ 920              	.LVL116:
+ 921              	.LFB6:
+ 208:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 922              		.loc 1 208 1 is_stmt 1 view -0
+ 923              		.cfi_startproc
+ 924              		@ args = 0, pretend = 0, frame = 0
+ 925              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 926              		.loc 1 208 1 is_stmt 0 view .LVU268
+ 927 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 928              	.LCFI10:
+ 929              		.cfi_def_cfa_offset 36
+ 930              		.cfi_offset 4, -36
+ 931              		.cfi_offset 5, -32
+ 932              		.cfi_offset 6, -28
+ 933              		.cfi_offset 7, -24
+ 934              		.cfi_offset 8, -20
+ 935              		.cfi_offset 9, -16
+ 936              		.cfi_offset 10, -12
+ 937              		.cfi_offset 11, -8
+ 938              		.cfi_offset 14, -4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 27
+
+
+ 939 0004 83B0     		sub	sp, sp, #12
+ 940              	.LCFI11:
+ 941              		.cfi_def_cfa_offset 48
+ 942 0006 8046     		mov	r8, r0
+ 943 0008 8B46     		mov	fp, r1
+ 944 000a 1646     		mov	r6, r2
+ 945 000c 9946     		mov	r9, r3
+ 209:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 946              		.loc 1 209 3 is_stmt 1 view .LVU269
+ 209:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 947              		.loc 1 209 16 is_stmt 0 view .LVU270
+ 948 000e C369     		ldr	r3, [r0, #28]
+ 949              	.LVL117:
+ 209:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 950              		.loc 1 209 11 view .LVU271
+ 951 0010 9F78     		ldrb	r7, [r3, #2]	@ zero_extendqisi2
+ 952              	.LVL118:
+ 210:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 953              		.loc 1 210 3 is_stmt 1 view .LVU272
+ 210:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 954              		.loc 1 210 11 is_stmt 0 view .LVU273
+ 955 0012 93F803A0 		ldrb	r10, [r3, #3]	@ zero_extendqisi2
+ 956              	.LVL119:
+ 211:user/drivers/u8g2/u8x8_8x8.c ****   th *= 2;
+ 957              		.loc 1 211 3 is_stmt 1 view .LVU274
+ 212:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 958              		.loc 1 212 3 view .LVU275
+ 212:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 959              		.loc 1 212 6 is_stmt 0 view .LVU276
+ 960 0016 7F00     		lsls	r7, r7, #1
+ 961 0018 FFB2     		uxtb	r7, r7
+ 962              	.LVL120:
+ 213:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 963              		.loc 1 213 3 is_stmt 1 view .LVU277
+ 213:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 964              		.loc 1 213 6 is_stmt 0 view .LVU278
+ 965 001a 0F44     		add	r7, r7, r1
+ 966              	.LVL121:
+ 213:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 967              		.loc 1 213 6 view .LVU279
+ 968 001c FFB2     		uxtb	r7, r7
+ 969              	.LVL122:
+ 214:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 970              		.loc 1 214 3 is_stmt 1 view .LVU280
+ 214:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 971              		.loc 1 214 6 is_stmt 0 view .LVU281
+ 972 001e 4FEA4A0A 		lsl	r10, r10, #1
+ 973 0022 5FFA8AFA 		uxtb	r10, r10
+ 974              	.LVL123:
+ 215:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 975              		.loc 1 215 3 is_stmt 1 view .LVU282
+ 215:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 976              		.loc 1 215 6 is_stmt 0 view .LVU283
+ 977 0026 9244     		add	r10, r10, r2
+ 978              	.LVL124:
+ 215:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 979              		.loc 1 215 6 view .LVU284
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 28
+
+
+ 980 0028 5FFA8AFA 		uxtb	r10, r10
+ 981              	.LVL125:
+ 216:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 982              		.loc 1 216 3 is_stmt 1 view .LVU285
+ 216:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 983              		.loc 1 216 8 is_stmt 0 view .LVU286
+ 984 002c 0025     		movs	r5, #0
+ 985              	.LVL126:
+ 986              	.L55:
+ 217:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 987              		.loc 1 217 3 is_stmt 1 view .LVU287
+ 219:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 988              		.loc 1 219 5 view .LVU288
+ 219:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 989              		.loc 1 219 8 is_stmt 0 view .LVU289
+ 990 002e 5C46     		mov	r4, fp
+ 991              	.LVL127:
+ 992              	.L54:
+ 220:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 993              		.loc 1 220 5 is_stmt 1 discriminator 1 view .LVU290
+ 222:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 994              		.loc 1 222 7 discriminator 1 view .LVU291
+ 995 0030 0095     		str	r5, [sp]
+ 996 0032 4B46     		mov	r3, r9
+ 997 0034 3246     		mov	r2, r6
+ 998 0036 2146     		mov	r1, r4
+ 999 0038 4046     		mov	r0, r8
+ 1000 003a FFF7FEFF 		bl	u8x8_draw_2x2_subglyph
+ 1001              	.LVL128:
+ 223:user/drivers/u8g2/u8x8_8x8.c ****       xx+=2;
+ 1002              		.loc 1 223 7 discriminator 1 view .LVU292
+ 223:user/drivers/u8g2/u8x8_8x8.c ****       xx+=2;
+ 1003              		.loc 1 223 11 is_stmt 0 discriminator 1 view .LVU293
+ 1004 003e 0135     		adds	r5, r5, #1
+ 1005              	.LVL129:
+ 223:user/drivers/u8g2/u8x8_8x8.c ****       xx+=2;
+ 1006              		.loc 1 223 11 discriminator 1 view .LVU294
+ 1007 0040 EDB2     		uxtb	r5, r5
+ 1008              	.LVL130:
+ 224:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1009              		.loc 1 224 7 is_stmt 1 discriminator 1 view .LVU295
+ 224:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1010              		.loc 1 224 9 is_stmt 0 discriminator 1 view .LVU296
+ 1011 0042 0234     		adds	r4, r4, #2
+ 1012              	.LVL131:
+ 224:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1013              		.loc 1 224 9 discriminator 1 view .LVU297
+ 1014 0044 E4B2     		uxtb	r4, r4
+ 1015              	.LVL132:
+ 225:user/drivers/u8g2/u8x8_8x8.c ****     y+=2;
+ 1016              		.loc 1 225 17 is_stmt 1 discriminator 1 view .LVU298
+ 1017 0046 A742     		cmp	r7, r4
+ 1018 0048 F2D8     		bhi	.L54
+ 226:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1019              		.loc 1 226 5 view .LVU299
+ 226:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1020              		.loc 1 226 6 is_stmt 0 view .LVU300
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 29
+
+
+ 1021 004a 0236     		adds	r6, r6, #2
+ 1022              	.LVL133:
+ 226:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1023              		.loc 1 226 6 view .LVU301
+ 1024 004c F6B2     		uxtb	r6, r6
+ 1025              	.LVL134:
+ 227:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1026              		.loc 1 227 14 is_stmt 1 view .LVU302
+ 1027 004e B245     		cmp	r10, r6
+ 1028 0050 EDD8     		bhi	.L55
+ 228:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1029              		.loc 1 228 1 is_stmt 0 view .LVU303
+ 1030 0052 03B0     		add	sp, sp, #12
+ 1031              	.LCFI12:
+ 1032              		.cfi_def_cfa_offset 36
+ 1033              		@ sp needed
+ 1034 0054 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 228:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1035              		.loc 1 228 1 view .LVU304
+ 1036              		.cfi_endproc
+ 1037              	.LFE6:
+ 1039              		.section	.text.u8x8_Draw1x2Glyph,"ax",%progbits
+ 1040              		.align	1
+ 1041              		.global	u8x8_Draw1x2Glyph
+ 1042              		.syntax unified
+ 1043              		.thumb
+ 1044              		.thumb_func
+ 1046              	u8x8_Draw1x2Glyph:
+ 1047              	.LVL135:
+ 1048              	.LFB8:
+ 250:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1049              		.loc 1 250 1 is_stmt 1 view -0
+ 1050              		.cfi_startproc
+ 1051              		@ args = 0, pretend = 0, frame = 0
+ 1052              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1053              		.loc 1 250 1 is_stmt 0 view .LVU306
+ 1054 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1055              	.LCFI13:
+ 1056              		.cfi_def_cfa_offset 36
+ 1057              		.cfi_offset 4, -36
+ 1058              		.cfi_offset 5, -32
+ 1059              		.cfi_offset 6, -28
+ 1060              		.cfi_offset 7, -24
+ 1061              		.cfi_offset 8, -20
+ 1062              		.cfi_offset 9, -16
+ 1063              		.cfi_offset 10, -12
+ 1064              		.cfi_offset 11, -8
+ 1065              		.cfi_offset 14, -4
+ 1066 0004 83B0     		sub	sp, sp, #12
+ 1067              	.LCFI14:
+ 1068              		.cfi_def_cfa_offset 48
+ 1069 0006 8046     		mov	r8, r0
+ 1070 0008 8B46     		mov	fp, r1
+ 1071 000a 1646     		mov	r6, r2
+ 1072 000c 9946     		mov	r9, r3
+ 251:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 30
+
+
+ 1073              		.loc 1 251 3 is_stmt 1 view .LVU307
+ 251:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 1074              		.loc 1 251 16 is_stmt 0 view .LVU308
+ 1075 000e C369     		ldr	r3, [r0, #28]
+ 1076              	.LVL136:
+ 251:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 1077              		.loc 1 251 11 view .LVU309
+ 1078 0010 9F78     		ldrb	r7, [r3, #2]	@ zero_extendqisi2
+ 1079              	.LVL137:
+ 252:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 1080              		.loc 1 252 3 is_stmt 1 view .LVU310
+ 252:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t xx, tile;
+ 1081              		.loc 1 252 11 is_stmt 0 view .LVU311
+ 1082 0012 93F803A0 		ldrb	r10, [r3, #3]	@ zero_extendqisi2
+ 1083              	.LVL138:
+ 253:user/drivers/u8g2/u8x8_8x8.c ****   th += x;
+ 1084              		.loc 1 253 3 is_stmt 1 view .LVU312
+ 254:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 1085              		.loc 1 254 3 view .LVU313
+ 254:user/drivers/u8g2/u8x8_8x8.c ****   tv *= 2;
+ 1086              		.loc 1 254 6 is_stmt 0 view .LVU314
+ 1087 0016 0F44     		add	r7, r7, r1
+ 1088 0018 FFB2     		uxtb	r7, r7
+ 1089              	.LVL139:
+ 255:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 1090              		.loc 1 255 3 is_stmt 1 view .LVU315
+ 255:user/drivers/u8g2/u8x8_8x8.c ****   tv += y;
+ 1091              		.loc 1 255 6 is_stmt 0 view .LVU316
+ 1092 001a 4FEA4A0A 		lsl	r10, r10, #1
+ 1093 001e 5FFA8AFA 		uxtb	r10, r10
+ 1094              	.LVL140:
+ 256:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 1095              		.loc 1 256 3 is_stmt 1 view .LVU317
+ 256:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 1096              		.loc 1 256 6 is_stmt 0 view .LVU318
+ 1097 0022 9244     		add	r10, r10, r2
+ 1098              	.LVL141:
+ 256:user/drivers/u8g2/u8x8_8x8.c ****   tile = 0;
+ 1099              		.loc 1 256 6 view .LVU319
+ 1100 0024 5FFA8AFA 		uxtb	r10, r10
+ 1101              	.LVL142:
+ 257:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 1102              		.loc 1 257 3 is_stmt 1 view .LVU320
+ 257:user/drivers/u8g2/u8x8_8x8.c ****   do
+ 1103              		.loc 1 257 8 is_stmt 0 view .LVU321
+ 1104 0028 0025     		movs	r5, #0
+ 1105              	.LVL143:
+ 1106              	.L59:
+ 258:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 1107              		.loc 1 258 3 is_stmt 1 view .LVU322
+ 260:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 1108              		.loc 1 260 5 view .LVU323
+ 260:user/drivers/u8g2/u8x8_8x8.c ****     do
+ 1109              		.loc 1 260 8 is_stmt 0 view .LVU324
+ 1110 002a 5C46     		mov	r4, fp
+ 1111              	.LVL144:
+ 1112              	.L58:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 31
+
+
+ 261:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 1113              		.loc 1 261 5 is_stmt 1 discriminator 1 view .LVU325
+ 263:user/drivers/u8g2/u8x8_8x8.c ****       tile++;
+ 1114              		.loc 1 263 7 discriminator 1 view .LVU326
+ 1115 002c 0095     		str	r5, [sp]
+ 1116 002e 4B46     		mov	r3, r9
+ 1117 0030 3246     		mov	r2, r6
+ 1118 0032 2146     		mov	r1, r4
+ 1119 0034 4046     		mov	r0, r8
+ 1120 0036 FFF7FEFF 		bl	u8x8_draw_1x2_subglyph
+ 1121              	.LVL145:
+ 264:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 1122              		.loc 1 264 7 discriminator 1 view .LVU327
+ 264:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 1123              		.loc 1 264 11 is_stmt 0 discriminator 1 view .LVU328
+ 1124 003a 0135     		adds	r5, r5, #1
+ 1125              	.LVL146:
+ 264:user/drivers/u8g2/u8x8_8x8.c ****       xx++;
+ 1126              		.loc 1 264 11 discriminator 1 view .LVU329
+ 1127 003c EDB2     		uxtb	r5, r5
+ 1128              	.LVL147:
+ 265:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1129              		.loc 1 265 7 is_stmt 1 discriminator 1 view .LVU330
+ 265:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1130              		.loc 1 265 9 is_stmt 0 discriminator 1 view .LVU331
+ 1131 003e 0134     		adds	r4, r4, #1
+ 1132              	.LVL148:
+ 265:user/drivers/u8g2/u8x8_8x8.c ****     } while( xx < th );
+ 1133              		.loc 1 265 9 discriminator 1 view .LVU332
+ 1134 0040 E4B2     		uxtb	r4, r4
+ 1135              	.LVL149:
+ 266:user/drivers/u8g2/u8x8_8x8.c ****     y+=2;
+ 1136              		.loc 1 266 17 is_stmt 1 discriminator 1 view .LVU333
+ 1137 0042 A742     		cmp	r7, r4
+ 1138 0044 F2D8     		bhi	.L58
+ 267:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1139              		.loc 1 267 5 view .LVU334
+ 267:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1140              		.loc 1 267 6 is_stmt 0 view .LVU335
+ 1141 0046 0236     		adds	r6, r6, #2
+ 1142              	.LVL150:
+ 267:user/drivers/u8g2/u8x8_8x8.c ****   } while( y < tv );  
+ 1143              		.loc 1 267 6 view .LVU336
+ 1144 0048 F6B2     		uxtb	r6, r6
+ 1145              	.LVL151:
+ 268:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1146              		.loc 1 268 14 is_stmt 1 view .LVU337
+ 1147 004a B245     		cmp	r10, r6
+ 1148 004c EDD8     		bhi	.L59
+ 269:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1149              		.loc 1 269 1 is_stmt 0 view .LVU338
+ 1150 004e 03B0     		add	sp, sp, #12
+ 1151              	.LCFI15:
+ 1152              		.cfi_def_cfa_offset 36
+ 1153              		@ sp needed
+ 1154 0050 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 269:user/drivers/u8g2/u8x8_8x8.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 32
+
+
+ 1155              		.loc 1 269 1 view .LVU339
+ 1156              		.cfi_endproc
+ 1157              	.LFE8:
+ 1159              		.section	.text.u8x8_utf8_init,"ax",%progbits
+ 1160              		.align	1
+ 1161              		.global	u8x8_utf8_init
+ 1162              		.syntax unified
+ 1163              		.thumb
+ 1164              		.thumb_func
+ 1166              	u8x8_utf8_init:
+ 1167              	.LVL152:
+ 1168              	.LFB9:
+ 286:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 1169              		.loc 1 286 1 is_stmt 1 view -0
+ 1170              		.cfi_startproc
+ 1171              		@ args = 0, pretend = 0, frame = 0
+ 1172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1173              		@ link register save eliminated.
+ 287:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1174              		.loc 1 287 3 view .LVU341
+ 287:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1175              		.loc 1 287 20 is_stmt 0 view .LVU342
+ 1176 0000 0023     		movs	r3, #0
+ 1177 0002 80F82630 		strb	r3, [r0, #38]
+ 288:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1178              		.loc 1 288 1 view .LVU343
+ 1179 0006 7047     		bx	lr
+ 1180              		.cfi_endproc
+ 1181              	.LFE9:
+ 1183              		.section	.text.u8x8_draw_string,"ax",%progbits
+ 1184              		.align	1
+ 1185              		.syntax unified
+ 1186              		.thumb
+ 1187              		.thumb_func
+ 1189              	u8x8_draw_string:
+ 1190              	.LVL153:
+ 1191              	.LFB12:
+ 355:user/drivers/u8g2/u8x8_8x8.c **** 
+ 356:user/drivers/u8g2/u8x8_8x8.c **** 
+ 357:user/drivers/u8g2/u8x8_8x8.c **** 
+ 358:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+ 359:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 360:user/drivers/u8g2/u8x8_8x8.c **** {
+ 1192              		.loc 1 360 1 is_stmt 1 view -0
+ 1193              		.cfi_startproc
+ 1194              		@ args = 0, pretend = 0, frame = 0
+ 1195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1196              		.loc 1 360 1 is_stmt 0 view .LVU345
+ 1197 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1198              	.LCFI16:
+ 1199              		.cfi_def_cfa_offset 32
+ 1200              		.cfi_offset 3, -32
+ 1201              		.cfi_offset 4, -28
+ 1202              		.cfi_offset 5, -24
+ 1203              		.cfi_offset 6, -20
+ 1204              		.cfi_offset 7, -16
+ 1205              		.cfi_offset 8, -12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 33
+
+
+ 1206              		.cfi_offset 9, -8
+ 1207              		.cfi_offset 14, -4
+ 1208 0004 0546     		mov	r5, r0
+ 1209 0006 0E46     		mov	r6, r1
+ 1210 0008 9046     		mov	r8, r2
+ 1211 000a 1C46     		mov	r4, r3
+ 361:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 1212              		.loc 1 361 3 is_stmt 1 view .LVU346
+ 362:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1213              		.loc 1 362 3 view .LVU347
+ 1214              	.LVL154:
+ 363:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1215              		.loc 1 363 3 view .LVU348
+ 1216              		.loc 1 363 16 is_stmt 0 view .LVU349
+ 1217 000c C369     		ldr	r3, [r0, #28]
+ 1218              	.LVL155:
+ 1219              		.loc 1 363 11 view .LVU350
+ 1220 000e 93F80290 		ldrb	r9, [r3, #2]	@ zero_extendqisi2
+ 1221              	.LVL156:
+ 364:user/drivers/u8g2/u8x8_8x8.c **** 
+ 365:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1222              		.loc 1 365 3 is_stmt 1 view .LVU351
+ 1223 0012 FFF7FEFF 		bl	u8x8_utf8_init
+ 1224              	.LVL157:
+ 362:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1225              		.loc 1 362 11 is_stmt 0 view .LVU352
+ 1226 0016 0027     		movs	r7, #0
+ 1227              	.LVL158:
+ 1228              	.L63:
+ 366:user/drivers/u8g2/u8x8_8x8.c ****   for(;;)
+ 1229              		.loc 1 366 3 is_stmt 1 view .LVU353
+ 367:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 368:user/drivers/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1230              		.loc 1 368 5 view .LVU354
+ 1231              		.loc 1 368 13 is_stmt 0 view .LVU355
+ 1232 0018 6B68     		ldr	r3, [r5, #4]
+ 1233              		.loc 1 368 9 view .LVU356
+ 1234 001a 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1235 001c 2846     		mov	r0, r5
+ 1236 001e 9847     		blx	r3
+ 1237              	.LVL159:
+ 369:user/drivers/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1238              		.loc 1 369 5 is_stmt 1 view .LVU357
+ 1239              		.loc 1 369 8 is_stmt 0 view .LVU358
+ 1240 0020 4FF6FF73 		movw	r3, #65535
+ 1241 0024 9842     		cmp	r0, r3
+ 1242 0026 0FD0     		beq	.L64
+ 370:user/drivers/u8g2/u8x8_8x8.c ****       break;
+ 371:user/drivers/u8g2/u8x8_8x8.c ****     s++;
+ 1243              		.loc 1 371 5 is_stmt 1 view .LVU359
+ 1244              		.loc 1 371 6 is_stmt 0 view .LVU360
+ 1245 0028 0134     		adds	r4, r4, #1
+ 1246              	.LVL160:
+ 372:user/drivers/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1247              		.loc 1 372 5 is_stmt 1 view .LVU361
+ 1248              		.loc 1 372 8 is_stmt 0 view .LVU362
+ 1249 002a 4FF6FE73 		movw	r3, #65534
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 34
+
+
+ 1250 002e 9842     		cmp	r0, r3
+ 1251 0030 F2D0     		beq	.L63
+ 373:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 374:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_DrawGlyph(u8x8, x, y, e);
+ 1252              		.loc 1 374 7 is_stmt 1 view .LVU363
+ 1253 0032 C3B2     		uxtb	r3, r0
+ 1254 0034 4246     		mov	r2, r8
+ 1255 0036 3146     		mov	r1, r6
+ 1256 0038 2846     		mov	r0, r5
+ 1257              	.LVL161:
+ 1258              		.loc 1 374 7 is_stmt 0 view .LVU364
+ 1259 003a FFF7FEFF 		bl	u8x8_DrawGlyph
+ 1260              	.LVL162:
+ 375:user/drivers/u8g2/u8x8_8x8.c ****       x+=th;
+ 1261              		.loc 1 375 7 is_stmt 1 view .LVU365
+ 1262              		.loc 1 375 8 is_stmt 0 view .LVU366
+ 1263 003e 4E44     		add	r6, r6, r9
+ 1264              	.LVL163:
+ 1265              		.loc 1 375 8 view .LVU367
+ 1266 0040 F6B2     		uxtb	r6, r6
+ 1267              	.LVL164:
+ 376:user/drivers/u8g2/u8x8_8x8.c ****       cnt++;
+ 1268              		.loc 1 376 7 is_stmt 1 view .LVU368
+ 1269              		.loc 1 376 10 is_stmt 0 view .LVU369
+ 1270 0042 0137     		adds	r7, r7, #1
+ 1271              	.LVL165:
+ 1272              		.loc 1 376 10 view .LVU370
+ 1273 0044 FFB2     		uxtb	r7, r7
+ 1274              	.LVL166:
+ 1275              		.loc 1 376 10 view .LVU371
+ 1276 0046 E7E7     		b	.L63
+ 1277              	.LVL167:
+ 1278              	.L64:
+ 377:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 378:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 379:user/drivers/u8g2/u8x8_8x8.c ****   return cnt;
+ 1279              		.loc 1 379 3 is_stmt 1 view .LVU372
+ 380:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1280              		.loc 1 380 1 is_stmt 0 view .LVU373
+ 1281 0048 3846     		mov	r0, r7
+ 1282              	.LVL168:
+ 1283              		.loc 1 380 1 view .LVU374
+ 1284 004a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1285              		.loc 1 380 1 view .LVU375
+ 1286              		.cfi_endproc
+ 1287              	.LFE12:
+ 1289              		.section	.text.u8x8_draw_2x2_string,"ax",%progbits
+ 1290              		.align	1
+ 1291              		.syntax unified
+ 1292              		.thumb
+ 1293              		.thumb_func
+ 1295              	u8x8_draw_2x2_string:
+ 1296              	.LVL169:
+ 1297              	.LFB15:
+ 381:user/drivers/u8g2/u8x8_8x8.c **** 
+ 382:user/drivers/u8g2/u8x8_8x8.c **** 
+ 383:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 35
+
+
+ 384:user/drivers/u8g2/u8x8_8x8.c **** {
+ 385:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 386:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 387:user/drivers/u8g2/u8x8_8x8.c **** }
+ 388:user/drivers/u8g2/u8x8_8x8.c **** 
+ 389:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 390:user/drivers/u8g2/u8x8_8x8.c **** {
+ 391:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 392:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 393:user/drivers/u8g2/u8x8_8x8.c **** }
+ 394:user/drivers/u8g2/u8x8_8x8.c **** 
+ 395:user/drivers/u8g2/u8x8_8x8.c **** 
+ 396:user/drivers/u8g2/u8x8_8x8.c **** 
+ 397:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 398:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 399:user/drivers/u8g2/u8x8_8x8.c **** {
+ 1298              		.loc 1 399 1 is_stmt 1 view -0
+ 1299              		.cfi_startproc
+ 1300              		@ args = 0, pretend = 0, frame = 0
+ 1301              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1302              		.loc 1 399 1 is_stmt 0 view .LVU377
+ 1303 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1304              	.LCFI17:
+ 1305              		.cfi_def_cfa_offset 32
+ 1306              		.cfi_offset 3, -32
+ 1307              		.cfi_offset 4, -28
+ 1308              		.cfi_offset 5, -24
+ 1309              		.cfi_offset 6, -20
+ 1310              		.cfi_offset 7, -16
+ 1311              		.cfi_offset 8, -12
+ 1312              		.cfi_offset 9, -8
+ 1313              		.cfi_offset 14, -4
+ 1314 0004 0546     		mov	r5, r0
+ 1315 0006 0E46     		mov	r6, r1
+ 1316 0008 9146     		mov	r9, r2
+ 1317 000a 1C46     		mov	r4, r3
+ 400:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 1318              		.loc 1 400 3 is_stmt 1 view .LVU378
+ 401:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1319              		.loc 1 401 3 view .LVU379
+ 1320              	.LVL170:
+ 402:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1321              		.loc 1 402 3 view .LVU380
+ 1322              		.loc 1 402 16 is_stmt 0 view .LVU381
+ 1323 000c C369     		ldr	r3, [r0, #28]
+ 1324              	.LVL171:
+ 1325              		.loc 1 402 11 view .LVU382
+ 1326 000e 93F80280 		ldrb	r8, [r3, #2]	@ zero_extendqisi2
+ 1327              	.LVL172:
+ 403:user/drivers/u8g2/u8x8_8x8.c ****   
+ 404:user/drivers/u8g2/u8x8_8x8.c ****   th <<= 1;
+ 1328              		.loc 1 404 3 is_stmt 1 view .LVU383
+ 1329              		.loc 1 404 6 is_stmt 0 view .LVU384
+ 1330 0012 4FEA4808 		lsl	r8, r8, #1
+ 1331 0016 5FFA88F8 		uxtb	r8, r8
+ 1332              	.LVL173:
+ 405:user/drivers/u8g2/u8x8_8x8.c ****   
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 36
+
+
+ 406:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1333              		.loc 1 406 3 is_stmt 1 view .LVU385
+ 1334 001a FFF7FEFF 		bl	u8x8_utf8_init
+ 1335              	.LVL174:
+ 401:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1336              		.loc 1 401 11 is_stmt 0 view .LVU386
+ 1337 001e 0027     		movs	r7, #0
+ 1338              	.LVL175:
+ 1339              	.L68:
+ 407:user/drivers/u8g2/u8x8_8x8.c ****   for(;;)
+ 1340              		.loc 1 407 3 is_stmt 1 view .LVU387
+ 408:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 409:user/drivers/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1341              		.loc 1 409 5 view .LVU388
+ 1342              		.loc 1 409 13 is_stmt 0 view .LVU389
+ 1343 0020 6B68     		ldr	r3, [r5, #4]
+ 1344              		.loc 1 409 9 view .LVU390
+ 1345 0022 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1346 0024 2846     		mov	r0, r5
+ 1347 0026 9847     		blx	r3
+ 1348              	.LVL176:
+ 410:user/drivers/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1349              		.loc 1 410 5 is_stmt 1 view .LVU391
+ 1350              		.loc 1 410 8 is_stmt 0 view .LVU392
+ 1351 0028 4FF6FF73 		movw	r3, #65535
+ 1352 002c 9842     		cmp	r0, r3
+ 1353 002e 0FD0     		beq	.L69
+ 411:user/drivers/u8g2/u8x8_8x8.c ****       break;
+ 412:user/drivers/u8g2/u8x8_8x8.c ****     s++;
+ 1354              		.loc 1 412 5 is_stmt 1 view .LVU393
+ 1355              		.loc 1 412 6 is_stmt 0 view .LVU394
+ 1356 0030 0134     		adds	r4, r4, #1
+ 1357              	.LVL177:
+ 413:user/drivers/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1358              		.loc 1 413 5 is_stmt 1 view .LVU395
+ 1359              		.loc 1 413 8 is_stmt 0 view .LVU396
+ 1360 0032 4FF6FE73 		movw	r3, #65534
+ 1361 0036 9842     		cmp	r0, r3
+ 1362 0038 F2D0     		beq	.L68
+ 414:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 415:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_Draw2x2Glyph(u8x8, x, y, e);
+ 1363              		.loc 1 415 7 is_stmt 1 view .LVU397
+ 1364 003a C3B2     		uxtb	r3, r0
+ 1365 003c 4A46     		mov	r2, r9
+ 1366 003e 3146     		mov	r1, r6
+ 1367 0040 2846     		mov	r0, r5
+ 1368              	.LVL178:
+ 1369              		.loc 1 415 7 is_stmt 0 view .LVU398
+ 1370 0042 FFF7FEFF 		bl	u8x8_Draw2x2Glyph
+ 1371              	.LVL179:
+ 416:user/drivers/u8g2/u8x8_8x8.c ****       x+=th;
+ 1372              		.loc 1 416 7 is_stmt 1 view .LVU399
+ 1373              		.loc 1 416 8 is_stmt 0 view .LVU400
+ 1374 0046 4644     		add	r6, r6, r8
+ 1375              	.LVL180:
+ 1376              		.loc 1 416 8 view .LVU401
+ 1377 0048 F6B2     		uxtb	r6, r6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 37
+
+
+ 1378              	.LVL181:
+ 417:user/drivers/u8g2/u8x8_8x8.c ****       cnt++;
+ 1379              		.loc 1 417 7 is_stmt 1 view .LVU402
+ 1380              		.loc 1 417 10 is_stmt 0 view .LVU403
+ 1381 004a 0137     		adds	r7, r7, #1
+ 1382              	.LVL182:
+ 1383              		.loc 1 417 10 view .LVU404
+ 1384 004c FFB2     		uxtb	r7, r7
+ 1385              	.LVL183:
+ 1386              		.loc 1 417 10 view .LVU405
+ 1387 004e E7E7     		b	.L68
+ 1388              	.LVL184:
+ 1389              	.L69:
+ 418:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 419:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 420:user/drivers/u8g2/u8x8_8x8.c ****   return cnt;
+ 1390              		.loc 1 420 3 is_stmt 1 view .LVU406
+ 421:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1391              		.loc 1 421 1 is_stmt 0 view .LVU407
+ 1392 0050 3846     		mov	r0, r7
+ 1393              	.LVL185:
+ 1394              		.loc 1 421 1 view .LVU408
+ 1395 0052 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1396              		.loc 1 421 1 view .LVU409
+ 1397              		.cfi_endproc
+ 1398              	.LFE15:
+ 1400              		.section	.text.u8x8_draw_1x2_string,"ax",%progbits
+ 1401              		.align	1
+ 1402              		.syntax unified
+ 1403              		.thumb
+ 1404              		.thumb_func
+ 1406              	u8x8_draw_1x2_string:
+ 1407              	.LVL186:
+ 1408              	.LFB18:
+ 422:user/drivers/u8g2/u8x8_8x8.c **** 
+ 423:user/drivers/u8g2/u8x8_8x8.c **** 
+ 424:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw2x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 425:user/drivers/u8g2/u8x8_8x8.c **** {
+ 426:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 427:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 428:user/drivers/u8g2/u8x8_8x8.c **** }
+ 429:user/drivers/u8g2/u8x8_8x8.c **** 
+ 430:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw2x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 431:user/drivers/u8g2/u8x8_8x8.c **** {
+ 432:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 433:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 434:user/drivers/u8g2/u8x8_8x8.c **** }
+ 435:user/drivers/u8g2/u8x8_8x8.c **** 
+ 436:user/drivers/u8g2/u8x8_8x8.c **** 
+ 437:user/drivers/u8g2/u8x8_8x8.c **** 
+ 438:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 439:user/drivers/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 440:user/drivers/u8g2/u8x8_8x8.c **** {  
+ 1409              		.loc 1 440 1 is_stmt 1 view -0
+ 1410              		.cfi_startproc
+ 1411              		@ args = 0, pretend = 0, frame = 0
+ 1412              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 38
+
+
+ 1413              		.loc 1 440 1 is_stmt 0 view .LVU411
+ 1414 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1415              	.LCFI18:
+ 1416              		.cfi_def_cfa_offset 32
+ 1417              		.cfi_offset 3, -32
+ 1418              		.cfi_offset 4, -28
+ 1419              		.cfi_offset 5, -24
+ 1420              		.cfi_offset 6, -20
+ 1421              		.cfi_offset 7, -16
+ 1422              		.cfi_offset 8, -12
+ 1423              		.cfi_offset 9, -8
+ 1424              		.cfi_offset 14, -4
+ 1425 0004 0546     		mov	r5, r0
+ 1426 0006 0E46     		mov	r6, r1
+ 1427 0008 9046     		mov	r8, r2
+ 1428 000a 1C46     		mov	r4, r3
+ 441:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 1429              		.loc 1 441 3 is_stmt 1 view .LVU412
+ 442:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1430              		.loc 1 442 3 view .LVU413
+ 1431              	.LVL187:
+ 443:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1432              		.loc 1 443 3 view .LVU414
+ 1433              		.loc 1 443 16 is_stmt 0 view .LVU415
+ 1434 000c C369     		ldr	r3, [r0, #28]
+ 1435              	.LVL188:
+ 1436              		.loc 1 443 11 view .LVU416
+ 1437 000e 93F80290 		ldrb	r9, [r3, #2]	@ zero_extendqisi2
+ 1438              	.LVL189:
+ 444:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1439              		.loc 1 444 3 is_stmt 1 view .LVU417
+ 1440 0012 FFF7FEFF 		bl	u8x8_utf8_init
+ 1441              	.LVL190:
+ 442:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1442              		.loc 1 442 11 is_stmt 0 view .LVU418
+ 1443 0016 0027     		movs	r7, #0
+ 1444              	.LVL191:
+ 1445              	.L73:
+ 445:user/drivers/u8g2/u8x8_8x8.c ****   for(;;)
+ 1446              		.loc 1 445 3 is_stmt 1 view .LVU419
+ 446:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 447:user/drivers/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1447              		.loc 1 447 5 view .LVU420
+ 1448              		.loc 1 447 13 is_stmt 0 view .LVU421
+ 1449 0018 6B68     		ldr	r3, [r5, #4]
+ 1450              		.loc 1 447 9 view .LVU422
+ 1451 001a 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1452 001c 2846     		mov	r0, r5
+ 1453 001e 9847     		blx	r3
+ 1454              	.LVL192:
+ 448:user/drivers/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1455              		.loc 1 448 5 is_stmt 1 view .LVU423
+ 1456              		.loc 1 448 8 is_stmt 0 view .LVU424
+ 1457 0020 4FF6FF73 		movw	r3, #65535
+ 1458 0024 9842     		cmp	r0, r3
+ 1459 0026 0FD0     		beq	.L74
+ 449:user/drivers/u8g2/u8x8_8x8.c ****       break;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 39
+
+
+ 450:user/drivers/u8g2/u8x8_8x8.c ****     s++;
+ 1460              		.loc 1 450 5 is_stmt 1 view .LVU425
+ 1461              		.loc 1 450 6 is_stmt 0 view .LVU426
+ 1462 0028 0134     		adds	r4, r4, #1
+ 1463              	.LVL193:
+ 451:user/drivers/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1464              		.loc 1 451 5 is_stmt 1 view .LVU427
+ 1465              		.loc 1 451 8 is_stmt 0 view .LVU428
+ 1466 002a 4FF6FE73 		movw	r3, #65534
+ 1467 002e 9842     		cmp	r0, r3
+ 1468 0030 F2D0     		beq	.L73
+ 452:user/drivers/u8g2/u8x8_8x8.c ****     {
+ 453:user/drivers/u8g2/u8x8_8x8.c ****       u8x8_Draw1x2Glyph(u8x8, x, y, e);
+ 1469              		.loc 1 453 7 is_stmt 1 view .LVU429
+ 1470 0032 C3B2     		uxtb	r3, r0
+ 1471 0034 4246     		mov	r2, r8
+ 1472 0036 3146     		mov	r1, r6
+ 1473 0038 2846     		mov	r0, r5
+ 1474              	.LVL194:
+ 1475              		.loc 1 453 7 is_stmt 0 view .LVU430
+ 1476 003a FFF7FEFF 		bl	u8x8_Draw1x2Glyph
+ 1477              	.LVL195:
+ 454:user/drivers/u8g2/u8x8_8x8.c ****       x+=th;
+ 1478              		.loc 1 454 7 is_stmt 1 view .LVU431
+ 1479              		.loc 1 454 8 is_stmt 0 view .LVU432
+ 1480 003e 4E44     		add	r6, r6, r9
+ 1481              	.LVL196:
+ 1482              		.loc 1 454 8 view .LVU433
+ 1483 0040 F6B2     		uxtb	r6, r6
+ 1484              	.LVL197:
+ 455:user/drivers/u8g2/u8x8_8x8.c ****       cnt++;
+ 1485              		.loc 1 455 7 is_stmt 1 view .LVU434
+ 1486              		.loc 1 455 10 is_stmt 0 view .LVU435
+ 1487 0042 0137     		adds	r7, r7, #1
+ 1488              	.LVL198:
+ 1489              		.loc 1 455 10 view .LVU436
+ 1490 0044 FFB2     		uxtb	r7, r7
+ 1491              	.LVL199:
+ 1492              		.loc 1 455 10 view .LVU437
+ 1493 0046 E7E7     		b	.L73
+ 1494              	.LVL200:
+ 1495              	.L74:
+ 456:user/drivers/u8g2/u8x8_8x8.c ****     }
+ 457:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 458:user/drivers/u8g2/u8x8_8x8.c ****   return cnt;
+ 1496              		.loc 1 458 3 is_stmt 1 view .LVU438
+ 459:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1497              		.loc 1 459 1 is_stmt 0 view .LVU439
+ 1498 0048 3846     		mov	r0, r7
+ 1499              	.LVL201:
+ 1500              		.loc 1 459 1 view .LVU440
+ 1501 004a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1502              		.loc 1 459 1 view .LVU441
+ 1503              		.cfi_endproc
+ 1504              	.LFE18:
+ 1506              		.section	.text.u8x8_DrawString,"ax",%progbits
+ 1507              		.align	1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 40
+
+
+ 1508              		.global	u8x8_DrawString
+ 1509              		.syntax unified
+ 1510              		.thumb
+ 1511              		.thumb_func
+ 1513              	u8x8_DrawString:
+ 1514              	.LVL202:
+ 1515              	.LFB13:
+ 384:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1516              		.loc 1 384 1 is_stmt 1 view -0
+ 1517              		.cfi_startproc
+ 1518              		@ args = 0, pretend = 0, frame = 0
+ 1519              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1520              		.loc 1 384 1 is_stmt 0 view .LVU443
+ 1521 0000 10B5     		push	{r4, lr}
+ 1522              	.LCFI19:
+ 1523              		.cfi_def_cfa_offset 8
+ 1524              		.cfi_offset 4, -8
+ 1525              		.cfi_offset 14, -4
+ 385:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1526              		.loc 1 385 3 is_stmt 1 view .LVU444
+ 385:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1527              		.loc 1 385 17 is_stmt 0 view .LVU445
+ 1528 0002 024C     		ldr	r4, .L79
+ 1529 0004 4460     		str	r4, [r0, #4]
+ 386:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1530              		.loc 1 386 3 is_stmt 1 view .LVU446
+ 386:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1531              		.loc 1 386 10 is_stmt 0 view .LVU447
+ 1532 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1533              	.LVL203:
+ 387:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1534              		.loc 1 387 1 view .LVU448
+ 1535 000a 10BD     		pop	{r4, pc}
+ 1536              	.L80:
+ 1537              		.align	2
+ 1538              	.L79:
+ 1539 000c 00000000 		.word	u8x8_ascii_next
+ 1540              		.cfi_endproc
+ 1541              	.LFE13:
+ 1543              		.section	.text.u8x8_DrawUTF8,"ax",%progbits
+ 1544              		.align	1
+ 1545              		.global	u8x8_DrawUTF8
+ 1546              		.syntax unified
+ 1547              		.thumb
+ 1548              		.thumb_func
+ 1550              	u8x8_DrawUTF8:
+ 1551              	.LVL204:
+ 1552              	.LFB14:
+ 390:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1553              		.loc 1 390 1 is_stmt 1 view -0
+ 1554              		.cfi_startproc
+ 1555              		@ args = 0, pretend = 0, frame = 0
+ 1556              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1557              		.loc 1 390 1 is_stmt 0 view .LVU450
+ 1558 0000 10B5     		push	{r4, lr}
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 41
+
+
+ 1559              	.LCFI20:
+ 1560              		.cfi_def_cfa_offset 8
+ 1561              		.cfi_offset 4, -8
+ 1562              		.cfi_offset 14, -4
+ 391:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1563              		.loc 1 391 3 is_stmt 1 view .LVU451
+ 391:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1564              		.loc 1 391 17 is_stmt 0 view .LVU452
+ 1565 0002 024C     		ldr	r4, .L83
+ 1566 0004 4460     		str	r4, [r0, #4]
+ 392:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1567              		.loc 1 392 3 is_stmt 1 view .LVU453
+ 392:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1568              		.loc 1 392 10 is_stmt 0 view .LVU454
+ 1569 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1570              	.LVL205:
+ 393:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1571              		.loc 1 393 1 view .LVU455
+ 1572 000a 10BD     		pop	{r4, pc}
+ 1573              	.L84:
+ 1574              		.align	2
+ 1575              	.L83:
+ 1576 000c 00000000 		.word	u8x8_utf8_next
+ 1577              		.cfi_endproc
+ 1578              	.LFE14:
+ 1580              		.section	.text.u8x8_Draw2x2String,"ax",%progbits
+ 1581              		.align	1
+ 1582              		.global	u8x8_Draw2x2String
+ 1583              		.syntax unified
+ 1584              		.thumb
+ 1585              		.thumb_func
+ 1587              	u8x8_Draw2x2String:
+ 1588              	.LVL206:
+ 1589              	.LFB16:
+ 425:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1590              		.loc 1 425 1 is_stmt 1 view -0
+ 1591              		.cfi_startproc
+ 1592              		@ args = 0, pretend = 0, frame = 0
+ 1593              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1594              		.loc 1 425 1 is_stmt 0 view .LVU457
+ 1595 0000 10B5     		push	{r4, lr}
+ 1596              	.LCFI21:
+ 1597              		.cfi_def_cfa_offset 8
+ 1598              		.cfi_offset 4, -8
+ 1599              		.cfi_offset 14, -4
+ 426:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1600              		.loc 1 426 3 is_stmt 1 view .LVU458
+ 426:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1601              		.loc 1 426 17 is_stmt 0 view .LVU459
+ 1602 0002 024C     		ldr	r4, .L87
+ 1603 0004 4460     		str	r4, [r0, #4]
+ 427:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1604              		.loc 1 427 3 is_stmt 1 view .LVU460
+ 427:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1605              		.loc 1 427 10 is_stmt 0 view .LVU461
+ 1606 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 42
+
+
+ 1607              	.LVL207:
+ 428:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1608              		.loc 1 428 1 view .LVU462
+ 1609 000a 10BD     		pop	{r4, pc}
+ 1610              	.L88:
+ 1611              		.align	2
+ 1612              	.L87:
+ 1613 000c 00000000 		.word	u8x8_ascii_next
+ 1614              		.cfi_endproc
+ 1615              	.LFE16:
+ 1617              		.section	.text.u8x8_Draw2x2UTF8,"ax",%progbits
+ 1618              		.align	1
+ 1619              		.global	u8x8_Draw2x2UTF8
+ 1620              		.syntax unified
+ 1621              		.thumb
+ 1622              		.thumb_func
+ 1624              	u8x8_Draw2x2UTF8:
+ 1625              	.LVL208:
+ 1626              	.LFB17:
+ 431:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1627              		.loc 1 431 1 is_stmt 1 view -0
+ 1628              		.cfi_startproc
+ 1629              		@ args = 0, pretend = 0, frame = 0
+ 1630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 431:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1631              		.loc 1 431 1 is_stmt 0 view .LVU464
+ 1632 0000 10B5     		push	{r4, lr}
+ 1633              	.LCFI22:
+ 1634              		.cfi_def_cfa_offset 8
+ 1635              		.cfi_offset 4, -8
+ 1636              		.cfi_offset 14, -4
+ 432:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1637              		.loc 1 432 3 is_stmt 1 view .LVU465
+ 432:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1638              		.loc 1 432 17 is_stmt 0 view .LVU466
+ 1639 0002 024C     		ldr	r4, .L91
+ 1640 0004 4460     		str	r4, [r0, #4]
+ 433:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1641              		.loc 1 433 3 is_stmt 1 view .LVU467
+ 433:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1642              		.loc 1 433 10 is_stmt 0 view .LVU468
+ 1643 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ 1644              	.LVL209:
+ 434:user/drivers/u8g2/u8x8_8x8.c **** 
+ 1645              		.loc 1 434 1 view .LVU469
+ 1646 000a 10BD     		pop	{r4, pc}
+ 1647              	.L92:
+ 1648              		.align	2
+ 1649              	.L91:
+ 1650 000c 00000000 		.word	u8x8_utf8_next
+ 1651              		.cfi_endproc
+ 1652              	.LFE17:
+ 1654              		.section	.text.u8x8_Draw1x2String,"ax",%progbits
+ 1655              		.align	1
+ 1656              		.global	u8x8_Draw1x2String
+ 1657              		.syntax unified
+ 1658              		.thumb
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 43
+
+
+ 1659              		.thumb_func
+ 1661              	u8x8_Draw1x2String:
+ 1662              	.LVL210:
+ 1663              	.LFB19:
+ 460:user/drivers/u8g2/u8x8_8x8.c **** 
+ 461:user/drivers/u8g2/u8x8_8x8.c **** 
+ 462:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw1x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 463:user/drivers/u8g2/u8x8_8x8.c **** {
+ 1664              		.loc 1 463 1 is_stmt 1 view -0
+ 1665              		.cfi_startproc
+ 1666              		@ args = 0, pretend = 0, frame = 0
+ 1667              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1668              		.loc 1 463 1 is_stmt 0 view .LVU471
+ 1669 0000 10B5     		push	{r4, lr}
+ 1670              	.LCFI23:
+ 1671              		.cfi_def_cfa_offset 8
+ 1672              		.cfi_offset 4, -8
+ 1673              		.cfi_offset 14, -4
+ 464:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1674              		.loc 1 464 3 is_stmt 1 view .LVU472
+ 1675              		.loc 1 464 17 is_stmt 0 view .LVU473
+ 1676 0002 024C     		ldr	r4, .L95
+ 1677 0004 4460     		str	r4, [r0, #4]
+ 465:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1678              		.loc 1 465 3 is_stmt 1 view .LVU474
+ 1679              		.loc 1 465 10 is_stmt 0 view .LVU475
+ 1680 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1681              	.LVL211:
+ 466:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1682              		.loc 1 466 1 view .LVU476
+ 1683 000a 10BD     		pop	{r4, pc}
+ 1684              	.L96:
+ 1685              		.align	2
+ 1686              	.L95:
+ 1687 000c 00000000 		.word	u8x8_ascii_next
+ 1688              		.cfi_endproc
+ 1689              	.LFE19:
+ 1691              		.section	.text.u8x8_Draw1x2UTF8,"ax",%progbits
+ 1692              		.align	1
+ 1693              		.global	u8x8_Draw1x2UTF8
+ 1694              		.syntax unified
+ 1695              		.thumb
+ 1696              		.thumb_func
+ 1698              	u8x8_Draw1x2UTF8:
+ 1699              	.LVL212:
+ 1700              	.LFB20:
+ 467:user/drivers/u8g2/u8x8_8x8.c **** 
+ 468:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw1x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 469:user/drivers/u8g2/u8x8_8x8.c **** {
+ 1701              		.loc 1 469 1 is_stmt 1 view -0
+ 1702              		.cfi_startproc
+ 1703              		@ args = 0, pretend = 0, frame = 0
+ 1704              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1705              		.loc 1 469 1 is_stmt 0 view .LVU478
+ 1706 0000 10B5     		push	{r4, lr}
+ 1707              	.LCFI24:
+ 1708              		.cfi_def_cfa_offset 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 44
+
+
+ 1709              		.cfi_offset 4, -8
+ 1710              		.cfi_offset 14, -4
+ 470:user/drivers/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1711              		.loc 1 470 3 is_stmt 1 view .LVU479
+ 1712              		.loc 1 470 17 is_stmt 0 view .LVU480
+ 1713 0002 024C     		ldr	r4, .L99
+ 1714 0004 4460     		str	r4, [r0, #4]
+ 471:user/drivers/u8g2/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1715              		.loc 1 471 3 is_stmt 1 view .LVU481
+ 1716              		.loc 1 471 10 is_stmt 0 view .LVU482
+ 1717 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1718              	.LVL213:
+ 472:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1719              		.loc 1 472 1 view .LVU483
+ 1720 000a 10BD     		pop	{r4, pc}
+ 1721              	.L100:
+ 1722              		.align	2
+ 1723              	.L99:
+ 1724 000c 00000000 		.word	u8x8_utf8_next
+ 1725              		.cfi_endproc
+ 1726              	.LFE20:
+ 1728              		.section	.text.u8x8_GetUTF8Len,"ax",%progbits
+ 1729              		.align	1
+ 1730              		.global	u8x8_GetUTF8Len
+ 1731              		.syntax unified
+ 1732              		.thumb
+ 1733              		.thumb_func
+ 1735              	u8x8_GetUTF8Len:
+ 1736              	.LVL214:
+ 1737              	.LFB21:
+ 473:user/drivers/u8g2/u8x8_8x8.c **** 
+ 474:user/drivers/u8g2/u8x8_8x8.c **** 
+ 475:user/drivers/u8g2/u8x8_8x8.c **** 
+ 476:user/drivers/u8g2/u8x8_8x8.c **** uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
+ 477:user/drivers/u8g2/u8x8_8x8.c **** {
+ 1738              		.loc 1 477 1 is_stmt 1 view -0
+ 1739              		.cfi_startproc
+ 1740              		@ args = 0, pretend = 0, frame = 0
+ 1741              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1742              		.loc 1 477 1 is_stmt 0 view .LVU485
+ 1743 0000 70B5     		push	{r4, r5, r6, lr}
+ 1744              	.LCFI25:
+ 1745              		.cfi_def_cfa_offset 16
+ 1746              		.cfi_offset 4, -16
+ 1747              		.cfi_offset 5, -12
+ 1748              		.cfi_offset 6, -8
+ 1749              		.cfi_offset 14, -4
+ 1750 0002 0646     		mov	r6, r0
+ 1751 0004 0C46     		mov	r4, r1
+ 478:user/drivers/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 1752              		.loc 1 478 3 is_stmt 1 view .LVU486
+ 479:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1753              		.loc 1 479 3 view .LVU487
+ 1754              	.LVL215:
+ 480:user/drivers/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1755              		.loc 1 480 3 view .LVU488
+ 1756 0006 FFF7FEFF 		bl	u8x8_utf8_init
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 45
+
+
+ 1757              	.LVL216:
+ 479:user/drivers/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1758              		.loc 1 479 11 is_stmt 0 view .LVU489
+ 1759 000a 0025     		movs	r5, #0
+ 1760              	.LVL217:
+ 1761              	.L102:
+ 481:user/drivers/u8g2/u8x8_8x8.c ****   for(;;)
+ 1762              		.loc 1 481 3 is_stmt 1 view .LVU490
+ 482:user/drivers/u8g2/u8x8_8x8.c ****   {
+ 483:user/drivers/u8g2/u8x8_8x8.c ****     e = u8x8_utf8_next(u8x8, *s);
+ 1763              		.loc 1 483 5 view .LVU491
+ 1764              		.loc 1 483 9 is_stmt 0 view .LVU492
+ 1765 000c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1766 000e 3046     		mov	r0, r6
+ 1767 0010 FFF7FEFF 		bl	u8x8_utf8_next
+ 1768              	.LVL218:
+ 484:user/drivers/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1769              		.loc 1 484 5 is_stmt 1 view .LVU493
+ 1770              		.loc 1 484 8 is_stmt 0 view .LVU494
+ 1771 0014 4FF6FF73 		movw	r3, #65535
+ 1772 0018 9842     		cmp	r0, r3
+ 1773 001a 07D0     		beq	.L103
+ 485:user/drivers/u8g2/u8x8_8x8.c ****       break;
+ 486:user/drivers/u8g2/u8x8_8x8.c ****     s++;
+ 1774              		.loc 1 486 5 is_stmt 1 view .LVU495
+ 1775              		.loc 1 486 6 is_stmt 0 view .LVU496
+ 1776 001c 0134     		adds	r4, r4, #1
+ 1777              	.LVL219:
+ 487:user/drivers/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1778              		.loc 1 487 5 is_stmt 1 view .LVU497
+ 1779              		.loc 1 487 8 is_stmt 0 view .LVU498
+ 1780 001e 4FF6FE73 		movw	r3, #65534
+ 1781 0022 9842     		cmp	r0, r3
+ 1782 0024 F2D0     		beq	.L102
+ 488:user/drivers/u8g2/u8x8_8x8.c ****       cnt++;
+ 1783              		.loc 1 488 7 is_stmt 1 view .LVU499
+ 1784              		.loc 1 488 10 is_stmt 0 view .LVU500
+ 1785 0026 0135     		adds	r5, r5, #1
+ 1786              	.LVL220:
+ 1787              		.loc 1 488 10 view .LVU501
+ 1788 0028 EDB2     		uxtb	r5, r5
+ 1789              	.LVL221:
+ 1790              		.loc 1 488 10 view .LVU502
+ 1791 002a EFE7     		b	.L102
+ 1792              	.L103:
+ 489:user/drivers/u8g2/u8x8_8x8.c ****   }
+ 490:user/drivers/u8g2/u8x8_8x8.c ****   return cnt;
+ 1793              		.loc 1 490 3 is_stmt 1 view .LVU503
+ 491:user/drivers/u8g2/u8x8_8x8.c **** }
+ 1794              		.loc 1 491 1 is_stmt 0 view .LVU504
+ 1795 002c 2846     		mov	r0, r5
+ 1796              	.LVL222:
+ 1797              		.loc 1 491 1 view .LVU505
+ 1798 002e 70BD     		pop	{r4, r5, r6, pc}
+ 1799              		.loc 1 491 1 view .LVU506
+ 1800              		.cfi_endproc
+ 1801              	.LFE21:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 46
+
+
+ 1803              		.text
+ 1804              	.Letext0:
+ 1805              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 1806              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 1807              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 1808              		.file 5 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s 			page 47
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_8x8.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:21     .text.u8x8_upscale_buf:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:26     .text.u8x8_upscale_buf:00000000 u8x8_upscale_buf
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:67     .text.u8x8_ascii_next:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:73     .text.u8x8_ascii_next:00000000 u8x8_ascii_next
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:105    .text.u8x8_utf8_next:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:111    .text.u8x8_utf8_next:00000000 u8x8_utf8_next
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:281    .text.u8x8_SetFont:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:287    .text.u8x8_SetFont:00000000 u8x8_SetFont
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:304    .text.u8x8_get_glyph_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:310    .text.u8x8_get_glyph_data:00000000 u8x8_get_glyph_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:486    .text.u8x8_DrawGlyph:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:492    .text.u8x8_DrawGlyph:00000000 u8x8_DrawGlyph
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:613    .text.u8x8_upscale_byte:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:619    .text.u8x8_upscale_byte:00000000 u8x8_upscale_byte
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:663    .text.u8x8_draw_2x2_subglyph:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:668    .text.u8x8_draw_2x2_subglyph:00000000 u8x8_draw_2x2_subglyph
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:808    .text.u8x8_draw_1x2_subglyph:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:813    .text.u8x8_draw_1x2_subglyph:00000000 u8x8_draw_1x2_subglyph
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:913    .text.u8x8_Draw2x2Glyph:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:919    .text.u8x8_Draw2x2Glyph:00000000 u8x8_Draw2x2Glyph
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1040   .text.u8x8_Draw1x2Glyph:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1046   .text.u8x8_Draw1x2Glyph:00000000 u8x8_Draw1x2Glyph
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1160   .text.u8x8_utf8_init:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1166   .text.u8x8_utf8_init:00000000 u8x8_utf8_init
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1184   .text.u8x8_draw_string:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1189   .text.u8x8_draw_string:00000000 u8x8_draw_string
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1290   .text.u8x8_draw_2x2_string:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1295   .text.u8x8_draw_2x2_string:00000000 u8x8_draw_2x2_string
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1401   .text.u8x8_draw_1x2_string:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1406   .text.u8x8_draw_1x2_string:00000000 u8x8_draw_1x2_string
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1507   .text.u8x8_DrawString:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1513   .text.u8x8_DrawString:00000000 u8x8_DrawString
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1539   .text.u8x8_DrawString:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1544   .text.u8x8_DrawUTF8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1550   .text.u8x8_DrawUTF8:00000000 u8x8_DrawUTF8
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1576   .text.u8x8_DrawUTF8:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1581   .text.u8x8_Draw2x2String:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1587   .text.u8x8_Draw2x2String:00000000 u8x8_Draw2x2String
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1613   .text.u8x8_Draw2x2String:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1618   .text.u8x8_Draw2x2UTF8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1624   .text.u8x8_Draw2x2UTF8:00000000 u8x8_Draw2x2UTF8
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1650   .text.u8x8_Draw2x2UTF8:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1655   .text.u8x8_Draw1x2String:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1661   .text.u8x8_Draw1x2String:00000000 u8x8_Draw1x2String
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1687   .text.u8x8_Draw1x2String:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1692   .text.u8x8_Draw1x2UTF8:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1698   .text.u8x8_Draw1x2UTF8:00000000 u8x8_Draw1x2UTF8
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1724   .text.u8x8_Draw1x2UTF8:0000000c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1729   .text.u8x8_GetUTF8Len:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccrdp9nl.s:1735   .text.u8x8_GetUTF8Len:00000000 u8x8_GetUTF8Len
+
+UNDEFINED SYMBOLS
+u8x8_DrawTile

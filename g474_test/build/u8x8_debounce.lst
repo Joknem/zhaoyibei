@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
   28:user/drivers/u8g2/u8x8_debounce.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
   29:user/drivers/u8g2/u8x8_debounce.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   30:user/drivers/u8g2/u8x8_debounce.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 2
 
 
   31:user/drivers/u8g2/u8x8_debounce.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
   44              		.loc 1 67 8 view .LVU7
   45 0004 0123     		movs	r3, #1
   46              	.LVL3:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 3
 
 
   47              	.L3:
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
   93              		@ frame_needed = 0, uses_anonymous_args = 0
   41:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t i;
   94              		.loc 1 41 1 is_stmt 0 view .LVU22
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 4
 
 
   95 0000 70B5     		push	{r4, r5, r6, lr}
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  135              		.loc 1 53 5 discriminator 3 view .LVU36
   53:user/drivers/u8g2/u8x8_debounce.c ****   }
  136              		.loc 1 53 22 is_stmt 0 discriminator 3 view .LVU37
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 5
 
 
  137 0022 96F82730 		ldrb	r3, [r6, #39]	@ zero_extendqisi2
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
   97:user/drivers/u8g2/u8x8_debounce.c ****   State C
   98:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state == current_state 
   99:user/drivers/u8g2/u8x8_debounce.c ****       --> State C
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 6
 
 
  100:user/drivers/u8g2/u8x8_debounce.c ****     u8x8->debounce_last_pin_state != current_state 
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  178 0002 0446     		mov	r4, r0
  144:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t pin_state;
  179              		.loc 1 144 3 is_stmt 1 view .LVU46
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 7
 
 
  145:user/drivers/u8g2/u8x8_debounce.c ****   uint8_t result_msg = 0;	/* invalid message, no event */
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  208              		.loc 1 170 2 is_stmt 1 view .LVU59
  209              		.loc 1 170 23 is_stmt 0 view .LVU60
  210 0026 2223     		movs	r3, #34
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 8
 
 
  211              	.LVL23:
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  240 0048 1223     		movs	r3, #18
  241              	.LVL25:
  156:user/drivers/u8g2/u8x8_debounce.c ****       }
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 9
 
 
  242              		.loc 1 156 23 view .LVU73
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  281              		.loc 1 189 2 is_stmt 1 view .LVU87
  282              		.loc 1 189 23 is_stmt 0 view .LVU88
  283 0074 0023     		movs	r3, #0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 10
 
 
  284              	.LVL31:
@@ -595,17 +595,17 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 1
  321              		.file 3 "/usr/local/include/_types/_uint16_t.h"
  322              		.file 4 "/usr/local/include/_types/_uint32_t.h"
  323              		.file 5 "user/drivers/u8g2/u8x8.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8x8_debounce.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:21     .text.u8x8_find_first_diff:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:26     .text.u8x8_find_first_diff:00000000 u8x8_find_first_diff
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:82     .text.u8x8_read_pin_state:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:87     .text.u8x8_read_pin_state:00000000 u8x8_read_pin_state
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:159    .text.u8x8_GetMenuEvent:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckISlPr.s:165    .text.u8x8_GetMenuEvent:00000000 u8x8_GetMenuEvent
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:21     .text.u8x8_find_first_diff:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:26     .text.u8x8_find_first_diff:00000000 u8x8_find_first_diff
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:82     .text.u8x8_read_pin_state:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:87     .text.u8x8_read_pin_state:00000000 u8x8_read_pin_state
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:159    .text.u8x8_GetMenuEvent:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccFqKxL1.s:165    .text.u8x8_GetMenuEvent:00000000 u8x8_GetMenuEvent
 
 UNDEFINED SYMBOLS
 u8x8_gpio_call

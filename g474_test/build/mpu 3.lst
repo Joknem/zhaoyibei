@@ -1,0 +1,801 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"mpu.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/Src/mpu.c"
+  20              		.section	.text.MPU_ReadMulBytes,"ax",%progbits
+  21              		.align	1
+  22              		.global	MPU_ReadMulBytes
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	MPU_ReadMulBytes:
+  28              	.LVL0:
+  29              	.LFB132:
+   1:user/Src/mpu.c **** #include "mpu.h"
+   2:user/Src/mpu.c **** #include <stdint.h>
+   3:user/Src/mpu.c **** 
+   4:user/Src/mpu.c **** uint8_t MPU_readbuf[128];
+   5:user/Src/mpu.c **** MPU_data gryo_data;
+   6:user/Src/mpu.c **** MPU_data acc_data;
+   7:user/Src/mpu.c **** uint8_t ak_id;
+   8:user/Src/mpu.c **** 
+   9:user/Src/mpu.c **** void MPU_ReadMulBytes(uint8_t reg, uint8_t length, uint8_t *buf) {
+  30              		.loc 1 9 66 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 9 66 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 84B0     		sub	sp, sp, #16
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 24
+  43 0004 1446     		mov	r4, r2
+  10:user/Src/mpu.c ****   switch (reg) {
+  44              		.loc 1 10 3 is_stmt 1 view .LVU2
+  45 0006 3B28     		cmp	r0, #59
+  46 0008 20D0     		beq	.L2
+  47 000a 4328     		cmp	r0, #67
+  48 000c 03D0     		beq	.L3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 2
+
+
+  49 000e 0028     		cmp	r0, #0
+  50 0010 37D0     		beq	.L7
+  51              	.LVL1:
+  52              	.L1:
+  11:user/Src/mpu.c ****   case MPU_RA_GYRO_XOUT_H: {
+  12:user/Src/mpu.c ****     HAL_I2C_Mem_Read(&hi2c1, 0x68, reg, I2C_MEMADD_SIZE_8BIT, buf, length, 200);
+  13:user/Src/mpu.c ****     gryo_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  14:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  15:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  16:user/Src/mpu.c ****   } break;
+  17:user/Src/mpu.c ****   case MPU_RA_ACCEL_XOUT_H: {
+  18:user/Src/mpu.c ****     HAL_I2C_Mem_Read(&hi2c1, 0x68, reg, I2C_MEMADD_SIZE_8BIT, buf, length, 200);
+  19:user/Src/mpu.c ****     acc_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  20:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  21:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  22:user/Src/mpu.c ****   } break;
+  23:user/Src/mpu.c ****   case MPU_RA_MAG: {
+  24:user/Src/mpu.c ****     HAL_I2C_Mem_Read(&hi2c1, 0x0C, reg, I2C_MEMADD_SIZE_8BIT, buf, length, 200);
+  25:user/Src/mpu.c ****     ak_id = buf[0];
+  26:user/Src/mpu.c ****   } break;
+  27:user/Src/mpu.c ****   }
+  28:user/Src/mpu.c **** }
+  53              		.loc 1 28 1 is_stmt 0 view .LVU3
+  54 0012 04B0     		add	sp, sp, #16
+  55              	.LCFI2:
+  56              		.cfi_remember_state
+  57              		.cfi_def_cfa_offset 8
+  58              		@ sp needed
+  59 0014 10BD     		pop	{r4, pc}
+  60              	.LVL2:
+  61              	.L3:
+  62              	.LCFI3:
+  63              		.cfi_restore_state
+  12:user/Src/mpu.c ****     gryo_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  64              		.loc 1 12 5 is_stmt 1 view .LVU4
+  65 0016 C823     		movs	r3, #200
+  66 0018 0293     		str	r3, [sp, #8]
+  67 001a 0191     		str	r1, [sp, #4]
+  68 001c 0092     		str	r2, [sp]
+  69 001e 0123     		movs	r3, #1
+  70 0020 0246     		mov	r2, r0
+  71              	.LVL3:
+  12:user/Src/mpu.c ****     gryo_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  72              		.loc 1 12 5 is_stmt 0 view .LVU5
+  73 0022 6821     		movs	r1, #104
+  74              	.LVL4:
+  12:user/Src/mpu.c ****     gryo_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  75              		.loc 1 12 5 view .LVU6
+  76 0024 1E48     		ldr	r0, .L8
+  77              	.LVL5:
+  12:user/Src/mpu.c ****     gryo_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+  78              		.loc 1 12 5 view .LVU7
+  79 0026 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+  80              	.LVL6:
+  13:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  81              		.loc 1 13 5 is_stmt 1 view .LVU8
+  13:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 3
+
+
+  82              		.loc 1 13 33 is_stmt 0 view .LVU9
+  83 002a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  13:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  84              		.loc 1 13 48 view .LVU10
+  85 002c 6278     		ldrb	r2, [r4, #1]	@ zero_extendqisi2
+  13:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  86              		.loc 1 13 19 view .LVU11
+  87 002e 42EA0322 		orr	r2, r2, r3, lsl #8
+  13:user/Src/mpu.c ****     gryo_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+  88              		.loc 1 13 17 view .LVU12
+  89 0032 1C4B     		ldr	r3, .L8+4
+  90 0034 1A80     		strh	r2, [r3]	@ movhi
+  14:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  91              		.loc 1 14 5 is_stmt 1 view .LVU13
+  14:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  92              		.loc 1 14 33 is_stmt 0 view .LVU14
+  93 0036 A178     		ldrb	r1, [r4, #2]	@ zero_extendqisi2
+  14:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  94              		.loc 1 14 48 view .LVU15
+  95 0038 E278     		ldrb	r2, [r4, #3]	@ zero_extendqisi2
+  14:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  96              		.loc 1 14 19 view .LVU16
+  97 003a 42EA0122 		orr	r2, r2, r1, lsl #8
+  14:user/Src/mpu.c ****     gryo_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+  98              		.loc 1 14 17 view .LVU17
+  99 003e 5A80     		strh	r2, [r3, #2]	@ movhi
+  15:user/Src/mpu.c ****   } break;
+ 100              		.loc 1 15 5 is_stmt 1 view .LVU18
+  15:user/Src/mpu.c ****   } break;
+ 101              		.loc 1 15 33 is_stmt 0 view .LVU19
+ 102 0040 2179     		ldrb	r1, [r4, #4]	@ zero_extendqisi2
+  15:user/Src/mpu.c ****   } break;
+ 103              		.loc 1 15 48 view .LVU20
+ 104 0042 6279     		ldrb	r2, [r4, #5]	@ zero_extendqisi2
+  15:user/Src/mpu.c ****   } break;
+ 105              		.loc 1 15 19 view .LVU21
+ 106 0044 42EA0122 		orr	r2, r2, r1, lsl #8
+  15:user/Src/mpu.c ****   } break;
+ 107              		.loc 1 15 17 view .LVU22
+ 108 0048 9A80     		strh	r2, [r3, #4]	@ movhi
+  16:user/Src/mpu.c ****   case MPU_RA_ACCEL_XOUT_H: {
+ 109              		.loc 1 16 5 is_stmt 1 view .LVU23
+ 110 004a E2E7     		b	.L1
+ 111              	.LVL7:
+ 112              	.L2:
+  18:user/Src/mpu.c ****     acc_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+ 113              		.loc 1 18 5 view .LVU24
+ 114 004c C823     		movs	r3, #200
+ 115 004e 0293     		str	r3, [sp, #8]
+ 116 0050 0191     		str	r1, [sp, #4]
+ 117 0052 0092     		str	r2, [sp]
+ 118 0054 0123     		movs	r3, #1
+ 119 0056 0246     		mov	r2, r0
+ 120              	.LVL8:
+  18:user/Src/mpu.c ****     acc_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+ 121              		.loc 1 18 5 is_stmt 0 view .LVU25
+ 122 0058 6821     		movs	r1, #104
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 4
+
+
+ 123              	.LVL9:
+  18:user/Src/mpu.c ****     acc_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+ 124              		.loc 1 18 5 view .LVU26
+ 125 005a 1148     		ldr	r0, .L8
+ 126              	.LVL10:
+  18:user/Src/mpu.c ****     acc_data.x = (int16_t)((buf[0] << 8) | buf[1]);
+ 127              		.loc 1 18 5 view .LVU27
+ 128 005c FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 129              	.LVL11:
+  19:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ 130              		.loc 1 19 5 is_stmt 1 view .LVU28
+  19:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ 131              		.loc 1 19 32 is_stmt 0 view .LVU29
+ 132 0060 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  19:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ 133              		.loc 1 19 47 view .LVU30
+ 134 0062 6278     		ldrb	r2, [r4, #1]	@ zero_extendqisi2
+  19:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ 135              		.loc 1 19 18 view .LVU31
+ 136 0064 42EA0322 		orr	r2, r2, r3, lsl #8
+  19:user/Src/mpu.c ****     acc_data.y = (int16_t)((buf[2] << 8) | buf[3]);
+ 137              		.loc 1 19 16 view .LVU32
+ 138 0068 0F4B     		ldr	r3, .L8+8
+ 139 006a 1A80     		strh	r2, [r3]	@ movhi
+  20:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+ 140              		.loc 1 20 5 is_stmt 1 view .LVU33
+  20:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+ 141              		.loc 1 20 32 is_stmt 0 view .LVU34
+ 142 006c A178     		ldrb	r1, [r4, #2]	@ zero_extendqisi2
+  20:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+ 143              		.loc 1 20 47 view .LVU35
+ 144 006e E278     		ldrb	r2, [r4, #3]	@ zero_extendqisi2
+  20:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+ 145              		.loc 1 20 18 view .LVU36
+ 146 0070 42EA0122 		orr	r2, r2, r1, lsl #8
+  20:user/Src/mpu.c ****     acc_data.z = (int16_t)((buf[4] << 8) | buf[5]);
+ 147              		.loc 1 20 16 view .LVU37
+ 148 0074 5A80     		strh	r2, [r3, #2]	@ movhi
+  21:user/Src/mpu.c ****   } break;
+ 149              		.loc 1 21 5 is_stmt 1 view .LVU38
+  21:user/Src/mpu.c ****   } break;
+ 150              		.loc 1 21 32 is_stmt 0 view .LVU39
+ 151 0076 2179     		ldrb	r1, [r4, #4]	@ zero_extendqisi2
+  21:user/Src/mpu.c ****   } break;
+ 152              		.loc 1 21 47 view .LVU40
+ 153 0078 6279     		ldrb	r2, [r4, #5]	@ zero_extendqisi2
+  21:user/Src/mpu.c ****   } break;
+ 154              		.loc 1 21 18 view .LVU41
+ 155 007a 42EA0122 		orr	r2, r2, r1, lsl #8
+  21:user/Src/mpu.c ****   } break;
+ 156              		.loc 1 21 16 view .LVU42
+ 157 007e 9A80     		strh	r2, [r3, #4]	@ movhi
+  22:user/Src/mpu.c ****   case MPU_RA_MAG: {
+ 158              		.loc 1 22 5 is_stmt 1 view .LVU43
+ 159 0080 C7E7     		b	.L1
+ 160              	.LVL12:
+ 161              	.L7:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 5
+
+
+  24:user/Src/mpu.c ****     ak_id = buf[0];
+ 162              		.loc 1 24 5 view .LVU44
+ 163 0082 C823     		movs	r3, #200
+ 164 0084 0293     		str	r3, [sp, #8]
+ 165 0086 0191     		str	r1, [sp, #4]
+ 166 0088 0092     		str	r2, [sp]
+ 167 008a 0123     		movs	r3, #1
+ 168 008c 0246     		mov	r2, r0
+ 169              	.LVL13:
+  24:user/Src/mpu.c ****     ak_id = buf[0];
+ 170              		.loc 1 24 5 is_stmt 0 view .LVU45
+ 171 008e 0C21     		movs	r1, #12
+ 172              	.LVL14:
+  24:user/Src/mpu.c ****     ak_id = buf[0];
+ 173              		.loc 1 24 5 view .LVU46
+ 174 0090 0348     		ldr	r0, .L8
+ 175              	.LVL15:
+  24:user/Src/mpu.c ****     ak_id = buf[0];
+ 176              		.loc 1 24 5 view .LVU47
+ 177 0092 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 178              	.LVL16:
+  25:user/Src/mpu.c ****   } break;
+ 179              		.loc 1 25 5 is_stmt 1 view .LVU48
+  25:user/Src/mpu.c ****   } break;
+ 180              		.loc 1 25 16 is_stmt 0 view .LVU49
+ 181 0096 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+  25:user/Src/mpu.c ****   } break;
+ 182              		.loc 1 25 11 view .LVU50
+ 183 0098 044B     		ldr	r3, .L8+12
+ 184 009a 1A70     		strb	r2, [r3]
+  26:user/Src/mpu.c ****   }
+ 185              		.loc 1 26 5 is_stmt 1 view .LVU51
+ 186              		.loc 1 28 1 is_stmt 0 view .LVU52
+ 187 009c B9E7     		b	.L1
+ 188              	.L9:
+ 189 009e 00BF     		.align	2
+ 190              	.L8:
+ 191 00a0 00000000 		.word	hi2c1
+ 192 00a4 00000000 		.word	gryo_data
+ 193 00a8 00000000 		.word	acc_data
+ 194 00ac 00000000 		.word	ak_id
+ 195              		.cfi_endproc
+ 196              	.LFE132:
+ 198              		.section	.text.MPU_Write_Len,"ax",%progbits
+ 199              		.align	1
+ 200              		.global	MPU_Write_Len
+ 201              		.syntax unified
+ 202              		.thumb
+ 203              		.thumb_func
+ 205              	MPU_Write_Len:
+ 206              	.LVL17:
+ 207              	.LFB133:
+  29:user/Src/mpu.c **** 
+  30:user/Src/mpu.c **** uint8_t MPU_Write_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf) {
+ 208              		.loc 1 30 77 is_stmt 1 view -0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 6
+
+
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212              		.loc 1 30 77 is_stmt 0 view .LVU54
+ 213 0000 10B5     		push	{r4, lr}
+ 214              	.LCFI4:
+ 215              		.cfi_def_cfa_offset 8
+ 216              		.cfi_offset 4, -8
+ 217              		.cfi_offset 14, -4
+ 218 0002 84B0     		sub	sp, sp, #16
+ 219              	.LCFI5:
+ 220              		.cfi_def_cfa_offset 24
+  31:user/Src/mpu.c ****   HAL_I2C_Mem_Write(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, len,
+ 221              		.loc 1 31 3 is_stmt 1 view .LVU55
+ 222 0004 40F6FF74 		movw	r4, #4095
+ 223 0008 0294     		str	r4, [sp, #8]
+ 224 000a 0192     		str	r2, [sp, #4]
+ 225 000c 0093     		str	r3, [sp]
+ 226 000e 0123     		movs	r3, #1
+ 227              	.LVL18:
+ 228              		.loc 1 31 3 is_stmt 0 view .LVU56
+ 229 0010 0A46     		mov	r2, r1
+ 230              	.LVL19:
+ 231              		.loc 1 31 3 view .LVU57
+ 232 0012 00FA03F1 		lsl	r1, r0, r3
+ 233              	.LVL20:
+ 234              		.loc 1 31 3 view .LVU58
+ 235 0016 0348     		ldr	r0, .L12
+ 236              	.LVL21:
+ 237              		.loc 1 31 3 view .LVU59
+ 238 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 239              	.LVL22:
+  32:user/Src/mpu.c ****                     0xfff);
+  33:user/Src/mpu.c ****   return 0;
+ 240              		.loc 1 33 3 is_stmt 1 view .LVU60
+  34:user/Src/mpu.c **** }
+ 241              		.loc 1 34 1 is_stmt 0 view .LVU61
+ 242 001c 0020     		movs	r0, #0
+ 243 001e 04B0     		add	sp, sp, #16
+ 244              	.LCFI6:
+ 245              		.cfi_def_cfa_offset 8
+ 246              		@ sp needed
+ 247 0020 10BD     		pop	{r4, pc}
+ 248              	.L13:
+ 249 0022 00BF     		.align	2
+ 250              	.L12:
+ 251 0024 00000000 		.word	hi2c1
+ 252              		.cfi_endproc
+ 253              	.LFE133:
+ 255              		.section	.text.MPU_Read_Len,"ax",%progbits
+ 256              		.align	1
+ 257              		.global	MPU_Read_Len
+ 258              		.syntax unified
+ 259              		.thumb
+ 260              		.thumb_func
+ 262              	MPU_Read_Len:
+ 263              	.LVL23:
+ 264              	.LFB134:
+  35:user/Src/mpu.c **** 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 7
+
+
+  36:user/Src/mpu.c **** uint8_t MPU_Read_Len(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *buf) {
+ 265              		.loc 1 36 76 is_stmt 1 view -0
+ 266              		.cfi_startproc
+ 267              		@ args = 0, pretend = 0, frame = 0
+ 268              		@ frame_needed = 0, uses_anonymous_args = 0
+ 269              		.loc 1 36 76 is_stmt 0 view .LVU63
+ 270 0000 10B5     		push	{r4, lr}
+ 271              	.LCFI7:
+ 272              		.cfi_def_cfa_offset 8
+ 273              		.cfi_offset 4, -8
+ 274              		.cfi_offset 14, -4
+ 275 0002 84B0     		sub	sp, sp, #16
+ 276              	.LCFI8:
+ 277              		.cfi_def_cfa_offset 24
+  37:user/Src/mpu.c ****   HAL_I2C_Mem_Read(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, buf, len,
+ 278              		.loc 1 37 3 is_stmt 1 view .LVU64
+ 279 0004 40F6FF74 		movw	r4, #4095
+ 280 0008 0294     		str	r4, [sp, #8]
+ 281 000a 0192     		str	r2, [sp, #4]
+ 282 000c 0093     		str	r3, [sp]
+ 283 000e 0123     		movs	r3, #1
+ 284              	.LVL24:
+ 285              		.loc 1 37 3 is_stmt 0 view .LVU65
+ 286 0010 0A46     		mov	r2, r1
+ 287              	.LVL25:
+ 288              		.loc 1 37 3 view .LVU66
+ 289 0012 00FA03F1 		lsl	r1, r0, r3
+ 290              	.LVL26:
+ 291              		.loc 1 37 3 view .LVU67
+ 292 0016 0348     		ldr	r0, .L16
+ 293              	.LVL27:
+ 294              		.loc 1 37 3 view .LVU68
+ 295 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 296              	.LVL28:
+  38:user/Src/mpu.c ****                   0xfff);
+  39:user/Src/mpu.c ****   return 0;
+ 297              		.loc 1 39 3 is_stmt 1 view .LVU69
+  40:user/Src/mpu.c **** }
+ 298              		.loc 1 40 1 is_stmt 0 view .LVU70
+ 299 001c 0020     		movs	r0, #0
+ 300 001e 04B0     		add	sp, sp, #16
+ 301              	.LCFI9:
+ 302              		.cfi_def_cfa_offset 8
+ 303              		@ sp needed
+ 304 0020 10BD     		pop	{r4, pc}
+ 305              	.L17:
+ 306 0022 00BF     		.align	2
+ 307              	.L16:
+ 308 0024 00000000 		.word	hi2c1
+ 309              		.cfi_endproc
+ 310              	.LFE134:
+ 312              		.section	.text.MPU_Write_Byte,"ax",%progbits
+ 313              		.align	1
+ 314              		.global	MPU_Write_Byte
+ 315              		.syntax unified
+ 316              		.thumb
+ 317              		.thumb_func
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 8
+
+
+ 319              	MPU_Write_Byte:
+ 320              	.LVL29:
+ 321              	.LFB135:
+  41:user/Src/mpu.c **** 
+  42:user/Src/mpu.c **** uint8_t MPU_Write_Byte(uint8_t addr, uint8_t reg, uint8_t data) {
+ 322              		.loc 1 42 65 is_stmt 1 view -0
+ 323              		.cfi_startproc
+ 324              		@ args = 0, pretend = 0, frame = 8
+ 325              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326              		.loc 1 42 65 is_stmt 0 view .LVU72
+ 327 0000 00B5     		push	{lr}
+ 328              	.LCFI10:
+ 329              		.cfi_def_cfa_offset 4
+ 330              		.cfi_offset 14, -4
+ 331 0002 87B0     		sub	sp, sp, #28
+ 332              	.LCFI11:
+ 333              		.cfi_def_cfa_offset 32
+ 334 0004 8DF81720 		strb	r2, [sp, #23]
+  43:user/Src/mpu.c ****   HAL_I2C_Mem_Write(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, &data, 1,
+ 335              		.loc 1 43 3 is_stmt 1 view .LVU73
+ 336 0008 40F6FF73 		movw	r3, #4095
+ 337 000c 0293     		str	r3, [sp, #8]
+ 338 000e 0123     		movs	r3, #1
+ 339 0010 0193     		str	r3, [sp, #4]
+ 340 0012 0DF11702 		add	r2, sp, #23
+ 341              	.LVL30:
+ 342              		.loc 1 43 3 is_stmt 0 view .LVU74
+ 343 0016 0092     		str	r2, [sp]
+ 344 0018 0A46     		mov	r2, r1
+ 345              	.LVL31:
+ 346              		.loc 1 43 3 view .LVU75
+ 347 001a 00FA03F1 		lsl	r1, r0, r3
+ 348              	.LVL32:
+ 349              		.loc 1 43 3 view .LVU76
+ 350 001e 0348     		ldr	r0, .L20
+ 351              	.LVL33:
+ 352              		.loc 1 43 3 view .LVU77
+ 353 0020 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 354              	.LVL34:
+  44:user/Src/mpu.c ****                     0xfff);
+  45:user/Src/mpu.c ****   return 0;
+ 355              		.loc 1 45 3 is_stmt 1 view .LVU78
+  46:user/Src/mpu.c **** }
+ 356              		.loc 1 46 1 is_stmt 0 view .LVU79
+ 357 0024 0020     		movs	r0, #0
+ 358 0026 07B0     		add	sp, sp, #28
+ 359              	.LCFI12:
+ 360              		.cfi_def_cfa_offset 4
+ 361              		@ sp needed
+ 362 0028 5DF804FB 		ldr	pc, [sp], #4
+ 363              	.L21:
+ 364              		.align	2
+ 365              	.L20:
+ 366 002c 00000000 		.word	hi2c1
+ 367              		.cfi_endproc
+ 368              	.LFE135:
+ 370              		.section	.text.MPU_Read_Byte,"ax",%progbits
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 9
+
+
+ 371              		.align	1
+ 372              		.global	MPU_Read_Byte
+ 373              		.syntax unified
+ 374              		.thumb
+ 375              		.thumb_func
+ 377              	MPU_Read_Byte:
+ 378              	.LVL35:
+ 379              	.LFB136:
+  47:user/Src/mpu.c **** 
+  48:user/Src/mpu.c **** uint8_t MPU_Read_Byte(uint8_t addr, uint8_t reg) {
+ 380              		.loc 1 48 50 is_stmt 1 view -0
+ 381              		.cfi_startproc
+ 382              		@ args = 0, pretend = 0, frame = 8
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384              		.loc 1 48 50 is_stmt 0 view .LVU81
+ 385 0000 00B5     		push	{lr}
+ 386              	.LCFI13:
+ 387              		.cfi_def_cfa_offset 4
+ 388              		.cfi_offset 14, -4
+ 389 0002 87B0     		sub	sp, sp, #28
+ 390              	.LCFI14:
+ 391              		.cfi_def_cfa_offset 32
+ 392 0004 0A46     		mov	r2, r1
+  49:user/Src/mpu.c ****   uint8_t res;
+ 393              		.loc 1 49 3 is_stmt 1 view .LVU82
+  50:user/Src/mpu.c ****   HAL_I2C_Mem_Read(&hi2c1, (addr << 1), reg, I2C_MEMADD_SIZE_8BIT, &res, 1,
+ 394              		.loc 1 50 3 view .LVU83
+ 395 0006 40F6FF73 		movw	r3, #4095
+ 396 000a 0293     		str	r3, [sp, #8]
+ 397 000c 0123     		movs	r3, #1
+ 398 000e 0193     		str	r3, [sp, #4]
+ 399 0010 0DF11701 		add	r1, sp, #23
+ 400              	.LVL36:
+ 401              		.loc 1 50 3 is_stmt 0 view .LVU84
+ 402 0014 0091     		str	r1, [sp]
+ 403 0016 00FA03F1 		lsl	r1, r0, r3
+ 404 001a 0448     		ldr	r0, .L24
+ 405              	.LVL37:
+ 406              		.loc 1 50 3 view .LVU85
+ 407 001c FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 408              	.LVL38:
+  51:user/Src/mpu.c ****                   0xfff);
+  52:user/Src/mpu.c ****   return res;
+ 409              		.loc 1 52 3 is_stmt 1 view .LVU86
+  53:user/Src/mpu.c **** }
+ 410              		.loc 1 53 1 is_stmt 0 view .LVU87
+ 411 0020 9DF81700 		ldrb	r0, [sp, #23]	@ zero_extendqisi2
+ 412 0024 07B0     		add	sp, sp, #28
+ 413              	.LCFI15:
+ 414              		.cfi_def_cfa_offset 4
+ 415              		@ sp needed
+ 416 0026 5DF804FB 		ldr	pc, [sp], #4
+ 417              	.L25:
+ 418 002a 00BF     		.align	2
+ 419              	.L24:
+ 420 002c 00000000 		.word	hi2c1
+ 421              		.cfi_endproc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 10
+
+
+ 422              	.LFE136:
+ 424              		.section	.text.Cal_Angle,"ax",%progbits
+ 425              		.align	1
+ 426              		.global	Cal_Angle
+ 427              		.syntax unified
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	Cal_Angle:
+ 432              	.LFB137:
+  54:user/Src/mpu.c **** 
+  55:user/Src/mpu.c **** float Cal_Angle(){
+ 433              		.loc 1 55 18 is_stmt 1 view -0
+ 434              		.cfi_startproc
+ 435              		@ args = 0, pretend = 0, frame = 0
+ 436              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437              		@ link register save eliminated.
+  56:user/Src/mpu.c **** }
+ 438              		.loc 1 56 1 view .LVU89
+ 439 0000 7047     		bx	lr
+ 440              		.cfi_endproc
+ 441              	.LFE137:
+ 443              		.section	.text.Angle_Get,"ax",%progbits
+ 444              		.align	1
+ 445              		.global	Angle_Get
+ 446              		.syntax unified
+ 447              		.thumb
+ 448              		.thumb_func
+ 450              	Angle_Get:
+ 451              	.LFB138:
+  57:user/Src/mpu.c **** 
+  58:user/Src/mpu.c **** float Angle_Get() {
+ 452              		.loc 1 58 19 view -0
+ 453              		.cfi_startproc
+ 454              		@ args = 0, pretend = 0, frame = 40
+ 455              		@ frame_needed = 0, uses_anonymous_args = 0
+ 456 0000 10B5     		push	{r4, lr}
+ 457              	.LCFI16:
+ 458              		.cfi_def_cfa_offset 8
+ 459              		.cfi_offset 4, -8
+ 460              		.cfi_offset 14, -4
+ 461 0002 2DED028B 		vpush.64	{d8}
+ 462              	.LCFI17:
+ 463              		.cfi_def_cfa_offset 16
+ 464              		.cfi_offset 80, -16
+ 465              		.cfi_offset 81, -12
+ 466 0006 8AB0     		sub	sp, sp, #40
+ 467              	.LCFI18:
+ 468              		.cfi_def_cfa_offset 56
+  59:user/Src/mpu.c ****   float pitch, roll, yaw;
+ 469              		.loc 1 59 3 view .LVU91
+  60:user/Src/mpu.c ****   float angle_list1[WINDOW_SIZE];
+ 470              		.loc 1 60 3 view .LVU92
+  61:user/Src/mpu.c ****   float angle_list2[WINDOW_SIZE];
+ 471              		.loc 1 61 3 view .LVU93
+  62:user/Src/mpu.c ****   float sum1, sum2;
+ 472              		.loc 1 62 3 view .LVU94
+  63:user/Src/mpu.c ****   switch_dev(0);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 11
+
+
+ 473              		.loc 1 63 3 view .LVU95
+ 474 0008 0020     		movs	r0, #0
+ 475 000a FFF7FEFF 		bl	switch_dev
+ 476              	.LVL39:
+  64:user/Src/mpu.c ****   for(int i = 0; i < WINDOW_SIZE; i++){
+ 477              		.loc 1 64 3 view .LVU96
+ 478              	.LBB2:
+ 479              		.loc 1 64 7 view .LVU97
+ 480              		.loc 1 64 11 is_stmt 0 view .LVU98
+ 481 000e 0024     		movs	r4, #0
+ 482              		.loc 1 64 3 view .LVU99
+ 483 0010 0EE0     		b	.L28
+ 484              	.LVL40:
+ 485              	.L29:
+  65:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 486              		.loc 1 65 5 is_stmt 1 discriminator 3 view .LVU100
+ 487 0012 07AA     		add	r2, sp, #28
+ 488 0014 08A9     		add	r1, sp, #32
+ 489 0016 09A8     		add	r0, sp, #36
+ 490 0018 FFF7FEFF 		bl	mpu_dmp_get_data
+ 491              	.LVL41:
+  66:user/Src/mpu.c ****     angle_list1[i] = pitch;
+ 492              		.loc 1 66 5 discriminator 3 view .LVU101
+ 493              		.loc 1 66 20 is_stmt 0 discriminator 3 view .LVU102
+ 494 001c DDED097A 		vldr.32	s15, [sp, #36]
+ 495 0020 0AAB     		add	r3, sp, #40
+ 496 0022 03EB8403 		add	r3, r3, r4, lsl #2
+ 497 0026 43ED097A 		vstr.32	s15, [r3, #-36]
+  67:user/Src/mpu.c ****     sum1 += angle_list1[i];
+ 498              		.loc 1 67 5 is_stmt 1 discriminator 3 view .LVU103
+ 499              		.loc 1 67 10 is_stmt 0 discriminator 3 view .LVU104
+ 500 002a 38EE278A 		vadd.f32	s16, s16, s15
+ 501              	.LVL42:
+  64:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 502              		.loc 1 64 36 is_stmt 1 discriminator 3 view .LVU105
+ 503 002e 0134     		adds	r4, r4, #1
+ 504              	.LVL43:
+ 505              	.L28:
+  64:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 506              		.loc 1 64 20 discriminator 1 view .LVU106
+ 507 0030 052C     		cmp	r4, #5
+ 508 0032 EEDD     		ble	.L29
+ 509              	.LBE2:
+  68:user/Src/mpu.c ****   }
+  69:user/Src/mpu.c ****   float aver1 = sum1 / WINDOW_SIZE;
+ 510              		.loc 1 69 3 view .LVU107
+ 511              		.loc 1 69 9 is_stmt 0 view .LVU108
+ 512 0034 F1EE087A 		vmov.f32	s15, #6.0e+0
+ 513 0038 C8EE278A 		vdiv.f32	s17, s16, s15
+ 514              	.LVL44:
+  70:user/Src/mpu.c ****   switch_dev(1);
+ 515              		.loc 1 70 3 is_stmt 1 view .LVU109
+ 516 003c 0120     		movs	r0, #1
+ 517 003e FFF7FEFF 		bl	switch_dev
+ 518              	.LVL45:
+  71:user/Src/mpu.c ****   for(int i = 0; i < WINDOW_SIZE; i++){
+ 519              		.loc 1 71 3 view .LVU110
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 12
+
+
+ 520              	.LBB3:
+ 521              		.loc 1 71 7 view .LVU111
+ 522              		.loc 1 71 11 is_stmt 0 view .LVU112
+ 523 0042 0024     		movs	r4, #0
+ 524              	.LVL46:
+ 525              		.loc 1 71 3 view .LVU113
+ 526 0044 0BE0     		b	.L30
+ 527              	.LVL47:
+ 528              	.L31:
+  72:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 529              		.loc 1 72 5 is_stmt 1 discriminator 3 view .LVU114
+ 530 0046 07AA     		add	r2, sp, #28
+ 531 0048 08A9     		add	r1, sp, #32
+ 532 004a 09A8     		add	r0, sp, #36
+ 533 004c FFF7FEFF 		bl	mpu_dmp_get_data
+ 534              	.LVL48:
+  73:user/Src/mpu.c ****     angle_list1[i] = pitch;
+ 535              		.loc 1 73 5 discriminator 3 view .LVU115
+ 536              		.loc 1 73 20 is_stmt 0 discriminator 3 view .LVU116
+ 537 0050 0AAB     		add	r3, sp, #40
+ 538 0052 03EB8403 		add	r3, r3, r4, lsl #2
+ 539 0056 099A     		ldr	r2, [sp, #36]	@ float
+ 540 0058 43F8242C 		str	r2, [r3, #-36]	@ float
+  74:user/Src/mpu.c ****     sum2 += angle_list2[i];
+ 541              		.loc 1 74 5 is_stmt 1 discriminator 3 view .LVU117
+  71:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 542              		.loc 1 71 36 discriminator 3 view .LVU118
+ 543 005c 0134     		adds	r4, r4, #1
+ 544              	.LVL49:
+ 545              	.L30:
+  71:user/Src/mpu.c ****     mpu_dmp_get_data(&pitch, &roll, &yaw);
+ 546              		.loc 1 71 20 discriminator 1 view .LVU119
+ 547 005e 052C     		cmp	r4, #5
+ 548 0060 F1DD     		ble	.L31
+ 549              	.LBE3:
+  75:user/Src/mpu.c ****   }
+  76:user/Src/mpu.c ****   float aver2 = sum2 / WINDOW_SIZE;
+ 550              		.loc 1 76 3 view .LVU120
+  77:user/Src/mpu.c ****   return aver1;
+ 551              		.loc 1 77 3 view .LVU121
+  78:user/Src/mpu.c **** }
+ 552              		.loc 1 78 1 is_stmt 0 view .LVU122
+ 553 0062 B0EE680A 		vmov.f32	s0, s17
+ 554 0066 0AB0     		add	sp, sp, #40
+ 555              	.LCFI19:
+ 556              		.cfi_def_cfa_offset 16
+ 557              		@ sp needed
+ 558 0068 BDEC028B 		vldm	sp!, {d8}
+ 559              	.LCFI20:
+ 560              		.cfi_restore 80
+ 561              		.cfi_restore 81
+ 562              		.cfi_def_cfa_offset 8
+ 563              	.LVL50:
+ 564              		.loc 1 78 1 view .LVU123
+ 565 006c 10BD     		pop	{r4, pc}
+ 566              		.loc 1 78 1 view .LVU124
+ 567              		.cfi_endproc
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 13
+
+
+ 568              	.LFE138:
+ 570              		.global	ak_id
+ 571              		.section	.bss.ak_id,"aw",%nobits
+ 574              	ak_id:
+ 575 0000 00       		.space	1
+ 576              		.global	acc_data
+ 577              		.section	.bss.acc_data,"aw",%nobits
+ 578              		.align	2
+ 581              	acc_data:
+ 582 0000 00000000 		.space	6
+ 582      0000
+ 583              		.global	gryo_data
+ 584              		.section	.bss.gryo_data,"aw",%nobits
+ 585              		.align	2
+ 588              	gryo_data:
+ 589 0000 00000000 		.space	6
+ 589      0000
+ 590              		.global	MPU_readbuf
+ 591              		.section	.bss.MPU_readbuf,"aw",%nobits
+ 592              		.align	2
+ 595              	MPU_readbuf:
+ 596 0000 00000000 		.space	128
+ 596      00000000 
+ 596      00000000 
+ 596      00000000 
+ 596      00000000 
+ 597              		.text
+ 598              	.Letext0:
+ 599              		.file 2 "/usr/local/include/sys/_types/_int16_t.h"
+ 600              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 601              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 602              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 603              		.file 6 "Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g474xx.h"
+ 604              		.file 7 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_def.h"
+ 605              		.file 8 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_dma.h"
+ 606              		.file 9 "Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_i2c.h"
+ 607              		.file 10 "user/Inc/mpu.h"
+ 608              		.file 11 "Core/Inc/i2c.h"
+ 609              		.file 12 "user/drivers/DMP/driver/eMPL/inv_mpu.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 mpu.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:21     .text.MPU_ReadMulBytes:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:27     .text.MPU_ReadMulBytes:00000000 MPU_ReadMulBytes
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:191    .text.MPU_ReadMulBytes:000000a0 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:588    .bss.gryo_data:00000000 gryo_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:581    .bss.acc_data:00000000 acc_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:574    .bss.ak_id:00000000 ak_id
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:199    .text.MPU_Write_Len:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:205    .text.MPU_Write_Len:00000000 MPU_Write_Len
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:251    .text.MPU_Write_Len:00000024 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:256    .text.MPU_Read_Len:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:262    .text.MPU_Read_Len:00000000 MPU_Read_Len
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:308    .text.MPU_Read_Len:00000024 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:313    .text.MPU_Write_Byte:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:319    .text.MPU_Write_Byte:00000000 MPU_Write_Byte
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:366    .text.MPU_Write_Byte:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:371    .text.MPU_Read_Byte:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:377    .text.MPU_Read_Byte:00000000 MPU_Read_Byte
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:420    .text.MPU_Read_Byte:0000002c $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:425    .text.Cal_Angle:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:431    .text.Cal_Angle:00000000 Cal_Angle
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:444    .text.Angle_Get:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:450    .text.Angle_Get:00000000 Angle_Get
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:575    .bss.ak_id:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:578    .bss.acc_data:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:585    .bss.gryo_data:00000000 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:595    .bss.MPU_readbuf:00000000 MPU_readbuf
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cckyffFf.s:592    .bss.MPU_readbuf:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Mem_Read
+hi2c1
+HAL_I2C_Mem_Write
+switch_dev
+mpu_dmp_get_data

@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
   28:user/drivers/u8g2/u8log_u8x8.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
   29:user/drivers/u8g2/u8log_u8x8.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
   30:user/drivers/u8g2/u8log_u8x8.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 2
 
 
   31:user/drivers/u8g2/u8log_u8x8.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
   66              		.loc 1 47 5 is_stmt 1 discriminator 3 view .LVU10
   67 0018 5B5C     		ldrb	r3, [r3, r1]	@ zero_extendqisi2
   68              	.LVL4:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 3
 
 
   69              		.loc 1 47 5 is_stmt 0 discriminator 3 view .LVU11
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
  114              		.cfi_startproc
  115              		@ args = 0, pretend = 0, frame = 0
  116              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 4
 
 
  117              		.loc 1 53 1 is_stmt 0 view .LVU24
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
  164              	.L6:
   55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
  165              		.loc 1 55 25 is_stmt 1 discriminator 1 view .LVU35
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 5
 
 
   55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
  212 000a 22B9     		cbnz	r2, .L13
   67:user/drivers/u8g2/u8log_u8x8.c ****   {
   68:user/drivers/u8g2/u8log_u8x8.c ****     u8x8_DrawLog(u8x8, 0, 0, u8log);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 6
 
 
   69:user/drivers/u8g2/u8log_u8x8.c ****   }
@@ -358,20 +358,20 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 1
  258              		.file 4 "/usr/local/include/_types/_uint16_t.h"
  259              		.file 5 "/usr/local/include/_types/_uint32_t.h"
  260              		.file 6 "user/drivers/u8g2/u8x8.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 7
 
 
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 u8log_u8x8.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:21     .text.u8x8_DrawLogLine:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:26     .text.u8x8_DrawLogLine:00000000 u8x8_DrawLogLine
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:104    .text.u8x8_DrawLog:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:110    .text.u8x8_DrawLog:00000000 u8x8_DrawLog
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:182    .text.u8log_u8x8_cb:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxEQ7XC.s:188    .text.u8log_u8x8_cb:00000000 u8log_u8x8_cb
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:21     .text.u8x8_DrawLogLine:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:26     .text.u8x8_DrawLogLine:00000000 u8x8_DrawLogLine
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:104    .text.u8x8_DrawLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:110    .text.u8x8_DrawLog:00000000 u8x8_DrawLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:182    .text.u8log_u8x8_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccW4w9jf.s:188    .text.u8log_u8x8_cb:00000000 u8log_u8x8_cb
 
 UNDEFINED SYMBOLS
 u8x8_DrawGlyph

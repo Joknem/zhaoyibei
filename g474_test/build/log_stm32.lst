@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
   27:user/drivers/DMP/driver/stm32L/log_stm32.c **** #include "log.h"
   28:user/drivers/DMP/driver/stm32L/log_stm32.c **** #include "packet.h"
   29:user/drivers/DMP/driver/stm32L/log_stm32.c **** #include "stm32g4xx.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 2
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 2
 
 
   30:user/drivers/DMP/driver/stm32L/log_stm32.c **** // #include "usart.h"
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
   53              		.loc 1 60 3 view .LVU4
   61:user/drivers/DMP/driver/stm32L/log_stm32.c ****   char buf[BUF_SIZE], out[PACKET_LENGTH], this_length;
   54              		.loc 1 61 3 view .LVU5
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 3
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 3
 
 
   62:user/drivers/DMP/driver/stm32L/log_stm32.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
   65 0014 4AB0     		add	sp, sp, #296
   66              	.LCFI3:
   67              		.cfi_remember_state
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 4
 
 
   68              		.cfi_def_cfa_offset 24
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  113 003c E9DD     		ble	.L1
   86:user/drivers/DMP/driver/stm32L/log_stm32.c ****   out[0] = '$';
  114              		.loc 1 86 3 is_stmt 1 view .LVU17
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 5
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 5
 
 
  115 003e 0025     		movs	r5, #0
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  155              	.LVL9:
  156              	.L6:
   97:user/drivers/DMP/driver/stm32L/log_stm32.c ****       fputc(out[i], noUse);
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 6
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 6
 
 
  157              		.loc 1 97 19 discriminator 1 view .LVU32
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  200              		.cfi_endproc
  201              	.LFE143:
  203              		.section	.text.eMPL_send_quat,"ax",%progbits
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 7
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 7
 
 
  204              		.align	1
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  248 0020 8DF80120 		strb	r2, [sp, #1]
  116:user/drivers/DMP/driver/stm32L/log_stm32.c ****   out[3] = (char)(quat[0] >> 24);
  249              		.loc 1 116 3 is_stmt 1 view .LVU56
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 8
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 8
 
 
  250              		.loc 1 116 23 is_stmt 0 view .LVU57
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  125:user/drivers/DMP/driver/stm32L/log_stm32.c ****   out[12] = (char)(quat[2] >> 16);
  296              		.loc 1 125 3 is_stmt 1 view .LVU84
  297              		.loc 1 125 13 is_stmt 0 view .LVU85
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 9
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 9
 
 
  298 0064 C2F30741 		ubfx	r1, r2, #16, #8
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  342              	.L16:
  136:user/drivers/DMP/driver/stm32L/log_stm32.c ****     fputc(out[i], noUse);
  343              		.loc 1 136 5 is_stmt 1 discriminator 3 view .LVU110
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 10
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 10
 
 
  344              		.loc 1 136 14 is_stmt 0 discriminator 3 view .LVU111
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  143:user/drivers/DMP/driver/stm32L/log_stm32.c ****   FILE *noUse;
  392              		.loc 1 143 3 view .LVU120
  144:user/drivers/DMP/driver/stm32L/log_stm32.c ****   if (!data)
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 11
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 11
 
 
  393              		.loc 1 144 3 view .LVU121
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  438              	.L24:
  439 0042 5B       		.byte	(.L26-.L24)/2
  440 0043 5B       		.byte	(.L26-.L24)/2
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 12
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 12
 
 
  441 0044 5B       		.byte	(.L26-.L24)/2
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  486              		.loc 1 161 25 is_stmt 0 view .LVU158
  487 007a D368     		ldr	r3, [r2, #12]
  488              		.loc 1 161 14 view .LVU159
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 13
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 13
 
 
  489 007c 190E     		lsrs	r1, r3, #24
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  535 00ba D369     		ldr	r3, [r2, #28]
  536              		.loc 1 169 15 view .LVU187
  537 00bc 190E     		lsrs	r1, r3, #24
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 14
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 14
 
 
  538              		.loc 1 169 13 view .LVU188
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  581              		.loc 1 180 13 is_stmt 0 view .LVU211
  582 00f4 8DF81230 		strb	r3, [sp, #18]
  583              	.L26:
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 15
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 15
 
 
  181:user/drivers/DMP/driver/stm32L/log_stm32.c ****   /* Three elements. */
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  624              		.loc 1 194 5 is_stmt 1 view .LVU236
  625              		.loc 1 194 26 is_stmt 0 view .LVU237
  626 0130 9368     		ldr	r3, [r2, #8]
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 16
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 16
 
 
  627              		.loc 1 194 15 view .LVU238
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  671 0168 8DF80630 		strb	r3, [sp, #6]
  204:user/drivers/DMP/driver/stm32L/log_stm32.c ****     break;
  672              		.loc 1 204 5 is_stmt 1 view .LVU262
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 17
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 17
 
 
  673 016c EEE7     		b	.L28
@@ -1016,20 +1016,20 @@ ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 1
  717              		.file 6 "<built-in>"
  718              		.file 7 "user/drivers/DMP/driver/stm32L/packet.h"
  719              		.file 8 "/usr/local/include/stdio.h"
-ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s 			page 18
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 log_stm32.c
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:21     .text._MLPrintLog:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:27     .text._MLPrintLog:00000000 _MLPrintLog
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:204    .text.eMPL_send_quat:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:210    .text.eMPL_send_quat:00000000 eMPL_send_quat
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:377    .text.eMPL_send_data:00000000 $t
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:383    .text.eMPL_send_data:00000000 eMPL_send_data
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:439    .text.eMPL_send_data:00000042 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:446    .text.eMPL_send_data:00000049 $d
-/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccWsjYsY.s:446    .text.eMPL_send_data:0000004a $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:21     .text._MLPrintLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:27     .text._MLPrintLog:00000000 _MLPrintLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:204    .text.eMPL_send_quat:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:210    .text.eMPL_send_quat:00000000 eMPL_send_quat
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:377    .text.eMPL_send_data:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:383    .text.eMPL_send_data:00000000 eMPL_send_data
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:439    .text.eMPL_send_data:00000042 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:446    .text.eMPL_send_data:00000049 $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//cczVBzYg.s:446    .text.eMPL_send_data:0000004a $t
 
 UNDEFINED SYMBOLS
 __vsprintf_chk

@@ -1,0 +1,522 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_input_value.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8x8_input_value.c"
+  20              		.section	.text.u8x8_UserInterfaceInputValue,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8x8_UserInterfaceInputValue
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8x8_UserInterfaceInputValue:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8x8_input_value.c **** /*
+   2:user/drivers/u8g2/u8x8_input_value.c **** 
+   3:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_input_value.c
+   4:user/drivers/u8g2/u8x8_input_value.c ****   
+   5:user/drivers/u8g2/u8x8_input_value.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:user/drivers/u8g2/u8x8_input_value.c **** 
+   7:user/drivers/u8g2/u8x8_input_value.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:user/drivers/u8g2/u8x8_input_value.c ****   All rights reserved.
+   9:user/drivers/u8g2/u8x8_input_value.c **** 
+  10:user/drivers/u8g2/u8x8_input_value.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:user/drivers/u8g2/u8x8_input_value.c ****   are permitted provided that the following conditions are met:
+  12:user/drivers/u8g2/u8x8_input_value.c **** 
+  13:user/drivers/u8g2/u8x8_input_value.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:user/drivers/u8g2/u8x8_input_value.c ****     of conditions and the following disclaimer.
+  15:user/drivers/u8g2/u8x8_input_value.c ****     
+  16:user/drivers/u8g2/u8x8_input_value.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:user/drivers/u8g2/u8x8_input_value.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:user/drivers/u8g2/u8x8_input_value.c ****     materials provided with the distribution.
+  19:user/drivers/u8g2/u8x8_input_value.c **** 
+  20:user/drivers/u8g2/u8x8_input_value.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:user/drivers/u8g2/u8x8_input_value.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:user/drivers/u8g2/u8x8_input_value.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:user/drivers/u8g2/u8x8_input_value.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:user/drivers/u8g2/u8x8_input_value.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:user/drivers/u8g2/u8x8_input_value.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:user/drivers/u8g2/u8x8_input_value.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:user/drivers/u8g2/u8x8_input_value.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:user/drivers/u8g2/u8x8_input_value.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:user/drivers/u8g2/u8x8_input_value.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 2
+
+
+  30:user/drivers/u8g2/u8x8_input_value.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:user/drivers/u8g2/u8x8_input_value.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:user/drivers/u8g2/u8x8_input_value.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:user/drivers/u8g2/u8x8_input_value.c ****   
+  34:user/drivers/u8g2/u8x8_input_value.c **** */
+  35:user/drivers/u8g2/u8x8_input_value.c **** 
+  36:user/drivers/u8g2/u8x8_input_value.c **** #include "u8x8.h"
+  37:user/drivers/u8g2/u8x8_input_value.c **** 
+  38:user/drivers/u8g2/u8x8_input_value.c **** /*
+  39:user/drivers/u8g2/u8x8_input_value.c ****   return:
+  40:user/drivers/u8g2/u8x8_input_value.c ****     0: value is not changed (HOME/Break Button pressed)
+  41:user/drivers/u8g2/u8x8_input_value.c ****     1: value has been updated
+  42:user/drivers/u8g2/u8x8_input_value.c **** */
+  43:user/drivers/u8g2/u8x8_input_value.c **** 
+  44:user/drivers/u8g2/u8x8_input_value.c **** uint8_t u8x8_UserInterfaceInputValue(u8x8_t *u8x8, const char *title, const char *pre, uint8_t *val
+  45:user/drivers/u8g2/u8x8_input_value.c **** {
+  30              		.loc 1 45 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 16, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 45 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 85B0     		sub	sp, sp, #20
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 56
+  50 0006 0446     		mov	r4, r0
+  51 0008 8A46     		mov	r10, r1
+  52 000a 0292     		str	r2, [sp, #8]
+  53 000c 0393     		str	r3, [sp, #12]
+  54 000e 9DF83890 		ldrb	r9, [sp, #56]	@ zero_extendqisi2
+  55 0012 9DF83CB0 		ldrb	fp, [sp, #60]	@ zero_extendqisi2
+  56 0016 9DF84080 		ldrb	r8, [sp, #64]	@ zero_extendqisi2
+  46:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t height;
+  57              		.loc 1 46 3 is_stmt 1 view .LVU2
+  47:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t y;
+  58              		.loc 1 47 3 view .LVU3
+  48:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t width;
+  59              		.loc 1 48 3 view .LVU4
+  49:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t x;
+  60              		.loc 1 49 3 view .LVU5
+  50:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t local_value = *value;
+  61              		.loc 1 50 3 view .LVU6
+  62              		.loc 1 50 11 is_stmt 0 view .LVU7
+  63 001a 1F78     		ldrb	r7, [r3]	@ zero_extendqisi2
+  64              	.LVL1:
+  51:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t r;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 3
+
+
+  65              		.loc 1 51 3 is_stmt 1 view .LVU8
+  52:user/drivers/u8g2/u8x8_input_value.c ****   uint8_t event;
+  66              		.loc 1 52 3 view .LVU9
+  53:user/drivers/u8g2/u8x8_input_value.c **** 
+  54:user/drivers/u8g2/u8x8_input_value.c ****   /* calculate overall height of the input value box */
+  55:user/drivers/u8g2/u8x8_input_value.c ****   height = 1;	/* button line */
+  67              		.loc 1 55 3 view .LVU10
+  56:user/drivers/u8g2/u8x8_input_value.c ****   height += u8x8_GetStringLineCnt(title);
+  68              		.loc 1 56 3 view .LVU11
+  69              		.loc 1 56 13 is_stmt 0 view .LVU12
+  70 001c 0846     		mov	r0, r1
+  71              	.LVL2:
+  72              		.loc 1 56 13 view .LVU13
+  73 001e FFF7FEFF 		bl	u8x8_GetStringLineCnt
+  74              	.LVL3:
+  75              		.loc 1 56 10 view .LVU14
+  76 0022 0130     		adds	r0, r0, #1
+  77 0024 C0B2     		uxtb	r0, r0
+  78              	.LVL4:
+  57:user/drivers/u8g2/u8x8_input_value.c ****   
+  58:user/drivers/u8g2/u8x8_input_value.c ****   /* calculate offset from top */
+  59:user/drivers/u8g2/u8x8_input_value.c ****   y = 0;
+  79              		.loc 1 59 3 is_stmt 1 view .LVU15
+  60:user/drivers/u8g2/u8x8_input_value.c ****   if ( height < u8x8_GetRows(u8x8)  )
+  80              		.loc 1 60 3 view .LVU16
+  81              		.loc 1 60 17 is_stmt 0 view .LVU17
+  82 0026 2368     		ldr	r3, [r4]
+  83 0028 5D7C     		ldrb	r5, [r3, #17]	@ zero_extendqisi2
+  84              		.loc 1 60 6 view .LVU18
+  85 002a 8542     		cmp	r5, r0
+  86 002c 50D9     		bls	.L14
+  61:user/drivers/u8g2/u8x8_input_value.c ****   {
+  62:user/drivers/u8g2/u8x8_input_value.c ****     y = u8x8_GetRows(u8x8);
+  87              		.loc 1 62 5 is_stmt 1 view .LVU19
+  88              	.LVL5:
+  63:user/drivers/u8g2/u8x8_input_value.c ****     y -= height;
+  89              		.loc 1 63 5 view .LVU20
+  90              		.loc 1 63 7 is_stmt 0 view .LVU21
+  91 002e 2D1A     		subs	r5, r5, r0
+  92              	.LVL6:
+  64:user/drivers/u8g2/u8x8_input_value.c ****     y /= 2;
+  93              		.loc 1 64 5 is_stmt 1 view .LVU22
+  94              		.loc 1 64 7 is_stmt 0 view .LVU23
+  95 0030 C5F34605 		ubfx	r5, r5, #1, #7
+  96              	.LVL7:
+  97              	.L2:
+  65:user/drivers/u8g2/u8x8_input_value.c ****   }
+  66:user/drivers/u8g2/u8x8_input_value.c ****   
+  67:user/drivers/u8g2/u8x8_input_value.c ****   /* calculate offset from left for the label */
+  68:user/drivers/u8g2/u8x8_input_value.c ****   x = 0;
+  98              		.loc 1 68 3 is_stmt 1 view .LVU24
+  69:user/drivers/u8g2/u8x8_input_value.c ****   width = u8x8_GetUTF8Len(u8x8, pre);
+  99              		.loc 1 69 3 view .LVU25
+ 100              		.loc 1 69 11 is_stmt 0 view .LVU26
+ 101 0034 0299     		ldr	r1, [sp, #8]
+ 102 0036 2046     		mov	r0, r4
+ 103              	.LVL8:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 4
+
+
+ 104              		.loc 1 69 11 view .LVU27
+ 105 0038 FFF7FEFF 		bl	u8x8_GetUTF8Len
+ 106              	.LVL9:
+  70:user/drivers/u8g2/u8x8_input_value.c ****   width += digits;
+ 107              		.loc 1 70 3 is_stmt 1 view .LVU28
+ 108              		.loc 1 70 9 is_stmt 0 view .LVU29
+ 109 003c 00EB0806 		add	r6, r0, r8
+ 110 0040 F6B2     		uxtb	r6, r6
+ 111              	.LVL10:
+  71:user/drivers/u8g2/u8x8_input_value.c ****   width += u8x8_GetUTF8Len(u8x8, post);
+ 112              		.loc 1 71 3 is_stmt 1 view .LVU30
+ 113              		.loc 1 71 12 is_stmt 0 view .LVU31
+ 114 0042 1199     		ldr	r1, [sp, #68]
+ 115 0044 2046     		mov	r0, r4
+ 116 0046 FFF7FEFF 		bl	u8x8_GetUTF8Len
+ 117              	.LVL11:
+ 118              		.loc 1 71 9 view .LVU32
+ 119 004a 0644     		add	r6, r6, r0
+ 120              	.LVL12:
+ 121              		.loc 1 71 9 view .LVU33
+ 122 004c F6B2     		uxtb	r6, r6
+ 123              	.LVL13:
+  72:user/drivers/u8g2/u8x8_input_value.c ****   if ( width < u8x8_GetCols(u8x8) )
+ 124              		.loc 1 72 3 is_stmt 1 view .LVU34
+ 125              		.loc 1 72 16 is_stmt 0 view .LVU35
+ 126 004e 2368     		ldr	r3, [r4]
+ 127 0050 1B7C     		ldrb	r3, [r3, #16]	@ zero_extendqisi2
+ 128              		.loc 1 72 6 view .LVU36
+ 129 0052 B342     		cmp	r3, r6
+ 130 0054 3ED9     		bls	.L15
+  73:user/drivers/u8g2/u8x8_input_value.c ****   {
+  74:user/drivers/u8g2/u8x8_input_value.c ****     x = u8x8_GetCols(u8x8);
+ 131              		.loc 1 74 5 is_stmt 1 view .LVU37
+ 132              	.LVL14:
+  75:user/drivers/u8g2/u8x8_input_value.c ****     x -= width;
+ 133              		.loc 1 75 5 view .LVU38
+ 134              		.loc 1 75 7 is_stmt 0 view .LVU39
+ 135 0056 9E1B     		subs	r6, r3, r6
+ 136              	.LVL15:
+  76:user/drivers/u8g2/u8x8_input_value.c ****     x /= 2;
+ 137              		.loc 1 76 5 is_stmt 1 view .LVU40
+ 138              		.loc 1 76 7 is_stmt 0 view .LVU41
+ 139 0058 C6F34606 		ubfx	r6, r6, #1, #7
+ 140              	.LVL16:
+ 141              	.L3:
+  77:user/drivers/u8g2/u8x8_input_value.c ****   }
+  78:user/drivers/u8g2/u8x8_input_value.c ****   
+  79:user/drivers/u8g2/u8x8_input_value.c ****   /* render */
+  80:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_ClearDisplay(u8x8);   /* required, because not everything is filled */
+ 142              		.loc 1 80 3 is_stmt 1 view .LVU42
+ 143 005c 2046     		mov	r0, r4
+ 144 005e FFF7FEFF 		bl	u8x8_ClearDisplay
+ 145              	.LVL17:
+  81:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_SetInverseFont(u8x8, 0);  
+ 146              		.loc 1 81 3 view .LVU43
+ 147 0062 0021     		movs	r1, #0
+ 148 0064 84F82310 		strb	r1, [r4, #35]
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 5
+
+
+  82:user/drivers/u8g2/u8x8_input_value.c ****   y += u8x8_DrawUTF8Lines(u8x8, 0, y, u8x8_GetCols(u8x8), title);
+ 149              		.loc 1 82 3 view .LVU44
+ 150              		.loc 1 82 39 is_stmt 0 view .LVU45
+ 151 0068 2368     		ldr	r3, [r4]
+ 152 006a 1B7C     		ldrb	r3, [r3, #16]	@ zero_extendqisi2
+ 153              		.loc 1 82 8 view .LVU46
+ 154 006c CDF800A0 		str	r10, [sp]
+ 155 0070 2A46     		mov	r2, r5
+ 156 0072 2046     		mov	r0, r4
+ 157 0074 FFF7FEFF 		bl	u8x8_DrawUTF8Lines
+ 158              	.LVL18:
+ 159              		.loc 1 82 5 view .LVU47
+ 160 0078 0544     		add	r5, r5, r0
+ 161              	.LVL19:
+ 162              		.loc 1 82 5 view .LVU48
+ 163 007a EDB2     		uxtb	r5, r5
+ 164              	.LVL20:
+  83:user/drivers/u8g2/u8x8_input_value.c ****   x += u8x8_DrawUTF8(u8x8, x, y, pre);
+ 165              		.loc 1 83 3 is_stmt 1 view .LVU49
+ 166              		.loc 1 83 8 is_stmt 0 view .LVU50
+ 167 007c 029B     		ldr	r3, [sp, #8]
+ 168 007e 2A46     		mov	r2, r5
+ 169 0080 3146     		mov	r1, r6
+ 170 0082 2046     		mov	r0, r4
+ 171 0084 FFF7FEFF 		bl	u8x8_DrawUTF8
+ 172              	.LVL21:
+ 173              		.loc 1 83 5 view .LVU51
+ 174 0088 0644     		add	r6, r6, r0
+ 175              	.LVL22:
+ 176              		.loc 1 83 5 view .LVU52
+ 177 008a F6B2     		uxtb	r6, r6
+ 178              	.LVL23:
+  84:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_DrawUTF8(u8x8, x+digits, y, post);
+ 179              		.loc 1 84 3 is_stmt 1 view .LVU53
+ 180 008c 08EB0601 		add	r1, r8, r6
+ 181 0090 119B     		ldr	r3, [sp, #68]
+ 182 0092 2A46     		mov	r2, r5
+ 183 0094 C9B2     		uxtb	r1, r1
+ 184 0096 2046     		mov	r0, r4
+ 185 0098 FFF7FEFF 		bl	u8x8_DrawUTF8
+ 186              	.LVL24:
+  85:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_SetInverseFont(u8x8, 1);
+ 187              		.loc 1 85 3 view .LVU54
+ 188 009c 0123     		movs	r3, #1
+ 189 009e 84F82330 		strb	r3, [r4, #35]
+  86:user/drivers/u8g2/u8x8_input_value.c ****   
+  87:user/drivers/u8g2/u8x8_input_value.c ****   /* event loop */
+  88:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_DrawUTF8(u8x8, x, y, u8x8_u8toa(local_value, digits));
+ 190              		.loc 1 88 3 view .LVU55
+ 191 00a2 4146     		mov	r1, r8
+ 192 00a4 3846     		mov	r0, r7
+ 193 00a6 FFF7FEFF 		bl	u8x8_u8toa
+ 194              	.LVL25:
+ 195 00aa 0346     		mov	r3, r0
+ 196 00ac 2A46     		mov	r2, r5
+ 197 00ae 3146     		mov	r1, r6
+ 198 00b0 2046     		mov	r0, r4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 6
+
+
+ 199 00b2 FFF7FEFF 		bl	u8x8_DrawUTF8
+ 200              	.LVL26:
+ 201              	.L5:
+  89:user/drivers/u8g2/u8x8_input_value.c ****   for(;;)
+ 202              		.loc 1 89 3 view .LVU56
+  90:user/drivers/u8g2/u8x8_input_value.c ****   {
+  91:user/drivers/u8g2/u8x8_input_value.c ****     event = u8x8_GetMenuEvent(u8x8);
+ 203              		.loc 1 91 5 view .LVU57
+ 204              		.loc 1 91 13 is_stmt 0 view .LVU58
+ 205 00b6 2046     		mov	r0, r4
+ 206 00b8 FFF7FEFF 		bl	u8x8_GetMenuEvent
+ 207              	.LVL27:
+  92:user/drivers/u8g2/u8x8_input_value.c ****     if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+ 208              		.loc 1 92 5 is_stmt 1 view .LVU59
+ 209              		.loc 1 92 8 is_stmt 0 view .LVU60
+ 210 00bc 5028     		cmp	r0, #80
+ 211 00be 0BD0     		beq	.L21
+  93:user/drivers/u8g2/u8x8_input_value.c ****     {
+  94:user/drivers/u8g2/u8x8_input_value.c ****       *value = local_value;
+  95:user/drivers/u8g2/u8x8_input_value.c ****       r = 1;
+  96:user/drivers/u8g2/u8x8_input_value.c ****       break;
+  97:user/drivers/u8g2/u8x8_input_value.c ****     }
+  98:user/drivers/u8g2/u8x8_input_value.c ****     else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 212              		.loc 1 98 10 is_stmt 1 view .LVU61
+ 213 00c0 5138     		subs	r0, r0, #81
+ 214              	.LVL28:
+ 215              		.loc 1 98 10 is_stmt 0 view .LVU62
+ 216 00c2 0428     		cmp	r0, #4
+ 217 00c4 F7D8     		bhi	.L5
+ 218 00c6 DFE800F0 		tbb	[pc, r0]
+ 219              	.L9:
+ 220 00ca 0B       		.byte	(.L10-.L9)/2
+ 221 00cb 1C       		.byte	(.L8-.L9)/2
+ 222 00cc 2D       		.byte	(.L16-.L9)/2
+ 223 00cd 0B       		.byte	(.L10-.L9)/2
+ 224 00ce 1C       		.byte	(.L8-.L9)/2
+ 225              	.LVL29:
+ 226 00cf 00       		.p2align 1
+ 227              	.L14:
+  59:user/drivers/u8g2/u8x8_input_value.c ****   if ( height < u8x8_GetRows(u8x8)  )
+ 228              		.loc 1 59 5 view .LVU63
+ 229 00d0 0025     		movs	r5, #0
+ 230 00d2 AFE7     		b	.L2
+ 231              	.LVL30:
+ 232              	.L15:
+  68:user/drivers/u8g2/u8x8_input_value.c ****   width = u8x8_GetUTF8Len(u8x8, pre);
+ 233              		.loc 1 68 5 view .LVU64
+ 234 00d4 0026     		movs	r6, #0
+ 235              	.LVL31:
+  68:user/drivers/u8g2/u8x8_input_value.c ****   width = u8x8_GetUTF8Len(u8x8, pre);
+ 236              		.loc 1 68 5 view .LVU65
+ 237 00d6 C1E7     		b	.L3
+ 238              	.LVL32:
+ 239              	.L21:
+  94:user/drivers/u8g2/u8x8_input_value.c ****       r = 1;
+ 240              		.loc 1 94 7 is_stmt 1 view .LVU66
+  94:user/drivers/u8g2/u8x8_input_value.c ****       r = 1;
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 7
+
+
+ 241              		.loc 1 94 14 is_stmt 0 view .LVU67
+ 242 00d8 039B     		ldr	r3, [sp, #12]
+ 243 00da 1F70     		strb	r7, [r3]
+  95:user/drivers/u8g2/u8x8_input_value.c ****       break;
+ 244              		.loc 1 95 7 is_stmt 1 view .LVU68
+ 245              	.LVL33:
+  96:user/drivers/u8g2/u8x8_input_value.c ****     }
+ 246              		.loc 1 96 7 view .LVU69
+  95:user/drivers/u8g2/u8x8_input_value.c ****       break;
+ 247              		.loc 1 95 9 is_stmt 0 view .LVU70
+ 248 00dc 0120     		movs	r0, #1
+ 249              	.LVL34:
+  96:user/drivers/u8g2/u8x8_input_value.c ****     }
+ 250              		.loc 1 96 7 view .LVU71
+ 251 00de 22E0     		b	.L7
+ 252              	.LVL35:
+ 253              	.L10:
+  99:user/drivers/u8g2/u8x8_input_value.c ****     {
+ 100:user/drivers/u8g2/u8x8_input_value.c ****       r = 0;
+ 101:user/drivers/u8g2/u8x8_input_value.c ****       break;
+ 102:user/drivers/u8g2/u8x8_input_value.c ****     }
+ 103:user/drivers/u8g2/u8x8_input_value.c ****     else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_UP )
+ 104:user/drivers/u8g2/u8x8_input_value.c ****     {
+ 105:user/drivers/u8g2/u8x8_input_value.c ****       if ( local_value >= hi )
+ 254              		.loc 1 105 7 is_stmt 1 view .LVU72
+ 255              		.loc 1 105 10 is_stmt 0 view .LVU73
+ 256 00e0 5F45     		cmp	r7, fp
+ 257 00e2 0CD2     		bcs	.L17
+ 106:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = lo;
+ 107:user/drivers/u8g2/u8x8_input_value.c ****       else
+ 108:user/drivers/u8g2/u8x8_input_value.c **** 	local_value++;
+ 258              		.loc 1 108 2 is_stmt 1 view .LVU74
+ 259              		.loc 1 108 13 is_stmt 0 view .LVU75
+ 260 00e4 0137     		adds	r7, r7, #1
+ 261              	.LVL36:
+ 262              		.loc 1 108 13 view .LVU76
+ 263 00e6 FFB2     		uxtb	r7, r7
+ 264              	.LVL37:
+ 265              	.L11:
+ 109:user/drivers/u8g2/u8x8_input_value.c ****       u8x8_DrawUTF8(u8x8, x, y, u8x8_u8toa(local_value, digits));
+ 266              		.loc 1 109 7 is_stmt 1 view .LVU77
+ 267 00e8 4146     		mov	r1, r8
+ 268 00ea 3846     		mov	r0, r7
+ 269 00ec FFF7FEFF 		bl	u8x8_u8toa
+ 270              	.LVL38:
+ 271 00f0 0346     		mov	r3, r0
+ 272 00f2 2A46     		mov	r2, r5
+ 273 00f4 3146     		mov	r1, r6
+ 274 00f6 2046     		mov	r0, r4
+ 275 00f8 FFF7FEFF 		bl	u8x8_DrawUTF8
+ 276              	.LVL39:
+ 277 00fc DBE7     		b	.L5
+ 278              	.L17:
+ 106:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = lo;
+ 279              		.loc 1 106 14 is_stmt 0 view .LVU78
+ 280 00fe 4F46     		mov	r7, r9
+ 281              	.LVL40:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 8
+
+
+ 106:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = lo;
+ 282              		.loc 1 106 14 view .LVU79
+ 283 0100 F2E7     		b	.L11
+ 284              	.LVL41:
+ 285              	.L8:
+ 110:user/drivers/u8g2/u8x8_input_value.c ****     }
+ 111:user/drivers/u8g2/u8x8_input_value.c ****     else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_DOWN )
+ 112:user/drivers/u8g2/u8x8_input_value.c ****     {
+ 113:user/drivers/u8g2/u8x8_input_value.c ****       if ( local_value <= lo )
+ 286              		.loc 1 113 7 is_stmt 1 view .LVU80
+ 287              		.loc 1 113 10 is_stmt 0 view .LVU81
+ 288 0102 4F45     		cmp	r7, r9
+ 289 0104 0CD9     		bls	.L18
+ 114:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = hi;
+ 115:user/drivers/u8g2/u8x8_input_value.c ****       else
+ 116:user/drivers/u8g2/u8x8_input_value.c **** 	local_value--;
+ 290              		.loc 1 116 2 is_stmt 1 view .LVU82
+ 291              		.loc 1 116 13 is_stmt 0 view .LVU83
+ 292 0106 013F     		subs	r7, r7, #1
+ 293              	.LVL42:
+ 294              		.loc 1 116 13 view .LVU84
+ 295 0108 FFB2     		uxtb	r7, r7
+ 296              	.LVL43:
+ 297              	.L13:
+ 117:user/drivers/u8g2/u8x8_input_value.c ****       u8x8_DrawUTF8(u8x8, x, y, u8x8_u8toa(local_value, digits));
+ 298              		.loc 1 117 7 is_stmt 1 view .LVU85
+ 299 010a 4146     		mov	r1, r8
+ 300 010c 3846     		mov	r0, r7
+ 301 010e FFF7FEFF 		bl	u8x8_u8toa
+ 302              	.LVL44:
+ 303 0112 0346     		mov	r3, r0
+ 304 0114 2A46     		mov	r2, r5
+ 305 0116 3146     		mov	r1, r6
+ 306 0118 2046     		mov	r0, r4
+ 307 011a FFF7FEFF 		bl	u8x8_DrawUTF8
+ 308              	.LVL45:
+ 309 011e CAE7     		b	.L5
+ 310              	.L18:
+ 114:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = hi;
+ 311              		.loc 1 114 14 is_stmt 0 view .LVU86
+ 312 0120 5F46     		mov	r7, fp
+ 313              	.LVL46:
+ 114:user/drivers/u8g2/u8x8_input_value.c **** 	local_value = hi;
+ 314              		.loc 1 114 14 view .LVU87
+ 315 0122 F2E7     		b	.L13
+ 316              	.LVL47:
+ 317              	.L16:
+  92:user/drivers/u8g2/u8x8_input_value.c ****     {
+ 318              		.loc 1 92 8 view .LVU88
+ 319 0124 0020     		movs	r0, #0
+ 320              	.L7:
+ 321              	.LVL48:
+ 118:user/drivers/u8g2/u8x8_input_value.c ****     }        
+ 119:user/drivers/u8g2/u8x8_input_value.c ****   }
+ 120:user/drivers/u8g2/u8x8_input_value.c ****   
+ 121:user/drivers/u8g2/u8x8_input_value.c ****   u8x8_SetInverseFont(u8x8, 0);
+ 322              		.loc 1 121 3 is_stmt 1 view .LVU89
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 9
+
+
+ 323 0126 0023     		movs	r3, #0
+ 324 0128 84F82330 		strb	r3, [r4, #35]
+ 122:user/drivers/u8g2/u8x8_input_value.c ****   return r;  
+ 325              		.loc 1 122 3 view .LVU90
+ 123:user/drivers/u8g2/u8x8_input_value.c **** }
+ 326              		.loc 1 123 1 is_stmt 0 view .LVU91
+ 327 012c 05B0     		add	sp, sp, #20
+ 328              	.LCFI2:
+ 329              		.cfi_def_cfa_offset 36
+ 330              		@ sp needed
+ 331 012e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 332              		.loc 1 123 1 view .LVU92
+ 333              		.cfi_endproc
+ 334              	.LFE0:
+ 336              		.text
+ 337              	.Letext0:
+ 338              		.file 2 "/usr/local/include/_types/_uint8_t.h"
+ 339              		.file 3 "/usr/local/include/_types/_uint16_t.h"
+ 340              		.file 4 "/usr/local/include/_types/_uint32_t.h"
+ 341              		.file 5 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_input_value.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s:21     .text.u8x8_UserInterfaceInputValue:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s:27     .text.u8x8_UserInterfaceInputValue:00000000 u8x8_UserInterfaceInputValue
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s:220    .text.u8x8_UserInterfaceInputValue:000000ca $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s:226    .text.u8x8_UserInterfaceInputValue:000000cf $d
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccsOMJRz.s:226    .text.u8x8_UserInterfaceInputValue:000000d0 $t
+
+UNDEFINED SYMBOLS
+u8x8_GetStringLineCnt
+u8x8_GetUTF8Len
+u8x8_ClearDisplay
+u8x8_DrawUTF8Lines
+u8x8_DrawUTF8
+u8x8_u8toa
+u8x8_GetMenuEvent

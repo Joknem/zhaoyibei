@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>doc.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%BC%80%E5%90%88%E8%A7%92%E5%BA%A6%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F">开合角度检测系统</h1>
+<h2 id="%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E5%9C%A8%E6%8A%98%E5%8F%A0%E7%9A%84%E4%B8%A4%E7%AB%AF%E5%88%86%E5%88%AB%E8%A3%85%E4%B8%8A%E4%B8%80%E4%B8%AAmpu%E8%83%BD%E5%A4%9F%E7%8B%AC%E7%AB%8B%E7%9A%84%E6%A3%80%E6%B5%8B%E5%BD%93%E5%89%8D%E8%AF%A5%E7%AB%AF%E7%9A%84%E7%BF%BB%E6%BB%9A%E8%A7%92%E5%BA%A6">系统设计：在折叠的两端分别装上一个mpu能够独立的检测当前该端的翻滚角度</h2>
+<h2 id="%E4%B8%BB%E6%8E%A7stm32g474%E8%8A%AF%E7%89%87">主控：stm32g474芯片</h2>
+<ul>
+<li>CORTEX-M4处理器，512kb的flash</li>
+<li>两路I2C，一路给两个mpu，一路给OLED实时显示当前角度</li>
+<li>使用FreeRTOS进行任务调度,创建读取传感器数据任务，处理数据任务，屏幕显示任务
+<ol>
+<li>读取传感器任务定时从mpu读取四元数数据并将其送入队列(即后文到的缓冲区)</li>
+<li>处理传感器数据任务每当队列满时会被唤醒将数据进行滤波处理</li>
+<li>屏幕显示任务定时刷新屏幕，启用dma进行i2c总线数据的发送降低cpu的负担</li>
+</ol>
+</li>
+</ul>
+<h2 id="%E4%B8%BB%E8%A6%81%E4%BC%A0%E6%84%9F%E5%99%A8mpu9250%E5%86%85%E9%83%A8%E9%9B%86%E6%88%90%E4%BA%86%E5%85%AD%E8%BD%B4%E9%99%80%E8%9E%BA%E4%BB%AAmpu6500%E5%92%8C%E4%B8%89%E8%BD%B4%E7%A3%81%E5%8A%9B%E8%AE%A1ak8963">主要传感器：mpu9250，内部集成了六轴陀螺仪mpu6500和三轴磁力计ak8963</h2>
+<ul>
+<li>
+<p>mpu9250可以输出设备的三个方向上的加速度、角速度以及三个方向上的
+磁场强度，有这些数据就可以对物体进行姿态的计算。但在处理这些数据
+之前还需要进行滤波以减小干扰。通过加速度计可以得到在静止状态下
+的Roll角(即本系统中用到的开合角度),Roll角的范围是$[-\pi, +\pi]$
+,$Roll=\displaystyle\arctan{(\frac{a_x}{\sqrt{a_y^2+a_x^2}})}$,</p>
+</li>
+<li>
+<p>而陀螺仪能够提供角速度，对其积分可得到角度变化量,但由于陀螺仪的数据会随时间积累误差，我们将陀螺仪数据与加速度计和磁力计数据进行融合。一般使用卡尔曼滤波和互补滤波两种方法融合传感器数据，减少单一传感器的噪声和误差。</p>
+<ol>
+<li>卡尔曼滤波是一种最优估计算法，适用于处理和融合多种传感器数据。balabala。</li>
+<li>加速度计测量地球的重力加速度，根据重力加速度在三个轴方向的分量我们可以推算出当前物体的姿态，可以修正pitch轴和roll轴的角度误差，不论yaw轴怎么旋转，重力加速度在三个轴上的分量不会发生改变;而磁力计基于霍尔效应，在没有外界强磁环境的影响下能够得到地磁场的强度和方向，可以来修正航向角yaw，在本系统中使用roll角从而避免了外界强磁环境的影响。我们设计一个互补滤波器，balabala</li>
+</ol>
+</li>
+<li>
+<p>四元数，使用dmp库直接输出的四元数来计算roll角,$Roll=atan2{}$balabala。利用一节龙格库塔公式进行积分求解四元数$\begin{bmatrix}
+q_0\q_1\q_2\q_3
+\end{bmatrix}_{t+\Delta t}=\begin{bmatrix}
+q_0\q_1\q_2\q_3
+\end{bmatrix}_t+\displaystyle\frac{1}{2}\cdot\Delta t\cdot\begin{bmatrix}
+-\omega_x\cdot q_1-\omega_y\cdot q_2-\omega_z\cdot q_3 \ \omega_x\cdot q_0-\omega_y\cdot q_3+\omega_z\cdot q_2\\omega_x\cdot q_3+\omega_y\cdot q_0-\omega_x\cdot q_1\-\omega_x\cdot q_2+\omega_y\cdot q_1+\omega_z\cdot q_0
+\end{bmatrix}_t$,再通过四元数推roll角balabala</p>
+</li>
+<li>
+<p>在得到当前的角度数据后，先将其放置在缓冲区，缓冲区大小设置为4，进行均值滤波处理以避免误差</p>
+</li>
+</ul>
+<h2 id="%E6%98%BE%E7%A4%BA%E5%B9%B3%E5%8F%B0096%E5%AF%B8oled%E5%B1%8F%E5%B9%95%E5%B1%8F%E5%B9%95%E9%A9%B1%E5%8A%A8ssd1306">显示平台：0.96寸OLED屏幕，屏幕驱动ssd1306</h2>
+<ul>
+<li>移植了u8g2库，能够完成基本的绘图，支持多种字体，dma发送数据，速度更快，能快速响应角度的变化,同时完成了简单的图形化显示当前折叠程度.</li>
+</ul>
+
+</body>
+</html>

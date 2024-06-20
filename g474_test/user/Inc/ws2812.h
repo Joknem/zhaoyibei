@@ -4,7 +4,7 @@
 
 #include "main.h"
 
-#define PIXEL_NUM 8
+#define PIXEL_NUM 1
 #define NUM (24 * PIXEL_NUM + 100) // Reset 280us / 1.25us = 224
 #define WS1 14
 #define WS0 6

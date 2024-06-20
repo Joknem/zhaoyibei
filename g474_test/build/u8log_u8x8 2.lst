@@ -1,0 +1,377 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8log_u8x8.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8log_u8x8.c"
+  20              		.section	.text.u8x8_DrawLogLine,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8x8_DrawLogLine:
+  27              	.LVL0:
+  28              	.LFB0:
+   1:user/drivers/u8g2/u8log_u8x8.c **** /*
+   2:user/drivers/u8g2/u8log_u8x8.c **** 
+   3:user/drivers/u8g2/u8log_u8x8.c ****   u8log_u8x8.c
+   4:user/drivers/u8g2/u8log_u8x8.c ****   
+   5:user/drivers/u8g2/u8log_u8x8.c **** 
+   6:user/drivers/u8g2/u8log_u8x8.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   7:user/drivers/u8g2/u8log_u8x8.c **** 
+   8:user/drivers/u8g2/u8log_u8x8.c ****   Copyright (c) 2018, olikraus@gmail.com
+   9:user/drivers/u8g2/u8log_u8x8.c ****   All rights reserved.
+  10:user/drivers/u8g2/u8log_u8x8.c **** 
+  11:user/drivers/u8g2/u8log_u8x8.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  12:user/drivers/u8g2/u8log_u8x8.c ****   are permitted provided that the following conditions are met:
+  13:user/drivers/u8g2/u8log_u8x8.c **** 
+  14:user/drivers/u8g2/u8log_u8x8.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  15:user/drivers/u8g2/u8log_u8x8.c ****     of conditions and the following disclaimer.
+  16:user/drivers/u8g2/u8log_u8x8.c ****     
+  17:user/drivers/u8g2/u8log_u8x8.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  18:user/drivers/u8g2/u8log_u8x8.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  19:user/drivers/u8g2/u8log_u8x8.c ****     materials provided with the distribution.
+  20:user/drivers/u8g2/u8log_u8x8.c **** 
+  21:user/drivers/u8g2/u8log_u8x8.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  22:user/drivers/u8g2/u8log_u8x8.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  23:user/drivers/u8g2/u8log_u8x8.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  24:user/drivers/u8g2/u8log_u8x8.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  25:user/drivers/u8g2/u8log_u8x8.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  26:user/drivers/u8g2/u8log_u8x8.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  27:user/drivers/u8g2/u8log_u8x8.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  28:user/drivers/u8g2/u8log_u8x8.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  29:user/drivers/u8g2/u8log_u8x8.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  30:user/drivers/u8g2/u8log_u8x8.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 2
+
+
+  31:user/drivers/u8g2/u8log_u8x8.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  32:user/drivers/u8g2/u8log_u8x8.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  33:user/drivers/u8g2/u8log_u8x8.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  34:user/drivers/u8g2/u8log_u8x8.c **** 
+  35:user/drivers/u8g2/u8log_u8x8.c **** */
+  36:user/drivers/u8g2/u8log_u8x8.c **** 
+  37:user/drivers/u8g2/u8log_u8x8.c **** #include "u8x8.h"
+  38:user/drivers/u8g2/u8log_u8x8.c **** 
+  39:user/drivers/u8g2/u8log_u8x8.c **** static void u8x8_DrawLogLine(u8x8_t *u8x8, uint8_t disp_x, uint8_t disp_y, uint8_t buf_y, u8log_t *
+  40:user/drivers/u8g2/u8log_u8x8.c **** static void u8x8_DrawLogLine(u8x8_t *u8x8, uint8_t disp_x, uint8_t disp_y, uint8_t buf_y, u8log_t *
+  41:user/drivers/u8g2/u8log_u8x8.c **** {
+  29              		.loc 1 41 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 4, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 41 1 is_stmt 0 view .LVU1
+  34 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 32
+  37              		.cfi_offset 3, -32
+  38              		.cfi_offset 4, -28
+  39              		.cfi_offset 5, -24
+  40              		.cfi_offset 6, -20
+  41              		.cfi_offset 7, -16
+  42              		.cfi_offset 8, -12
+  43              		.cfi_offset 9, -8
+  44              		.cfi_offset 14, -4
+  45 0004 8146     		mov	r9, r0
+  46 0006 0D46     		mov	r5, r1
+  47 0008 9046     		mov	r8, r2
+  48 000a 1F46     		mov	r7, r3
+  49 000c 089E     		ldr	r6, [sp, #32]
+  42:user/drivers/u8g2/u8log_u8x8.c ****   uint8_t buf_x;
+  50              		.loc 1 42 3 is_stmt 1 view .LVU2
+  43:user/drivers/u8g2/u8log_u8x8.c ****   uint8_t c;
+  51              		.loc 1 43 3 view .LVU3
+  44:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+  52              		.loc 1 44 3 view .LVU4
+  53              	.LVL1:
+  54              		.loc 1 44 14 is_stmt 0 view .LVU5
+  55 000e 0024     		movs	r4, #0
+  56              		.loc 1 44 3 view .LVU6
+  57 0010 0CE0     		b	.L2
+  58              	.LVL2:
+  59              	.L3:
+  45:user/drivers/u8g2/u8log_u8x8.c ****   {
+  46:user/drivers/u8g2/u8log_u8x8.c ****     c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
+  60              		.loc 1 46 5 is_stmt 1 discriminator 3 view .LVU7
+  61              		.loc 1 46 14 is_stmt 0 discriminator 3 view .LVU8
+  62 0012 F368     		ldr	r3, [r6, #12]
+  63              		.loc 1 46 51 discriminator 3 view .LVU9
+  64 0014 01FB0741 		mla	r1, r1, r7, r4
+  65              	.LVL3:
+  47:user/drivers/u8g2/u8log_u8x8.c ****     u8x8_DrawGlyph(u8x8, disp_x, disp_y, c);
+  66              		.loc 1 47 5 is_stmt 1 discriminator 3 view .LVU10
+  67 0018 5B5C     		ldrb	r3, [r3, r1]	@ zero_extendqisi2
+  68              	.LVL4:
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 3
+
+
+  69              		.loc 1 47 5 is_stmt 0 discriminator 3 view .LVU11
+  70 001a 4246     		mov	r2, r8
+  71 001c 2946     		mov	r1, r5
+  72              	.LVL5:
+  73              		.loc 1 47 5 discriminator 3 view .LVU12
+  74 001e 4846     		mov	r0, r9
+  75 0020 FFF7FEFF 		bl	u8x8_DrawGlyph
+  76              	.LVL6:
+  48:user/drivers/u8g2/u8log_u8x8.c ****     disp_x++;
+  77              		.loc 1 48 5 is_stmt 1 discriminator 3 view .LVU13
+  78              		.loc 1 48 11 is_stmt 0 discriminator 3 view .LVU14
+  79 0024 0135     		adds	r5, r5, #1
+  80              	.LVL7:
+  81              		.loc 1 48 11 discriminator 3 view .LVU15
+  82 0026 EDB2     		uxtb	r5, r5
+  83              	.LVL8:
+  44:user/drivers/u8g2/u8log_u8x8.c ****   {
+  84              		.loc 1 44 46 is_stmt 1 discriminator 3 view .LVU16
+  85 0028 0134     		adds	r4, r4, #1
+  86              	.LVL9:
+  44:user/drivers/u8g2/u8log_u8x8.c ****   {
+  87              		.loc 1 44 46 is_stmt 0 discriminator 3 view .LVU17
+  88 002a E4B2     		uxtb	r4, r4
+  89              	.LVL10:
+  90              	.L2:
+  44:user/drivers/u8g2/u8log_u8x8.c ****   {
+  91              		.loc 1 44 25 is_stmt 1 discriminator 1 view .LVU18
+  44:user/drivers/u8g2/u8log_u8x8.c ****   {
+  92              		.loc 1 44 32 is_stmt 0 discriminator 1 view .LVU19
+  93 002c 3179     		ldrb	r1, [r6, #4]	@ zero_extendqisi2
+  44:user/drivers/u8g2/u8log_u8x8.c ****   {
+  94              		.loc 1 44 25 discriminator 1 view .LVU20
+  95 002e A142     		cmp	r1, r4
+  96 0030 EFD8     		bhi	.L3
+  49:user/drivers/u8g2/u8log_u8x8.c ****   }
+  50:user/drivers/u8g2/u8log_u8x8.c **** }
+  97              		.loc 1 50 1 view .LVU21
+  98 0032 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  99              		.loc 1 50 1 view .LVU22
+ 100              		.cfi_endproc
+ 101              	.LFE0:
+ 103              		.section	.text.u8x8_DrawLog,"ax",%progbits
+ 104              		.align	1
+ 105              		.global	u8x8_DrawLog
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ 110              	u8x8_DrawLog:
+ 111              	.LVL11:
+ 112              	.LFB1:
+  51:user/drivers/u8g2/u8log_u8x8.c **** 
+  52:user/drivers/u8g2/u8log_u8x8.c **** void u8x8_DrawLog(u8x8_t *u8x8, uint8_t x, uint8_t y, u8log_t *u8log)
+  53:user/drivers/u8g2/u8log_u8x8.c **** {
+ 113              		.loc 1 53 1 is_stmt 1 view -0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 4
+
+
+ 117              		.loc 1 53 1 is_stmt 0 view .LVU24
+ 118 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 119              	.LCFI1:
+ 120              		.cfi_def_cfa_offset 24
+ 121              		.cfi_offset 4, -24
+ 122              		.cfi_offset 5, -20
+ 123              		.cfi_offset 6, -16
+ 124              		.cfi_offset 7, -12
+ 125              		.cfi_offset 8, -8
+ 126              		.cfi_offset 14, -4
+ 127 0004 82B0     		sub	sp, sp, #8
+ 128              	.LCFI2:
+ 129              		.cfi_def_cfa_offset 32
+ 130 0006 8046     		mov	r8, r0
+ 131 0008 0F46     		mov	r7, r1
+ 132 000a 1546     		mov	r5, r2
+ 133 000c 1E46     		mov	r6, r3
+  54:user/drivers/u8g2/u8log_u8x8.c ****   uint8_t buf_y;
+ 134              		.loc 1 54 3 is_stmt 1 view .LVU25
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 135              		.loc 1 55 3 view .LVU26
+ 136              	.LVL12:
+ 137              		.loc 1 55 14 is_stmt 0 view .LVU27
+ 138 000e 0024     		movs	r4, #0
+ 139              		.loc 1 55 3 view .LVU28
+ 140 0010 0AE0     		b	.L6
+ 141              	.LVL13:
+ 142              	.L7:
+  56:user/drivers/u8g2/u8log_u8x8.c ****   {
+  57:user/drivers/u8g2/u8log_u8x8.c ****     u8x8_DrawLogLine(u8x8, x, y, buf_y, u8log);
+ 143              		.loc 1 57 5 is_stmt 1 discriminator 3 view .LVU29
+ 144 0012 0096     		str	r6, [sp]
+ 145 0014 2346     		mov	r3, r4
+ 146 0016 2A46     		mov	r2, r5
+ 147 0018 3946     		mov	r1, r7
+ 148 001a 4046     		mov	r0, r8
+ 149 001c FFF7FEFF 		bl	u8x8_DrawLogLine
+ 150              	.LVL14:
+  58:user/drivers/u8g2/u8log_u8x8.c ****     y++;
+ 151              		.loc 1 58 5 discriminator 3 view .LVU30
+ 152              		.loc 1 58 6 is_stmt 0 discriminator 3 view .LVU31
+ 153 0020 0135     		adds	r5, r5, #1
+ 154              	.LVL15:
+ 155              		.loc 1 58 6 discriminator 3 view .LVU32
+ 156 0022 EDB2     		uxtb	r5, r5
+ 157              	.LVL16:
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 158              		.loc 1 55 47 is_stmt 1 discriminator 3 view .LVU33
+ 159 0024 0134     		adds	r4, r4, #1
+ 160              	.LVL17:
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 161              		.loc 1 55 47 is_stmt 0 discriminator 3 view .LVU34
+ 162 0026 E4B2     		uxtb	r4, r4
+ 163              	.LVL18:
+ 164              	.L6:
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 165              		.loc 1 55 25 is_stmt 1 discriminator 1 view .LVU35
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 5
+
+
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 166              		.loc 1 55 32 is_stmt 0 discriminator 1 view .LVU36
+ 167 0028 7379     		ldrb	r3, [r6, #5]	@ zero_extendqisi2
+  55:user/drivers/u8g2/u8log_u8x8.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+ 168              		.loc 1 55 25 discriminator 1 view .LVU37
+ 169 002a A342     		cmp	r3, r4
+ 170 002c F1D8     		bhi	.L7
+  59:user/drivers/u8g2/u8log_u8x8.c ****   }
+  60:user/drivers/u8g2/u8log_u8x8.c **** }
+ 171              		.loc 1 60 1 view .LVU38
+ 172 002e 02B0     		add	sp, sp, #8
+ 173              	.LCFI3:
+ 174              		.cfi_def_cfa_offset 24
+ 175              		@ sp needed
+ 176 0030 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 177              		.loc 1 60 1 view .LVU39
+ 178              		.cfi_endproc
+ 179              	.LFE1:
+ 181              		.section	.text.u8log_u8x8_cb,"ax",%progbits
+ 182              		.align	1
+ 183              		.global	u8log_u8x8_cb
+ 184              		.syntax unified
+ 185              		.thumb
+ 186              		.thumb_func
+ 188              	u8log_u8x8_cb:
+ 189              	.LVL19:
+ 190              	.LFB2:
+  61:user/drivers/u8g2/u8log_u8x8.c **** 
+  62:user/drivers/u8g2/u8log_u8x8.c **** 
+  63:user/drivers/u8g2/u8log_u8x8.c **** void u8log_u8x8_cb(u8log_t * u8log)
+  64:user/drivers/u8g2/u8log_u8x8.c **** {
+ 191              		.loc 1 64 1 is_stmt 1 view -0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              		.loc 1 64 1 is_stmt 0 view .LVU41
+ 196 0000 00B5     		push	{lr}
+ 197              	.LCFI4:
+ 198              		.cfi_def_cfa_offset 4
+ 199              		.cfi_offset 14, -4
+ 200 0002 83B0     		sub	sp, sp, #12
+ 201              	.LCFI5:
+ 202              		.cfi_def_cfa_offset 16
+ 203 0004 0346     		mov	r3, r0
+  65:user/drivers/u8g2/u8log_u8x8.c ****   u8x8_t *u8x8 = (u8x8_t *)(u8log->aux_data);
+ 204              		.loc 1 65 3 is_stmt 1 view .LVU42
+ 205              		.loc 1 65 11 is_stmt 0 view .LVU43
+ 206 0006 0068     		ldr	r0, [r0]
+ 207              	.LVL20:
+  66:user/drivers/u8g2/u8log_u8x8.c ****   if ( u8log->is_redraw_all )
+ 208              		.loc 1 66 3 is_stmt 1 view .LVU44
+ 209              		.loc 1 66 13 is_stmt 0 view .LVU45
+ 210 0008 9A7D     		ldrb	r2, [r3, #22]	@ zero_extendqisi2
+ 211              		.loc 1 66 6 view .LVU46
+ 212 000a 22B9     		cbnz	r2, .L13
+  67:user/drivers/u8g2/u8log_u8x8.c ****   {
+  68:user/drivers/u8g2/u8log_u8x8.c ****     u8x8_DrawLog(u8x8, 0, 0, u8log);
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 6
+
+
+  69:user/drivers/u8g2/u8log_u8x8.c ****   }
+  70:user/drivers/u8g2/u8log_u8x8.c ****   else if ( u8log->is_redraw_line )
+ 213              		.loc 1 70 8 is_stmt 1 view .LVU47
+ 214              		.loc 1 70 18 is_stmt 0 view .LVU48
+ 215 000c 5A7D     		ldrb	r2, [r3, #21]	@ zero_extendqisi2
+ 216              		.loc 1 70 11 view .LVU49
+ 217 000e 3AB9     		cbnz	r2, .L14
+ 218              	.LVL21:
+ 219              	.L9:
+  71:user/drivers/u8g2/u8log_u8x8.c ****   {
+  72:user/drivers/u8g2/u8log_u8x8.c ****     u8x8_DrawLogLine(u8x8, 0, u8log->redraw_line, u8log->redraw_line, u8log);
+  73:user/drivers/u8g2/u8log_u8x8.c ****   }
+  74:user/drivers/u8g2/u8log_u8x8.c **** }
+ 220              		.loc 1 74 1 view .LVU50
+ 221 0010 03B0     		add	sp, sp, #12
+ 222              	.LCFI6:
+ 223              		.cfi_remember_state
+ 224              		.cfi_def_cfa_offset 4
+ 225              		@ sp needed
+ 226 0012 5DF804FB 		ldr	pc, [sp], #4
+ 227              	.LVL22:
+ 228              	.L13:
+ 229              	.LCFI7:
+ 230              		.cfi_restore_state
+  68:user/drivers/u8g2/u8log_u8x8.c ****   }
+ 231              		.loc 1 68 5 is_stmt 1 view .LVU51
+ 232 0016 0022     		movs	r2, #0
+ 233 0018 1146     		mov	r1, r2
+ 234 001a FFF7FEFF 		bl	u8x8_DrawLog
+ 235              	.LVL23:
+  68:user/drivers/u8g2/u8log_u8x8.c ****   }
+ 236              		.loc 1 68 5 is_stmt 0 view .LVU52
+ 237 001e F7E7     		b	.L9
+ 238              	.LVL24:
+ 239              	.L14:
+  72:user/drivers/u8g2/u8log_u8x8.c ****   }
+ 240              		.loc 1 72 5 is_stmt 1 view .LVU53
+ 241 0020 1A7D     		ldrb	r2, [r3, #20]	@ zero_extendqisi2
+ 242 0022 0093     		str	r3, [sp]
+ 243 0024 1346     		mov	r3, r2
+ 244              	.LVL25:
+  72:user/drivers/u8g2/u8log_u8x8.c ****   }
+ 245              		.loc 1 72 5 is_stmt 0 view .LVU54
+ 246 0026 0021     		movs	r1, #0
+ 247 0028 FFF7FEFF 		bl	u8x8_DrawLogLine
+ 248              	.LVL26:
+ 249              		.loc 1 74 1 view .LVU55
+ 250 002c F0E7     		b	.L9
+ 251              		.cfi_endproc
+ 252              	.LFE2:
+ 254              		.text
+ 255              	.Letext0:
+ 256              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+ 257              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+ 258              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+ 259              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 260              		.file 6 "user/drivers/u8g2/u8x8.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 7
+
+
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8log_u8x8.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:21     .text.u8x8_DrawLogLine:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:26     .text.u8x8_DrawLogLine:00000000 u8x8_DrawLogLine
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:104    .text.u8x8_DrawLog:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:110    .text.u8x8_DrawLog:00000000 u8x8_DrawLog
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:182    .text.u8log_u8x8_cb:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccBlu4J5.s:188    .text.u8log_u8x8_cb:00000000 u8log_u8x8_cb
+
+UNDEFINED SYMBOLS
+u8x8_DrawGlyph

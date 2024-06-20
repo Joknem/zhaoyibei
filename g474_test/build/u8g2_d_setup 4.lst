@@ -1,0 +1,134 @@
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_d_setup.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "user/drivers/u8g2/u8g2_d_setup.c"
+  20              		.section	.text.u8g2_Setup_ssd1306_i2c_128x64_noname_f,"ax",%progbits
+  21              		.align	1
+  22              		.global	u8g2_Setup_ssd1306_i2c_128x64_noname_f
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	u8g2_Setup_ssd1306_i2c_128x64_noname_f:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:user/drivers/u8g2/u8g2_d_setup.c **** /* u8g2_d_setup.c */
+   2:user/drivers/u8g2/u8g2_d_setup.c **** /* generated code, codebuild, u8g2 project */
+   3:user/drivers/u8g2/u8g2_d_setup.c **** 
+   4:user/drivers/u8g2/u8g2_d_setup.c **** #include "u8g2.h"
+   5:user/drivers/u8g2/u8g2_d_setup.c **** 
+   6:user/drivers/u8g2/u8g2_d_setup.c **** void u8g2_Setup_ssd1306_i2c_128x64_noname_f(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb by
+   7:user/drivers/u8g2/u8g2_d_setup.c **** {
+  30              		.loc 1 7 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 7 1 is_stmt 0 view .LVU1
+  35 0000 30B5     		push	{r4, r5, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 12
+  38              		.cfi_offset 4, -12
+  39              		.cfi_offset 5, -8
+  40              		.cfi_offset 14, -4
+  41 0002 85B0     		sub	sp, sp, #20
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_offset 32
+  44 0004 0446     		mov	r4, r0
+  45 0006 0D46     		mov	r5, r1
+   8:user/drivers/u8g2/u8g2_d_setup.c ****   uint8_t tile_buf_height;
+  46              		.loc 1 8 3 is_stmt 1 view .LVU2
+   9:user/drivers/u8g2/u8g2_d_setup.c ****   uint8_t *buf;
+  47              		.loc 1 9 3 view .LVU3
+  10:user/drivers/u8g2/u8g2_d_setup.c ****   u8g2_SetupDisplay(u8g2, u8x8_d_ssd1306_128x64_noname, u8x8_cad_ssd13xx_fast_i2c, byte_cb, gpio_an
+  48              		.loc 1 10 3 view .LVU4
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s 			page 2
+
+
+  49 0008 0093     		str	r3, [sp]
+  50 000a 1346     		mov	r3, r2
+  51              	.LVL1:
+  52              		.loc 1 10 3 is_stmt 0 view .LVU5
+  53 000c 084A     		ldr	r2, .L3
+  54              	.LVL2:
+  55              		.loc 1 10 3 view .LVU6
+  56 000e 0949     		ldr	r1, .L3+4
+  57              	.LVL3:
+  58              		.loc 1 10 3 view .LVU7
+  59 0010 FFF7FEFF 		bl	u8x8_Setup
+  60              	.LVL4:
+  11:user/drivers/u8g2/u8g2_d_setup.c ****   buf = u8g2_m_16_8_f(&tile_buf_height);
+  61              		.loc 1 11 3 is_stmt 1 view .LVU8
+  62              		.loc 1 11 9 is_stmt 0 view .LVU9
+  63 0014 0DF10F00 		add	r0, sp, #15
+  64 0018 FFF7FEFF 		bl	u8g2_m_16_8_f
+  65              	.LVL5:
+  66 001c 0146     		mov	r1, r0
+  67              	.LVL6:
+  12:user/drivers/u8g2/u8g2_d_setup.c ****   u8g2_SetupBuffer(u8g2, buf, tile_buf_height, u8g2_ll_hvline_vertical_top_lsb, rotation);
+  68              		.loc 1 12 3 is_stmt 1 view .LVU10
+  69 001e 0095     		str	r5, [sp]
+  70 0020 054B     		ldr	r3, .L3+8
+  71 0022 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+  72 0026 2046     		mov	r0, r4
+  73              	.LVL7:
+  74              		.loc 1 12 3 is_stmt 0 view .LVU11
+  75 0028 FFF7FEFF 		bl	u8g2_SetupBuffer
+  76              	.LVL8:
+  13:user/drivers/u8g2/u8g2_d_setup.c **** }...
+  77              		.loc 1 13 1 view .LVU12
+  78 002c 05B0     		add	sp, sp, #20
+  79              	.LCFI2:
+  80              		.cfi_def_cfa_offset 12
+  81              		@ sp needed
+  82 002e 30BD     		pop	{r4, r5, pc}
+  83              	.LVL9:
+  84              	.L4:
+  85              		.loc 1 13 1 view .LVU13
+  86              		.align	2
+  87              	.L3:
+  88 0030 00000000 		.word	u8x8_cad_ssd13xx_fast_i2c
+  89 0034 00000000 		.word	u8x8_d_ssd1306_128x64_noname
+  90 0038 00000000 		.word	u8g2_ll_hvline_vertical_top_lsb
+  91              		.cfi_endproc
+  92              	.LFE0:
+  94              		.text
+  95              	.Letext0:
+  96              		.file 2 "/usr/local/include/sys/_types/_int8_t.h"
+  97              		.file 3 "/usr/local/include/_types/_uint8_t.h"
+  98              		.file 4 "/usr/local/include/_types/_uint16_t.h"
+  99              		.file 5 "/usr/local/include/_types/_uint32_t.h"
+ 100              		.file 6 "user/drivers/u8g2/u8x8.h"
+ 101              		.file 7 "user/drivers/u8g2/u8g2.h"
+ARM GAS  /var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_d_setup.c
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s:21     .text.u8g2_Setup_ssd1306_i2c_128x64_noname_f:00000000 $t
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s:27     .text.u8g2_Setup_ssd1306_i2c_128x64_noname_f:00000000 u8g2_Setup_ssd1306_i2c_128x64_noname_f
+/var/folders/21/t9g5rlb91ys800n5npymflf80000gn/T//ccxVWneS.s:88     .text.u8g2_Setup_ssd1306_i2c_128x64_noname_f:00000030 $d
+
+UNDEFINED SYMBOLS
+u8x8_Setup
+u8g2_m_16_8_f
+u8g2_SetupBuffer
+u8x8_cad_ssd13xx_fast_i2c
+u8x8_d_ssd1306_128x64_noname
+u8g2_ll_hvline_vertical_top_lsb
